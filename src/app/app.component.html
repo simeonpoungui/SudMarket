@@ -1,5 +1,6 @@
-<app-dashboard></app-dashboard>
-
-<div class="container-fluid h-100">
-  <router-outlet></router-outlet>
+<div *ngIf="isLogin; else loginconnected">
+  <app-dashboard></app-dashboard>
 </div>
+<ng-template #loginconnected>
+<app-login></app-login>
+</ng-template>
