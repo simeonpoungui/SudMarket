@@ -24,7 +24,7 @@
             ></span>
           </a>
           <ul class="nxl-submenu">
-            <li class="nxl-item"><a class="nxl-link" href="accueil">CRM</a></li>
+            <li class="nxl-item"><a class="nxl-link" href="">CRM</a></li>
             <li class="nxl-item">
               <a class="nxl-link" href="analytics.html">Analytics</a>
             </li>
@@ -40,12 +40,12 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" href="reports-sales.html"
+              <a class="nxl-link" routerLink="/user/list"
                 >Liste des utilisateurs</a
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="reports-leads.html"
+              <a class="nxl-link" href="/user/create"
                 >Ajouter un utilisateur</a
               >
             </li>
@@ -66,7 +66,7 @@
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="customers-create.html"
+              <a class="nxl-link" routerLink="user/create"
                 >Ajouter un client</a
               >
             </li>
@@ -148,7 +148,7 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-settings"></i></span>
-            <span class="nxl-mtext">Settings</span
+            <span class="nxl-mtext">Parametres</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -177,7 +177,7 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
-            <span class="nxl-mtext">Help Center</span
+            <span class="nxl-mtext">Aide</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -3734,10 +3734,9 @@
                 </a>
               </div>
             </div>
-            <div class="dropdown-divider"></div>
-            <a href="javascript:void(0);" class="dropdown-item">
+            <a routerLink="profile/user" class="dropdown-item">
               <i class="feather-user"></i>
-              <span>Profile Details</span>
+              <span>Profile</span>
             </a>
             <a href="javascript:void(0);" class="dropdown-item">
               <i class="feather-activity"></i>
@@ -3751,9 +3750,9 @@
               <i class="feather-bell"></i>
               <span>Notifications</span>
             </a>
-            <a href="javascript:void(0);" class="dropdown-item">
+            <a routerLink="/parametres" class="dropdown-item">
               <i class="feather-settings"></i>
-              <span>Account Settings</span>
+              <span>Parametres</span>
             </a>
             <div class="dropdown-divider"></div>
             <a (click)="onLogout()" href="auth-login-minimal.html" class="dropdown-item">

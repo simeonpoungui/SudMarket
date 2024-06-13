@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Login } from 'Models/model.login';
+import { Login } from '../Models/login.model';
 import { LoginService } from '../Services/login.service';
 import { Router } from '@angular/router';
 

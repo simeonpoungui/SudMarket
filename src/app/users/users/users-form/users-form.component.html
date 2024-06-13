@@ -1,0 +1,127 @@
+<main class="nxl-container">
+  <div class="nxl-content border">
+    <div class="container-fuild p-5">
+      <div class="row">
+        <div class="border shadow rounded rounded-4 bg-white p-2">
+          <h2 class="fw-bold">
+            <span>{{action !== 'edit'? 'Ajouter un utilisateur' : "Modifier l'utilisateur"}} </span>
+            <span class="mx-1 title-bg-global-secondary"
+              >{{
+                action == "edit" ? nom_utilisateur : ""
+              }}
+              {{ action == "edit" ? prenom_utilisateur : "" }}</span
+            >
+          </h2>
+        </div>
+        <div class="col-12 mt-2">
+          <form
+          #userform="ngForm"
+          (ngSubmit)="onSubmitForm(userform)"
+            class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+          >
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label label"
+                >Nom</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="nom_utilisateur"
+                [(ngModel)]="nom_utilisateur"
+              />
+            </div>
+
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label label"
+                >Prénom</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="prenom_utilisateur"
+                [(ngModel)]="prenom_utilisateur"
+              />
+            </div>
+
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label label"
+                >Sexe</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="sexe"
+                [(ngModel)]="sexe"
+              />
+            </div>
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Adresse</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="adresse"
+                [(ngModel)]="adresse"
+              />
+            </div>
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Nationalité</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="nationalite"
+                [(ngModel)]="nationalite"
+              />
+            </div>
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Role</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="role"
+                [(ngModel)]="role"
+              />
+            </div>
+
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Email</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="email"
+                [(ngModel)]="email"
+              />
+            </div>
+
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Télephone</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                name="telephone"
+                [(ngModel)]="telephone"
+              />
+            </div>
+            <div class="col-lg-2 mt-3">
+              <button type="submit" class="form-control bg-global-primary text-white">
+                Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
