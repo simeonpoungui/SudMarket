@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { FicheRoleComponent } from './fiche-role/fiche-role.component';
 import { RoleFormComponent } from './role-form/role-form.component';
+
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
@@ -50,9 +52,26 @@ export class RoleComponent {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-  actions(element: Role){
+  createteRole(){
     const dialog = this.dialog.open(RoleFormComponent)
-    dialog.componentInstance.role = element
+    dialog.componentInstance.action = 'create'
+    dialog.id = 'RoleFormComponent'
+    dialog.afterClosed().subscribe(result =>{
+      if (result) {
+        this.getListRoles()
+      }
+    })
   }
 
+  actions(element: Role){
+    const dialog = this.dialog.open(FicheRoleComponent)
+    dialog.componentInstance.action = 'view'
+    dialog.componentInstance.role = element
+    dialog.id = 'FicheRoleComponent'
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getListRoles()
+      }
+    })
+  }
 }

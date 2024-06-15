@@ -1,1 +1,47 @@
-<p>role-form works!</p>
+<div class="container-fuild p-3">
+  <div class="row">
+    <div class="border shadow rounded rounded-4 bg-white p-2">
+      <h2 class="fw-bold">
+        <span>{{action == 'create' ? 'Ajouter un role' : 'Role :'}} </span>
+        <span *ngIf="role"
+        class="title-bg-global-secondary">{{ role.nom_role }} </span>
+      </h2>
+    </div>
+    <div class="col-lg-12 mt-2">
+      <form
+        #roleForm ="ngForm"
+        (ngSubmit)="onSubmitForm(roleForm )"
+        class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+      >
+        <div class="col-lg-12">
+          <label for="validationCustom01" class="form-label label">Role</label>
+          <input
+          [readOnly]="action == 'edit'"
+            type="text"
+            class="form-control"
+            name="nom_role"
+            [(ngModel)]="nom_role"
+          />
+        </div>
+
+        <div class="col-lg-12 mt-3">
+          <label for="validationCustom01" class="form-label label"
+            >Permissions</label
+          >
+          <textarea
+            class="form-control"
+            name="permissions"
+            [(ngModel)]="permissions"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="col-lg-3 mt-3">
+          <button type="submit" class="form-control bg-update text-white">
+            Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>  

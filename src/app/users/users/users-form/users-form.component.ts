@@ -2,15 +2,19 @@ import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Utilisateur } from 'src/app/Models/users.model';
+import { GlobalService } from 'src/app/Services/global.service';
 import { UsersService } from 'src/app/Services/users.service';
+import { GetRole, Role } from 'src/app/Models/role.model';
+import { RoleService } from 'src/app/Services/role.service';
+
 @Component({
   selector: 'app-users-form',
   templateUrl: './users-form.component.html',
   styleUrls: ['./users-form.component.scss'],
 })
 export class UsersFormComponent {
-  @Input() action!:string;
 
+  @Input() action!:string;
   user!: Utilisateur;
   utilisateur_id!: number;
   nom_utilisateur!: string;
@@ -24,12 +28,20 @@ export class UsersFormComponent {
   role!: string;
   cree_le?: Date;
   mis_a_jour_le?: Date;
+  message!: any
+  TabRole!: Role[]
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private roleService: RoleService,
+    private globaService: GlobalService,
     private userService: UsersService
   ){}
+
+  isFormValid(): any {
+    return this.nom_utilisateur && this.prenom_utilisateur && this.email && this.telephone && this.sexe && this.role;
+  }
 
   ngOnInit(): void {
     this.action = this.route.snapshot.params['action']
@@ -41,8 +53,17 @@ export class UsersFormComponent {
     if (this.action === 'edit') {
       this.initFomForUser()
     }
+    this.loadRole()
   }
   
+  loadRole(){
+    const role: GetRole = {role_id:0}
+    this.roleService.getListRole(role).subscribe(data =>{
+      this.TabRole = data.message
+      console.log(this.TabRole);
+    })
+  }
+
 //initialise form by info user
   initFomForUser(){
     this.utilisateur_id = this.user.utilisateur_id
@@ -59,23 +80,25 @@ export class UsersFormComponent {
     this.mis_a_jour_le = this.user.mis_a_jour_le
   }
 
-
   //Submit form user
   onSubmitForm(form: NgForm){
     const user: Utilisateur = form.value;
     user.mot_de_passe_hash = this.user.mot_de_passe_hash
-    console.log(user);
     if (this.action === 'edit') {
       user.utilisateur_id = this.user.utilisateur_id
       this.userService.updateUser(user).subscribe(data => {
-        console.log(data.message);
+        console.log(data);
+        this.message = data.message
         this.router.navigateByUrl('user/list')
+        this.globaService.toastShow(this.message,'Succès','success')
       })
     }else{
       console.log(user);
       this.userService.createUser(user).subscribe(data => {
-        console.log(data.message);
+        console.log(data);
+        this.message = data.message
         this.router.navigateByUrl('user/list')
+        this.globaService.toastShow(this.message,'Succès','success')
       })
     }
   }

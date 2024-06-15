@@ -3,36 +3,36 @@ import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { UsersService } from 'src/app/Services/users.service';
-import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
+import { Client, GetClient } from 'src/app/Models/clients.model';
+import { ClientsService } from 'src/app/Services/clients.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-client',
+  templateUrl: './client.component.html',
+  styleUrls: ['./client.component.scss']
 })
-export class UsersComponent {
+export class ClientComponent {
+
   dataSource!: any;
   displayedColumns = [
-    'nom_utilisateur',
-    'prenom_utilisateur',
+    'nom',
+    'prenom',
     'email',
     'telephone',
     'sexe',
     'adresse',
     'nationalite',
-    'role',
     'Actions'
   ];
 
   isloadingpage!: boolean
-  selectedUtilisateurString: string = ''
+  selectedClientstring: string = ''
   
   constructor(
-    private userService: UsersService,
     private router: Router,
+    private clientService: ClientsService,
     private globalService: GlobalService,
     private dialog: MatDialog
   ){}
@@ -40,13 +40,13 @@ export class UsersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getListUsers()
+    this.getListClient()
   }
 
-  getListUsers(){
-    const user : GetUser = {utilisateur_id: 0}
+  getListClient(){
+    const client : GetClient = {client_id: 0}
     this.isloadingpage = true
-    this.userService.getListUser(user).subscribe(data => {
+    this.clientService.getListClient(client).subscribe(data => {
       console.log(data.message);
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
@@ -60,12 +60,17 @@ export class UsersComponent {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
+  create(){
+    this.router.navigateByUrl('client/create')
+  }
 
-  actions(element: Utilisateur){
-    this.selectedUtilisateurString = JSON.stringify(element); 
-    localStorage.setItem('selectedUtilisateur', this.selectedUtilisateurString);
-    if (this.selectedUtilisateurString) {
-      this.router.navigateByUrl('fiche/view')
+  actions(element: Client){
+    console.log(element);
+    this.selectedClientstring = JSON.stringify(element); 
+    localStorage.setItem('selectedClient', this.selectedClientstring);
+    if (this.selectedClientstring) {
+      this.router.navigateByUrl('fiche/client/view')
     }
   }
+
 }

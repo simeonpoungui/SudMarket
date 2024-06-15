@@ -11,6 +11,11 @@ import { FicheUserConnectedComponent } from './users/users/fiche-user-connected/
 //Settings
 import { SettingsComponent } from './settings/settings/settings.component';
 import { RoleComponent } from './settings/role/role.component';
+import { RoleFormComponent } from './settings/role/role-form/role-form.component';
+//Clients Entities
+import { ClientComponent } from './client/client/client.component';
+import { ClientFormComponent } from './client/client/client-form/client-form.component';
+import { FicheClientComponent } from './client/client/fiche-client/fiche-client.component';
 
 const routes: Routes = [
 
@@ -28,8 +33,13 @@ const routes: Routes = [
   {path:'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
   { path: 'parametres', component: SettingsComponent},
   { path: 'role', component: RoleComponent},
+  { path: 'role-form', component: RoleFormComponent},
 
-
+  //Module Client
+  {path:'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
+  { path: 'client/list', component: ClientComponent},
+  { path: 'client/:action', component: ClientFormComponent},
+  { path: 'fiche/client/:action', component: FicheClientComponent},
 
 ];
 

@@ -1,5 +1,5 @@
 export class Role {
-    role_id!: number;
+    role_id?: number;
     nom_role!: string;
     permissions!: string[];
   }

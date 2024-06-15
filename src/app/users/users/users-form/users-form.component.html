@@ -21,7 +21,7 @@
           >
             <div class="col-lg-4">
               <label for="validationCustom01" class="form-label label"
-                >Nom</label
+                >Nom <span class="title-bg-global-secondary"> * </span></label
               >
               <input
                 type="text"
@@ -33,7 +33,7 @@
 
             <div class="col-lg-4">
               <label for="validationCustom01" class="form-label label"
-                >Prénom</label
+                >Prénom <span class="title-bg-global-secondary"> * </span></label
               >
               <input
                 type="text"
@@ -44,16 +44,16 @@
             </div>
 
             <div class="col-lg-4">
-              <label for="validationCustom01" class="form-label label"
-                >Sexe</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="sexe"
-                [(ngModel)]="sexe"
-              />
+              <label for="validationCustom01" class="form-label label">
+                Sexe <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select class="form-control form-select" name="sexe" [(ngModel)]="sexe">
+                <option disabled>Sélectionner le sexe</option>
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+              </select>
             </div>
+            
 
             <div class="col-lg-4 mt-3">
               <label for="validationCustom01" class="form-label label"
@@ -80,20 +80,20 @@
             </div>
 
             <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Role</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="role"
-                [(ngModel)]="role"
-              />
+              <label for="validationCustom01" class="form-label label">
+                Role <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select class="form-control form-select " name="role" [(ngModel)]="role">
+                <option *ngFor="let roleOption of TabRole" [value]="roleOption.nom_role">
+                  {{ roleOption.nom_role }}
+                </option>
+              </select>
             </div>
+            
 
             <div class="col-lg-6 mt-3">
               <label for="validationCustom01" class="form-label label"
-                >Email</label
+                >Email <span class="title-bg-global-secondary"> * </span></label
               >
               <input
                 type="text"
@@ -105,7 +105,7 @@
 
             <div class="col-lg-6 mt-3">
               <label for="validationCustom01" class="form-label label"
-                >Télephone</label
+                >Télephone <span class="title-bg-global-secondary"> * </span></label
               >
               <input
                 type="text"
@@ -114,10 +114,17 @@
                 [(ngModel)]="telephone"
               />
             </div>
-            <div class="col-lg-2 mt-3">
-              <button type="submit" class="form-control bg-global-primary text-white">
-                Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
-              </button>
+            <div class="row">
+             <div class="col-lg-6">
+              <div class="col-lg-4 mt-3">
+                <button [disabled]="!isFormValid()"  type="submit" class="form-control bg-global-primary text-white">
+                  Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+                </button>
+              </div>
+             </div>
+              <div class="col-lg-6 mt-3 text-end pt-3">
+               <p>NB : Les champs en <span class="title-bg-global-secondary"> (*) </span> sont obligatoire</p>
+              </div>
             </div>
           </form>
         </div>

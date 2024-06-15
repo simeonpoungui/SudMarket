@@ -3,7 +3,7 @@
     <div class="col-lg-11 m-lg-auto">
       <div class="p-3">
         <div class="shadow p-2">
-          <h1>Liste des roles</h1>
+          <h1>Liste des clients</h1>
         </div>
         <div class="shadow bg-white mt-1">
           <div class="row">
@@ -17,7 +17,7 @@
                 <input
                   type="text"
                   (keyup)="applyFilter($event)"
-                  placeholder="Recherchez un utilisateur ici..."
+                  placeholder="Recherchez un client ici..."
                   class="form-control text-start px-5 text-uppercase"
                 />
               </div>
@@ -36,9 +36,9 @@
                 style="background-color: #3454d1"
                 type="button"
                 class="form-control text-white"
-                (click)="createteRole()"
+                (click)="create()"
               >
-                Ajouter un role <i class="mx-1 fa-solid fa-user"></i>
+                Ajouter un client <i class="mx-1 fa-solid fa-user"></i>
               </button>
             </div>
           </div>
@@ -47,21 +47,66 @@
             *ngIf="!isloadingpage; else loader"
           >
             <table mat-table [dataSource]="dataSource">
-              <ng-container matColumnDef="nom_role">
+              <ng-container matColumnDef="nom">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Role
+                  Nom
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.nom_role }}
+                  {{ element.nom }}
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="permissions">
+              <ng-container matColumnDef="prenom">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Permissions
+                  Prénom
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.permissions }}
+                  {{ element.prenom }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="sexe">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Sexe
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.sexe }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="adresse">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Adresse
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.adresse }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Email
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.email }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="telephone">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Téléphone
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.telephone }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nationalite">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Nationalité
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.nationalite }}
                 </td>
               </ng-container>
 
@@ -95,7 +140,6 @@
     </div>
   </div>
 </main>
-
 <ng-template #loader>
   <div class="text-center">
     <app-loader></app-loader>

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CodeResponseOneUser, GetUser, Utilisateur } from '../Models/users.model';
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponse } from '../Models/users.model';
+import { Client } from '../Models/clients.model';
 @Injectable({
   providedIn: 'root'
 })
