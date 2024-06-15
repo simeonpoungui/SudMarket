@@ -11,7 +11,7 @@ export class Fournisseur {
 }
 
 export class GetFournisseur{
-    utilisateur_id!: number;
+    fournisseur_id!: number;
 }
 
 export class CodeResponse {

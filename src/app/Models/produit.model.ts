@@ -11,7 +11,7 @@ export class Produit {
 }
 
 export class GetProduit {
-    utilisateur_id!: number;
+    produit_id!: number;
 }
 
 export class CodeResponse {

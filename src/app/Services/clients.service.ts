@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { GlobalService } from './global.service';
 import { environment } from 'src/environnement/environnement.prod';
 import { Client, GetClient,CodeResponse,CodeResponseOneClient} from '../Models/clients.model';
 

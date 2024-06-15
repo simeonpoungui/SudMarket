@@ -9,7 +9,7 @@ export class CommandeAchat {
 }
 
 export class GetCommandeAchat {
-    utilisateur_id!: number;
+    commande_achat_id!: number;
 }
 
 export class CodeResponse {

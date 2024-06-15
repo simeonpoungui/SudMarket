@@ -8,7 +8,7 @@ export class Vente {
 }  
 
 export class GetVente {
-    utilisateur_id!: number;
+    vente_id!: number;
 }
 
 export class CodeResponse {
