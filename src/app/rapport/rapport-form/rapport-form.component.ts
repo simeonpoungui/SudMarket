@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Rapport } from 'src/app/Models/rapport.model';
 
 @Component({
   selector: 'app-rapport-form',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./rapport-form.component.scss']
 })
 export class RapportFormComponent {
-
+ action!: string
+ rapport!: Rapport
 }

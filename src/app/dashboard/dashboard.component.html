@@ -82,10 +82,10 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" href="proposal.html">Liste des fourniseurs</a>
+              <a class="nxl-link" routerLink="/fournisseur/list">Liste des fourniseurs</a>
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="proposal-view.html"
+              <a class="nxl-link" routerLink="/fournisseur/create"
                 >Ajouter un fournisseur</a
               >
             </li>
@@ -101,10 +101,10 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" href="apps-chat.html">Liste des produits</a>
+              <a class="nxl-link" routerLink="/produit/list">Liste des produits</a>
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="apps-email.html">Ajouter un produit</a>
+              <a class="nxl-link" routerLink="/produit/create">Ajouter un produit</a>
             </li>
           </ul>
         </li>
@@ -118,10 +118,10 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" href="apps-chat.html">Liste des vente</a>
+              <a class="nxl-link" routerLink="/vente/list">Liste des vente</a>
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="apps-email.html">Ajouter une vente</a>
+              <a class="nxl-link" routerLink="/vente/create">Ajouter une vente</a>
             </li>
           </ul>
         </li>
@@ -135,11 +135,35 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" href="payment.html">Liste des commandes</a>
+              <a class="nxl-link" routerLink="/commande/achat/list">Liste des commandes</a>
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="invoice-view.html"
+              <a class="nxl-link" routerLink="/commande/achat/create"
                 >Ajouter une commande</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <li class="nxl-item nxl-hasmenu">
+          <a href="javascript:void(0);" class="nxl-link">
+            <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
+            <span class="nxl-mtext">Rapport</span
+            ><span class="nxl-arrow"
+              ><i class="feather-chevron-right"></i
+            ></span>
+          </a>
+          <ul class="nxl-submenu">
+            <li class="nxl-item">
+              <a
+                class="nxl-link"
+               routerLink="/rapport/list"
+                >Liste des rapports</a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/rapport/create"
+                >Ajouer un rapport</a
               >
             </li>
           </ul>
@@ -169,30 +193,6 @@
             <li class="nxl-item">
               <a class="nxl-link" href="settings-localization.html"
                 >Localisation</a
-              >
-            </li>
-          </ul>
-        </li>
-
-        <li class="nxl-item nxl-hasmenu">
-          <a href="javascript:void(0);" class="nxl-link">
-            <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
-            <span class="nxl-mtext">Aide</span
-            ><span class="nxl-arrow"
-              ><i class="feather-chevron-right"></i
-            ></span>
-          </a>
-          <ul class="nxl-submenu">
-            <li class="nxl-item">
-              <a
-                class="nxl-link"
-                href="https://themeforest.net/user/theme_ocean/"
-                >Support</a
-              >
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" href=".docs/documentations.html"
-                >Documentations</a
               >
             </li>
           </ul>

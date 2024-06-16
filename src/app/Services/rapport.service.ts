@@ -9,10 +9,10 @@ import { CodeResponse, CodeResponseOneRapport, GetRapport, Rapport } from '../Mo
 })
 export class RapportService {
 
-  uriget = ""
-  uricreate = ""
-  uridelete = ""
-  uriupdate = ""
+  uriget = "/v1/sudmarket/get/rapports"
+  uricreate = "/v1/sudmarket/create/rapports"
+  uridelete = "/v1/sudmarket/delete/rapports"
+  uriupdate = "/v1/sudmarket/update/rapports"
 
   constructor(private httpclient: HttpClient) { }
 

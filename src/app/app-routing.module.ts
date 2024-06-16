@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'fiche/:action', component: FicheUserComponent },
   { path: 'profile/user', component: FicheUserConnectedComponent },
 
-  //Parametres Divers
+  //Module Settings
   {path:'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
   { path: 'parametres', component: SettingsComponent},
   { path: 'role', component: RoleComponent},
@@ -78,13 +78,13 @@ const routes: Routes = [
   {path: 'vente/:action', component: VenteFormComponent},
 
   // Module commande achat
-  {path:'rapport', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
+  {path:'commandes-achats', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
   {path: 'commande/achat/list', component: CommandeAChatComponent},
   {path: 'commande/achat/view', component: CommandeAChatFicheComponent},
   {path: 'commande/achat/:action', component: CommandeAChatFormComponent},
 
   // Module rapport
-  {path:'rapport', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},
+  {path:'rapports', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},
   {path: 'rapport/list', component: RapportComponent},
   {path: 'rapport/view', component: RapportFicheComponent},
   {path: 'rapport/:action', component: RapportFormComponent},
