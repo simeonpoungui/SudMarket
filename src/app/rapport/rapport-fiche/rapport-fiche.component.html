@@ -1,1 +1,115 @@
-<p>rapport-fiche works!</p>
+<main class="nxl-container">
+    <div class="nxl-content border">
+    <div class="container-fuild p-3">
+            <div class="row">
+              <div class="border shadow rounded rounded-4 bg-white p-2">
+                <h2 class="fw-bold">
+                  <span>Rapport : </span>
+                  <span class="title-bg-global-secondary"
+                    >{{ rapport.type_rapport }}
+                  </span>
+                </h2>
+              </div>
+              <div class="col-lg-12 mt-2">
+                <form
+                  #userform="ngForm"
+                  class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+                >
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <label for="validationCustom01" class="form-label label"
+                        >Type de rapport</label
+                      >
+                      <input
+                        type="text"
+                        readonly
+                        class="form-control"
+                        name="rapport.type_rapport"
+                        [(ngModel)]="rapport.type_rapport"
+                      />
+                    </div>
+          
+                    <div class="col-lg-6">
+                      <label for="validationCustom01" class="form-label label"
+                        >Nom du générateur</label
+                      >
+                      <input
+                        type="text"
+                        readonly
+                        class="form-control"
+                        name="rapport.nom_generateur"
+                        [(ngModel)]="rapport.nom_generateur"
+                      />
+                    </div>
+                  </div>
+          
+                  <div class="row">
+                    <div class="col-lg-12 mt-3">
+                      <label for="validationCustom01" class="form-label label"
+                        >Rapport</label
+                      >
+                      <textarea
+                        class="form-control"
+                        readonly
+                        name="rapport.donnees"
+                        [(ngModel)]="rapport.donnees"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                  </div>
+          
+                  <div class="row mt-3">
+                    <div class="col-lg-6">
+                      <label for="validationCustom01" class="form-label label"
+                        >Date de génération</label
+                      >
+                      <input
+                        type="datetime"
+                        readonly
+                        class="form-control"
+                        name="rapport.genere_le"
+                        [(ngModel)]="rapport.genere_le"
+                      />
+                    </div>
+          
+                    <div class="col-lg-6">
+                      <label for="validationCustom01" class="form-label label"
+                        >Date de modification</label
+                      >
+                      <input
+                        type="datetime"
+                        readonly
+                        class="form-control"
+                        name="rapport.modifie_le"
+                        [(ngModel)]="rapport.modifie_le"
+                      />
+                    </div>
+                  </div>
+          
+                  <div class="row mt-3">
+                    <div class="col-lg-6">
+                      <button
+                        type="button"
+                        class="form-control bg-update text-white"
+                        (click)="updateRapport()"
+                      >
+                        Mofifier <i class="fa-solid text-white fa-pen"></i>
+                      </button>
+                    </div>
+                    <div class="col-lg-6">
+                      <button
+                        type="button"
+                        class="form-control bg-delete text-white"
+                        (click)="deleteRapport()"
+                      >
+                        Supprimer <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        </main>
+

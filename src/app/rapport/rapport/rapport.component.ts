@@ -19,6 +19,7 @@ export class RapportComponent {
 
   dataSource!: any
   isloadingpage!: boolean
+  selectedRapportString!: string
   displayedColumns = [
     'type_rapport',
     'donnees',
@@ -28,7 +29,8 @@ export class RapportComponent {
   ];
   constructor(
     private rapportService: RapportService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ){}
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -67,16 +69,12 @@ export class RapportComponent {
     })
   }
 
-  actions(element: Rapport){
-    const dialog = this.dialog.open(RapportFicheComponent)
-    dialog.componentInstance.action = 'view'
-    dialog.componentInstance.rapport = element
-    dialog.id = 'RapportFicheComponent'
-    dialog.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getListRapports()
-      }
-    })
-  }
 
+  actions(element: Rapport){
+    this.selectedRapportString = JSON.stringify(element); 
+    localStorage.setItem('selectedRapport', this.selectedRapportString);
+    if (this.selectedRapportString) {
+      this.router.navigateByUrl('rapport/view')
+    }
+  }
 }

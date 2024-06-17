@@ -1,1 +1,123 @@
-<p>fournisseur-form works!</p>
+<main class="nxl-container">
+    <div class="nxl-content border">
+      <div class="container-fuild p-5">
+        <div class="row">
+          <div class="border shadow rounded rounded-4 bg-white p-2">
+            <h2 class="fw-bold">
+              <span>{{action !== 'edit'? 'Ajouter un fournisseur' : "Modifier le fournisseur : "}} </span>
+              <span class="mx-1 title-bg-global-secondary"
+                >{{
+                  action == "edit" ? nom : ""
+                }}
+                {{ action == "edit" ? prenom : "" }}</span
+              >
+            </h2>
+          </div>
+          <div class="col-12 mt-2">
+            <form
+            #userform="ngForm"
+            (ngSubmit)="onSubmitForm(userform)"
+              class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+            >
+              <div class="col-lg-4">
+                <label for="validationCustom01" class="form-label label"
+                  >Nom <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nom"
+                  [(ngModel)]="nom"
+                />
+              </div>
+  
+              <div class="col-lg-4">
+                <label for="validationCustom01" class="form-label label"
+                  >Prénom <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="prenom"
+                  [(ngModel)]="prenom"
+                />
+              </div>
+  
+              <div class="col-lg-4">
+                <label for="validationCustom01" class="form-label label">
+                  Sexe <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <select class="form-control form-select" name="sexe" [(ngModel)]="sexe">
+                  <option disabled>Sélectionner le sexe</option>
+                  <option value="Homme">Homme</option>
+                  <option value="Femme">Femme</option>
+                </select>
+              </div>
+              
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Adresse</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="adresse"
+                  [(ngModel)]="adresse"
+                />
+              </div>
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  > Personne de contact</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="personne_de_contact"
+                  [(ngModel)]="personne_de_contact"
+                />
+              </div>              
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Email <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="email"
+                  [(ngModel)]="email"
+                />
+              </div>
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Télephone <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="telephone"
+                  [(ngModel)]="telephone"
+                />
+              </div>
+              <div class="row">
+               <div class="col-lg-6">
+                <div class="col-lg-4 mt-3">
+                  <button [disabled]="!isFormValid()"  type="submit" class="form-control bg-global-primary text-white">
+                    Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+                  </button>
+                </div>
+               </div>
+                <div class="col-lg-6 mt-3 text-end pt-3">
+                 <p>NB : Les champs en <span class="title-bg-global-secondary"> (*) </span> sont obligatoire</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
