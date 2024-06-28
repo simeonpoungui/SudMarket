@@ -33,7 +33,28 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-users"></i></span>
-            <span class="nxl-mtext">Gestion des utilisateurs</span
+            <span class="nxl-mtext">Points de vente</span
+            ><span class="nxl-arrow"
+              ><i class="feather-chevron-right"></i
+            ></span>
+          </a>
+          <ul class="nxl-submenu">
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/user/list"
+                >Liste des points de vente</a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" href="/user/create"
+                >Ajouter un point de vente</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nxl-item nxl-hasmenu">
+          <a href="javascript:void(0);" class="nxl-link">
+            <span class="nxl-micon"><i class="feather-users"></i></span>
+            <span class="nxl-mtext">Utilisateurs</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -54,7 +75,7 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-users"></i></span>
-            <span class="nxl-mtext">Gestion des clients</span
+            <span class="nxl-mtext">Clients</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -75,7 +96,7 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-users"></i></span>
-            <span class="nxl-mtext">Gestion des fournisseurs</span
+            <span class="nxl-mtext">Fournisseurs</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -94,7 +115,7 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-send"></i></span>
-            <span class="nxl-mtext">Gestion des produits</span
+            <span class="nxl-mtext">Stock</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -111,7 +132,7 @@
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
-            <span class="nxl-mtext">Gestion des ventes</span
+            <span class="nxl-mtext">Ventes</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -123,12 +144,18 @@
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/vente/create">Ajouter une vente</a>
             </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="">Rapports des ventes</a>
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/articles-de-vente">Articles de ventes</a>
+            </li>
           </ul>
         </li>
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
-            <span class="nxl-mtext">Gestion des Commandes</span
+            <span class="nxl-mtext">Commandes</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -462,33 +489,15 @@
                 </div>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a href="javascript:void(0);" class="dropdown-item">
+                <a (click)="openPointsDeVentes()" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-layout"></i>
-                    <span>Widgets</span>
+                    <span>Session de vente</span>
                   </span>
                   <i class="feather-chevron-right ms-auto me-0"></i>
                 </a>
-                <div class="dropdown-menu nxl-h-dropdown">
-                  <a href="widgets-lists.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Lists</span>
-                  </a>
-                  <a href="widgets-tables.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Tables</span>
-                  </a>
-                  <a href="widgets-charts.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Charts</span>
-                  </a>
-                  <a href="widgets-statistics.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Statistics</span>
-                  </a>
-                </div>
               </div>
-              <div class="dropdown nxl-level-menu">
+              <!-- <div class="dropdown nxl-level-menu">
                 <a href="javascript:void(0);" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-power"></i>
@@ -699,7 +708,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="dropdown-divider"></div>
               <a href="javascript:void(0);" class="dropdown-item">
                 <i class="feather-plus"></i>

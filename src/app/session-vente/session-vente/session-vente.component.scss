@@ -33,11 +33,24 @@ mat-paginator{
 tr{
     &:hover{
       & td{
-        background:#0f172a;;
+        background:#17c666;
         color: white;
       }
     }
     }
   
 
-  
+.bg-color-section-vente{
+  background-color: #0f172a;
+}
+
+.bg-delete{
+background-color:$secondary-color ;
+}
+.bg-update{
+    background-color:$primary-color;
+}
+
+.checked-green {
+  background-color: green;
+}

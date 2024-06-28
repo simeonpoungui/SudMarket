@@ -1,1 +1,111 @@
-<p>produit-form works!</p>
+<main class="nxl-container">
+    <div class="nxl-content border">
+      <div class="container-fuild p-5">
+        <div class="row">
+          <div class="border shadow rounded rounded-4 bg-white p-2">
+            <h2 class="fw-bold">
+              <span>{{action !== 'edit'? 'Ajouter un produit' : "Modifier le produit : "}} </span>
+              <span class="mx-1 title-bg-global-secondary"
+                >{{
+                  action == "edit" ? nom : ""
+                }}
+               </span
+              >
+            </h2>
+          </div>
+          <div class="col-12 mt-2">
+            <form
+            #produitform="ngForm"
+            (ngSubmit)="onSubmitForm(produitform)"
+              class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+            >
+              <div class="col-lg-4">
+                <label for="validationCustom01" class="form-label label"
+                  >Nom <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nom"
+                  [(ngModel)]="nom"
+                />
+              </div>
+  
+              <div class="col-lg-4">
+                <label for="validationCustom01" class="form-label label"
+                  >Description <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="description"
+                  [(ngModel)]="description"
+                />
+              </div>
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Categorie</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="categorie"
+                  [(ngModel)]="categorie"
+                />
+              </div>
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  > Prix</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="prix"
+                  [(ngModel)]="prix"
+                />
+              </div>              
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Quantité en stock <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="quantite_en_stock"
+                  [(ngModel)]="quantite_en_stock"
+                />
+              </div>
+  
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Niveau de reapprovisionnement </label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="niveau_de_reapprovisionnement"
+                  [(ngModel)]="niveau_de_reapprovisionnement"
+                />
+              </div>
+              <div class="row">
+               <div class="col-lg-6">
+                <div class="col-lg-4 mt-3">
+                  <button [disabled]="!isFormValid()"  type="submit" class="form-control bg-global-primary text-white">
+                    Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+                  </button>
+                </div>
+               </div>
+                <div class="col-lg-6 mt-3 text-end pt-3">
+                 <p>NB : Les champs en <span class="title-bg-global-secondary"> (*) </span> sont obligatoire</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  

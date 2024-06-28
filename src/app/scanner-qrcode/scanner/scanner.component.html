@@ -1,0 +1,7 @@
+<zxing-scanner #scanner [formats]="formats" (scanSuccess)="onScanSuccess($event)"></zxing-scanner>
+
+<div *ngIf="productInfo">
+  <h2>Produit Scanné :</h2>
+  <p>Nom: {{ productInfo.nom }}</p>
+  <p>Description: {{ productInfo.description }}</p>
+</div>

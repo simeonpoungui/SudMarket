@@ -31,10 +31,18 @@ import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';
 import { VenteFormComponent } from './vente/vente-form/vente-form.component';
+import { ArticleDeVentesComponent } from './vente/article-de-ventes/article-de-ventes.component';
 //Rapport Entities
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
 import { RapportFormComponent } from './rapport/rapport-form/rapport-form.component';
+
+//Scanner
+import { ScannerComponent } from './scanner-qrcode/scanner/scanner.component';
+
+//Session vente
+import { SessionVenteComponent } from './session-vente/session-vente/session-vente.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent, },
@@ -76,6 +84,8 @@ const routes: Routes = [
   {path: 'vente/list', component: VenteComponent},
   {path: 'vente/view', component: VenteFicheComponent},
   {path: 'vente/:action', component: VenteFormComponent},
+  {path: 'articles-de-vente', component: ArticleDeVentesComponent},
+
 
   // Module commande achat
   {path:'commandes-achats', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
@@ -89,6 +99,15 @@ const routes: Routes = [
   {path: 'rapport/view', component: RapportFicheComponent},
   {path: 'rapport/:action', component: RapportFormComponent},
 
+  // Module QRCODE
+  {path:'qrcode', loadChildren: () => import('./scanner-qrcode/scanner-qrcode.module').then(m => m.ScannerQrcodeModule)},
+  {path: 'scanner', component: ScannerComponent},
+
+  // Module Session vente
+  {path:'session-ventes', loadChildren: () => import('./session-vente/session-vente.module').then(m => m.SessionVenteModule)},
+  {path: 'session-vente', component: SessionVenteComponent},
+
+  
 ];
 
 @NgModule({

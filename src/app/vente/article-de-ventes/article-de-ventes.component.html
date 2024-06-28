@@ -3,7 +3,7 @@
       <div class="col-lg-11 m-lg-auto">
         <div class="p-3">
           <div class="shadow p-2">
-            <h1>Liste des Ventes</h1>
+            <h1 class="fw-bold">Historiques des articles vendu</h1>
           </div>
           <div class="shadow bg-white mt-1">
             <div class="row">
@@ -42,72 +42,80 @@
                 </button>
               </div>
             </div>
-            <div class="content bg-light m-1 pb-1">
+            <div class="content bg-light mt-3">
               <span class="text-on-border fw-bold">Filtré par : </span>
               <div class="row">
-                <div class="col-lg-3">
-                  <label for="" class="mt-3">Utilisateur</label>
-                  <select  class="form-control form-select " name="" id="">
-                    <option>
-                      
+                <div class="col-lg-4">
+                  <label for="" class="mt-3">Produit</label>
+                  <select (change)="SelectProduit($event)" class="form-control form-select " name="" id="">
+                    <option *ngFor="let option of tbProduit"  [value]="option.produit_id">
+                      {{option.nom}}
                     </option>
                   </select>
                 </div>
-                <div class="col-lg-3">
-                  <label for="" class="mt-3">Client</label>
-                  <select  class="form-control form-select " name="" id="">
-                    <option>
-                      
-                    </option>
-                  </select>
-                </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                   <label for="" class="mt-3">Date de début (vente)</label>
                    <input class="form-control" type="date">
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                   <label for="" class="mt-3">Date de fin (vente)</label>
-                  <input  class="form-control" type="date">
+                  <input (click)="selectDateFin($event)" class="form-control" type="date">
                 </div>
               </div>
               </div>
             <div
+             style="max-height: 400px; overflow-y: auto"
               class="mat-elevation-z8 mt-3"
-              style="max-height: 400px; overflow-y: auto"
               *ngIf="!isloadingpage; else loader"
             >
               <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="date_vente">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Date vente
+                <ng-container matColumnDef="vente_id">
+                  <th class="bg-color-primary" style="padding-right: 25px;"  mat-header-cell *matHeaderCellDef>
+                   Date vente
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    {{globalService.formatDate(element.date_vente) }} 
+                    {{getVenteName(element.vente_id) }} 
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="montant_total">
+                <ng-container matColumnDef="produit_id">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Montant total vendu
+                    Produit
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.montant_total }}
+                    {{getProduitName(element.produit_id )}}
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="client_id">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Client </th>
+                <ng-container matColumnDef="quantite">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Quantite </th>
                   <td class="pointer" mat-cell *matCellDef="let element"> 
-                    {{ getClientName(element.client_id) }} 
+                    {{ (element.quantite) }} 
                   </td>
                 </ng-container>
                 
-                <ng-container matColumnDef="utilisateur_id">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Utilisateur </th>
+                <ng-container matColumnDef="prix_unitaire">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Prix unitaire </th>
                   <td class="pointer" mat-cell *matCellDef="let element"> 
-                    {{ getUserName(element.utilisateur_id) }} 
+                    {{ (element.prix_unitaire) }} 
                   </td>
                 </ng-container>
+
+                <ng-container matColumnDef="prix_total_vente">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Prix total vente</th>
+                  <td class="pointer" mat-cell *matCellDef="let element"> 
+                    {{ (element.prix_total_vente) }} 
+                  </td>
+                </ng-container>
+
+
+                     
+                <ng-container matColumnDef="remise">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Remise </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> 
+                      {{ (element.remise) }} 
+                    </td>
+                  </ng-container>
                 
   
                 <ng-container matColumnDef="Actions">

@@ -1,0 +1,161 @@
+
+      <div class="container-fuild">
+        <div class="p-3">
+          <div class="shadow p-2">
+            <h1>Liste des points de ventes : <span class="text-danger fw-bold">Selectionner votre point de vente</span></h1>
+          </div>
+          <div class="shadow bg-white mt-1">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="d-flex align-items-center mt-4">
+                  <i
+                    style="position: absolute"
+                    class="fa-solid p-3 fa-magnifying-glass"
+                  ></i>
+  
+                  <input
+                    type="text"
+                    (keyup)="applyFilter($event)"
+                    placeholder="Recherchez un point de vente..."
+                    class="form-control text-start px-5 text-uppercase"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-4 pt-4">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-white"
+                >
+                  Imprimer la liste <i class="fa-solid fa-print"></i>
+                </button>
+              </div>
+              <div class="col-lg-4 pt-4">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-white"
+                >
+                  Ajouter un point de vente <i class="mx-1 fa-solid fa-user"></i>
+                </button>
+              </div>
+            </div>
+            <div
+              class="mat-elevation-z8 mt-3"
+              *ngIf="!isloadingpage; else loader"
+            >
+              <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="nom">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Point
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                  [ngClass]="{
+                    'bg-color': pointSelected == element,
+                    cursor: pointSelected
+                  }">
+                    {{ element.nom }}
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="adresse">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Adresse
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                  [ngClass]="{
+                    'bg-color': pointSelected == element,
+                    cursor: pointSelected
+                  }">
+                    {{ element.adresse }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ville">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Ville
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                    [ngClass]="{
+                      'bg-color': pointSelected == element,
+                      cursor: pointSelected
+                    }">
+                      {{ element.ville }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="pays">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Pays
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                    [ngClass]="{
+                      'bg-color': pointSelected == element,
+                      cursor: pointSelected
+                    }">
+                      {{ element.pays }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="telephone">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Telephone
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                    [ngClass]="{
+                      'bg-color': pointSelected == element,
+                      cursor: pointSelected
+                    }">
+                      {{ element.telephone }}
+                    </td>
+                  </ng-container>
+  
+
+                  <ng-container matColumnDef="email">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Email
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                    [ngClass]="{
+                      'bg-color': pointSelected == element,
+                      cursor: pointSelected
+                    }">
+                      {{ element.email }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="responsable">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Responsable
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                    [ngClass]="{
+                      'bg-color': pointSelected == element,
+                      cursor: pointSelected
+                    }">
+                      {{ element.responsable }}
+                    </td>
+                  </ng-container>
+  
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 15]"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+              >
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

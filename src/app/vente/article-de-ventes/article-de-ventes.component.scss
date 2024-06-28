@@ -39,5 +39,16 @@ tr{
     }
     }
   
-
-  
+    .content {
+      border: 1px solid #ccc;
+      padding: 10px;
+      position: relative;
+      }
+      
+      .text-on-border {
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      background-color: #fff;
+      padding: 0 5px;
+      }

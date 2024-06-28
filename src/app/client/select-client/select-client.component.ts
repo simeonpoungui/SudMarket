@@ -5,33 +5,33 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
-import { ProduitService } from 'src/app/Services/produit.service';
-import { GetProduit, Produit } from 'src/app/Models/produit.model';
-
+import { Client, GetClient } from 'src/app/Models/clients.model';
+import { ClientsService } from 'src/app/Services/clients.service';
 @Component({
-  selector: 'app-produit',
-  templateUrl: './produit.component.html',
-  styleUrls: ['./produit.component.scss']
+  selector: 'app-select-client',
+  templateUrl: './select-client.component.html',
+  styleUrls: ['./select-client.component.scss']
 })
-export class ProduitComponent {
+export class SelectClientComponent {
 
   dataSource!: any;
   displayedColumns = [
     'nom',
-    'description',
-    'categorie',
-    'prix',
-    'quantite_en_stock',
-    'niveau_de_reapprovisionnement',
-    'Actions'
+    'prenom',
+    'email',
+    'telephone',
+    'sexe',
+    'adresse',
+    'nationalite',
   ];
 
   isloadingpage!: boolean
-  selectedProduitString: string = ''
+  selectedClientstring: string = ''
+  clientSelected!: Client
   
   constructor(
-    private produitService: ProduitService,
     private router: Router,
+    private clientService: ClientsService,
     private globalService: GlobalService,
     private dialog: MatDialog
   ){}
@@ -39,13 +39,13 @@ export class ProduitComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getListProduit()
+    this.getListClient()
   }
 
-  getListProduit(){
-    const produit : GetProduit = {produit_id: 0}
+  getListClient(){
+    const client : GetClient = {client_id: 0}
     this.isloadingpage = true
-    this.produitService.getList(produit).subscribe(data => {
+    this.clientService.getListClient(client).subscribe(data => {
       console.log(data.message);
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
@@ -59,13 +59,15 @@ export class ProduitComponent {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-
-  actions(element: Produit){
-    this.selectedProduitString = JSON.stringify(element); 
-    localStorage.setItem('selectedProduit', this.selectedProduitString);
-    if (this.selectedProduitString) {
-      this.router.navigateByUrl('produit/view')
-    }
+  create(){
+    this.router.navigateByUrl('client/create')
   }
+
+  onClickLine(client: Client){
+    console.log(client.client_id);
+    this.clientSelected = client;
+    this.dialog.closeAll()
+  }
+
 
 }

@@ -9,10 +9,10 @@ import { CodeResponse, CodeResponseOneVente, GetVente, Vente } from '../Models/v
 })
 export class VenteService {
 
-  uriget = ""
-  uricreate = ""
-  uridelete = ""
-  uriupdate = ""
+  uriget = "/v1/sudmarket/get/ventes"
+  uricreate = "/v1/sudmarket/create/ventes"
+  uridelete = "/v1/sudmarket/delete/ventes"
+  uriupdate = "/v1/sudmarket/update/ventes"
 
   constructor(private httpclient: HttpClient) { }
 

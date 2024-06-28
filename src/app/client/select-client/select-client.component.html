@@ -1,9 +1,8 @@
-<main class="nxl-container">
-    <div class="nxl-content">
-      <div class="col-lg-11 m-lg-auto">
+
+      <div class="container-fuild">
         <div class="p-3">
           <div class="shadow p-2">
-            <h1>Liste des produits</h1>
+            <h1 class="text-danger fw-bold">Selectionner un client</h1>
           </div>
           <div class="shadow bg-white mt-1">
             <div class="row">
@@ -17,7 +16,7 @@
                   <input
                     type="text"
                     (keyup)="applyFilter($event)"
-                    placeholder="Recherchez un fournisseur ici..."
+                    placeholder="Recherchez un client ici..."
                     class="form-control text-start px-5 text-uppercase"
                   />
                 </div>
@@ -35,87 +34,115 @@
                 <button
                   style="background-color: #3454d1"
                   type="button"
-                  routerLink="/produit/create"
                   class="form-control text-white"
+                  (click)="create()"
                 >
-                  Ajouter un produit <i class="mx-1 fa-solid fa-user"></i>
+                  Ajouter un client <i class="mx-1 fa-solid fa-user"></i>
                 </button>
               </div>
             </div>
             <div
               class="mat-elevation-z8 mt-3"
-              *ngIf="!isloadingpage; else loader"
             >
               <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="nom">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                     Nom
                   </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
                     {{ element.nom }}
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="description">
+                <ng-container matColumnDef="prenom">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Description
+                    Prénom
                   </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.description }}
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
+                    {{ element.prenom }}
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="categorie">
+                <ng-container matColumnDef="sexe">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    categorie
+                    Sexe
                   </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.categorie }}
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
+                    {{ element.sexe }}
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="prix">
+                <ng-container matColumnDef="adresse">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Prix
+                    Adresse
                   </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.prix }}
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
+                    {{ element.adresse }}
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="quantite_en_stock">
+                <ng-container matColumnDef="email">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Quantité
+                    Email
                   </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.quantite_en_stock }}
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
+                    {{ element.email }}
                   </td>
                 </ng-container>
   
-                <ng-container matColumnDef="niveau_de_reapprovisionnement">
+                <ng-container matColumnDef="telephone">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Niveau de reapprovisionnement
+                    Téléphone
                   </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.niveau_de_reapprovisionnement }}
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
+                    {{ element.telephone }}
                   </td>
                 </ng-container>
-
   
-                <ng-container matColumnDef="Actions">
-                  <th class="text-center" mat-header-cell *matHeaderCellDef>
-                    Actions
+                <ng-container matColumnDef="nationalite">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Nationalité
                   </th>
-                  <td class="text-center" mat-cell *matCellDef="let element">
-                    <p
-                      (click)="actions(element)"
-                      style="cursor: pointer"
-                      class="p-2 actions"
-                    >
-                      <span class="fs-6">...</span>
-                    </p>
+                  <td class="pointer" mat-cell *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                 [ngClass]="{
+                    'bg-color': clientSelected == element,
+                    cursor: clientSelected
+                  }">
+                    {{ element.nationalite }}
                   </td>
                 </ng-container>
+  
   
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -130,12 +157,5 @@
           </div>
         </div>
       </div>
-    </div>
-  </main>
-  
-  <ng-template #loader>
-    <div class="text-center">
-      <app-loader></app-loader>
-    </div>
-  </ng-template>
+
   

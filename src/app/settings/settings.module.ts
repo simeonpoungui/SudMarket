@@ -9,12 +9,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CoreModule } from '../core/core.module';
 import { RoleFormComponent } from './role/role-form/role-form.component';
 import { FicheRoleComponent } from './role/fiche-role/fiche-role.component';
+import { PointsDeVentesComponent } from './points-de-ventes/points-de-ventes.component';
 @NgModule({
   declarations: [
     SettingsComponent,
     RoleComponent,
     RoleFormComponent,
-    FicheRoleComponent
+    FicheRoleComponent,
+    PointsDeVentesComponent
   ],
   imports: [
     CommonModule,
