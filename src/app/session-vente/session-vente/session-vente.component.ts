@@ -118,38 +118,44 @@ export class SessionVenteComponent {
       quantite: 1,
       prix_unitaire: produit.prix,
       remise: 0,
-      prix_total_vente:0
+      prix_total_vente: this.calculateTotalApayerByProduit({
+        article_de_vente_id: 0,
+        vente_id: 0,
+        produit_id: produit.produit_id,
+        quantite: 1,
+        prix_unitaire: produit.prix,
+        remise: 0,
+        prix_total_vente: 0
+      })
     };
-    const tempDataSource: ArticlesDeVentes[] = [
+    
+    this.dataSourceArticleVente.data = [
       ...this.dataSourceArticleVente.data,
-      articleVente,
+      articleVente
     ];
-    console.log(tempDataSource);
-    this.dataSourceArticleVente.data = tempDataSource;
-    console.log(this.dataSourceArticleVente.data);
+    this.updatePrixTotalVente();
     this.montantTotalDeLaVente = this.calculateTotalVente();
-  }
-
-  updateQuantity(element: ArticlesDeVentes) {
-    const index = this.dataSourceArticleVente.data.findIndex(
-      (item) => item.produit_id === element.produit_id
-    );
-    if (index !== -1) {
-      this.dataSourceArticleVente.data[index].quantite = element.quantite;
-      console.log(this.dataSourceArticleVente.data);
-      this.montantTotalDeLaVente = this.calculateTotalVente();
-    }
   }
 
   calculateTotalApayerByProduit(element: ArticlesDeVentes): number {
     return element.quantite * element.prix_unitaire;
   }
-  calculateTotalVente(): number {
-    let total = 0;
-    this.dataSourceArticleVente.data.forEach((article) => {
-      total += article.prix_unitaire * article.quantite;
+  
+  // Fonction pour mettre à jour le prix total de vente pour chaque élément dans dataSourceArticleVente
+  updatePrixTotalVente() {
+    this.dataSourceArticleVente.data = this.dataSourceArticleVente.data.map(element => {
+      element.prix_total_vente = this.calculateTotalApayerByProduit(element);
+      return element;
     });
-    return total;
+  }
+
+  updateQuantity(element: ArticlesDeVentes) {
+    this.updatePrixTotalVente();
+    this.montantTotalDeLaVente = this.calculateTotalVente();
+  }
+
+  calculateTotalVente(): number {
+    return this.dataSourceArticleVente.data.reduce((acc, element) => acc + element.prix_total_vente, 0);
   }
 
   selectmodepaiement(event: any) {

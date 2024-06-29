@@ -19,7 +19,7 @@ import { GetProduit, Produit } from 'src/app/Models/produit.model';
 export class ArticleDeVentesComponent {
   dataSource!: any;
   displayedColumns = [
-    'vente_id',
+    'date_article_vendu',
     'produit_id',
     'quantite',
     'prix_unitaire',
@@ -30,7 +30,11 @@ export class ArticleDeVentesComponent {
   isloadingpage!: boolean;
   tbVente!: any[]
   tbProduit!: Produit[]
-    
+  table!: any
+
+  DateDebutVente!: string
+  dateFinVente!: string
+
   constructor(
     public globalService: GlobalService,
     private venteService: VenteService,
@@ -64,12 +68,12 @@ export class ArticleDeVentesComponent {
 
   getVenteName(vente_id: number): string {
     const vente = this.tbVente.find(v => v.vente_id === vente_id);
-    return vente ? this.globalService.formatDate(vente.date_vente): 'Unknown Client';
+    return vente ? this.globalService.formatDate(vente.date_vente): '';
   }
   
   getProduitName(produit_id: number): string {
     const produit = this.tbProduit.find(p => p.produit_id === produit_id);
-    return produit ? (produit.nom ): 'Unknown Client';
+    return produit ? (produit.nom ): '';
   }
 
   getListArticles(){
@@ -91,12 +95,42 @@ export class ArticleDeVentesComponent {
 
   SelectProduit(event: any){
     console.log(event.target.value);
+    const produit: GetProduit = {
+      produit_id: Number(event.target.value)
+    }
+    this.articleService.getArticlesDeVentesByProduit(produit).subscribe(data => {
+      console.log(data);
+      this.table = data.message
+      this.dataSource = new MatTableDataSource(this.table);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;}
+  )
   }
 
-  selectDateFin(event: any){
-    console.log(event.target.value);
-    
+  selectDateDebut(event: any) {
+    this.DateDebutVente = event.target.value;
+    console.log(this.DateDebutVente);
+    this.articleService.getArticlesDeVentesByDateDebutFin(this.DateDebutVente, this.dateFinVente).subscribe(data => {
+      console.log(data.message);
+      this.table = data.message
+      this.dataSource = new MatTableDataSource(this.table);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    })
   }
+
+  selectDateFin(event: any) {
+    this.dateFinVente = event.target.value;
+    console.log(this.dateFinVente);
+    this.articleService.getArticlesDeVentesByDateDebutFin(this.DateDebutVente, this.dateFinVente).subscribe(data => {
+      console.log(data.message);
+      this.table = data.message
+      this.dataSource = new MatTableDataSource(this.table);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    })
+  }
+  
 
   actions(element: ArticlesDeVentes){
     // this.selectedVenteString = JSON.stringify(element); 

@@ -4,6 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { PointsDeVentesComponent } from '../settings/points-de-ventes/points-de-ventes.component';
 import { PointsDeVentes } from '../Models/pointsDeVentes.model';
 import { Router } from '@angular/router';
+import { NotificationsService } from '../Services/notifications.service';
+import { GetNotification, NotificationSotckproduit } from '../Models/notifications.stock.produit.model';
+import { GlobalService } from '../Services/global.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,22 +15,65 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent {
   pointSelected!: PointsDeVentes;
-  pointStorage!: any
+  pointStorage!: any;
   constructor(
-    private loginService: LoginService, 
+    private loginService: LoginService,
     private dialog: MatDialog,
+    public globalService: GlobalService,
+    private notificationService: NotificationsService,
     private router: Router
   ) {}
+
+  notifications: NotificationSotckproduit[] = [];
+  unreadCount: number = 0;
 
   ngOnInit(): void {
     const storedPointSelected = localStorage.getItem('pointSelected');
     if (storedPointSelected) {
       this.pointSelected = JSON.parse(storedPointSelected);
       console.log(this.pointSelected);
-    }  }
+    }
+    this.loadNotifications();
+  }
 
   onLogout() {
     this.loginService.logout();
+  }
+
+
+  loadNotifications(): void {
+    const modelnotif: GetNotification = {
+      notification_id: 0,
+    };
+    this.notificationService.getListNotifications(modelnotif).subscribe(response => {
+      this.notifications = response.message;
+      this.unreadCount = this.notifications.filter(notification => !notification.est_lu).length;
+    });
+  }
+
+  markAsRead(notification: NotificationSotckproduit): void {
+    notification.est_lu = true;
+    this.notificationService.updateNotification(notification).subscribe(() => {
+      this.unreadCount = this.notifications.filter(notification => !notification.est_lu).length;
+      console.log( this.unreadCount);
+      
+    });
+  }
+
+  markAllAsRead(): void {
+    this.notifications.forEach(notification => {
+      notification.est_lu = true;
+    });
+    this.notificationService.updateNotifications(this.notifications).subscribe(() => {
+      this.unreadCount = 0;
+    });
+  }
+
+  removeNotification(notification: NotificationSotckproduit): void {
+    this.notifications = this.notifications.filter(n => n !== notification);
+    this.notificationService.deleteNotification(notification).subscribe(() => {
+      this.unreadCount = this.notifications.filter(notification => !notification.est_lu).length;
+    });
   }
 
   openPointsDeVentes() {
@@ -36,7 +82,7 @@ export class DashboardComponent {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
       localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
-      this.router.navigateByUrl('/session-vente')
+      this.router.navigateByUrl('/session-vente');
     });
   }
 }

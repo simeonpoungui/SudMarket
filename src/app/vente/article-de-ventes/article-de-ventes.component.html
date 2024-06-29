@@ -55,12 +55,13 @@
                 </div>
                 <div class="col-lg-4">
                   <label for="" class="mt-3">Date de début (vente)</label>
-                   <input class="form-control" type="date">
+                  <input class="form-control" type="date" [(ngModel)]="DateDebutVente" (change)="selectDateDebut($event)">
                 </div>
                 <div class="col-lg-4">
                   <label for="" class="mt-3">Date de fin (vente)</label>
-                  <input (click)="selectDateFin($event)" class="form-control" type="date">
+                  <input class="form-control" type="date" [(ngModel)]="dateFinVente" (change)="selectDateFin($event)">
                 </div>
+                
               </div>
               </div>
             <div
@@ -69,12 +70,12 @@
               *ngIf="!isloadingpage; else loader"
             >
               <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="vente_id">
+                <ng-container matColumnDef="date_article_vendu">
                   <th class="bg-color-primary" style="padding-right: 25px;"  mat-header-cell *matHeaderCellDef>
                    Date vente
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    {{getVenteName(element.vente_id) }} 
+                    <span  *ngIf="element.date_article_vendu">{{globalService.formatDate (element.date_article_vendu) }}</span>
                   </td>
                 </ng-container>
   
