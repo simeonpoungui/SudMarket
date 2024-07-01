@@ -18,7 +18,6 @@ import { Client } from 'src/app/Models/clients.model';
 import { Utilisateur } from 'src/app/Models/users.model';
 import { SessionService } from 'src/app/Services/session.service';
 import { Session } from 'src/app/Models/session.ventes.model';
-
 @Component({
   selector: 'app-session-vente',
   templateUrl: './session-vente.component.html',
@@ -82,7 +81,7 @@ export class SessionVenteComponent {
       console.log(this.user);
     }
 
-    // this.startSession();
+   this.startSession();
   }
 
   getListProduit() {
@@ -261,7 +260,7 @@ export class SessionVenteComponent {
     dialog.componentInstance.content = 'Voulez-vous fermer cette session de vente ?';
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        // this.endSession();
+        this.endSession();
         this.globlService.toastShow("Session Fermé le" + ' ' + this.globlService.formatFrenchDateSessionVnte(this.sessionEndTime),'Succès');
         this.globlService.reloadComponent('/vente/list');
       }

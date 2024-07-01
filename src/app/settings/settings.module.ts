@@ -11,6 +11,7 @@ import { RoleFormComponent } from './role/role-form/role-form.component';
 import { FicheRoleComponent } from './role/fiche-role/fiche-role.component';
 import { PointsDeVentesComponent } from './points-de-ventes/points-de-ventes.component';
 import { NotificationsStockProduitsComponent } from './notifications-stock-produits/notifications-stock-produits.component';
+import { SelectPointDeVenteComponent } from './points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -18,7 +19,8 @@ import { NotificationsStockProduitsComponent } from './notifications-stock-produ
     RoleFormComponent,
     FicheRoleComponent,
     PointsDeVentesComponent,
-    NotificationsStockProduitsComponent
+    NotificationsStockProduitsComponent,
+    SelectPointDeVenteComponent
   ],
   imports: [
     CommonModule,

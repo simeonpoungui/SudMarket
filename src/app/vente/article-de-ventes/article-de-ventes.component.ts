@@ -31,6 +31,7 @@ export class ArticleDeVentesComponent {
   tbVente!: any[]
   tbProduit!: Produit[]
   table!: any
+  MontantTotalVengteJournalier!: number
 
   DateDebutVente!: string
   dateFinVente!: string
@@ -81,6 +82,7 @@ export class ArticleDeVentesComponent {
     this.isloadingpage = true
     this.articleService.getList(article).subscribe(data => {
       console.log(data.message);
+      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', data.message);
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
@@ -101,6 +103,7 @@ export class ArticleDeVentesComponent {
     this.articleService.getArticlesDeVentesByProduit(produit).subscribe(data => {
       console.log(data);
       this.table = data.message
+      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
       this.dataSource = new MatTableDataSource(this.table);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;}
@@ -113,6 +116,7 @@ export class ArticleDeVentesComponent {
     this.articleService.getArticlesDeVentesByDateDebutFin(this.DateDebutVente, this.dateFinVente).subscribe(data => {
       console.log(data.message);
       this.table = data.message
+      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
       this.dataSource = new MatTableDataSource(this.table);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -125,6 +129,7 @@ export class ArticleDeVentesComponent {
     this.articleService.getArticlesDeVentesByDateDebutFin(this.DateDebutVente, this.dateFinVente).subscribe(data => {
       console.log(data.message);
       this.table = data.message
+      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
       this.dataSource = new MatTableDataSource(this.table);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

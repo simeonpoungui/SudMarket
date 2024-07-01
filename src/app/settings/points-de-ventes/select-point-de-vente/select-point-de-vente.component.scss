@@ -39,21 +39,9 @@ tr{
     }
     }
   
-    .content {
-      border: 1px solid #ccc;
-      padding: 10px;
-      position: relative;
-      }
-      
-      .text-on-border {
-      position: absolute;
-      top: -10px;
-      left: 10px;
-      background-color: #fff;
-      padding: 0 5px;
-      }
 
-
-      .bg-sticky-footer{
-        background-color: $primary-color;
+    .bg-color{
+        background-color:$third-color;
+        color: white;
+        cursor: pointer;
       }

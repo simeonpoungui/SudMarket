@@ -9,6 +9,7 @@ import { FicheUserComponent } from './users/users/fiche-user/fiche-user.componen
 import { FicheUserConnectedComponent } from './users/users/fiche-user-connected/fiche-user-connected.component';
 //Settings
 import { SettingsComponent } from './settings/settings/settings.component';
+import { PointsDeVentesComponent } from './settings/points-de-ventes/points-de-ventes.component';
 import { RoleComponent } from './settings/role/role.component';
 import { RoleFormComponent } from './settings/role/role-form/role-form.component';
 import { NotificationsStockProduitsComponent } from './settings/notifications-stock-produits/notifications-stock-produits.component';
@@ -64,7 +65,7 @@ const routes: Routes = [
   { path: 'role', component: RoleComponent},
   { path: 'role-form', component: RoleFormComponent},
   { path: 'notification-produit-stock', component: NotificationsStockProduitsComponent},
-
+  { path: 'points-de-ventes', component: PointsDeVentesComponent},
 
   //Module Client
   {path:'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},

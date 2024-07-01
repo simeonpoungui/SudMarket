@@ -31,7 +31,8 @@ export class VenteComponent {
   selectedVenteString: string = ''
   tbUsers: Utilisateur[] = []
   tbClients: Client[] = []; // Assurez-vous que tbClients est initialisé correctement
-  
+  TotalMontant!: number
+
   constructor(
     private venteService: VenteService,
     private router: Router,
@@ -80,6 +81,9 @@ export class VenteComponent {
     this.isloadingpage = true
     this.venteService.getList(vente).subscribe(data => {
       console.log(data.message);
+      this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      console.log(this.TotalMontant);
+      
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;

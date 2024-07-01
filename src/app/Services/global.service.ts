@@ -40,7 +40,7 @@ export class GlobalService {
     }
 
     let formated = prixFormated.split('').reverse().join('');
-    let decimal = ',00 ' + device;
+    let decimal = ' ' + device;
 
     if (formated[0] == separateur) {
       formated = formated.substring(1);
@@ -78,4 +78,18 @@ export class GlobalService {
     };
     return new Intl.DateTimeFormat('fr-FR', options).format(new Date(date));
   }
+
+  calculTotal(keyToCalculate: string, tab: Array<any>): number {
+    let total = 0;
+    if (tab && tab.length > 0) {
+      for (let index = 0; index < tab.length; index++) {
+        const nbr = Number(tab[index][keyToCalculate]);
+        if (!isNaN(nbr)) {
+          total += nbr;
+        }
+      }
+    }
+    return total;
+  }
+  
 }

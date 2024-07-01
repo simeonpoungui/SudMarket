@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NotificationsService } from '../Services/notifications.service';
 import { GetNotification, NotificationSotckproduit } from '../Models/notifications.stock.produit.model';
 import { GlobalService } from '../Services/global.service';
+import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -80,12 +81,12 @@ export class DashboardComponent {
       console.log('PointSelected does not exist.');
     }
 
-    const dialog = this.dialog.open(PointsDeVentesComponent);
+    const dialog = this.dialog.open(SelectPointDeVenteComponent);
     dialog.afterClosed().subscribe((result) => {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
       localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
-      window.location.reload()
+      // window.location.reload()
       this.router.navigateByUrl('/session-vente');
     });
   }

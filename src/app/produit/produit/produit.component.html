@@ -44,6 +44,7 @@
             </div>
             <div
               class="mat-elevation-z8 mt-3"
+              style="max-height: 400px; overflow-y: auto"
               *ngIf="!isloadingpage; else loader"
             >
               <table mat-table [dataSource]="dataSource">
@@ -54,6 +55,13 @@
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ element.nom }}
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
   
                 <ng-container matColumnDef="description">
@@ -63,24 +71,45 @@
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ element.description }}
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
   
                 <ng-container matColumnDef="categorie">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    categorie
+                    Categorie
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ element.categorie }}
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
   
                 <ng-container matColumnDef="prix">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Prix
+                    Prix unitaire
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ element.prix }}
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
   
                 <ng-container matColumnDef="quantite_en_stock">
@@ -90,6 +119,13 @@
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ element.quantite_en_stock }}
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
   
                 <ng-container matColumnDef="niveau_de_reapprovisionnement">
@@ -99,6 +135,13 @@
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ element.niveau_de_reapprovisionnement }}
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
 
   
@@ -115,17 +158,26 @@
                       <span class="fs-6">...</span>
                     </p>
                   </td>
+                  <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  
+                </td>
                 </ng-container>
   
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
               </table>
-              <mat-paginator
-                [pageSizeOptions]="[5, 10, 15]"
-                showFirstLastButtons
-                aria-label="Select page of periodic elements"
-              >
-              </mat-paginator>
             </div>
           </div>
         </div>
