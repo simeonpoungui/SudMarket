@@ -10,13 +10,15 @@ import { CoreModule } from '../core/core.module';
 import { RoleFormComponent } from './role/role-form/role-form.component';
 import { FicheRoleComponent } from './role/fiche-role/fiche-role.component';
 import { PointsDeVentesComponent } from './points-de-ventes/points-de-ventes.component';
+import { NotificationsStockProduitsComponent } from './notifications-stock-produits/notifications-stock-produits.component';
 @NgModule({
   declarations: [
     SettingsComponent,
     RoleComponent,
     RoleFormComponent,
     FicheRoleComponent,
-    PointsDeVentesComponent
+    PointsDeVentesComponent,
+    NotificationsStockProduitsComponent
   ],
   imports: [
     CommonModule,

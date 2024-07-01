@@ -8,10 +8,12 @@ import { CoreModule } from '../core/core.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ListSessionVenteComponent } from './list-session-vente/list-session-vente.component';
 
 @NgModule({
   declarations: [
-    SessionVenteComponent
+    SessionVenteComponent,
+    ListSessionVenteComponent
   ],
   imports: [
     CommonModule,

@@ -29,8 +29,8 @@ export class VenteComponent {
 
   isloadingpage!: boolean
   selectedVenteString: string = ''
-  tbUsers!: Utilisateur[]
-  tbClients!: Client[]
+  tbUsers: Utilisateur[] = []
+  tbClients: Client[] = []; // Assurez-vous que tbClients est initialisé correctement
   
   constructor(
     private venteService: VenteService,
@@ -51,7 +51,6 @@ export class VenteComponent {
 
   loadClient(){
     const client : GetClient = {client_id: 0}
-
     this.clientService.getListClient(client).subscribe(data => {
       console.log(data);
       this.tbClients = data.message

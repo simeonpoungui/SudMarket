@@ -28,11 +28,6 @@ export class DashboardComponent {
   unreadCount: number = 0;
 
   ngOnInit(): void {
-    const storedPointSelected = localStorage.getItem('pointSelected');
-    if (storedPointSelected) {
-      this.pointSelected = JSON.parse(storedPointSelected);
-      console.log(this.pointSelected);
-    }
     this.loadNotifications();
   }
 
@@ -76,12 +71,21 @@ export class DashboardComponent {
     });
   }
 
-  openPointsDeVentes() {
+ openPointsDeVentes() {
+    const storedPointSelected = localStorage.getItem('pointSelected');
+    if (storedPointSelected) {
+      localStorage.removeItem('pointSelected');
+      console.log('PointSelected exists and has been removed.');
+    } else {
+      console.log('PointSelected does not exist.');
+    }
+
     const dialog = this.dialog.open(PointsDeVentesComponent);
     dialog.afterClosed().subscribe((result) => {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
       localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
+      window.location.reload()
       this.router.navigateByUrl('/session-vente');
     });
   }

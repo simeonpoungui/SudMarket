@@ -9,10 +9,10 @@ import { CodeResponse, CodeResponseOneCommandeAchat, CommandeAchat, GetCommandeA
 })
 export class CommandeService {
 
-  uriget = ""
-  uricreate = ""
-  uridelete = ""
-  uriupdate = ""
+  uriget = "/v1/sudmarket/get/commandes-achats"
+  uricreate = "/v1/sudmarket/create/commandes-achats"
+  uridelete = "/v1/sudmarket/delete/commandes-achats"
+  uriupdate = "/v1/sudmarket/update/commandes-achats"
 
   constructor(private httpclient: HttpClient) { }
 

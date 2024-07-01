@@ -11,6 +11,7 @@ import { FicheUserConnectedComponent } from './users/users/fiche-user-connected/
 import { SettingsComponent } from './settings/settings/settings.component';
 import { RoleComponent } from './settings/role/role.component';
 import { RoleFormComponent } from './settings/role/role-form/role-form.component';
+import { NotificationsStockProduitsComponent } from './settings/notifications-stock-produits/notifications-stock-produits.component';
 //Clients Entities
 import { ClientComponent } from './client/client/client.component';
 import { ClientFormComponent } from './client/client/client-form/client-form.component';
@@ -39,9 +40,11 @@ import { RapportFormComponent } from './rapport/rapport-form/rapport-form.compon
 
 //Scanner
 import { ScannerComponent } from './scanner-qrcode/scanner/scanner.component';
+import { SessionGuardService } from './Services/session-guard.service';
 
 //Session vente
 import { SessionVenteComponent } from './session-vente/session-vente/session-vente.component';
+import { ListSessionVenteComponent } from './session-vente/list-session-vente/list-session-vente.component';
 
 
 const routes: Routes = [
@@ -51,7 +54,7 @@ const routes: Routes = [
   //Module User
   {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
   { path: 'user/list', component: UsersComponent },
-  { path: 'user/:action', component: UsersFormComponent },
+  { path: 'user/:action', component: UsersFormComponent},
   { path: 'fiche/:action', component: FicheUserComponent },
   { path: 'profile/user', component: FicheUserConnectedComponent },
 
@@ -60,6 +63,8 @@ const routes: Routes = [
   { path: 'parametres', component: SettingsComponent},
   { path: 'role', component: RoleComponent},
   { path: 'role-form', component: RoleFormComponent},
+  { path: 'notification-produit-stock', component: NotificationsStockProduitsComponent},
+
 
   //Module Client
   {path:'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
@@ -106,8 +111,9 @@ const routes: Routes = [
   // Module Session vente
   {path:'session-ventes', loadChildren: () => import('./session-vente/session-vente.module').then(m => m.SessionVenteModule)},
   {path: 'session-vente', component: SessionVenteComponent},
+  {path: 'session-vente-list', component: ListSessionVenteComponent},
 
-  
+
 ];
 
 @NgModule({

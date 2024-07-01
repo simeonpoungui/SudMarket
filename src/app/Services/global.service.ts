@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class GlobalService {
   }
   constructor(
     private toastrService: ToastrService,
+    private router: Router
   ) { }
 
   toastShow(msg: string, title: string, type: 'success' | 'error' | 'info' = 'success'){
@@ -59,5 +61,21 @@ export class GlobalService {
     return date.toLocaleDateString('fr-FR', options);
   }
   
+  reloadComponent(uri: string){
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([uri]);
+    });
+  }
 
+  formatFrenchDateSessionVnte(date: string | Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+    return new Intl.DateTimeFormat('fr-FR', options).format(new Date(date));
+  }
 }

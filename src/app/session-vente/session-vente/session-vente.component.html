@@ -13,14 +13,30 @@
             >
               <table mat-table [dataSource]="dataSourceArticleVente">
                 <ng-container matColumnDef="produit_id">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Produit </th>
+                  <th
+                    class="bg-color-primary"
+                    mat-header-cell
+                    *matHeaderCellDef
+                  >
+                    Produit
+                  </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    <select class="form-control" [disabled]="true" name="" id="" [(ngModel)]="element.produit_id">
-                      <option *ngFor="let option of tbProduit" [value]="option.produit_id">{{ option.nom }}</option>
+                    <select
+                      class="form-control"
+                      [disabled]="true"
+                      name=""
+                      id=""
+                      [(ngModel)]="element.produit_id"
+                    >
+                      <option
+                        *ngFor="let option of tbProduit"
+                        [value]="option.produit_id"
+                      >
+                        {{ option.nom }}
+                      </option>
                     </select>
                   </td>
                 </ng-container>
-                
 
                 <ng-container matColumnDef="quantite">
                   <th
@@ -68,19 +84,29 @@
         </div>
         <div class="col-lg-8">
           <div class="produit">
-            <div class="col-lg-12">
-              <div class="d-flex align-items-center">
-                <i
-                  style="position: absolute"
-                  class="fa-solid p-3 fa-magnifying-glass"
-                ></i>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="d-flex align-items-center">
+                  <i
+                    style="position: absolute"
+                    class="fa-solid p-3 fa-magnifying-glass"
+                  ></i>
 
-                <input
-                  type="text"
-                  (keyup)="applyFilter($event)"
-                  placeholder="Recherchez un produit ici..."
-                  class="form-control text-start px-5 text-uppercase"
-                />
+                  <input
+                    type="text"
+                    (keyup)="applyFilter($event)"
+                    placeholder="Recherchez un produit ici..."
+                    class="form-control text-start px-5 text-uppercase"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <button
+                  class="btn text-white btn-close-session w-100"
+                  (click)="closeSession()"
+                >
+                   Fermer la Session de vente <i class="fas mx-2 fa-exclamation-circle"></i>
+                </button>
               </div>
             </div>
             <div
@@ -275,7 +301,12 @@
             <div class="mt-1">
               <div>
                 <label for="">Moyen de paiment</label>
-                <select (click)="selectmodepaiement($event)" class="form-select" name="" id="">
+                <select
+                  (click)="selectmodepaiement($event)"
+                  class="form-select"
+                  name=""
+                  id=""
+                >
                   <option value="1">Espece</option>
                   <option value="2">Electronique</option>
                   <option value="3">Carte visa</option>

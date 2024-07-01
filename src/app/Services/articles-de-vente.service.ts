@@ -14,7 +14,6 @@ export class ArticlesDeVenteService {
   uricreatearticlesVentes = "/v1/sudmarket/create/articlesVentes"
   urideletearticlesVentes = "/v1/sudmarket/delete/articlesVentes"
   uriupdatearticlesVentes = "/v1/sudmarket/update/articlesVentes"
-
   urigefiltresarticlesVentes = "/v1/sudmarket/get/filtres/articlesVentes"
   urigetfiltresbydatearticlesdeventes = "/v1/sudmarket/get/filtres/by-dates/articlesVentes"
 

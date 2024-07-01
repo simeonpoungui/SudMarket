@@ -1,0 +1,103 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+      <div class="col-lg-11 m-lg-auto">
+        <div class="p-3">
+          <div class="shadow p-2">
+            <h1>Liste des notifications</h1>
+          </div>
+          <div class="shadow bg-white mt-1">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="d-flex align-items-center mt-4">
+                  <i
+                    style="position: absolute"
+                    class="fa-solid p-3 fa-magnifying-glass"
+                  ></i>
+  
+                  <input
+                    type="text"
+                    (keyup)="applyFilter($event)"
+                    placeholder="Recherchez un utilisateur ici..."
+                    class="form-control text-start px-5 text-uppercase"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6 pt-4">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-white"
+                >
+                  Imprimer la liste <i class="fa-solid fa-print"></i>
+                </button>
+              </div>
+              <div class="col-lg-4 pt-4">
+              </div>
+            </div>
+            <div
+              class="mat-elevation-z8 mt-3"
+              *ngIf="!isloadingpage; else loader"
+            >
+              <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="produit_id">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Produit
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ element.produit_id }}
+                  </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="message">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Message
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    <span [ngClass]="{'fw-semibold': !element.est_lu, 'text-dark': !element.est_lu, 'text-muted': element.est_lu}">
+                      {{ element.message }}
+                    </span>
+                                      </td>
+                </ng-container>
+  
+
+                <ng-container matColumnDef="date_notification">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Date notification
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ globalService.formatDate(element.date_notification )}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="est_lu">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Etat
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.est_lu == 1 ? 'lu': 'Non lu' }}
+                    </td>
+                  </ng-container>
+
+  
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 15]"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+              >
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

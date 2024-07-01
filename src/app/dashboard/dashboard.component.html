@@ -3464,8 +3464,9 @@
               />
               <div class="notifications-desc">
                 <a href="javascript:void(0);" class="font-body text-truncate-2-line">
-                  <span class="fw-semibold text-dark">{{ notification.message }}</span>
-                </a>
+                  <span [ngClass]="{'fw-semibold': !notification.est_lu, 'text-dark': !notification.est_lu, 'text-muted': notification.est_lu}">
+                    {{ notification.message }}
+                  </span>                </a>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="notifications-date text-muted border-bottom border-bottom-dashed">
                     {{globalService.formatDate(notification.date_notification )}}
@@ -3497,7 +3498,7 @@
               </div>
             </div>
             <div class="text-center notifications-footer" *ngIf="notifications.length > 0">
-              <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark">Alls Notifications</a>
+              <a routerLink="/notification-produit-stock" class="fs-13 fw-semibold text-dark">Voir toutes les notications</a>
             </div>
             <div class="text-center notifications-footer" *ngIf="notifications.length === 0">
               <span class="fs-13 fw-semibold text-dark">No notifications</span>
