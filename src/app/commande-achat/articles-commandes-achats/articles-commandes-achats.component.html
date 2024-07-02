@@ -1,0 +1,173 @@
+<p>commande-achat works!</p>
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="col-lg-11 m-lg-auto">
+      <div class="p-3">
+        <div class="shadow p-2">
+          <h1>Liste des articles de commandes</h1>
+        </div>
+        <div class="shadow bg-white mt-1">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="d-flex align-items-center mt-4">
+                <i
+                  style="position: absolute"
+                  class="fa-solid p-3 fa-magnifying-glass"
+                ></i>
+                <input
+                  type="text"
+                  (keyup)="applyFilter($event)"
+                  placeholder="Recherchez un fournisseur ici..."
+                  class="form-control text-start px-5 text-uppercase"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4 pt-4">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                class="form-control text-white"
+              >
+                Imprimer la liste <i class="fa-solid fa-print"></i>
+              </button>
+            </div>
+            <div class="col-lg-4 pt-4">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                routerLink="/vente/create"
+                element.prix_unitaire class="form-control text-white"
+              >
+                Ajouter une commande <i class="mx-1 fa-solid fa-user"></i>
+              </button>
+            </div>
+          </div>
+          <div class="content bg-light m-1 pb-1">
+            <span class="text-on-border fw-bold">Filtré par : </span>
+            <div class="row">
+              <div class="col-lg-3">
+                <label for="" class="mt-3">Fournisseur</label>
+                <select class="form-control form-select" name="" id="">
+                  <option></option>
+                </select>
+              </div>
+              <div class="col-lg-3">
+                <label for="" class="mt-3">Client</label>
+                <select class="form-control form-select" name="" id="">
+                  <option></option>
+                </select>
+              </div>
+              <div class="col-lg-3">
+                <label for="" class="mt-3">Date de début (vente)</label>
+                <input class="form-control" type="date" />
+              </div>
+              <div class="col-lg-3">
+                <label for="" class="mt-3">Date de fin (vente)</label>
+                <input class="form-control" type="date" />
+              </div>
+            </div>
+          </div>
+          <div
+            class="mat-elevation-z8 mt-3"
+            style="max-height: 400px; overflow-y: auto"
+            *ngIf="!isloadingpage; else loader"
+          >
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="commande_achat_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Commnande
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.commande_achat_id }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="produit_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Produit commandé
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.produit_id }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="quantite">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Quantité
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.quantite }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="prix_unitaire">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  prix unitaire
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix_unitaire) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="Actions">
+                <th class="text-center" mat-header-cell *matHeaderCellDef>
+                  Actions
+                </th>
+                <td class="text-center" mat-cell *matCellDef="let element">
+                  <p
+                    (click)="actions(element)"
+                    style="cursor: pointer"
+                    class="p-2 actions"
+                  >
+                    <span class="fs-6">...</span>
+                  </p>
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

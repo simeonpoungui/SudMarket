@@ -5,22 +5,21 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
-import { CommandeService } from 'src/app/Services/commande.service';
-import { CommandeAchat, GetCommandeAchat } from 'src/app/Models/commande.model';
+import { ArticlesCommandesAchatsService } from 'src/app/Services/articles-commandes-achats.service';
+import { ArticlesDeCommandeDAchat, GetArticleDeCommandeDAchat } from 'src/app/Models/articles.commandes.achats';
 
 @Component({
-  selector: 'app-commande-achat',
-  templateUrl: './commande-achat.component.html',
-  styleUrls: ['./commande-achat.component.scss']
+  selector: 'app-articles-commandes-achats',
+  templateUrl: './articles-commandes-achats.component.html',
+  styleUrls: ['./articles-commandes-achats.component.scss']
 })
-export class CommandeAChatComponent {
+export class ArticlesCommandesAchatsComponent {
   dataSource!: any;
   displayedColumns = [
-    'date_commande',
-    'fournisseur_id',
-    'montant_total',
-    'statut',
-    'utilisateur_id',
+    'commande_achat_id',
+    'produit_id',
+    'quantite',
+    'prix_unitaire',
     'Actions'
   ];
 
@@ -28,7 +27,7 @@ export class CommandeAChatComponent {
   selectedcommandeString!: string;
 
   constructor(
-    private commandeService: CommandeService,
+    private articlecommandeService: ArticlesCommandesAchatsService,
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog
@@ -41,9 +40,9 @@ export class CommandeAChatComponent {
   }
   
   getListCommandes(){
-    const commande : GetCommandeAchat = {commande_achat_id: 0}
+    const article : GetArticleDeCommandeDAchat = {article_commande_achat_id: 0}
     this.isloadingpage = true
-    this.commandeService.getList(commande).subscribe(data => {
+    this.articlecommandeService.getList(article).subscribe(data => {
       console.log(data.message);      
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
@@ -57,11 +56,11 @@ export class CommandeAChatComponent {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-  actions(element: CommandeAchat){
+  actions(element: ArticlesDeCommandeDAchat){
     this.selectedcommandeString = JSON.stringify(element); 
     localStorage.setItem('selectedVente', this.selectedcommandeString);
     if (this.selectedcommandeString) {
-      this.router.navigateByUrl('commandeAchat/view')
+      this.router.navigateByUrl('article/view')
     }
   }
 }

@@ -18,6 +18,7 @@ import { Client } from 'src/app/Models/clients.model';
 import { Utilisateur } from 'src/app/Models/users.model';
 import { SessionService } from 'src/app/Services/session.service';
 import { Session } from 'src/app/Models/session.ventes.model';
+
 @Component({
   selector: 'app-session-vente',
   templateUrl: './session-vente.component.html',
@@ -81,7 +82,7 @@ export class SessionVenteComponent {
       console.log(this.user);
     }
 
-   this.startSession();
+    this.startSession();
   }
 
   getListProduit() {
@@ -201,7 +202,7 @@ export class SessionVenteComponent {
             this.message = data.message;
             this.globlService.toastShow(this.message, 'Succès');
             this.isloadingpaiement = false;
-            this.getListProduit()
+            this.getListProduit();
             // this.router.navigateByUrl('vente/list')
           });
         }
@@ -234,7 +235,12 @@ export class SessionVenteComponent {
       session_id: 0,
     };
     this.sessionService.createSession(newSession).subscribe((response) => {
-      this.globlService.toastShow("Session ouvert le" + ' ' + this.globlService.formatFrenchDateSessionVnte(this.sessionStartTime),'Succès');
+      this.globlService.toastShow(
+        'Session ouvert le' +
+          ' ' +
+          this.globlService.formatFrenchDateSessionVnte(this.sessionStartTime),
+        'Succès'
+      );
       this.currentSessionId = response.message.session_id;
     });
   }
@@ -257,11 +263,17 @@ export class SessionVenteComponent {
 
   closeSession() {
     const dialog = this.dialog.open(AlertComponent);
-    dialog.componentInstance.content = 'Voulez-vous fermer cette session de vente ?';
+    dialog.componentInstance.content =
+      'Voulez-vous fermer cette session de vente ?';
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.endSession();
-        this.globlService.toastShow("Session Fermé le" + ' ' + this.globlService.formatFrenchDateSessionVnte(this.sessionEndTime),'Succès');
+        this.globlService.toastShow(
+          'Session Fermé le' +
+            ' ' +
+            this.globlService.formatFrenchDateSessionVnte(this.sessionEndTime),
+          'Succès'
+        );
         this.globlService.reloadComponent('/vente/list');
       }
     });

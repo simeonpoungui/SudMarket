@@ -139,13 +139,10 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/vente/list">Liste des vente</a>
+              <a class="nxl-link" routerLink="/vente/list">Rapports des ventes</a>
             </li>
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/vente/create">Ajouter une vente</a>
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" routerLink="">Rapports des ventes</a>
             </li>
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/articles-de-vente">Articles de ventes</a>
@@ -167,6 +164,11 @@
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/commande/achat/create"
                 >Ajouter une commande</a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/article-commande-achat"
+                >Articles commandes achats</a
               >
             </li>
           </ul>
@@ -466,27 +468,13 @@
                 </div>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a href="javascript:void(0);" class="dropdown-item">
+                <a (click)="openPointsDeVentesCommande()" href="javascript:void(0);" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-briefcase"></i>
-                    <span>Projects</span>
+                    <span>Session commande</span>
                   </span>
                   <i class="feather-chevron-right ms-auto me-0"></i>
                 </a>
-                <div class="dropdown-menu nxl-h-dropdown">
-                  <a href="projects.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Projects</span>
-                  </a>
-                  <a href="projects-view.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Projects View</span>
-                  </a>
-                  <a href="projects-create.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Projects Create</span>
-                  </a>
-                </div>
               </div>
               <div class="dropdown nxl-level-menu">
                 <a (click)="openPointsDeVentes()" class="dropdown-item">

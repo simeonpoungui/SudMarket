@@ -80,7 +80,6 @@ export class DashboardComponent {
     } else {
       console.log('PointSelected does not exist.');
     }
-
     const dialog = this.dialog.open(SelectPointDeVenteComponent);
     dialog.afterClosed().subscribe((result) => {
       this.pointSelected = dialog.componentInstance.pointSelected;
@@ -89,5 +88,23 @@ export class DashboardComponent {
       // window.location.reload()
       this.router.navigateByUrl('/session-vente');
     });
+  }
+
+  openPointsDeVentesCommande(){
+    const storedPointSelected = localStorage.getItem('pointSelected');
+    if (storedPointSelected) {
+      localStorage.removeItem('pointSelected');
+      console.log('PointSelected exists and has been removed.');
+    } else {
+      console.log('PointSelected does not exist.');
+    }
+    const dialog = this.dialog.open(SelectPointDeVenteComponent);
+    dialog.afterClosed().subscribe((result) => {
+      this.pointSelected = dialog.componentInstance.pointSelected;
+      console.log(this.pointSelected);
+      localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
+      // window.location.reload()
+      this.router.navigateByUrl('/session-commande');
+    }); 
   }
 }

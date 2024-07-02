@@ -29,6 +29,7 @@ import { ProduitFormComponent } from './produit/produit-form/produit-form.compon
 import { CommandeAChatComponent } from './commande-achat/commande-achat/commande-achat.component';
 import { CommandeAChatFicheComponent } from './commande-achat/commande-achat-fiche/commande-achat-fiche.component';
 import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form/commande-achat-form.component';
+import { ArticlesCommandesAchatsComponent } from './commande-achat/articles-commandes-achats/articles-commandes-achats.component';
 //Vente Entities
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';
@@ -38,28 +39,32 @@ import { ArticleDeVentesComponent } from './vente/article-de-ventes/article-de-v
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
 import { RapportFormComponent } from './rapport/rapport-form/rapport-form.component';
-
 //Scanner
 import { ScannerComponent } from './scanner-qrcode/scanner/scanner.component';
 import { SessionGuardService } from './Services/session-guard.service';
-
 //Session vente
 import { SessionVenteComponent } from './session-vente/session-vente/session-vente.component';
 import { ListSessionVenteComponent } from './session-vente/list-session-vente/list-session-vente.component';
+//Session commande achat
+import { SessionCommandeComponent } from './session-commande/session-commande/session-commande.component';
 
 
 const routes: Routes = [
+
+  // home page
   { path: '', component: HomeComponent, },
+
+  // login form
   { path: 'login', component: LoginComponent },
 
-  //Module User
+  // Module User
   {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
   { path: 'user/list', component: UsersComponent },
   { path: 'user/:action', component: UsersFormComponent},
   { path: 'fiche/:action', component: FicheUserComponent },
   { path: 'profile/user', component: FicheUserConnectedComponent },
 
-  //Module Settings
+  // Module Settings
   {path:'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
   { path: 'parametres', component: SettingsComponent},
   { path: 'role', component: RoleComponent},
@@ -67,7 +72,7 @@ const routes: Routes = [
   { path: 'notification-produit-stock', component: NotificationsStockProduitsComponent},
   { path: 'points-de-ventes', component: PointsDeVentesComponent},
 
-  //Module Client
+  // Module Client
   {path:'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
   { path: 'client/list', component: ClientComponent},
   { path: 'client/:action', component: ClientFormComponent},
@@ -92,12 +97,12 @@ const routes: Routes = [
   {path: 'vente/:action', component: VenteFormComponent},
   {path: 'articles-de-vente', component: ArticleDeVentesComponent},
 
-
   // Module commande achat
   {path:'commandes-achats', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
   {path: 'commande/achat/list', component: CommandeAChatComponent},
   {path: 'commande/achat/view', component: CommandeAChatFicheComponent},
   {path: 'commande/achat/:action', component: CommandeAChatFormComponent},
+  {path: 'article-commande-achat', component: ArticlesCommandesAchatsComponent},
 
   // Module rapport
   {path:'rapports', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},
@@ -113,6 +118,10 @@ const routes: Routes = [
   {path:'session-ventes', loadChildren: () => import('./session-vente/session-vente.module').then(m => m.SessionVenteModule)},
   {path: 'session-vente', component: SessionVenteComponent},
   {path: 'session-vente-list', component: ListSessionVenteComponent},
+
+  // Module Session commande achat
+  {path:'session-commande', loadChildren: () => import('./session-commande/session-commande.module').then(m => m.SessionCommandeModule)},
+  {path: 'session-commande', component: SessionCommandeComponent},
 
 
 ];
