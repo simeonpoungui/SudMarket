@@ -7,7 +7,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProduitComponent } from './produit/produit.component';
 import { ProduitFormComponent } from './produit-form/produit-form.component';
 import { ProduitFicheComponent } from './produit-fiche/produit-fiche.component';
-
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -19,6 +19,7 @@ import { ProduitFicheComponent } from './produit-fiche/produit-fiche.component';
   imports: [
     CommonModule,
     CoreModule,
+    RouterModule,
     MatPaginatorModule,
     MatTableModule,
     FormsModule

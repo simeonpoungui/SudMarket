@@ -54,6 +54,12 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.type_rapport }}
                 </td>
+                       <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="donnees">
@@ -62,6 +68,12 @@
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.donnees }}
+                </td>
+                       <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
                 </td>
               </ng-container>
 
@@ -72,6 +84,12 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.genere_le }}
                 </td>
+                       <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="nom_generateur">
@@ -80,6 +98,12 @@
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.nom_generateur }}
+                </td>
+                       <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
                 </td>
               </ng-container>
 
@@ -96,17 +120,25 @@
                     <span class="fs-6">...</span>
                   </p>
                 </td>
+                       <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr
+              class="bg-sticky-footer"
+              mat-footer-row
+              *matFooterRowDef="displayedColumns; sticky: true"
+            ></tr>
             </table>
-            <mat-paginator
-              [pageSizeOptions]="[5, 10, 15]"
-              showFirstLastButtons
-              aria-label="Select page of periodic elements"
-            >
-            </mat-paginator>
           </div>
         </div>
       </div>

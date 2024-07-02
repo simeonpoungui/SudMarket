@@ -7,7 +7,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { CoreModule } from '../core/core.module';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 @NgModule({
   declarations: [
     FournisseurComponent,
@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
+    RouterModule,
     MatPaginatorModule,
     CoreModule,
     MatTableModule,

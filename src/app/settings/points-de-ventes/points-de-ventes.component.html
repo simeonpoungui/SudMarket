@@ -36,6 +36,7 @@
                 style="background-color: #3454d1"
                 type="button"
                 class="form-control text-white"
+                routerLink="/point/vente/create"
               >
                 Ajouter un point de vente <i class="mx-1 fa-solid fa-user"></i>
               </button>
@@ -50,119 +51,202 @@
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                   Point
                 </th>
-                <td class="pointer" mat-cell *matCellDef="let element"
-                (click)="onClickLine(element)"
-                [ngClass]="{
-                  'bg-color': pointSelected == element,
-                  cursor: pointSelected
-                }">
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                  [ngClass]="{
+                    'bg-color': pointSelected == element,
+                    cursor: pointSelected
+                  }"
+                >
                   {{ element.nom }}
                 </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="adresse">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                   Adresse
                 </th>
-                <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
-                [ngClass]="{
-                  'bg-color': pointSelected == element,
-                  cursor: pointSelected
-                }">
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
+                  [ngClass]="{
+                    'bg-color': pointSelected == element,
+                    cursor: pointSelected
+                  }"
+                >
                   {{ element.adresse }}
                 </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="ville">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Ville
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Ville
+                </th>
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
                   [ngClass]="{
                     'bg-color': pointSelected == element,
                     cursor: pointSelected
-                  }">
-                    {{ element.ville }}
-                  </td>
-                </ng-container>
+                  }"
+                >
+                  {{ element.ville }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
 
-                <ng-container matColumnDef="pays">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Pays
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+              <ng-container matColumnDef="pays">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Pays
+                </th>
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
                   [ngClass]="{
                     'bg-color': pointSelected == element,
                     cursor: pointSelected
-                  }">
-                    {{ element.pays }}
-                  </td>
-                </ng-container>
+                  }"
+                >
+                  {{ element.pays }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
 
-                <ng-container matColumnDef="telephone">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Telephone
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+              <ng-container matColumnDef="telephone">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Telephone
+                </th>
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
                   [ngClass]="{
                     'bg-color': pointSelected == element,
                     cursor: pointSelected
-                  }">
-                    {{ element.telephone }}
-                  </td>
-                </ng-container>
+                  }"
+                >
+                  {{ element.telephone }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
 
-
-                <ng-container matColumnDef="email">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Email
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+              <ng-container matColumnDef="email">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Email
+                </th>
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
                   [ngClass]="{
                     'bg-color': pointSelected == element,
                     cursor: pointSelected
-                  }">
-                    {{ element.email }}
-                  </td>
-                </ng-container>
+                  }"
+                >
+                  {{ element.email }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
 
-                <ng-container matColumnDef="responsable">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Responsable
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element" (click)="onClickLine(element)"
+              <ng-container matColumnDef="responsable">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Responsable
+                </th>
+                <td
+                  class="pointer"
+                  mat-cell
+                  *matCellDef="let element"
+                  (click)="onClickLine(element)"
                   [ngClass]="{
                     'bg-color': pointSelected == element,
                     cursor: pointSelected
-                  }">
-                    {{ element.responsable }}
-                  </td>
-                </ng-container>
+                  }"
+                >
+                  {{ element.responsable }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
 
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <ng-container matColumnDef="Actions">
+                <th class="text-center" mat-header-cell *matHeaderCellDef>
+                  Actions
+                </th>
+                <td class="text-center" mat-cell *matCellDef="let element">
+                  <p
+                    (click)="actions(element)"
+                    style="cursor: pointer"
+                    class="p-2 actions"
+                  >
+                    <span class="fs-6">...</span>
+                  </p>
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
             </table>
-            <mat-paginator
-              [pageSizeOptions]="[5, 10, 15]"
-              showFirstLastButtons
-              aria-label="Select page of periodic elements"
-            >
-            </mat-paginator>
           </div>
         </div>
       </div>
     </div>
-    </div>
-    </main>
+  </div>
+</main>
 
-      
-      
-
-  
-  <ng-template #loader>
-    <div class="text-center">
-      <app-loader></app-loader>
-    </div>
-  </ng-template>
-  
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

@@ -3,13 +3,13 @@ export class PointsDeVentes {
     nom!: string;
     adresse!: string;
     ville!: string;
-    codePostal!: string;
+    code_postal!: string;
     pays!: string;
     telephone!: string;
     email!: string;
     responsable!: string;
-    dateCreation!: Date;
-    dateModification!: Date;
+    date_creation!: string;
+    date_modification!: string;
 }
 
 export class GetPointsDeVentes {

@@ -47,6 +47,8 @@ import { SessionVenteComponent } from './session-vente/session-vente/session-ven
 import { ListSessionVenteComponent } from './session-vente/list-session-vente/list-session-vente.component';
 //Session commande achat
 import { SessionCommandeComponent } from './session-commande/session-commande/session-commande.component';
+import { FichePointDeVenteFormComponent } from './settings/points-de-ventes/fiche-point-de-vente-form/fiche-point-de-vente-form.component';
+import { FichePointDeVenteComponent } from './settings/points-de-ventes/fiche-point-de-vente/fiche-point-de-vente.component';
 
 
 const routes: Routes = [
@@ -71,6 +73,8 @@ const routes: Routes = [
   { path: 'role-form', component: RoleFormComponent},
   { path: 'notification-produit-stock', component: NotificationsStockProduitsComponent},
   { path: 'points-de-ventes', component: PointsDeVentesComponent},
+  { path: 'point/vente/view', component: FichePointDeVenteComponent},
+  { path: 'point/vente/:action', component: FichePointDeVenteFormComponent},
 
   // Module Client
   {path:'clients', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},

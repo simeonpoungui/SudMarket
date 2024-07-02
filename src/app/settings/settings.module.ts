@@ -12,12 +12,16 @@ import { FicheRoleComponent } from './role/fiche-role/fiche-role.component';
 import { PointsDeVentesComponent } from './points-de-ventes/points-de-ventes.component';
 import { NotificationsStockProduitsComponent } from './notifications-stock-produits/notifications-stock-produits.component';
 import { SelectPointDeVenteComponent } from './points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { FichePointDeVenteComponent } from './points-de-ventes/fiche-point-de-vente/fiche-point-de-vente.component';
+import { FichePointDeVenteFormComponent } from './points-de-ventes/fiche-point-de-vente-form/fiche-point-de-vente-form.component';
 @NgModule({
   declarations: [
     SettingsComponent,
     RoleComponent,
     RoleFormComponent,
+    FichePointDeVenteComponent,
     FicheRoleComponent,
+    FichePointDeVenteFormComponent,
     PointsDeVentesComponent,
     NotificationsStockProduitsComponent,
     SelectPointDeVenteComponent

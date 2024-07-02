@@ -23,11 +23,14 @@ export class PointsDeVentesComponent {
     'pays',
     'telephone',
     'email',
-    'responsable'
+    'responsable',
+    'Actions'
   ];
+  selectedPointString!: string;
   constructor(
     private pointsDeVenteServive: PointsDeVentesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ){}
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -59,5 +62,13 @@ export class PointsDeVentesComponent {
   applyFilter(filterValue: any) {
     const value = filterValue.target.value;
     this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+  actions(element: PointsDeVentes){
+    this.selectedPointString = JSON.stringify(element); 
+    localStorage.setItem('selectedPointVente', this.selectedPointString);
+    if (this.selectedPointString) {
+      this.router.navigateByUrl('point/vente/view')
+    }
   }
 }

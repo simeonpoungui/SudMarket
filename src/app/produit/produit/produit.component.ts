@@ -32,7 +32,7 @@ export class ProduitComponent {
   constructor(
     private produitService: ProduitService,
     private router: Router,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private dialog: MatDialog
   ){}
   @ViewChild(MatSort, { static: true }) sort!: MatSort;

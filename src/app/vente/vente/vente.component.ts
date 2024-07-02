@@ -11,6 +11,8 @@ import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { Client, GetClient } from 'src/app/Models/clients.model';
 import { ClientsService } from 'src/app/Services/clients.service';
 import { UsersService } from 'src/app/Services/users.service';
+import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 
 @Component({
   selector: 'app-vente',
@@ -32,6 +34,7 @@ export class VenteComponent {
   tbUsers: Utilisateur[] = []
   tbClients: Client[] = []; // Assurez-vous que tbClients est initialisé correctement
   TotalMontant!: number
+  pointSelected!:PointsDeVentes;
 
   constructor(
     private venteService: VenteService,
@@ -104,4 +107,14 @@ export class VenteComponent {
     }
   }
 
+  openPointsDeVentes() {
+    const dialog = this.dialog.open(SelectPointDeVenteComponent);
+    dialog.afterClosed().subscribe((result) => {
+      this.pointSelected = dialog.componentInstance.pointSelected;
+      console.log(this.pointSelected);
+      localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
+      // window.location.reload()
+      this.router.navigateByUrl('/session-vente');
+    });
+  }
 }

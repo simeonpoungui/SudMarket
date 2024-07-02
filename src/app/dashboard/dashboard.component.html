@@ -45,7 +45,7 @@
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="/user/create"
+              <a class="nxl-link" routerLink="/point/vente/create"
                 >Ajouter un point de vente</a
               >
             </li>
@@ -66,7 +66,7 @@
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" href="/user/create"
+              <a class="nxl-link" routerLink="/user/create"
                 >Ajouter un utilisateur</a
               >
             </li>
@@ -142,7 +142,7 @@
               <a class="nxl-link" routerLink="/vente/list">Rapports des ventes</a>
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/vente/create">Ajouter une vente</a>
+              <a class="nxl-link" (click)="openPointsDeVentes()">Ajouter une vente</a>
             </li>
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/articles-de-vente">Articles de ventes</a>

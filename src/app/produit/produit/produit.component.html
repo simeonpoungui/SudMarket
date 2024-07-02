@@ -101,7 +101,7 @@
                     Prix unitaire
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.prix }}
+                    {{ globalService.formatPrix(element.prix )}}
                   </td>
                   <td
                   mat-footer-cell
