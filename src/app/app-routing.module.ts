@@ -13,6 +13,8 @@ import { PointsDeVentesComponent } from './settings/points-de-ventes/points-de-v
 import { RoleComponent } from './settings/role/role.component';
 import { RoleFormComponent } from './settings/role/role-form/role-form.component';
 import { NotificationsStockProduitsComponent } from './settings/notifications-stock-produits/notifications-stock-produits.component';
+import { FichePointDeVenteFormComponent } from './settings/points-de-ventes/fiche-point-de-vente-form/fiche-point-de-vente-form.component';
+import { FichePointDeVenteComponent } from './settings/points-de-ventes/fiche-point-de-vente/fiche-point-de-vente.component';
 //Clients Entities
 import { ClientComponent } from './client/client/client.component';
 import { ClientFormComponent } from './client/client/client-form/client-form.component';
@@ -30,11 +32,13 @@ import { CommandeAChatComponent } from './commande-achat/commande-achat/commande
 import { CommandeAChatFicheComponent } from './commande-achat/commande-achat-fiche/commande-achat-fiche.component';
 import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form/commande-achat-form.component';
 import { ArticlesCommandesAchatsComponent } from './commande-achat/articles-commandes-achats/articles-commandes-achats.component';
+import { SessionCommandeComponent } from './commande-achat/session-commande/session-commande.component';
 //Vente Entities
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';
 import { VenteFormComponent } from './vente/vente-form/vente-form.component';
 import { ArticleDeVentesComponent } from './vente/article-de-ventes/article-de-ventes.component';
+import { FicheArticleDeVenteComponent } from './vente/fiche-article-de-vente/fiche-article-de-vente.component';
 //Rapport Entities
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
@@ -45,10 +49,7 @@ import { SessionGuardService } from './Services/session-guard.service';
 //Session vente
 import { SessionVenteComponent } from './session-vente/session-vente/session-vente.component';
 import { ListSessionVenteComponent } from './session-vente/list-session-vente/list-session-vente.component';
-//Session commande achat
-import { SessionCommandeComponent } from './session-commande/session-commande/session-commande.component';
-import { FichePointDeVenteFormComponent } from './settings/points-de-ventes/fiche-point-de-vente-form/fiche-point-de-vente-form.component';
-import { FichePointDeVenteComponent } from './settings/points-de-ventes/fiche-point-de-vente/fiche-point-de-vente.component';
+
 
 
 const routes: Routes = [
@@ -100,6 +101,8 @@ const routes: Routes = [
   {path: 'vente/view', component: VenteFicheComponent},
   {path: 'vente/:action', component: VenteFormComponent},
   {path: 'articles-de-vente', component: ArticleDeVentesComponent},
+  {path: 'article/view', component: FicheArticleDeVenteComponent},
+
 
   // Module commande achat
   {path:'commandes-achats', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
@@ -107,6 +110,8 @@ const routes: Routes = [
   {path: 'commande/achat/view', component: CommandeAChatFicheComponent},
   {path: 'commande/achat/:action', component: CommandeAChatFormComponent},
   {path: 'article-commande-achat', component: ArticlesCommandesAchatsComponent},
+  {path: 'session-commande-achat', component: SessionCommandeComponent},
+
 
   // Module rapport
   {path:'rapports', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},
@@ -122,11 +127,6 @@ const routes: Routes = [
   {path:'session-ventes', loadChildren: () => import('./session-vente/session-vente.module').then(m => m.SessionVenteModule)},
   {path: 'session-vente', component: SessionVenteComponent},
   {path: 'session-vente-list', component: ListSessionVenteComponent},
-
-  // Module Session commande achat
-  {path:'session-commande', loadChildren: () => import('./session-commande/session-commande.module').then(m => m.SessionCommandeModule)},
-  {path: 'session-commande', component: SessionCommandeComponent},
-
 
 ];
 

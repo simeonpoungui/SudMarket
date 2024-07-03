@@ -4,7 +4,9 @@ export class ArticlesDeCommandeDAchat {
     produit_id!: number;
     quantite!: number;
     prix_unitaire!: number;
+    prix_total_commande!: number
 }
+
 
 export class GetArticleDeCommandeDAchat {
     article_commande_achat_id!: number;

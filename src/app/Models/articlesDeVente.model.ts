@@ -5,7 +5,7 @@ export class ArticlesDeVentes {
   quantite!: number;
   prix_unitaire!: number;
   remise!: number;
-  prix_total_vente!: number;
+  prix_total_vente?: any;
 }
 
 export class GetArticleDeVente {

@@ -48,7 +48,7 @@ export class GlobalService {
     return formated + decimal;
   }
 
-  formatDate(dateString: string): string {
+  formatDate(dateString: any): string {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',

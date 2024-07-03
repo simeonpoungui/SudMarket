@@ -8,13 +8,15 @@ import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ArticlesCommandesAchatsComponent } from './articles-commandes-achats/articles-commandes-achats.component';
+import { SessionCommandeComponent } from './session-commande/session-commande.component';
 
 @NgModule({
   declarations: [
     CommandeAChatComponent,
     CommandeAChatFormComponent,
     CommandeAChatFicheComponent,
-    ArticlesCommandesAchatsComponent
+    ArticlesCommandesAchatsComponent,
+    SessionCommandeComponent
   ],
   imports: [
     CommonModule,

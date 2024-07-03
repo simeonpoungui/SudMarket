@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="content bg-light m-1 pb-1">
-            <span class="text-on-border fw-bold">Filtré par : </span>
+            <span class="text-on-border fw-bold">Filtré les articles de commandes par : </span>
             <div class="row">
               <div class="col-lg-3">
                 <label for="" class="mt-3">Fournisseur</label>
@@ -52,17 +52,17 @@
                 </select>
               </div>
               <div class="col-lg-3">
-                <label for="" class="mt-3">Client</label>
+                <label for="" class="mt-3">Produit</label>
                 <select class="form-control form-select" name="" id="">
                   <option></option>
                 </select>
               </div>
               <div class="col-lg-3">
-                <label for="" class="mt-3">Date de début (vente)</label>
+                <label for="" class="mt-3">Date de début</label>
                 <input class="form-control" type="date" />
               </div>
               <div class="col-lg-3">
-                <label for="" class="mt-3">Date de fin (vente)</label>
+                <label for="" class="mt-3">Date de fin</label>
                 <input class="form-control" type="date" />
               </div>
             </div>
@@ -73,12 +73,12 @@
             *ngIf="!isloadingpage; else loader"
           >
             <table mat-table [dataSource]="dataSource">
-              <ng-container matColumnDef="commande_achat_id">
+              <ng-container matColumnDef="date_commande">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Commnande
+                  Date commande
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.commande_achat_id }}
+                  {{ globalService.formatDate(element.date_commande )}}
                 </td>
                 <td
                   mat-footer-cell
@@ -92,7 +92,7 @@
                   Produit commandé
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.produit_id }}
+                  {{getProduitName(element.produit_id) }}
                 </td>
                 <td
                   mat-footer-cell
@@ -121,6 +121,20 @@
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ globalService.formatPrix(element.prix_unitaire) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="prix_total_commande">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Prix total commande
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix_total_commande) }}
                 </td>
                 <td
                   mat-footer-cell

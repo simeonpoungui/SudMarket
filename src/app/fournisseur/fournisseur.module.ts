@@ -8,11 +8,13 @@ import { CoreModule } from '../core/core.module';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SelectFournisseurComponent } from './select-fournisseur/select-fournisseur.component';
 @NgModule({
   declarations: [
     FournisseurComponent,
     FournisseurFormComponent,
-    FournisseurFicheComponent
+    FournisseurFicheComponent,
+    SelectFournisseurComponent
   ],
   imports: [
     CommonModule,

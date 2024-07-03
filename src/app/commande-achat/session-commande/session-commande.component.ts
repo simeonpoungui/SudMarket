@@ -18,15 +18,21 @@ import { Client } from 'src/app/Models/clients.model';
 import { Utilisateur } from 'src/app/Models/users.model';
 import { SessionService } from 'src/app/Services/session.service';
 import { Session } from 'src/app/Models/session.ventes.model';
+import { ArticlesCommandesAchatsComponent } from '../articles-commandes-achats/articles-commandes-achats.component';
+import { ArticlesDeCommandeDAchat } from 'src/app/Models/articles.commandes.achats';
+import { CommandeAchat } from 'src/app/Models/commande.model';
+import { CommandeService } from 'src/app/Services/commande.service';
+import { SelectFournisseurComponent } from 'src/app/fournisseur/select-fournisseur/select-fournisseur.component';
+import { Fournisseur } from 'src/app/Models/fournisseur.model';
 
 @Component({
-  selector: 'app-session-vente',
-  templateUrl: './session-vente.component.html',
-  styleUrls: ['./session-vente.component.scss'],
+  selector: 'app-session-commande',
+  templateUrl: './session-commande.component.html',
+  styleUrls: ['./session-commande.component.scss']
 })
-export class SessionVenteComponent {
+export class SessionCommandeComponent {
   dataSource!: any;
-  dataSourceArticleVente = new MatTableDataSource<ArticlesDeVentes>([]);
+  dataSourceArticleCommandesAchats = new MatTableDataSource<ArticlesDeCommandeDAchat>([]);
   displayedColumnsArticleVente = ['produit_id', 'quantite', 'prixTotal'];
   displayedColumns = [
     'nom',
@@ -41,6 +47,7 @@ export class SessionVenteComponent {
 
   tbprovisoire!: ArticlesDeVentes[];
   tbProduit!: Produit[];
+
   isloadingpage!: boolean;
   pointSelected!: PointsDeVentes;
   MontantTotalApyer!: number;
@@ -49,7 +56,7 @@ export class SessionVenteComponent {
   isloadingbtnvalidate!: boolean;
   montantTotalDeLaVente: number = 0;
   message!: any;
-  clientSelected!: Client;
+  founisseurSelected!: Fournisseur;
   user!: Utilisateur;
   modepaiement: number = 1;
   currentSessionId: number | undefined;
@@ -58,9 +65,8 @@ export class SessionVenteComponent {
     private produitService: ProduitService,
     private router: Router,
     public globlService: GlobalService,
-    private venteService: VenteService,
-    private sessionService: SessionService,
     private articleDeVenteService: ArticlesDeVenteService,
+    private commandeService: CommandeService,
     private dialog: MatDialog
   ) {}
 
@@ -80,8 +86,6 @@ export class SessionVenteComponent {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
-
-    this.startSession();
   }
 
   getListProduit() {
@@ -104,13 +108,13 @@ export class SessionVenteComponent {
 
   checkedProduit(event: any, element: Produit) {
     if (!event.target.checked) {
-      const indexArticleVente = this.dataSourceArticleVente.data.findIndex(
-        (item: ArticlesDeVentes) => item.produit_id === element.produit_id
+      const indexArticleVente = this.dataSourceArticleCommandesAchats.data.findIndex(
+        (item: ArticlesDeCommandeDAchat) => item.produit_id === element.produit_id
       );
       if (indexArticleVente !== -1) {
-        const updatedData = [...this.dataSourceArticleVente.data];
+        const updatedData = [...this.dataSourceArticleCommandesAchats.data];
         updatedData.splice(indexArticleVente, 1);
-        this.dataSourceArticleVente.data = updatedData;
+        this.dataSourceArticleCommandesAchats.data = updatedData;
       }
     } else {
       this.addProductToArticleVente(element);
@@ -118,53 +122,51 @@ export class SessionVenteComponent {
   }
 
   addProductToArticleVente(produit: Produit) {
-    const articleVente: ArticlesDeVentes = {
-      article_de_vente_id: 0,
-      vente_id: 0,
+    const articleCommande: ArticlesDeCommandeDAchat = {
+      article_commande_achat_id: 0,
+      commande_achat_id: 0,
       produit_id: produit.produit_id,
       quantite: 1,
       prix_unitaire: produit.prix,
-      remise: 0,
-      prix_total_vente: this.calculateTotalApayerByProduit({
-        article_de_vente_id: 0,
-        vente_id: 0,
+      prix_total_commande: this.calculateTotalApayerByProduit({
+        article_commande_achat_id: 0,
+        commande_achat_id: 0,
         produit_id: produit.produit_id,
         quantite: 1,
         prix_unitaire: produit.prix,
-        remise: 0,
-        prix_total_vente: 0,
+        prix_total_commande: 0,
       }),
     };
 
-    this.dataSourceArticleVente.data = [
-      ...this.dataSourceArticleVente.data,
-      articleVente,
+    this.dataSourceArticleCommandesAchats.data = [
+      ...this.dataSourceArticleCommandesAchats.data,
+      articleCommande,
     ];
     this.updatePrixTotalVente();
     this.montantTotalDeLaVente = this.calculateTotalVente();
   }
 
-  calculateTotalApayerByProduit(element: ArticlesDeVentes): number {
+  calculateTotalApayerByProduit(element: ArticlesDeCommandeDAchat): number {
     return element.quantite * element.prix_unitaire;
   }
 
   updatePrixTotalVente() {
-    this.dataSourceArticleVente.data = this.dataSourceArticleVente.data.map(
+    this.dataSourceArticleCommandesAchats.data = this.dataSourceArticleCommandesAchats.data.map(
       (element) => {
-        element.prix_total_vente = this.calculateTotalApayerByProduit(element);
+        element.prix_total_commande = this.calculateTotalApayerByProduit(element);
         return element;
       }
     );
   }
 
-  updateQuantity(element: ArticlesDeVentes) {
+  updateQuantity(element: ArticlesDeCommandeDAchat) {
     this.updatePrixTotalVente();
     this.montantTotalDeLaVente = this.calculateTotalVente();
   }
 
   calculateTotalVente(): number {
-    return this.dataSourceArticleVente.data.reduce(
-      (acc, element) => acc + element.prix_total_vente,
+    return this.dataSourceArticleCommandesAchats.data.reduce(
+      (acc, element) => acc + element.prix_total_commande,
       0
     );
   }
@@ -175,8 +177,8 @@ export class SessionVenteComponent {
 
   ValidatePaiement() {
     if (
-      this.dataSourceArticleVente.data.length > 0 &&
-      this.clientSelected &&
+      this.dataSourceArticleCommandesAchats.data.length > 0 &&
+      this.founisseurSelected &&
       this.modepaiement
     ) {
       const dialog = this.dialog.open(AlertComponent);
@@ -186,97 +188,40 @@ export class SessionVenteComponent {
       dialog.afterClosed().subscribe((result) => {
         if (result) {
           this.isloadingpaiement = true;
-          const modelvente: Vente = {
-            vente_id: 0,
+          const modelCommande: CommandeAchat = {
+            commande_achat_id: 0,
             montant_total: this.montantTotalDeLaVente,
-            client_id: this.clientSelected.client_id,
+            fournisseur_id: this.founisseurSelected.fournisseur_id,
             utilisateur_id: this.user.utilisateur_id,
-            articles: this.dataSourceArticleVente.data,
+            articles: this.dataSourceArticleCommandesAchats.data
           };
-          console.log(modelvente);
-          this.venteService.create(modelvente).subscribe((data) => {
+          console.log(modelCommande);
+          this.commandeService.create(modelCommande).subscribe((data) => {
             console.log(data.message);
-            this.dataSourceArticleVente.data = [];
+            this.dataSourceArticleCommandesAchats.data = [];
             this.montantTotalDeLaVente = 0;
             localStorage.removeItem('pointSelected');
-            this.clientSelected = {} as Client;    
-            // this.pointSelected = {} as PointsDeVentes;
+            this.founisseurSelected = {} as Fournisseur;    
             this.message = data.message;
             this.globlService.toastShow(this.message, 'Succès');
             this.isloadingpaiement = false;
             this.getListProduit();
+            this.router.navigateByUrl('commande/achat/list')
           });
         }
       });
     } else {
       const dialog = this.dialog.open(AlertComponent);
       dialog.componentInstance.content =
-        'Selectionner un ou des produits, renseigner le client concerné et le moyen de paiement';
+        'Selectionner un ou des produits, renseigner le fournisseur concerné et le moyen de paiement';
     }
   }
 
-  chooseClient() {
-    const dialog = this.dialog.open(SelectClientComponent);
+  chooseFournisseur() {
+    const dialog = this.dialog.open(SelectFournisseurComponent);
     dialog.afterClosed().subscribe((data) => {
-      this.clientSelected = dialog.componentInstance.clientSelected;
-      console.log(this.clientSelected);
-    });
-  }
-
-  //Session vente
-  ngOnDestroy() {
-    this.endSession();
-  }
-
-  startSession() {
-    this.sessionStartTime = new Date();
-    const newSession: Session = {
-      user_id: this.user.utilisateur_id,
-      start_time: this.sessionStartTime,
-      session_id: 0,
-    };
-    this.sessionService.createSession(newSession).subscribe((response) => {
-      this.globlService.toastShow(
-        'Session ouvert le' +
-          ' ' +
-          this.globlService.formatFrenchDateSessionVnte(this.sessionStartTime),
-        'Succès'
-      );
-      this.currentSessionId = response.message.session_id;
-    });
-  }
-
-  endSession() {
-    if (this.sessionStartTime && this.currentSessionId) {
-      this.sessionEndTime = new Date();
-      console.log('Session terminée à :', this.sessionEndTime);
-      const updatedSession: Session = {
-        session_id: Number(this.currentSessionId),
-        user_id: this.user.utilisateur_id,
-        start_time: this.sessionStartTime,
-        end_time: this.sessionEndTime,
-      };
-      this.sessionService
-        .updateSession(updatedSession)
-        .subscribe((response) => console.log(response));
-    }
-  }
-
-  closeSession() {
-    const dialog = this.dialog.open(AlertComponent);
-    dialog.componentInstance.content =
-      'Voulez-vous fermer cette session de vente ?';
-    dialog.afterClosed().subscribe((result) => {
-      if (result) {
-        this.endSession();
-        this.globlService.toastShow(
-          'Session Fermé le' +
-            ' ' +
-            this.globlService.formatFrenchDateSessionVnte(this.sessionEndTime),
-          'Succès'
-        );
-        this.globlService.reloadComponent('/vente/list');
-      }
+      this.founisseurSelected = dialog.componentInstance.fournisseurSelected;
+      console.log(this.founisseurSelected);
     });
   }
 }

@@ -2,8 +2,10 @@
 export class Vente {
     vente_id!: number;
     montant_total!: number;
+    produit_id?: string
     client_id!: number;
     utilisateur_id!: number;
+    date_vente?: string
     articles!: ArticlesDeVentes[];
 
 }  
@@ -22,6 +24,8 @@ export class VenteArticle {
     produit_id: number;
     quantite: number;
     prix_unitaire: number;
+    prix_total_vente?: any;
+    date_article_vendu?: string;
     remise: number;
   }
 

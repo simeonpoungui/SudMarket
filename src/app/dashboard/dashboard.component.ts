@@ -103,7 +103,6 @@ export class DashboardComponent {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
       localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
-      // window.location.reload()
       this.router.navigateByUrl('/session-commande');
     }); 
   }

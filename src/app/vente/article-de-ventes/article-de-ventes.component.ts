@@ -35,10 +35,12 @@ export class ArticleDeVentesComponent {
 
   DateDebutVente!: string
   dateFinVente!: string
+  selectedArticleString!: string;
 
   constructor(
     public globalService: GlobalService,
     private venteService: VenteService,
+    private router: Router,
     private produitService: ProduitService,
     private articleService: ArticlesDeVenteService
   ){}
@@ -138,11 +140,11 @@ export class ArticleDeVentesComponent {
   
 
   actions(element: ArticlesDeVentes){
-    // this.selectedVenteString = JSON.stringify(element); 
-    // localStorage.setItem('selectedVente', this.selectedVenteString);
-    // if (this.selectedVenteString) {
-    //   this.router.navigateByUrl('vente/view')
+     this.selectedArticleString = JSON.stringify(element); 
+     localStorage.setItem('selectedArticle', this.selectedArticleString);
+     if (this.selectedArticleString) {
+       this.router.navigateByUrl('article/view')
     }
   }
-
+}
 

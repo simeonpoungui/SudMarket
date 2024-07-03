@@ -32,7 +32,7 @@ export class VenteComponent {
   isloadingpage!: boolean
   selectedVenteString: string = ''
   tbUsers: Utilisateur[] = []
-  tbClients: Client[] = []; // Assurez-vous que tbClients est initialisé correctement
+  tbClients: Client[] = [];
   TotalMontant!: number
   pointSelected!:PointsDeVentes;
 

@@ -66,7 +66,7 @@
                     Total à payer
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ calculateTotalApayerByProduit(element) | currency }}
+                    {{ calculateTotalApayerByProduit(element) }}
                   </td>
                 </ng-container>
 
@@ -215,7 +215,7 @@
           </div>
           <div>
             <p class="fw-bold text-danger fs-5 mx-2">
-              <span>{{ montantTotalDeLaVente }}</span>
+              <span>{{ globlService.formatPrix(montantTotalDeLaVente) }}</span>
             </p>
           </div>
         </div>
@@ -241,12 +241,13 @@
             </div>
             <div class="col-lg-8">
               <button class="form-control">
-                <span>{{
-                  !clientSelected
-                    ? "Selectionner un client"
-                    : clientSelected.nom + " " + clientSelected.prenom
-                }}</span>
-              </button>
+                <span>
+                  {{
+                    clientSelected && clientSelected.nom && clientSelected.prenom
+                      ? clientSelected.nom + " " + clientSelected.prenom
+                      : "Selectionner un client"
+                  }}
+                </span>              </button>
             </div>
           </div>
         </div>
@@ -272,7 +273,7 @@
                   <p>Nom :</p>
                 </div>
                 <div class="col-lg-8 p-0">
-                  <p class="text-danger fw-bold">{{ pointSelected.nom }}</p>
+                  <p class="text-danger fw-bold">{{ pointSelected ? pointSelected.nom: '' }}</p>
                 </div>
               </div>
 
@@ -282,7 +283,7 @@
                 </div>
                 <div class="col-lg-8 p-0">
                   <p class="text-danger fw-bold">
-                    {{ pointSelected.telephone }}
+                    {{ pointSelected ? pointSelected.telephone: '' }}
                   </p>
                 </div>
               </div>
@@ -293,7 +294,7 @@
                 </div>
                 <div class="col-lg-8 p-0">
                   <p class="text-danger fw-bold">
-                    {{ pointSelected.responsable }}
+                    {{ pointSelected ? pointSelected.responsable : ''}}
                   </p>
                 </div>
               </div>

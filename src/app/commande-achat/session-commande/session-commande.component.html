@@ -1,0 +1,351 @@
+<p>session-commande works!</p>
+<main class="nxl-container">
+    <div class="nxl-content">
+      <div class="p-2 m-lg-auto bg-color-section-vente">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="article-de-vente">
+              <div class="border bg-white px-2">
+                <h1 class="text-danger fw-bold">Liste des articles de commandes</h1>
+              </div>
+              <div
+                class="mat-elevation-z8 mt-1"
+                *ngIf="!isloadingpage; else loader"
+              >
+                <table mat-table [dataSource]="dataSourceArticleCommandesAchats">
+                  <ng-container matColumnDef="produit_id">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Produit
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      <select
+                        class="form-control"
+                        [disabled]="true"
+                        name=""
+                        id=""
+                        [(ngModel)]="element.produit_id"
+                      >
+                        <option
+                          *ngFor="let option of tbProduit"
+                          [value]="option.produit_id"
+                        >
+                          {{ option.nom }}
+                        </option>
+                      </select>
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="quantite">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Quantité
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      <input
+                        style="width: 80px"
+                        class="form-control"
+                        type="number"
+                        [(ngModel)]="element.quantite"
+                        (ngModelChange)="updateQuantity(element)"
+                      />
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="prixTotal">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Total à payer
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ calculateTotalApayerByProduit(element) }}
+                    </td>
+                  </ng-container>
+  
+                  <tr
+                    mat-header-row
+                    *matHeaderRowDef="displayedColumnsArticleVente"
+                  ></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumnsArticleVente"
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="produit">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="d-flex align-items-center">
+                    <i
+                      style="position: absolute"
+                      class="fa-solid p-3 fa-magnifying-glass"
+                    ></i>
+  
+                    <input
+                      type="text"
+                      (keyup)="applyFilter($event)"
+                      placeholder="Recherchez un produit ici..."
+                      class="form-control text-start px-5 text-uppercase"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mat-elevation-z8 mt-1"
+                *ngIf="!isloadingpage; else loader"
+              >
+                <table mat-table [dataSource]="dataSource">
+                  <ng-container matColumnDef="nom">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Nom
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.nom }}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="description">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Description
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.description }}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="categorie">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      categorie
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.categorie }}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="prix">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Prix unitaire
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.prix }}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="quantite_en_stock">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Quantité stock
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.quantite_en_stock }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Actions">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef>
+                      Cocher ici
+                    </th>
+                    <td class="text-center" mat-cell *matCellDef="let element">
+                      <div class="form-check">
+                        <input
+                          style="margin-left: 10px !important"
+                          class="form-check-input p-2"
+                          type="checkbox"
+                          value=""
+                          (change)="checkedProduit($event, element)"
+                          id="flexCheckDefault"
+                        />
+                      </div>
+                    </td>
+                  </ng-container>
+  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row shadow p-3 mt-3">
+        <div class="col-lg-4 p-3 bg-color-section-vente">
+          <div class="d-flex">
+            <div>
+              <p class="fw-bold text-white fs-5 mx-2">Montant total commande :</p>
+            </div>
+            <div>
+              <p class="fw-bold text-danger fs-5 mx-2">
+                <span>{{ globlService.formatPrix(montantTotalDeLaVente) }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div class="row">
+              <div class="col-lg-4">
+                <button (click)="chooseFournisseur()" class="form-control">
+                  <i class="fa-solid mx-2 fa-user"></i> Fournisseur
+                </button>
+              </div>
+              <div class="col-lg-8">
+                <button class="form-control">
+                  <span>
+                    {{
+                      founisseurSelected && founisseurSelected.nom && founisseurSelected.prenom
+                        ? founisseurSelected.nom + " " + founisseurSelected.prenom
+                        : "Selectionner un fournisseur"
+                    }}
+                  </span>              </button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="mt-2">
+            <button class="form-control">
+              <i class="fa-solid mx-2 fa-file"></i>Note au client
+            </button>
+          </div>
+          <div class="mt-2">
+            <button class="form-control">
+              <i class="fa-solid mx-2 fa-file"></i> Note interne
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-8 bg_mode_emploi">
+          <div class="row">
+            <div class="col-lg-6 border">
+              <h1 class="fw-bold">Informations du point de vente</h1>
+              <div class="bg-white p-2">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <p>Nom :</p>
+                  </div>
+                  <div class="col-lg-8 p-0">
+                    <p class="text-danger fw-bold">{{ pointSelected ? pointSelected.nom: '' }}</p>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-lg-4">
+                    <p>Téléphone :</p>
+                  </div>
+                  <div class="col-lg-8 p-0">
+                    <p class="text-danger fw-bold">
+                      {{ pointSelected ? pointSelected.telephone: '' }}
+                    </p>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-lg-4">
+                    <p>Responsable :</p>
+                  </div>
+                  <div class="col-lg-8 p-0">
+                    <p class="text-danger fw-bold">
+                      {{ pointSelected ? pointSelected.responsable : ''}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-1">
+                <div>
+                  <label for="">Moyen de paiment</label>
+                  <select
+                    (click)="selectmodepaiement($event)"
+                    class="form-select"
+                    name=""
+                    id=""
+                  >
+                    <option value="1">Espece</option>
+                    <option value="2">Electronique</option>
+                    <option value="3">Carte visa</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button
+                  *ngIf="!isloadingpaiement; else loader"
+                  (click)="ValidatePaiement()"
+                  class="form-control bg-update text-white"
+                >
+                  Valider la commande <i class="fa-solid fa-arrows-rotate"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-6 bg-color-section-vente">
+              <h1 class="fw-bold text-white">
+                Mode d'emploi de vente des produits (Aide)
+              </h1>
+              <p class="text-white fs-5">
+                <span>Etape 1 : </span>
+                <span>Selectionner un ou des produit(s)</span>
+              </p>
+              <p class="text-white fs-5">
+                <span>Etape 2 : </span>
+                <span>Renseigner la quantité de chaque produit selectionner</span>
+              </p>
+              <p class="text-white fs-5">
+                <span>Etape 3 : </span>
+                <span
+                  >Appliquer la remise si possible sur le montant total de la
+                  vente</span
+                >
+              </p>
+              <p class="text-white fs-5">
+                <span>Etape 4 : </span>
+                <span>Selectionner le client concerné</span>
+              </p>
+              <p class="text-white fs-5">
+                <span>Etape 5 : </span> <span>Choisir le mode de paiement</span>
+              </p>
+              <p class="text-white fs-5">
+                <span>Etape 6 : </span>
+                <span
+                  >Cliquer sur le button
+                  <span class="text-danger">"Valider le paiement"</span></span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

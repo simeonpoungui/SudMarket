@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { ArticlesCommandesAchatsService } from 'src/app/Services/articles-commandes-achats.service';
 import { ArticlesDeCommandeDAchat, GetArticleDeCommandeDAchat } from 'src/app/Models/articles.commandes.achats';
+import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import { ProduitService } from 'src/app/Services/produit.service';
 
 @Component({
   selector: 'app-articles-commandes-achats',
@@ -16,19 +18,21 @@ import { ArticlesDeCommandeDAchat, GetArticleDeCommandeDAchat } from 'src/app/Mo
 export class ArticlesCommandesAchatsComponent {
   dataSource!: any;
   displayedColumns = [
-    'commande_achat_id',
+    'date_commande',
     'produit_id',
     'quantite',
     'prix_unitaire',
+    'prix_total_commande',
     'Actions'
   ];
-
+  tbProduit!: Produit[]
   isloadingpage!: boolean
   selectedcommandeString!: string;
 
   constructor(
     private articlecommandeService: ArticlesCommandesAchatsService,
     private router: Router,
+    private produitService: ProduitService,
     public globalService: GlobalService,
     private dialog: MatDialog
   ){}
@@ -37,6 +41,22 @@ export class ArticlesCommandesAchatsComponent {
 
   ngOnInit(): void {
     this.getListCommandes()
+    this.loadProduit()
+  }
+
+  loadProduit(){
+    const produit : GetProduit = {produit_id: 0}
+    this.produitService.getList(produit).subscribe(data => {
+      console.log(data.message);
+      this.tbProduit = data.message
+      console.log(this.tbProduit);
+      
+    })
+  }
+
+  getProduitName(produit_id: number): string {
+    const produit = this.tbProduit.find(p => p.produit_id === produit_id);
+    return produit ? (produit.nom ): '';
   }
   
   getListCommandes(){
