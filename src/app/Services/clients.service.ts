@@ -13,6 +13,7 @@ export class ClientsService {
   uricreateclient = "/v1/sudmarket/create/clients"
   urideleteclient = "/v1/sudmarket/delete/clients"
   uriupdateclient = "/v1/sudmarket/update/clients"
+  produitsachatsbyclients = "/v1/sudmarket/get/produits-achetes-by-client"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -32,4 +33,7 @@ export class ClientsService {
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreateclient, user)
   }
 
+  getListProduitAchetesByClient(client: GetClient){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.produitsachatsbyclients, client)
+  }
 }

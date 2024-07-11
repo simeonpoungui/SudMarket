@@ -6,6 +6,8 @@ import { GlobalService } from 'src/app/Services/global.service';
 import { UsersService } from 'src/app/Services/users.service';
 import { GetRole, Role } from 'src/app/Models/role.model';
 import { RoleService } from 'src/app/Services/role.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-users-form',
@@ -30,10 +32,13 @@ export class UsersFormComponent {
   mis_a_jour_le?: Date;
   message!: any
   TabRole!: Role[]
+  tbPointdeVente!: PointsDeVentes[]
+  point_de_vente_id?: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private pointService: PointsDeVentesService,
     private roleService: RoleService,
     private globaService: GlobalService,
     private userService: UsersService
@@ -54,6 +59,21 @@ export class UsersFormComponent {
       this.initFomForUser()
     }
     this.loadRole()
+    this.loadPointDeVente()
+  }
+  
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
   }
   
   loadRole(){
@@ -70,6 +90,7 @@ export class UsersFormComponent {
     this.nom_utilisateur = this.user.nom_utilisateur
     this.prenom_utilisateur = this.user.prenom_utilisateur
     this.mot_de_passe_hash = this.user.mot_de_passe_hash
+    this.point_de_vente_id = this.user.point_de_vente_id,
     this.email = this.user.email
     this.telephone = this.user.telephone
     this.sexe = this.user.sexe

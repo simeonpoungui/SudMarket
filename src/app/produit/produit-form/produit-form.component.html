@@ -19,7 +19,7 @@
             (ngSubmit)="onSubmitForm(produitform)"
               class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
             >
-              <div class="col-lg-4">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Nom <span class="title-bg-global-secondary"> * </span></label
                 >
@@ -31,7 +31,7 @@
                 />
               </div>
   
-              <div class="col-lg-4">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Description <span class="title-bg-global-secondary"> * </span></label
                 >
@@ -55,7 +55,7 @@
                 />
               </div>
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   > Prix</label
                 >
@@ -67,7 +67,7 @@
                 />
               </div>              
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Quantité en stock <span class="title-bg-global-secondary"> * </span></label
                 >
@@ -79,17 +79,29 @@
                 />
               </div>
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Niveau de reapprovisionnement </label
                 >
                 <input
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="niveau_de_reapprovisionnement"
                   [(ngModel)]="niveau_de_reapprovisionnement"
                 />
               </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Point de vente <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <select class="form-control form-select " name="point_de_vente_id" [(ngModel)]="point_de_vente_id">
+                  <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
+                    {{ point.nom }}
+                  </option>
+                </select>
+              </div>
+
               <div class="row">
                <div class="col-lg-6">
                 <div class="col-lg-4 mt-3">

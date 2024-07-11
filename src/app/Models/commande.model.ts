@@ -1,6 +1,7 @@
 
 export class CommandeAchat {
     commande_achat_id!: number;
+    point_de_vente_id?: number; 
     fournisseur_id!: number;
     date_commande?: string;
     montant_total!: number;

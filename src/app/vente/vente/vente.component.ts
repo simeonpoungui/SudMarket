@@ -12,7 +12,8 @@ import { Client, GetClient } from 'src/app/Models/clients.model';
 import { ClientsService } from 'src/app/Services/clients.service';
 import { UsersService } from 'src/app/Services/users.service';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
-import { PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-vente',
@@ -26,6 +27,7 @@ export class VenteComponent {
     'montant_total',
     'client_id',
     'utilisateur_id',
+    'point_de_vente_id',
     'Actions'
   ];
 
@@ -35,10 +37,12 @@ export class VenteComponent {
   tbClients: Client[] = [];
   TotalMontant!: number
   pointSelected!:PointsDeVentes;
+  tbPointdeVente!: PointsDeVentes[]
 
   constructor(
     private venteService: VenteService,
     private router: Router,
+    private pointService: PointsDeVentesService,
     private clientService: ClientsService,
     private userService: UsersService,
     public globalService: GlobalService,
@@ -51,6 +55,7 @@ export class VenteComponent {
     this.getListProduit()
     this.loadClient()
     this.loadUsers()
+    this.loadPointDeVente()
   }
 
   loadClient(){
@@ -59,6 +64,21 @@ export class VenteComponent {
       console.log(data);
       this.tbClients = data.message
     })
+  }
+
+
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: number): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
   }
 
   loadUsers(){

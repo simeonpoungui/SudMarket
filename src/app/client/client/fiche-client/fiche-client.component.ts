@@ -5,8 +5,11 @@ import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from 'src/app/Services/users.service';
 import { GlobalService } from 'src/app/Services/global.service';
-import { Client } from 'src/app/Models/clients.model';
+import { Client, GetClient } from 'src/app/Models/clients.model';
 import { ClientsService } from 'src/app/Services/clients.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { Produit } from 'src/app/Models/produit.model';
 
 @Component({
   selector: 'app-fiche-client',
@@ -18,12 +21,15 @@ export class FicheClientComponent {
   @Input() action!:string;
   client!: Client;
   message!: any
+  tbPointdeVente!: PointsDeVentes[]
+  tbProduit!: any[]
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private globalService: GlobalService,
+    public globalService: GlobalService,
     private dialog: MatDialog,
+    private pointService: PointsDeVentesService,
     private clientService: ClientsService
   ){}
 
@@ -33,8 +39,27 @@ export class FicheClientComponent {
     const clientJSON = localStorage.getItem('selectedClient');
     if (clientJSON) {
       this.client =  JSON.parse(clientJSON);
+      console.log(this.client);
     }
+    this.getProduitsAchetesByClient()
+    this.loadPointDeVente()
   }
+
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      console.log(this.tbPointdeVente);
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
+  }
+  
   updateClient(){
     this.router.navigateByUrl('/client/edit')
   }
@@ -53,6 +78,20 @@ export class FicheClientComponent {
           this.globalService.toastShow(this.message,'Succès','success')
         } )
       }
+      
+    })
+  }
+
+  getProduitsAchetesByClient(){
+    const client: GetClient = {
+      client_id: this.client.client_id
+    }
+    console.log(client);
+    this.clientService.getListProduitAchetesByClient(client).subscribe(data => {
+      console.log(data.message);
+      this.tbProduit = data.message
+      console.log(this.tbProduit);
+      
       
     })
   }

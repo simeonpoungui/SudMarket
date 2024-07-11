@@ -2,8 +2,10 @@ import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client, GetClient } from 'src/app/Models/clients.model';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { ClientsService } from 'src/app/Services/clients.service';
 import { GlobalService } from 'src/app/Services/global.service';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 
 @Component({
@@ -27,10 +29,13 @@ export class ClientFormComponent {
   nationalite?: string;
   cree_le?: Date;
   message!: any
+  tbPointdeVente!: PointsDeVentes[]
+point_de_vente_id: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private pointService: PointsDeVentesService,
     private globaService: GlobalService,
     private clientService: ClientsService
   ){}
@@ -50,8 +55,23 @@ export class ClientFormComponent {
     if (this.action === 'edit') {
       this.initFomForUser()
     }
+    this.loadPointDeVente()
   }
   
+
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
+  }
 //initialise form by info user
   initFomForUser(){
     this.client_id = this.client.client_id

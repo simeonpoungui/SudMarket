@@ -84,6 +84,7 @@ export class SessionVenteComponent {
     this.startSession();
   }
 
+  
   getListProduit() {
     const produit: GetProduit = { produit_id: 0 };
     this.isloadingpage = true;
@@ -120,6 +121,7 @@ export class SessionVenteComponent {
   addProductToArticleVente(produit: Produit) {
     const articleVente: ArticlesDeVentes = {
       article_de_vente_id: 0,
+      point_de_vente_id: this.pointSelected.point_de_vente_id,
       vente_id: 0,
       produit_id: produit.produit_id,
       quantite: 1,
@@ -191,6 +193,7 @@ export class SessionVenteComponent {
             montant_total: this.montantTotalDeLaVente,
             client_id: this.clientSelected.client_id,
             utilisateur_id: this.user.utilisateur_id,
+            point_de_vente_id: this.pointSelected.point_de_vente_id,
             articles: this.dataSourceArticleVente.data,
           };
           console.log(modelvente);
@@ -200,7 +203,6 @@ export class SessionVenteComponent {
             this.montantTotalDeLaVente = 0;
             localStorage.removeItem('pointSelected');
             this.clientSelected = {} as Client;    
-            // this.pointSelected = {} as PointsDeVentes;
             this.message = data.message;
             this.globlService.toastShow(this.message, 'Succès');
             this.isloadingpaiement = false;

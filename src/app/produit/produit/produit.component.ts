@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-produit',
@@ -28,9 +30,11 @@ export class ProduitComponent {
 
   isloadingpage!: boolean
   selectedProduitString: string = ''
-  
+  tbPointdeVente!: PointsDeVentes[]
+
   constructor(
     private produitService: ProduitService,
+    private pointService: PointsDeVentesService,
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog
@@ -40,6 +44,16 @@ export class ProduitComponent {
 
   ngOnInit(): void {
     this.getListProduit()
+    this.loadPointDeVente()
+  }
+
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
   }
 
   getListProduit(){
@@ -68,4 +82,17 @@ export class ProduitComponent {
     }
   }
 
+  SelectPointDeVente(event: any){
+    console.log(event.target.value);
+    const point: GetPointsDeVentes = {
+      point_de_vente_id: Number(event.target.value)
+    }
+    this.produitService.getListProduityByPointVente(point).subscribe( data => {
+      console.log(data.message);
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      
+    })
+  }
 }

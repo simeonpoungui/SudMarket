@@ -7,6 +7,8 @@ import { UsersService } from 'src/app/Services/users.service';
 import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-users',
@@ -29,10 +31,12 @@ export class UsersComponent {
 
   isloadingpage!: boolean
   selectedUtilisateurString: string = ''
-  
+  tbPointdeVente!: PointsDeVentes[]
+
   constructor(
     private userService: UsersService,
     private router: Router,
+    private pointService: PointsDeVentesService,
     private globalService: GlobalService,
     private dialog: MatDialog
   ){}
@@ -41,8 +45,22 @@ export class UsersComponent {
 
   ngOnInit(): void {
     this.getListUsers()
+    this.loadPointDeVente()
   }
 
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
+  }
   getListUsers(){
     const user : GetUser = {utilisateur_id: 0}
     this.isloadingpage = true
@@ -67,5 +85,18 @@ export class UsersComponent {
     if (this.selectedUtilisateurString) {
       this.router.navigateByUrl('fiche/view')
     }
+  }
+
+  SelectPointDeVente(event: any){
+    console.log(event.target.value);
+    const point : GetPointsDeVentes = {
+      point_de_vente_id: Number(event.target.value)
+    }
+    this.userService.getUserByPointVente(point).subscribe(data => {
+      console.log(data.message);
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    })
   }
 }

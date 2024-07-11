@@ -1,5 +1,6 @@
 export class Session {
     session_id!: number;
+    point_de_vente_id?: number; 
     user_id!: number;
     start_time!: Date;
     end_time?: Date;

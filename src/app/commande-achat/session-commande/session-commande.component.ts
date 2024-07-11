@@ -75,7 +75,7 @@ export class SessionCommandeComponent {
 
   ngOnInit(): void {
     this.getListProduit();
-    const storedPointSelected = localStorage.getItem('pointSelected');
+    const storedPointSelected = localStorage.getItem('pointSelectedCommande');
     if (storedPointSelected) {
       this.pointSelected = JSON.parse(storedPointSelected);
       console.log(this.pointSelected);
@@ -124,6 +124,7 @@ export class SessionCommandeComponent {
   addProductToArticleVente(produit: Produit) {
     const articleCommande: ArticlesDeCommandeDAchat = {
       article_commande_achat_id: 0,
+      point_de_vente_id: this.pointSelected.point_de_vente_id,
       commande_achat_id: 0,
       produit_id: produit.produit_id,
       quantite: 1,
@@ -137,6 +138,7 @@ export class SessionCommandeComponent {
         prix_total_commande: 0,
       }),
     };
+console.log(articleCommande);
 
     this.dataSourceArticleCommandesAchats.data = [
       ...this.dataSourceArticleCommandesAchats.data,
@@ -190,6 +192,7 @@ export class SessionCommandeComponent {
           this.isloadingpaiement = true;
           const modelCommande: CommandeAchat = {
             commande_achat_id: 0,
+            point_de_vente_id: this.pointSelected.point_de_vente_id,
             montant_total: this.montantTotalDeLaVente,
             fournisseur_id: this.founisseurSelected.fournisseur_id,
             utilisateur_id: this.user.utilisateur_id,

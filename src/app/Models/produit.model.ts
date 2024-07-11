@@ -1,5 +1,7 @@
 export class Produit {
     produit_id!: number;
+    point_de_vente_id?: number; 
+    code_produit?: string
     nom!: string;
     description!: string;
     categorie!: string;

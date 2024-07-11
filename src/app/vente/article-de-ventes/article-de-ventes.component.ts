@@ -10,6 +10,8 @@ import { GetVente, Vente, VenteArticle } from 'src/app/Models/vente.model';
 import { VenteService } from 'src/app/Services/vente.service';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-article-de-ventes',
@@ -25,6 +27,7 @@ export class ArticleDeVentesComponent {
     'prix_unitaire',
     'prix_total_vente',
     'remise',
+    'point_de_vente_id',
     'Actions'
   ];
   isloadingpage!: boolean;
@@ -32,6 +35,7 @@ export class ArticleDeVentesComponent {
   tbProduit!: Produit[]
   table!: any
   MontantTotalVengteJournalier!: number
+  tbPointdeVente!: PointsDeVentes[]
 
   DateDebutVente!: string
   dateFinVente!: string
@@ -42,6 +46,7 @@ export class ArticleDeVentesComponent {
     private venteService: VenteService,
     private router: Router,
     private produitService: ProduitService,
+    private pointService: PointsDeVentesService,
     private articleService: ArticlesDeVenteService
   ){}
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -51,6 +56,21 @@ export class ArticleDeVentesComponent {
     this.getListArticles()
     this.loadProduit()
     this.loadVente()
+    this.loadPointDeVente()
+  }
+
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
   }
 
   loadVente(){

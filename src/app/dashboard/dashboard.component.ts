@@ -91,9 +91,9 @@ export class DashboardComponent {
   }
 
   openPointsDeVentesCommande(){
-    const storedPointSelected = localStorage.getItem('pointSelected');
+    const storedPointSelected = localStorage.getItem('pointSelectedCommande');
     if (storedPointSelected) {
-      localStorage.removeItem('pointSelected');
+      localStorage.removeItem('pointSelectedCommande');
       console.log('PointSelected exists and has been removed.');
     } else {
       console.log('PointSelected does not exist.');
@@ -102,8 +102,8 @@ export class DashboardComponent {
     dialog.afterClosed().subscribe((result) => {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
-      localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
-      this.router.navigateByUrl('/session-commande');
+      localStorage.setItem('pointSelectedCommande', JSON.stringify(this.pointSelected));
+      this.router.navigateByUrl('/session-commande-achat');
     }); 
   }
 }

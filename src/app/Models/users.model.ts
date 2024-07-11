@@ -1,5 +1,6 @@
 export class Utilisateur {
     utilisateur_id!: number;
+    point_de_vente_id?: number; 
     nom_utilisateur!: string;
     prenom_utilisateur?: string;
     mot_de_passe_hash!: string;
@@ -8,10 +9,12 @@ export class Utilisateur {
     sexe?: string;
     adresse?: string;
     nationalite?: string;
+    date_de_naissance?: string;
     role!: string;
     cree_le?: Date;
     mis_a_jour_le?: Date;
 }
+
 
 export class GetUser {
     utilisateur_id!: number;

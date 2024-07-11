@@ -9,6 +9,8 @@ import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { Client, GetClient } from 'src/app/Models/clients.model';
 import { ClientsService } from 'src/app/Services/clients.service';
 import { UsersService } from 'src/app/Services/users.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-vente-fiche',
@@ -22,7 +24,8 @@ export class VenteFicheComponent {
   
   tbUsers: Utilisateur[] = []
   tbClients: Client[] = [];
-  
+  tbPointdeVente!: PointsDeVentes[]
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,6 +33,7 @@ export class VenteFicheComponent {
     private dialog: MatDialog,
     private userService: UsersService,
     private clientService: ClientsService,
+    private pointService: PointsDeVentesService,
     private venteService: VenteService
   ){}
 
@@ -41,9 +45,23 @@ export class VenteFicheComponent {
     }
     this.loadClient()
     this.loadUsers()
+    this.loadPointDeVente()
   }
 
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
 
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
+  }
+  
   loadClient(){
     const client : GetClient = {client_id: 0}
     this.clientService.getListClient(client).subscribe(data => {

@@ -84,7 +84,7 @@
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                ></td>
+                >Total</td>
               </ng-container>
 
               <ng-container matColumnDef="produit_id">
@@ -117,7 +117,7 @@
 
               <ng-container matColumnDef="prix_unitaire">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  prix unitaire
+                  Prix unitaire
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ globalService.formatPrix(element.prix_unitaire) }}
@@ -140,7 +140,25 @@
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                ></td>
+                >
+               {{globalService.formatPrix(TotalMontant)}}
+              </td>
+              </ng-container>
+
+              <ng-container matColumnDef="point_de_vente_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Point de vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{getPointName(element.point_de_vente_id) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+               {{globalService.formatPrix(TotalMontant)}}
+              </td>
               </ng-container>
 
               <ng-container matColumnDef="Actions">

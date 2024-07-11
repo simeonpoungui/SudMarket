@@ -5,6 +5,8 @@ import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from 'src/app/Services/users.service';
 import { GlobalService } from 'src/app/Services/global.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-fiche-user',
@@ -16,10 +18,13 @@ export class FicheUserComponent {
   @Input() action!:string;
   user!: Utilisateur;
   message!: any
+  tbPointdeVente!: PointsDeVentes[]
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private globalService: GlobalService,
+    private pointService: PointsDeVentesService,
+    public globalService: GlobalService,
     private dialog: MatDialog,
     private userService: UsersService
   ){}
@@ -31,6 +36,20 @@ export class FicheUserComponent {
     if (utilisateurJson) {
       this.user =  JSON.parse(utilisateurJson);
     }
+    this.loadPointDeVente()
+  }
+  loadPointDeVente(){
+    const point: GetPointsDeVentes = {point_de_vente_id:0}
+    this.pointService.getList(point).subscribe(data => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message
+      
+    } )
+  }
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
   }
   updateUser(){
     this.router.navigateByUrl('/user/edit')

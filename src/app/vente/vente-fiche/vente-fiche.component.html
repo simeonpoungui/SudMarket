@@ -11,7 +11,7 @@
           </div>
           <div class="col-12 mt-2">
             <form class="row border rounded rounded-4 bg-white shadow p-3 needs-validation">
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                 <label for="validationCustom01" class="form-label label"
                   >Date de vente</label
                 >
@@ -24,7 +24,7 @@
                 />
               </div>
   
-              <div class="col-lg-6">
+              <div class="col-lg-4">
                 <label for="validationCustom01" class="form-label label"
                   >Montant total vente</label
                 >
@@ -34,6 +34,19 @@
                   class="form-control"
                   name="vente.montant_total"
                   [value]="globalService.formatPrix(vente.montant_total)"
+                />
+              </div>
+
+              <div class="col-lg-4">
+                <label for="validationCustom01" class="form-label label"
+                  >Point de vente</label
+                >
+                <input
+                  [readonly]="action == 'view'"
+                  type="text"
+                  class="form-control"
+                  name="vente.montant_total"
+                  [value]="getPointName(vente.point_de_vente_id)"
                 />
               </div>
   

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponse, CodeResponseOneProduit, GetProduit, Produit } from '../Models/produit.model';
+import { GetPointsDeVentes } from '../Models/pointsDeVentes.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class ProduitService {
   uricreate = "/v1/sudmarket/create/produits"
   uridelete = "/v1/sudmarket/delete/produits"
   uriupdate = "/v1/sudmarket/update/produits"
+  uriproduitbypointvente = "/v1/sudmarket/get/produits-by-point-de-vente"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -30,6 +32,10 @@ export class ProduitService {
   }
   create(produit: Produit){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, produit)
+  }
+
+  getListProduityByPointVente(point: GetPointsDeVentes){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriproduitbypointvente, point)
   }
 
 }

@@ -92,7 +92,7 @@
   
                 <ng-container matColumnDef="montant_total">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Montant total commande
+                    Montant total 
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
                     {{ globalService.formatPrix(element.montant_total) }}
@@ -102,6 +102,7 @@
                     class="bg-table-color text-light"
                     *matFooterCellDef
                   >
+                  {{globalService.formatPrix(TotalMontant)}}
                   </td>
                 </ng-container>
   
@@ -110,7 +111,7 @@
                     Fournisseur
                   </th>
                   <td class="pointer" mat-cell *matCellDef="let element">
-                    {{element.fournisseur_id}}
+                    {{getFounisseurName(element.fournisseur_id)}}
                   </td>
                   <td
                     mat-footer-cell
@@ -137,22 +138,39 @@
                     </td>
                   </ng-container>
   
-                <ng-container matColumnDef="utilisateur_id">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Utilisateur
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{element.utilisateur_id}}
-                  </td>
-                  <td
-                    mat-footer-cell
-                    class="bg-table-color text-light"
-                    *matFooterCellDef
-                  >
-                    
-                  </td>
-                </ng-container>
+                  <ng-container matColumnDef="utilisateur_id">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Utilisateur
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{getUserName(element.utilisateur_id)}}
+                    </td>
+                    <td
+                      mat-footer-cell
+                      class="bg-table-color text-light"
+                      *matFooterCellDef
+                    >
+                      
+                    </td>
+                  </ng-container>
   
+
+                  <ng-container matColumnDef="point_de_vente_id">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Point de vente
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{getPointName(element.point_de_vente_id)}}
+                    </td>
+                    <td
+                      mat-footer-cell
+                      class="bg-table-color text-light"
+                      *matFooterCellDef
+                    >
+                      
+                    </td>
+                  </ng-container>
+
                 <ng-container matColumnDef="Actions">
                   <th class="text-center" mat-header-cell *matHeaderCellDef>
                     Actions

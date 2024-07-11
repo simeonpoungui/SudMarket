@@ -1,5 +1,6 @@
 export class ArticlesDeVentes {
   article_de_vente_id!: number;
+  point_de_vente_id?: number; 
   vente_id!: number;
   produit_id!: number;
   quantite!: number;

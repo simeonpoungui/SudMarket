@@ -52,10 +52,8 @@ export class FournisseurFormComponent {
 initFormFournisseur(){
     this.fournisseur_id = this.fournisseur.fournisseur_id
     this.nom = this.fournisseur.nom
-    this.prenom = this.fournisseur.prenom
     this.email = this.fournisseur.email
     this.telephone = this.fournisseur.telephone
-    this.sexe = this.fournisseur.sexe
     this.adresse = this.fournisseur.adresse
     this.personne_de_contact = this.fournisseur.personne_de_contact
     this.cree_le = this.fournisseur.cree_le

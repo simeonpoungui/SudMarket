@@ -1,5 +1,7 @@
 export class Client {
     client_id!: number;
+    point_de_vente_id?: number; 
+    date_de_naissance?: string 
     nom!: string;
     prenom!: string;
     email!: string;

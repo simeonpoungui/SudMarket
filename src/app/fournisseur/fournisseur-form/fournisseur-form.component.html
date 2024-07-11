@@ -9,8 +9,7 @@
                 >{{
                   action == "edit" ? nom : ""
                 }}
-                {{ action == "edit" ? prenom : "" }}</span
-              >
+                </span>
             </h2>
           </div>
           <div class="col-12 mt-2">
@@ -30,30 +29,6 @@
                   [(ngModel)]="nom"
                 />
               </div>
-  
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >Prénom <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="prenom"
-                  [(ngModel)]="prenom"
-                />
-              </div>
-  
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label">
-                  Sexe <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <select class="form-control form-select" name="sexe" [(ngModel)]="sexe">
-                  <option disabled>Sélectionner le sexe</option>
-                  <option value="Homme">Homme</option>
-                  <option value="Femme">Femme</option>
-                </select>
-              </div>
-              
   
               <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
@@ -79,7 +54,7 @@
                 />
               </div>              
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Email <span class="title-bg-global-secondary"> * </span></label
                 >
@@ -91,7 +66,7 @@
                 />
               </div>
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Télephone <span class="title-bg-global-secondary"> * </span></label
                 >

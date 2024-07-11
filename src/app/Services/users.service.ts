@@ -5,6 +5,7 @@ import { CodeResponseOneUser, GetUser, Utilisateur } from '../Models/users.model
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponse } from '../Models/users.model';
 import { Client } from '../Models/clients.model';
+import { GetPointsDeVentes } from '../Models/pointsDeVentes.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,7 @@ export class UsersService {
   uriupdateuser = "/v1/sudmarket/update/users"
   uricreateuser = "/v1/sudmarket/create/users"
   urideleteuser = "/v1/sudmarket/delete/users"
-
+  uriuserbypointdevente = "/v1/sudmarket/get/user-by-point-vente"
 
   getListUser(user: GetUser): Observable<CodeResponse>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetuses, user)
@@ -32,5 +33,9 @@ export class UsersService {
   }
   createUser(user: Utilisateur){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreateuser, user)
+  }
+
+  getUserByPointVente(point: GetPointsDeVentes){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriuserbypointdevente, point)
   }
 }

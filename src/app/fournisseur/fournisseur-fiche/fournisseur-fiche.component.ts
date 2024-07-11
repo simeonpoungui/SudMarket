@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { Fournisseur } from 'src/app/Models/fournisseur.model';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-fournisseur-fiche',
@@ -20,7 +22,8 @@ export class FournisseurFicheComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private globalService: GlobalService,
+    private pointService: PointsDeVentesService,
+    public globalService: GlobalService,
     private dialog: MatDialog,
     private fournisseurService: FournisseurService
   ){}
@@ -32,6 +35,7 @@ export class FournisseurFicheComponent {
       this.fournisseur =  JSON.parse(fournisseurJson);
     }
   }
+
   updatefournisseur(){
     this.router.navigateByUrl('/fournisseur/edit')
   }

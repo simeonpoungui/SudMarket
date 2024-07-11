@@ -1,6 +1,7 @@
 export class ArticlesDeCommandeDAchat {
     article_commande_achat_id!: number;
     commande_achat_id!: number;
+    point_de_vente_id?: number; 
     produit_id!: number;
     quantite!: number;
     prix_unitaire!: number;

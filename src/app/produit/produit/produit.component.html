@@ -7,7 +7,7 @@
           </div>
           <div class="shadow bg-white mt-1">
             <div class="row">
-              <div class="col-lg-4">
+              <div class="col-lg-3">
                 <div class="d-flex align-items-center mt-4">
                   <i
                     style="position: absolute"
@@ -22,7 +22,16 @@
                   />
                 </div>
               </div>
-              <div class="col-lg-4 pt-4">
+              <div class="col-lg-3 pt-4">
+                <select (change)="SelectPointDeVente($event)" class="form-control form-select ">
+                  <option selected>Filtrer par point de vente</option>
+                  <option disabled>Choisir un point de vente</option>
+                  <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
+                    {{ point.nom }}
+                  </option>
+                </select> 
+              </div>
+              <div class="col-lg-3 pt-4">
                 <button
                   style="background-color: #3454d1"
                   type="button"
@@ -31,7 +40,7 @@
                   Imprimer la liste <i class="fa-solid fa-print"></i>
                 </button>
               </div>
-              <div class="col-lg-4 pt-4">
+              <div class="col-lg-3 pt-4">
                 <button
                   style="background-color: #3454d1"
                   type="button"

@@ -4,6 +4,7 @@ export class Vente {
     montant_total!: number;
     produit_id?: string
     client_id!: number;
+    point_de_vente_id?: number
     utilisateur_id!: number;
     date_vente?: string
     articles!: ArticlesDeVentes[];

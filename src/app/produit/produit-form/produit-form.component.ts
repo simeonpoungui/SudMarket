@@ -5,6 +5,8 @@ import { GlobalService } from 'src/app/Services/global.service';
 import { Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit } from 'src/app/Models/produit.model';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-produit-form',
@@ -24,10 +26,13 @@ export class ProduitFormComponent {
   mis_a_jour_le!: Date;
   message!: any
   produit!: Produit
+  tbPointdeVente!: PointsDeVentes[]
+point_de_vente_id: any;
 
 constructor(
   private route: ActivatedRoute,
   private router: Router,
+  private pointService: PointsDeVentesService,
   private produitService: ProduitService,
   private globaService: GlobalService,
 ){}
@@ -46,6 +51,21 @@ ngOnInit(): void {
   if (this.action === 'edit') {
     this.initFormFournisseur()
   }
+  this.loadPointDeVente()
+}
+
+loadPointDeVente(){
+  const point: GetPointsDeVentes = {point_de_vente_id:0}
+  this.pointService.getList(point).subscribe(data => {
+    console.log(data.message);
+    this.tbPointdeVente = data.message
+    
+  } )
+}
+
+getPointName(point_de_vente_id: any): string {
+  const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+  return point ? point.nom : 'Unknown Point';
 }
 
 //initialise form by info user

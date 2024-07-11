@@ -89,7 +89,7 @@
                 />
               </div>
   
-              <div class="col-lg-6 mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Email</label
                 >
@@ -102,7 +102,7 @@
                 />
               </div>
   
-              <div class="col-lg-6 mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Télephone</label
                 >
@@ -112,6 +112,19 @@
                   class="form-control"
                   name="user.telephone"
                   [(ngModel)]="user.telephone"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Point de vente</label
+                >
+                <input
+                  [readonly]="action == 'view'"
+                  type="text"
+                  class="form-control"
+                  name="user.point_de_vente_id"
+                  [value]="getPointName(user.point_de_vente_id)"
                 />
               </div>
   
@@ -124,7 +137,7 @@
                   type="text"
                   class="form-control"
                   name="user.cree_le"
-                  [(ngModel)]="user.cree_le"
+                  [value]="globalService.formatDate(user.cree_le)"
                 />
               </div>
   
@@ -137,7 +150,7 @@
                   type="text"
                   class="form-control"
                   name="user.mis_a_jour_le"
-                  [(ngModel)]="user.mis_a_jour_le"
+                  [value]="globalService.formatDate(user.mis_a_jour_le)"
                 />
               </div>
               <div class="col-lg-6 mt-3">

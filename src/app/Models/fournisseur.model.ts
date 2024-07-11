@@ -1,8 +1,6 @@
 export class Fournisseur {
     fournisseur_id!: number;
     nom!: string;
-    prenom!: string;
-    sexe!: string;
     personne_de_contact!: string;
     email!: string;
     telephone!: string;

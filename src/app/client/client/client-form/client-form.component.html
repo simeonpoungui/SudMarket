@@ -55,7 +55,7 @@
               </div>
               
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Adresse</label
                 >
@@ -67,7 +67,7 @@
                 />
               </div>
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Nationalité</label
                 >
@@ -80,7 +80,7 @@
               </div>
 
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Email <span class="title-bg-global-secondary"> * </span></label
                 >
@@ -92,7 +92,7 @@
                 />
               </div>
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Télephone <span class="title-bg-global-secondary"> * </span></label
                 >
@@ -103,6 +103,17 @@
                   [(ngModel)]="telephone"
                 />
               </div>
+              <!-- <div class="col-lg-6 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Point de vente <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <select class="form-control form-select " name="point_de_vente_id" [(ngModel)]="point_de_vente_id">
+                  <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
+                    {{ point.nom }}
+                  </option>
+                </select>
+              </div> -->
+
               <div class="row">
                <div class="col-lg-6">
                 <div class="col-lg-4 mt-3">

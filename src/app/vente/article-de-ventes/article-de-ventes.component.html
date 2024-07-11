@@ -182,6 +182,20 @@
                 ></td>
               </ng-container>
 
+              <ng-container matColumnDef="point_de_vente_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Point de vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{getPointName(element.point_de_vente_id) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
               <ng-container matColumnDef="Actions">
                 <th class="text-center" mat-header-cell *matHeaderCellDef>
                   Actions
