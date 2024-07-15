@@ -26,6 +26,7 @@
               <button
                 style="background-color: #3454d1"
                 type="button"
+                (click)="imprimer()"
                 class="form-control text-white"
               >
                 Imprimer la liste <i class="fa-solid fa-print"></i>
@@ -45,7 +46,7 @@
           <div class="content bg-light mt-3">
             <span class="text-on-border fw-bold">Filtré par : </span>
             <div class="row">
-              <div class="col-lg-4">
+              <div class="col-lg-3">
                 <label for="" class="mt-3">Produit</label>
                 <select
                   (change)="SelectProduit($event)"
@@ -61,7 +62,17 @@
                   </option>
                 </select>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-3">
+                <label for="" class="mt-3">Point de ventes</label>
+                <select (change)="SelectPointDeVente($event)" class="form-control form-select ">
+                  <option selected>Filtrer par point de vente</option>
+                  <option disabled>Choisir un point de vente</option>
+                  <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
+                    {{ point.nom }}
+                  </option>
+                </select> 
+              </div>
+              <div class="col-lg-3">
                 <label for="" class="mt-3">Date de début (vente)</label>
                 <input
                   class="form-control"
@@ -70,7 +81,7 @@
                   (change)="selectDateDebut($event)"
                 />
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-3">
                 <label for="" class="mt-3">Date de fin (vente)</label>
                 <input
                   class="form-control"
@@ -126,7 +137,7 @@
 
               <ng-container matColumnDef="quantite">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Quantite
+                  Quantité
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.quantite }}

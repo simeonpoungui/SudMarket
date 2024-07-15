@@ -32,6 +32,7 @@ export class UsersComponent {
   isloadingpage!: boolean
   selectedUtilisateurString: string = ''
   tbPointdeVente!: PointsDeVentes[]
+  users!: Utilisateur[]
 
   constructor(
     private userService: UsersService,
@@ -67,6 +68,7 @@ export class UsersComponent {
     this.userService.getListUser(user).subscribe(data => {
       console.log(data.message);
       this.isloadingpage = false
+      this.users = data.message
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -76,6 +78,21 @@ export class UsersComponent {
   applyFilter(filterValue: any) {
     const value = filterValue.target.value;
     this.dataSource.filter = value.trim().toLowerCase();
+    console.log(this.dataSource.filter);
+    
+
+    this.dataSource.filterPredicate = (data: Utilisateur, filter: string) => {
+      const dataStr = Object.keys(data).reduce((currentTerm, key) => {
+        return currentTerm + (data as { [key: string]: any })[key] + '◬';
+      }, '').toLowerCase();
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
+    };
+
+ 
+    this.users = this.dataSource.filteredData;
+    console.log(this.dataSource.filter);
+    console.log(this.users);
   }
 
 
@@ -94,9 +111,33 @@ export class UsersComponent {
     }
     this.userService.getUserByPointVente(point).subscribe(data => {
       console.log(data.message);
+      this.users = data.message
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })
+  }
+
+  imprimer() {
+    this.userService.getListUsersPDF(this.users).subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
   }
 }

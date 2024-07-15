@@ -18,6 +18,7 @@ export class UsersService {
   uricreateuser = "/v1/sudmarket/create/users"
   urideleteuser = "/v1/sudmarket/delete/users"
   uriuserbypointdevente = "/v1/sudmarket/get/user-by-point-vente"
+  uriimprimeuserspdflist = "/v1/sudmarket/impression/utilisateurs"
 
   getListUser(user: GetUser): Observable<CodeResponse>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetuses, user)
@@ -37,5 +38,12 @@ export class UsersService {
 
   getUserByPointVente(point: GetPointsDeVentes){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriuserbypointdevente, point)
+  }
+
+  getListUsersPDF(data: Utilisateur[]): Observable<any> {
+    console.log(environment.apiUrl + this.uriimprimeuserspdflist);
+    return this.httpclient.post(environment.apiUrl + this.uriimprimeuserspdflist, data , {
+      responseType: 'blob' as 'json'
+    });
   }
 }

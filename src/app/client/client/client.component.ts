@@ -92,4 +92,27 @@ export class ClientComponent {
     }
   }
 
+  imprimer() {
+    this.clientService.getListClientPDF().subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
+  }
+
 }

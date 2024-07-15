@@ -14,6 +14,7 @@ export class ClientsService {
   urideleteclient = "/v1/sudmarket/delete/clients"
   uriupdateclient = "/v1/sudmarket/update/clients"
   produitsachatsbyclients = "/v1/sudmarket/get/produits-achetes-by-client"
+  uriimpressionetatclient = "/v1/sudmarket/impression/clients"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -36,4 +37,13 @@ export class ClientsService {
   getListProduitAchetesByClient(client: GetClient){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.produitsachatsbyclients, client)
   }
+
+
+  getListClientPDF(): Observable<any> {
+    console.log(environment.apiUrl + this.uriimpressionetatclient);
+    return this.httpclient.get(environment.apiUrl + this.uriimpressionetatclient, {
+      responseType: 'blob' as 'json'
+    });
+  }
+
 }

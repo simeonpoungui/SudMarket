@@ -26,6 +26,7 @@
               <button
                 style="background-color: #3454d1"
                 type="button"
+                (click)="imprimer()"
                 class="form-control text-white"
               >
                 Imprimer la liste <i class="fa-solid fa-print"></i>
@@ -45,25 +46,31 @@
           <div class="content bg-light m-1 pb-1">
             <span class="text-on-border fw-bold">Filtré par : </span>
             <div class="row">
-              <div class="col-lg-3">
-                <label for="" class="mt-3">Utilisateur</label>
-                <select class="form-control form-select" name="" id="">
-                  <option></option>
+              <div class="col-lg-2">
+                <label for="utilisateur" class="mt-3">Utilisateur</label>
+                <select (change)="selectUser($event)" class="form-control form-select" id="utilisateur">
+                  <option *ngFor="let option of tbUsers" [value]="option.utilisateur_id">{{option.nom_utilisateur}}</option>
                 </select>
               </div>
               <div class="col-lg-3">
                 <label for="" class="mt-3">Client</label>
-                <select class="form-control form-select" name="" id="">
-                  <option></option>
+                <select (change)="selectClient($event)" class="form-control form-select" id="utilisateur">
+                  <option *ngFor="let option of tbClients" [value]="option.client_id">{{option.nom}}</option>
                 </select>
               </div>
               <div class="col-lg-3">
-                <label for="" class="mt-3">Date de début (vente)</label>
-                <input class="form-control" type="date" />
+                <label for="" class="mt-3">Point de vente</label>
+                <select (change)="selectPointDeVente($event)" class="form-control form-select" id="utilisateur">
+                  <option *ngFor="let option of tbPointdeVente" [value]="option.point_de_vente_id">{{option.nom}}</option>
+                </select>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-2">
+                <label for="" class="mt-3">Date de début (vente)</label>
+                <input (change)="selectDateDebut($event)" class="form-control" type="date" />
+              </div>
+              <div class="col-lg-2">
                 <label for="" class="mt-3">Date de fin (vente)</label>
-                <input class="form-control" type="date" />
+                <input (change)="selectDateFin($event)" class="form-control" type="date" />
               </div>
             </div>
           </div>

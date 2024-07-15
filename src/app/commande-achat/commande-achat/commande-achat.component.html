@@ -28,6 +28,7 @@
                   style="background-color: #3454d1"
                   type="button"
                   class="form-control text-white"
+                  (click)="imprimer()"
                 >
                   Imprimer la liste <i class="fa-solid fa-print"></i>
                 </button>
@@ -46,25 +47,39 @@
             <div class="content bg-light m-1 pb-1">
               <span class="text-on-border fw-bold">Filtré les commandes par : </span>
               <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                   <label for="" class="mt-3">Fournisseur</label>
-                  <select class="form-control form-select" name="" id="">
-                    <option></option>
+                  <select (change)="selectFournisseur($event)" class="form-control form-select" name="" id="">
+                    <option  *ngFor="let option of tbfournisseur" [value]="option.fournisseur_id">
+                      {{option.nom}}
+                    </option>
                   </select>
                 </div>
                 <div class="col-lg-3">
                   <label for="" class="mt-3">Utilisateur</label>
-                  <select class="form-control form-select" name="" id="">
-                    <option></option>
+                  <select (change)="selectUser($event)" class="form-control form-select" name="" id="">
+                    <option *ngFor="let user of tbUsers" [value]="user.utilisateur_id" >
+                      {{user.nom_utilisateur}}
+                    </option>
                   </select>
                 </div>
                 <div class="col-lg-3">
-                  <label for="" class="mt-3">Date de début</label>
-                  <input class="form-control" type="date" />
+                  <label class="mt-3" for="">Point de vente</label>
+                  <select (change)="SelectPointDeVente($event)" class="form-control form-select ">
+                    <option selected>Filtrer par point de vente</option>
+                    <option disabled>Choisir un point de vente</option>
+                    <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
+                      {{ point.nom }}
+                    </option>
+                  </select> 
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
+                  <label for="" class="mt-3">Date de début</label>
+                  <input  (change)="SelectDateDebut($event)" class="form-control" type="date" />
+                </div>
+                <div class="col-lg-2">
                   <label for="" class="mt-3">Date de fin</label>
-                  <input class="form-control" type="date" />
+                  <input  (change)="SelectDateFin($event)" class="form-control" type="date" />
                 </div>
               </div>
             </div>
@@ -124,7 +139,7 @@
 
                 <ng-container matColumnDef="statut">
                     <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                        statut
+                        Statut
                     </th>
                     <td class="pointer" mat-cell *matCellDef="let element">
                       {{element.statut}}

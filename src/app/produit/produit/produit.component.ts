@@ -31,6 +31,7 @@ export class ProduitComponent {
   isloadingpage!: boolean
   selectedProduitString: string = ''
   tbPointdeVente!: PointsDeVentes[]
+  produits!: Produit[]
 
   constructor(
     private produitService: ProduitService,
@@ -61,6 +62,7 @@ export class ProduitComponent {
     this.isloadingpage = true
     this.produitService.getList(produit).subscribe(data => {
       console.log(data.message);
+      this.produits = data.message
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
@@ -89,10 +91,34 @@ export class ProduitComponent {
     }
     this.produitService.getListProduityByPointVente(point).subscribe( data => {
       console.log(data.message);
+      this.produits = data.message
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       
     })
+  }
+
+  imprimer() {
+    this.produitService.getListProduitEtatPDF(this.produits).subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
   }
 }

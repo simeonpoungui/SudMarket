@@ -35,9 +35,16 @@ export class VenteComponent {
   selectedVenteString: string = ''
   tbUsers: Utilisateur[] = []
   tbClients: Client[] = [];
+  ventes!: Vente[]
   TotalMontant!: number
   pointSelected!:PointsDeVentes;
   tbPointdeVente!: PointsDeVentes[]
+
+  IDuser!: number 
+  IDclient!: number 
+  IDpoint!: number 
+  DateDebut!: string 
+  DateFin!: string
 
   constructor(
     private venteService: VenteService,
@@ -106,12 +113,36 @@ export class VenteComponent {
       console.log(data.message);
       this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
       console.log(this.TotalMontant);
-      
       this.isloadingpage = false
+      this.ventes = data.message
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
      });
+  }
+
+  imprimer() {
+    console.log('gggg');
+    this.venteService.getListVenteEtatPDF(this.ventes).subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
   }
 
   applyFilter(filterValue: any) {
@@ -127,6 +158,8 @@ export class VenteComponent {
     }
   }
 
+
+
   openPointsDeVentes() {
     const dialog = this.dialog.open(SelectPointDeVenteComponent);
     dialog.afterClosed().subscribe((result) => {
@@ -136,5 +169,64 @@ export class VenteComponent {
       // window.location.reload()
       this.router.navigateByUrl('/session-vente');
     });
+  }
+
+  selectUser(event: any){
+    this.IDuser = Number(event.target.value)
+    console.log(this.IDuser); 
+    this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
+      console.log(data.message);
+      this.ventes = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+  selectClient(event: any){
+    this.IDclient = Number(event.target.value)
+    this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
+      console.log(data.message);
+      this.ventes = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+
+  selectPointDeVente(event: any){
+    console.log(event.target.value);
+    this.IDpoint = Number(event.target.value)
+    this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
+      console.log(data.message);
+      this.ventes = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+  selectDateDebut(event: any){
+    this.DateDebut = event.target.value
+    console.log(this.DateDebut)
+    this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
+      console.log(data.message);
+      this.ventes = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort; 
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+  selectDateFin(event: any){
+    this.DateFin = event.target.value
+    this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
+      console.log(data.message);
+      this.ventes = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
   }
 }

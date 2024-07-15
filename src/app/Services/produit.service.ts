@@ -15,6 +15,7 @@ export class ProduitService {
   uridelete = "/v1/sudmarket/delete/produits"
   uriupdate = "/v1/sudmarket/update/produits"
   uriproduitbypointvente = "/v1/sudmarket/get/produits-by-point-de-vente"
+  uriimpressionetatsproduit = "/v1/sudmarket/impression/produits"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -38,4 +39,11 @@ export class ProduitService {
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriproduitbypointvente, point)
   }
 
+  getListProduitEtatPDF(data: Produit[]): Observable<any> {
+    console.log(data);
+    console.log(environment.apiUrl + this.uriimpressionetatsproduit);
+    return this.httpclient.post(environment.apiUrl + this.uriimpressionetatsproduit, data, {
+      responseType: 'blob' as 'json'
+    });
+  }
 }

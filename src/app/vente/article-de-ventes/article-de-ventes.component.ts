@@ -36,10 +36,14 @@ export class ArticleDeVentesComponent {
   table!: any
   MontantTotalVengteJournalier!: number
   tbPointdeVente!: PointsDeVentes[]
-
+  articlesventes!: ArticlesDeVentes[]
   DateDebutVente!: string
-  dateFinVente!: string
+  dateFinVente!: string 
+  pointdevetents!: PointsDeVentes[]
   selectedArticleString!: string;
+
+  IDproduit!: number
+  IDpoint!: number
 
   constructor(
     public globalService: GlobalService,
@@ -104,6 +108,8 @@ export class ArticleDeVentesComponent {
     this.isloadingpage = true
     this.articleService.getList(article).subscribe(data => {
       console.log(data.message);
+      this.table = data.message
+      this.articlesventes = this.table
       this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', data.message);
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
@@ -118,26 +124,39 @@ export class ArticleDeVentesComponent {
   }
 
   SelectProduit(event: any){
-    console.log(event.target.value);
-    const produit: GetProduit = {
-      produit_id: Number(event.target.value)
-    }
-    this.articleService.getArticlesDeVentesByProduit(produit).subscribe(data => {
+    this.IDproduit = Number(event.target.value)
+    this.articleService.getArticlesDeVentesByDateDebutFin(this.IDproduit,this.IDpoint,this.DateDebutVente,this.dateFinVente).subscribe(data => {
       console.log(data);
       this.table = data.message
+      this.articlesventes = this.table
       this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
       this.dataSource = new MatTableDataSource(this.table);
       this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;}
-  )
+      this.dataSource.paginator = this.paginator;
+    })
+  }
+
+  SelectPointDeVente(event: any){
+    console.log(event.target.value);
+   this.IDpoint = Number(event.target.value)
+   this.articleService.getArticlesDeVentesByDateDebutFin(this.IDproduit,this.IDpoint,this.DateDebutVente,this.dateFinVente).subscribe(data => {
+    console.log(data);
+    this.table = data.message
+    this.articlesventes = this.table
+    this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
+    this.dataSource = new MatTableDataSource(this.table);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  })
   }
 
   selectDateDebut(event: any) {
     this.DateDebutVente = event.target.value;
     console.log(this.DateDebutVente);
-    this.articleService.getArticlesDeVentesByDateDebutFin(this.DateDebutVente, this.dateFinVente).subscribe(data => {
+    this.articleService.getArticlesDeVentesByDateDebutFin(this.IDproduit,this.IDpoint,this.DateDebutVente,this.dateFinVente).subscribe(data => {
       console.log(data.message);
       this.table = data.message
+      this.articlesventes = this.table
       this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
       this.dataSource = new MatTableDataSource(this.table);
       this.dataSource.sort = this.sort;
@@ -148,9 +167,10 @@ export class ArticleDeVentesComponent {
   selectDateFin(event: any) {
     this.dateFinVente = event.target.value;
     console.log(this.dateFinVente);
-    this.articleService.getArticlesDeVentesByDateDebutFin(this.DateDebutVente, this.dateFinVente).subscribe(data => {
-      console.log(data.message);
+    this.articleService.getArticlesDeVentesByDateDebutFin(this.IDproduit,this.IDpoint,this.DateDebutVente,this.dateFinVente).subscribe(data => {
+      console.log(data);
       this.table = data.message
+      this.articlesventes = this.table
       this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
       this.dataSource = new MatTableDataSource(this.table);
       this.dataSource.sort = this.sort;
@@ -165,6 +185,29 @@ export class ArticleDeVentesComponent {
      if (this.selectedArticleString) {
        this.router.navigateByUrl('article/view')
     }
+  }
+
+  imprimer() {
+    this.articleService.getListAticleDeVentesEtatPDF(this.articlesventes).subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
   }
 }
 

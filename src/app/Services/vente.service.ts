@@ -3,6 +3,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponse, CodeResponseOneVente, GetVente, Vente } from '../Models/vente.model';
+import { Utilisateur } from '../Models/users.model';
+import { Client } from '../Models/clients.model';
+import { PointsDeVentes } from '../Models/pointsDeVentes.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +16,10 @@ export class VenteService {
   uricreate = "/v1/sudmarket/create/ventes"
   uridelete = "/v1/sudmarket/delete/ventes"
   uriupdate = "/v1/sudmarket/update/ventes"
+  urigetventefiltre = "/v1/sudmarket/get/produit-by-client-user-point-date"
+  uriimpressionetatventes = "/v1/sudmarket/impression/rapports/ventes"
 
   constructor(private httpclient: HttpClient) { }
-
   getList(vente: GetVente): Observable<CodeResponse>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriget, vente)
   }
@@ -32,4 +36,23 @@ export class VenteService {
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, vente)
   }
 
+  getListVenteByParametre(client: number, user: number,  point: number, DateDebut: string, DateFin: string){
+    const data = {
+      client_id: client,
+      utilisateur_id: user,
+      point_de_vente_id: point,
+      dateDebutVente:DateDebut,
+      dateFinVente:DateFin
+    }
+    console.log(data);
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetventefiltre, data)
+  }
+
+  getListVenteEtatPDF(data: Vente[]): Observable<any> {
+    console.log(data);
+    console.log(environment.apiUrl + this.uriimpressionetatventes);
+    return this.httpclient.post(environment.apiUrl + this.uriimpressionetatventes, data, {
+      responseType: 'blob' as 'json'
+    });
+  }
 }
