@@ -3419,7 +3419,7 @@
             </div>
           </div>
         </div>
-        <div class="dropdown nxl-h-item">
+        <div class="dropdown nxl-h-item" >
           <a
             class="nxl-head-link me-3"
             data-bs-toggle="dropdown"
@@ -3444,7 +3444,9 @@
                 <span>Faire comme lu</span>
               </a>
             </div>
-            <div *ngFor="let notification of notifications" class="notifications-item">
+           <div style="max-height: 600px; overflow-y: auto"
+           >
+            <div *ngFor="let notification of notifications" class="notifications-item" >
               <img
                 src=""
                 alt=""
@@ -3485,6 +3487,7 @@
                 </div>
               </div>
             </div>
+           </div>
             <div class="text-center notifications-footer" *ngIf="notifications.length > 0">
               <a routerLink="/notification-produit-stock" class="fs-13 fw-semibold text-dark">Voir toutes les notications</a>
             </div>

@@ -14,6 +14,7 @@ import { UsersService } from 'src/app/Services/users.service';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import ApexCharts from 'apexcharts'
 
 @Component({
   selector: 'app-vente',
@@ -63,6 +64,11 @@ export class VenteComponent {
     this.loadClient()
     this.loadUsers()
     this.loadPointDeVente()
+
+    this.renderChart();
+    this.renderChart2()
+    this.renderChart3()
+    this.renderChart4()
   }
 
   loadClient(){
@@ -228,5 +234,180 @@ export class VenteComponent {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
+  }
+
+  renderChart() {
+    const options = {
+      series: [{
+        name: "Desktops",
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      }],
+      chart: {
+        height: 350,
+        type: 'line',
+        zoom: {
+          enabled: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'straight'
+      },
+      title: {
+        text: 'Product Trends by Month',
+        align: 'left'
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        },
+      },
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      }
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  }
+
+  renderChart2() {
+    const options = {
+      series: [
+        {
+          name: "Actual",
+          data: [
+            { x: "2011", y: 1292 },
+            { x: "2012", y: 4432 },
+            { x: "2013", y: 5423 },
+            { x: "2014", y: 6653 },
+            { x: "2015", y: 8133 },
+            { x: "2016", y: 7132 },
+            { x: "2017", y: 7332 },
+            { x: "2018", y: 6553 }
+          ]
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: "60%"
+        }
+      },
+      colors: ["#00E396"],
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: true,
+        showForSingleSeries: true,
+        markers: {
+          fillColors: ["#00E396", "#775DD0"]
+        }
+      },
+      xaxis: {
+        categories: [
+          "2011", "2012", "2013", "2014",
+          "2015", "2016", "2017", "2018"
+        ]
+      }
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart2"), options);
+    chart.render();
+  }
+
+  renderChart3() {
+    const options = {
+      series: [
+        { name: "PRODUCT A", data: [44, 55, 41, 67, 22, 43] },
+        { name: "PRODUCT B", data: [13, 23, 20, 8, 13, 27] },
+        { name: "PRODUCT C", data: [11, 17, 15, 15, 21, 14] },
+        { name: "PRODUCT D", data: [21, 7, 25, 13, 22, 8] }
+      ],
+      chart: {
+        type: "bar",
+        height: 350,
+        stacked: true,
+        toolbar: {
+          show: true
+        },
+        zoom: {
+          enabled: true
+        }
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: "bottom",
+              offsetX: -10,
+              offsetY: 0
+            }
+          }
+        }
+      ],
+      plotOptions: {
+        bar: {
+          horizontal: false
+        }
+      },
+      xaxis: {
+        type: "category",
+        categories: [
+          "01/2011",
+          "02/2011",
+          "03/2011",
+          "04/2011",
+          "05/2011",
+          "06/2011"
+        ]
+      },
+      legend: {
+        position: "right",
+        offsetY: 40
+      },
+      fill: {
+        opacity: 1
+      }
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart3"), options);
+    chart.render();
+  }
+
+
+  renderChart4() {
+    const options = {
+      series: [44, 55, 13, 43, 22],
+      chart: {
+        width: 380,
+        type: "pie"
+      },
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+
+    const chart = new ApexCharts(document.querySelector("#chart4"), options);
+    chart.render();
   }
 }
