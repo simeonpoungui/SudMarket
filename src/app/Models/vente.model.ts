@@ -6,7 +6,7 @@ export class Vente {
     client_id!: number;
     point_de_vente_id?: number
     utilisateur_id!: number;
-    date_vente?: string
+    date_vente?: any
     articles!: ArticlesDeVentes[];
 
 }  

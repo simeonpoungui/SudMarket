@@ -48,6 +48,27 @@ export class GlobalService {
     return formated + decimal;
   }
 
+  formatPrixString(prix: string, separateur: string = ' ', device: string = 'FCFA') {
+    let reverse: string[] = prix.toString().split('').reverse();
+    let prixFormated: string = '';
+
+    for (let i: number = 1; i <= reverse.length; i++) {
+      prixFormated += reverse[i - 1];
+
+      if (i % 3 === 0) {
+        prixFormated += separateur;
+      }
+    }
+
+    let formated = prixFormated.split('').reverse().join('');
+    let decimal = ' ' + device;
+
+    if (formated[0] == separateur) {
+      formated = formated.substring(1);
+    }
+    return formated + decimal;
+  }
+
   formatDate(dateString: any): string {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',

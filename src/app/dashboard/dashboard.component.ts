@@ -8,6 +8,8 @@ import { NotificationsService } from '../Services/notifications.service';
 import { GetNotification, NotificationSotckproduit } from '../Models/notifications.stock.produit.model';
 import { GlobalService } from '../Services/global.service';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { VenteService } from '../Services/vente.service';
+import { GetVente, Vente } from '../Models/vente.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,10 +19,13 @@ import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/s
 export class DashboardComponent {
   pointSelected!: PointsDeVentes;
   pointStorage!: any;
+  ventes!: Vente[]
+
   constructor(
     private loginService: LoginService,
     private dialog: MatDialog,
     public globalService: GlobalService,
+    private venteService: VenteService,
     private notificationService: NotificationsService,
     private router: Router
   ) {}
@@ -30,6 +35,15 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.loadNotifications();
+    this.getListVente()
+  }
+
+  getListVente(){
+    const vente : GetVente = {vente_id: 0}
+    this.venteService.getList(vente).subscribe(data => {
+      console.log(data.message);
+      this.ventes = data.message
+     });
   }
 
   onLogout() {

@@ -31,6 +31,20 @@ export class VenteComponent {
     'point_de_vente_id',
     'Actions'
   ];
+  moisNoms = [
+    'JANV',
+    'FÉV',
+    'MARS',
+    'AVR',
+    'MAI',
+    'JUIN',
+    'JUIL',
+    'AOÛT',
+    'SEPT',
+    'OCT',
+    'NOV',
+    'DÉC',
+  ];
 
   isloadingpage!: boolean
   selectedVenteString: string = ''
@@ -60,15 +74,15 @@ export class VenteComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getListProduit()
+    this.getListVente()
     this.loadClient()
     this.loadUsers()
     this.loadPointDeVente()
 
-    this.renderChart();
-    this.renderChart2()
-    this.renderChart3()
-    this.renderChart4()
+    // this.renderChart();
+    // this.renderChart2()
+    // this.renderChart3()
+    // this.renderChart4()
   }
 
   loadClient(){
@@ -112,7 +126,7 @@ export class VenteComponent {
     return user ? user.nom_utilisateur + ' ' + user.prenom_utilisateur : 'Unknown User';
   }
   
-  getListProduit(){
+  getListVente(){
     const vente : GetVente = {vente_id: 0}
     this.isloadingpage = true
     this.venteService.getList(vente).subscribe(data => {
@@ -121,6 +135,7 @@ export class VenteComponent {
       console.log(this.TotalMontant);
       this.isloadingpage = false
       this.ventes = data.message
+      this.afficherGraphique()
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -236,178 +251,263 @@ export class VenteComponent {
     } )
   }
 
-  renderChart() {
-    const options = {
-      series: [{
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-      }],
-      chart: {
-        height: 350,
-        type: 'line',
-        zoom: {
-          enabled: false
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'straight'
-      },
-      title: {
-        text: 'Product Trends by Month',
-        align: 'left'
-      },
-      grid: {
-        row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5
+  afficherGraphique() {
+    const montantsParMois = Array(12).fill(0);
+    this.ventes.forEach((vente) => {
+      const dateVente = new Date(vente.date_vente);
+      if (dateVente.getFullYear() === new Date().getFullYear()) {
+        const moisIndex = dateVente.getMonth();
+        montantsParMois[moisIndex] += Number(vente.montant_total);
+      }
+    });
+
+    const montantsParMoisFormatted = montantsParMois.map((montant) => `${montant.toFixed(2)} FCFA`);
+  console.log(montantsParMoisFormatted);
+  
+    const chart = new ApexCharts(
+      document.querySelector('#payment-records-chart2'),
+      {
+        chart: {
+          height: 250,
+          width: '100%',
+          stacked: false,
+          toolbar: { show: false },
         },
-      },
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-      }
-    };
-
-    const chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
-  }
-
-  renderChart2() {
-    const options = {
-      series: [
-        {
-          name: "Actual",
-          data: [
-            { x: "2011", y: 1292 },
-            { x: "2012", y: 4432 },
-            { x: "2013", y: 5423 },
-            { x: "2014", y: 6653 },
-            { x: "2015", y: 8133 },
-            { x: "2016", y: 7132 },
-            { x: "2017", y: 7332 },
-            { x: "2018", y: 6553 }
-          ]
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "bar"
-      },
-      plotOptions: {
-        bar: {
-          columnWidth: "60%"
-        }
-      },
-      colors: ["#00E396"],
-      dataLabels: {
-        enabled: false
-      },
-      legend: {
-        show: true,
-        showForSingleSeries: true,
-        markers: {
-          fillColors: ["#00E396", "#775DD0"]
-        }
-      },
-      xaxis: {
-        categories: [
-          "2011", "2012", "2013", "2014",
-          "2015", "2016", "2017", "2018"
-        ]
-      }
-    };
-
-    const chart = new ApexCharts(document.querySelector("#chart2"), options);
-    chart.render();
-  }
-
-  renderChart3() {
-    const options = {
-      series: [
-        { name: "PRODUCT A", data: [44, 55, 41, 67, 22, 43] },
-        { name: "PRODUCT B", data: [13, 23, 20, 8, 13, 27] },
-        { name: "PRODUCT C", data: [11, 17, 15, 15, 21, 14] },
-        { name: "PRODUCT D", data: [21, 7, 25, 13, 22, 8] }
-      ],
-      chart: {
-        type: "bar",
-        height: 350,
-        stacked: true,
-        toolbar: {
-          show: true
+        stroke: { width: [1], curve: 'smooth', lineCap: 'round' },
+        plotOptions: { bar: { endingShape: 'rounded', columnWidth: '10%' } },
+        colors: ['#3454d1'],
+        series: [
+          {
+            name: 'Ventes Totales',
+            type: 'bar',
+            data: montantsParMoisFormatted,
+          },
+        ],
+        fill: {
+          opacity: [0.85],
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: 'vertical',
+            opacityFrom: 0.5,
+            opacityTo: 0.1,
+            stops: [0, 100, 100, 100],
+          },
         },
-        zoom: {
-          enabled: true
-        }
-      },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            legend: {
-              position: "bottom",
-              offsetX: -10,
-              offsetY: 0
-            }
-          }
-        }
-      ],
-      plotOptions: {
-        bar: {
-          horizontal: false
-        }
-      },
-      xaxis: {
-        type: "category",
-        categories: [
-          "01/2011",
-          "02/2011",
-          "03/2011",
-          "04/2011",
-          "05/2011",
-          "06/2011"
-        ]
-      },
-      legend: {
-        position: "right",
-        offsetY: 40
-      },
-      fill: {
-        opacity: 1
-      }
-    };
-
-    const chart = new ApexCharts(document.querySelector("#chart3"), options);
-    chart.render();
-  }
-
-
-  renderChart4() {
-    const options = {
-      series: [44, 55, 13, 43, 22],
-      chart: {
-        width: 380,
-        type: "pie"
-      },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
+        markers: { size: 0 },
+        xaxis: {
+          categories: this.moisNoms.map(mois => mois + '/24'),
+          axisBorder: { show: false },
+          axisTicks: { show: false }, 
+          labels: { style: { fontSize: '10px', colors: '#A0ACBB' } },
+        },
+        yaxis: {
+          labels: {
+            formatter: function (e: string | number) {
+              return +e; // Affiche les valeurs sans suffixe
             },
-            legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ]
-    };
+            offsetX: -5,
+            offsetY: 0,
+            style: { color: '#A0ACBB' },
+          },
+        },
+        grid: {
+          xaxis: { lines: { show: false } },
+          yaxis: { lines: { show: false } },
+        },
+        dataLabels: { enabled: false },
+        tooltip: {
+          y: {
+            formatter: function (e: string | number) {
+              return +e; // Affiche les valeurs sans suffixe
+            },
+          },
+          style: { fontSize: '12px', fontFamily: 'Inter' },
+        },
+        legend: {
+          show: false,
+          labels: { fontSize: '12px', colors: '#A0ACBB' },
+          fontSize: '12px',
+          fontFamily: 'Inter',
+        },
+      }
+    );
 
-    const chart = new ApexCharts(document.querySelector("#chart4"), options);
     chart.render();
   }
+
+  // renderChart() {
+  //   const options = {
+  //     series: [{
+  //       name: "Desktops",
+  //       data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+  //     }],
+  //     chart: {
+  //       height: 350,
+  //       type: 'line',
+  //       zoom: {
+  //         enabled: false
+  //       }
+  //     },
+  //     dataLabels: {
+  //       enabled: false
+  //     },
+  //     stroke: {
+  //       curve: 'straight'
+  //     },
+  //     title: {
+  //       text: 'Product Trends by Month',
+  //       align: 'left'
+  //     },
+  //     grid: {
+  //       row: {
+  //         colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+  //         opacity: 0.5
+  //       },
+  //     },
+  //     xaxis: {
+  //       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+  //     }
+  //   };
+
+  //   const chart = new ApexCharts(document.querySelector("#chart"), options);
+  //   chart.render();
+  // }
+
+  // renderChart2() {
+  //   const options = {
+  //     series: [
+  //       {
+  //         name: "Actual",
+  //         data: [
+  //           { x: "2011", y: 1292 },
+  //           { x: "2012", y: 4432 },
+  //           { x: "2013", y: 5423 },
+  //           { x: "2014", y: 6653 },
+  //           { x: "2015", y: 8133 },
+  //           { x: "2016", y: 7132 },
+  //           { x: "2017", y: 7332 },
+  //           { x: "2018", y: 6553 }
+  //         ]
+  //       }
+  //     ],
+  //     chart: {
+  //       height: 350,
+  //       type: "bar"
+  //     },
+  //     plotOptions: {
+  //       bar: {
+  //         columnWidth: "60%"
+  //       }
+  //     },
+  //     colors: ["#00E396"],
+  //     dataLabels: {
+  //       enabled: false
+  //     },
+  //     legend: {
+  //       show: true,
+  //       showForSingleSeries: true,
+  //       markers: {
+  //         fillColors: ["#00E396", "#775DD0"]
+  //       }
+  //     },
+  //     xaxis: {
+  //       categories: [
+  //         "2011", "2012", "2013", "2014",
+  //         "2015", "2016", "2017", "2018"
+  //       ]
+  //     }
+  //   };
+
+  //   const chart = new ApexCharts(document.querySelector("#chart2"), options);
+  //   chart.render();
+  // }
+
+  // renderChart3() {
+  //   const options = {
+  //     series: [
+  //       { name: "PRODUCT A", data: [44, 55, 41, 67, 22, 43] },
+  //       { name: "PRODUCT B", data: [13, 23, 20, 8, 13, 27] },
+  //       { name: "PRODUCT C", data: [11, 17, 15, 15, 21, 14] },
+  //       { name: "PRODUCT D", data: [21, 7, 25, 13, 22, 8] }
+  //     ],
+  //     chart: {
+  //       type: "bar",
+  //       height: 350,
+  //       stacked: true,
+  //       toolbar: {
+  //         show: true
+  //       },
+  //       zoom: {
+  //         enabled: true
+  //       }
+  //     },
+  //     responsive: [
+  //       {
+  //         breakpoint: 480,
+  //         options: {
+  //           legend: {
+  //             position: "bottom",
+  //             offsetX: -10,
+  //             offsetY: 0
+  //           }
+  //         }
+  //       }
+  //     ],
+  //     plotOptions: {
+  //       bar: {
+  //         horizontal: false
+  //       }
+  //     },
+  //     xaxis: {
+  //       type: "category",
+  //       categories: [
+  //         "01/2011",
+  //         "02/2011",
+  //         "03/2011",
+  //         "04/2011",
+  //         "05/2011",
+  //         "06/2011"
+  //       ]
+  //     },
+  //     legend: {
+  //       position: "right",
+  //       offsetY: 40
+  //     },
+  //     fill: {
+  //       opacity: 1
+  //     }
+  //   };
+
+  //   const chart = new ApexCharts(document.querySelector("#chart3"), options);
+  //   chart.render();
+  // }
+
+
+  // renderChart4() {
+  //   const options = {
+  //     series: [44, 55, 13, 43, 22],
+  //     chart: {
+  //       width: 380,
+  //       type: "pie"
+  //     },
+  //     labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+  //     responsive: [
+  //       {
+  //         breakpoint: 480,
+  //         options: {
+  //           chart: {
+  //             width: 200
+  //           },
+  //           legend: {
+  //             position: "bottom"
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   };
+
+  //   const chart = new ApexCharts(document.querySelector("#chart4"), options);
+  //   chart.render();
+  // }
 }
