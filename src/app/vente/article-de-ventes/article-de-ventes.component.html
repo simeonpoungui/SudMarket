@@ -175,7 +175,7 @@
                   class="bg-table-color text-light"
                   *matFooterCellDef
                 >
-                  {{ globalService.formatPrix(MontantTotalVengteJournalier) }}
+                  {{ globalService.formatPrixString(MontantTotalVengteJournalier.toFixed(2)) }}
                 </td>
               </ng-container>
 

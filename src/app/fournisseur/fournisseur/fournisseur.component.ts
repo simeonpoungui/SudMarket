@@ -17,7 +17,6 @@ export class FournisseurComponent {
   dataSource!: any;
   displayedColumns = [
     'nom',
-    'prenom',
     'email',
     'telephone',
     'sexe',

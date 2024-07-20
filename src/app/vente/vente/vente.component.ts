@@ -268,7 +268,7 @@ export class VenteComponent {
       document.querySelector('#payment-records-chart2'),
       {
         chart: {
-          height: 250,
+          height: 300,
           width: '100%',
           stacked: false,
           toolbar: { show: false },

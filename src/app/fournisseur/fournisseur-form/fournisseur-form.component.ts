@@ -33,7 +33,7 @@ export class FournisseurFormComponent {
   ){}
 
   isFormValid(): any {
-    return this.nom && this.prenom && this.email && this.telephone && this.sexe;
+    return this.nom && this.email && this.telephone;
   }
 
   ngOnInit(): void {

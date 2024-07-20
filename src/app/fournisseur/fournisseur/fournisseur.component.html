@@ -62,21 +62,6 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="prenom">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Prénom
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.prenom }}
-                </td>
-                            <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                </td>
-              </ng-container>
-
               <ng-container matColumnDef="sexe">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                   Sexe
@@ -139,7 +124,7 @@
 
               <ng-container matColumnDef="personne_de_contact">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Personne de contact
+                  Personne à contacter
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.personne_de_contact }}
