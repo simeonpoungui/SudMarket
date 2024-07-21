@@ -27,6 +27,7 @@ export class FournisseurComponent {
 
   isloadingpage!: boolean
   selectedFournisseurString: string = ''
+  nbrefournisseur: number = 0
   
   constructor(
     private fournisseurService: FournisseurService,
@@ -46,6 +47,7 @@ export class FournisseurComponent {
     this.isloadingpage = true
     this.fournisseurService.getList(fournisseur).subscribe(data => {
       console.log(data.message);
+      this.nbrefournisseur = data.message.length
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;

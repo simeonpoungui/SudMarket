@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Utilisateur } from 'src/app/Models/users.model';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { GlobalService } from 'src/app/Services/global.service';
 import { Fournisseur, GetFournisseur } from 'src/app/Models/fournisseur.model';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
+import { UsersService } from 'src/app/Services/users.service';
 
 @Component({
   selector: 'app-fournisseur-form',
@@ -24,10 +25,12 @@ export class FournisseurFormComponent {
     cree_le!: Date;
     message!: any
     fournisseur!: Fournisseur
+    tbUsers!: Utilisateur[]
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UsersService,
     private fournissuerService: FournisseurService,
     private globaService: GlobalService,
   ){}
@@ -46,6 +49,16 @@ export class FournisseurFormComponent {
     if (this.action === 'edit') {
       this.initFormFournisseur()
     }
+    this.loadUsers()
+  }
+
+  loadUsers(){
+    const user: GetUser = {utilisateur_id: 0}
+    this.userService.getListUser(user).subscribe(data => {
+      console.log(data);
+      this.tbUsers = data.message
+      console.log(this.tbUsers);
+    } )
   }
 
 //initialise form by info user

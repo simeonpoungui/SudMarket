@@ -16,6 +16,8 @@ export class PointsDeVentesComponent {
   dataSource!: any
   isloadingpage!: boolean
   pointSelected!: PointsDeVentes
+  nombreDePointsDeVente: number = 0;
+
   displayedColumns = [
     'nom',
     'adresse',
@@ -46,6 +48,8 @@ export class PointsDeVentesComponent {
     }
     this.pointsDeVenteServive.getList(pointdevente).subscribe(data => {
       console.log(data);
+      this.nombreDePointsDeVente = data.message.length
+      console.log(this.nombreDePointsDeVente);
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
@@ -70,5 +74,28 @@ export class PointsDeVentesComponent {
     if (this.selectedPointString) {
       this.router.navigateByUrl('point/vente/view')
     }
+  }
+
+  imprimer() {
+    this.pointsDeVenteServive.getListPointsDeVentePDF().subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
   }
 }

@@ -54,11 +54,13 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.nom }}
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
                 >
+                  <span class="fw-bold">Nonmbre de fournisseurs : </span>
+                  <span class="mx-2 fw-bold">{{ nbrefournisseur }}</span>
                 </td>
               </ng-container>
 
@@ -69,12 +71,11 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.sexe }}
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                </td>
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="adresse">
@@ -84,12 +85,11 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.adresse }}
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                </td>
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="email">
@@ -99,12 +99,11 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.email }}
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                </td>
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="telephone">
@@ -114,12 +113,11 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.telephone }}
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                </td>
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="personne_de_contact">
@@ -129,12 +127,11 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.personne_de_contact }}
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                </td>
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="Actions">
@@ -150,24 +147,23 @@
                     <span class="fs-6">...</span>
                   </p>
                 </td>
-                            <td
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                </td>
+                ></td>
               </ng-container>
 
               <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"
-            ></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            <tr
-              class="bg-sticky-footer"
-              mat-footer-row
-              *matFooterRowDef="displayedColumns; sticky: true"
-            ></tr>
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
             </table>
           </div>
         </div>

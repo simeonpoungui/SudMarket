@@ -129,8 +129,14 @@ export class ArticleDeVentesComponent {
       console.log(data);
       this.table = data.message
       this.articlesventes = this.table
-      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
-      this.dataSource = new MatTableDataSource(this.table);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.MontantTotalVengteJournalier = 0
+        this.globalService.toastShow('Aucun article vendu','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(this.table);
+        this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })
@@ -143,8 +149,14 @@ export class ArticleDeVentesComponent {
     console.log(data);
     this.table = data.message
     this.articlesventes = this.table
-    this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
-    this.dataSource = new MatTableDataSource(this.table);
+    if (typeof data.message === 'string') {
+      this.dataSource = new MatTableDataSource([])
+      this.MontantTotalVengteJournalier = 0
+      this.globalService.toastShow('Aucun article vendu','Information','info')
+    }else {
+      this.dataSource = new MatTableDataSource(this.table);
+      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
+    }
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   })
@@ -157,8 +169,14 @@ export class ArticleDeVentesComponent {
       console.log(data.message);
       this.table = data.message
       this.articlesventes = this.table
-      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
-      this.dataSource = new MatTableDataSource(this.table);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.MontantTotalVengteJournalier = 0
+        this.globalService.toastShow('Aucun article vendu','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(this.table);
+        this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })
@@ -171,8 +189,14 @@ export class ArticleDeVentesComponent {
       console.log(data);
       this.table = data.message
       this.articlesventes = this.table
-      this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
-      this.dataSource = new MatTableDataSource(this.table);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.MontantTotalVengteJournalier = 0
+        this.globalService.toastShow('Aucun article vendu','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(this.table);
+        this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', this.table);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })

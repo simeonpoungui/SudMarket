@@ -187,7 +187,6 @@ export class VenteComponent {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
       localStorage.setItem('pointSelected', JSON.stringify(this.pointSelected));
-      // window.location.reload()
       this.router.navigateByUrl('/session-vente');
     });
   }
@@ -197,8 +196,14 @@ export class VenteComponent {
     console.log(this.IDuser); 
     this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
       console.log(data.message);
-      this.ventes = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+        this.globalService.toastShow('Aucune vente effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -208,8 +213,14 @@ export class VenteComponent {
     this.IDclient = Number(event.target.value)
     this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
       console.log(data.message);
-      this.ventes = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+        this.globalService.toastShow('Aucune vente effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -221,8 +232,14 @@ export class VenteComponent {
     this.IDpoint = Number(event.target.value)
     this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
       console.log(data.message);
-      this.ventes = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+        this.globalService.toastShow('Aucune vente effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -233,9 +250,15 @@ export class VenteComponent {
     console.log(this.DateDebut)
     this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
       console.log(data.message);
-      this.ventes = data.message
-      this.dataSource = new MatTableDataSource(data.message);
-      this.dataSource.sort = this.sort; 
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+        this.globalService.toastShow('Aucune vente effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
+      this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
   }
@@ -243,9 +266,14 @@ export class VenteComponent {
   selectDateFin(event: any){
     this.DateFin = event.target.value
     this.venteService.getListVenteByParametre(this.IDclient, this.IDuser,this.IDpoint, this.DateDebut,this.DateFin).subscribe(data => {
-      console.log(data.message);
-      this.ventes = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+        this.globalService.toastShow('Aucune vente effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )

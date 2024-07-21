@@ -60,6 +60,7 @@
                 class="bg-table-color text-light"
                 *matFooterCellDef
               >
+              <span class="fw-bold  ">Nombre de clients : </span> <span class="fw-bold mx-2">{{nbclients}}</span>
               </td>
               </ng-container>
 
@@ -159,6 +160,7 @@
                 </th>
                 <td class="text-center" mat-cell *matCellDef="let element">
                   <p
+                  
                     (click)="actions(element)"
                     style="cursor: pointer"
                     class="p-2 actions"

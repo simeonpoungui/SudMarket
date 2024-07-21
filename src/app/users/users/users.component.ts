@@ -33,6 +33,7 @@ export class UsersComponent {
   selectedUtilisateurString: string = ''
   tbPointdeVente!: PointsDeVentes[]
   users!: Utilisateur[]
+  nbreusers: number = 0
 
   constructor(
     private userService: UsersService,
@@ -69,6 +70,7 @@ export class UsersComponent {
       console.log(data.message);
       this.isloadingpage = false
       this.users = data.message
+      this.nbreusers = data.message.length
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -110,9 +112,15 @@ export class UsersComponent {
       point_de_vente_id: Number(event.target.value)
     }
     this.userService.getUserByPointVente(point).subscribe(data => {
-      console.log(data.message);
       this.users = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+        this.nbreusers = 0
+        this.globalService.toastShow('Aucun utilisateur trouvé','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.nbreusers = this.dataSource.data.length
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })

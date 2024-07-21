@@ -32,6 +32,7 @@ export class ClientComponent {
   isloadingpage!: boolean
   selectedClientstring: string = ''
   tbPointdeVente!: PointsDeVentes[]
+  nbclients: number = 0
 
   constructor(
     private router: Router,
@@ -67,6 +68,7 @@ export class ClientComponent {
     this.isloadingpage = true
     this.clientService.getListClient(client).subscribe(data => {
       console.log(data.message);
+      this.nbclients = data.message.length
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;

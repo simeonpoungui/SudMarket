@@ -43,16 +43,18 @@
               </div>
   
               <div class="col-lg-4 mt-2">
-                <label for="validationCustom01" class="form-label label"
-                  > Personne de contact</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
+                <label for="validationCustom01" class="form-label label">Personne de contact</label>
+                <select
+                  class="form-control form-select "
                   name="personne_de_contact"
                   [(ngModel)]="personne_de_contact"
-                />
-              </div>              
+                >
+                  <option *ngFor="let user of tbUsers" [value]="user.nom_utilisateur +  ' ' + 'Tel :' + ' ' + user.telephone">
+                    {{ user.nom_utilisateur }} {{ user.prenom_utilisateur }}
+                  </option>
+                </select>
+              </div>
+                        
   
               <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"

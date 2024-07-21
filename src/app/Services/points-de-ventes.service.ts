@@ -13,6 +13,7 @@ export class PointsDeVentesService {
   uricreate = "/v1/sudmarket/create/pointsDeVentes"
   uridelete = "/v1/sudmarket/delete/pointsDeVentes"
   uriupdate = "/v1/sudmarket/update/pointsDeVentes"
+  uriimprimepointdevente = "/v1/sudmarket/impression/points/ventes"
   
   constructor(private httpclient: HttpClient) { }
 
@@ -31,5 +32,13 @@ export class PointsDeVentesService {
   create(pointdevente: PointsDeVentes){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, pointdevente)
   }
+
+  getListPointsDeVentePDF(): Observable<any> {
+    console.log(environment.apiUrl + this.uriimprimepointdevente);
+    return this.httpclient.get(environment.apiUrl + this.uriimprimepointdevente, {
+      responseType: 'blob' as 'json'
+    });
+  }
+
 
 }

@@ -23,14 +23,20 @@
               </div>
             </div>
             <div class="col-lg-3 pt-4">
-            <select (change)="SelectPointDeVente($event)" class="form-control form-select ">
-              <option selected>Filtrer par point de vente</option>
-              <option disabled>Choisir un point de vente</option>
-              <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
-                {{ point.nom }}
-              </option>
-            </select>
-          </div>
+              <select
+                (change)="SelectPointDeVente($event)"
+                class="form-control form-select"
+              >
+                <option selected>Filtrer par point de vente</option>
+                <option disabled>Choisir un point de vente</option>
+                <option
+                  *ngFor="let point of tbPointdeVente"
+                  [value]="point.point_de_vente_id"
+                >
+                  {{ point.nom }}
+                </option>
+              </select>
+            </div>
 
             <div class="col-lg-3 pt-4">
               <button
@@ -42,7 +48,7 @@
                 Imprimer la liste <i class="fa-solid fa-print"></i>
               </button>
             </div>
-         
+
             <div class="col-lg-3 pt-4">
               <button
                 style="background-color: #3454d1"
@@ -54,8 +60,11 @@
               </button>
             </div>
           </div>
-          <div class="mat-elevation-z8 mt-3"               style="max-height: 400px; overflow-y: auto"
-          *ngIf="!isloadingpage; else loader">
+          <div
+            class="mat-elevation-z8 mt-3"
+            style="max-height: 400px; overflow-y: auto"
+            *ngIf="!isloadingpage; else loader"
+          >
             <table mat-table [dataSource]="dataSource">
               <ng-container matColumnDef="nom_utilisateur">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
@@ -65,11 +74,11 @@
                   {{ element.nom_utilisateur }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+              <span class="fw-bold">Nombre d'utilisateurs : </span> <span class="fw-bold mx-2">{{nbreusers}}</span></td>
               </ng-container>
 
               <ng-container matColumnDef="prenom_utilisateur">
@@ -80,11 +89,10 @@
                   {{ element.prenom_utilisateur }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="sexe">
@@ -95,11 +103,10 @@
                   {{ element.sexe }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="adresse">
@@ -110,11 +117,10 @@
                   {{ element.adresse }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="email">
@@ -125,11 +131,10 @@
                   {{ element.email }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="telephone">
@@ -140,11 +145,10 @@
                   {{ element.telephone }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="nationalite">
@@ -155,28 +159,11 @@
                   {{ element.nationalite }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
-
-
-              <!-- <ng-container matColumnDef="point_de_vente_id">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Point de vente
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{getPointName( element.point_de_vente_id) }}
-                </td>
-                <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
-              </ng-container> -->
 
               <ng-container matColumnDef="role">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
@@ -186,35 +173,41 @@
                   {{ element.role }}
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
 
               <ng-container matColumnDef="Actions">
-                <th class="text-center" mat-header-cell *matHeaderCellDef>Actions</th>
+                <th class="text-center" mat-header-cell *matHeaderCellDef>
+                  Actions
+                </th>
                 <td class="text-center" mat-cell *matCellDef="let element">
-                  <p (click)="actions(element)" style="cursor: pointer;" class="p-2 actions "><span class="fs-6">...</span></p>
+                  <p
+                    (click)="actions(element)"
+                    style="cursor: pointer"
+                    class="p-2 actions"
+                  >
+                    <span class="fs-6">...</span>
+                  </p>
                 </td>
                 <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-              </td>
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
               </ng-container>
               <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"
-            ></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            <tr
-              class="bg-sticky-footer"
-              mat-footer-row
-              *matFooterRowDef="displayedColumns; sticky: true"
-            ></tr>
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
             </table>
           </div>
         </div>
@@ -223,9 +216,8 @@
   </div>
 </main>
 
-  <ng-template #loader>
-    <div class="text-center">
-        <app-loader></app-loader>
-
-    </div>
-  </ng-template>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>
