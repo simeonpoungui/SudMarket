@@ -23,7 +23,7 @@ export class UsersComponent {
     'email',
     'telephone',
     'sexe',
-    'adresse',
+    // 'adresse',
     'nationalite',
     'role',
     'Actions'

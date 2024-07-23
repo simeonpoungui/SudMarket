@@ -45,6 +45,7 @@
           </div>
           <div
             class="mat-elevation-z8 mt-3"
+            style="max-height: 400px; overflow-y: auto"
             *ngIf="!isloadingpage; else loader"
           >
             <table mat-table [dataSource]="dataSource">
@@ -60,7 +61,7 @@
                 class="bg-table-color text-light"
                 *matFooterCellDef
               >
-              <span class="fw-bold  ">Nombre de clients : </span> <span class="fw-bold mx-2">{{nbclients}}</span>
+              <span class="fw-bold  ">Nombre : </span> <span class="fw-bold mx-2">{{nbclients}}</span>
               </td>
               </ng-container>
 

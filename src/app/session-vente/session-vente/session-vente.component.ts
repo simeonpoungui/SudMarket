@@ -1,7 +1,7 @@
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
-import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, HostListener, ViewChild } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -54,13 +54,14 @@ export class SessionVenteComponent {
   modepaiement: number = 1;
   currentSessionId: number | undefined;
 
+  sessionActive: boolean = true;
+
   constructor(
     private produitService: ProduitService,
     private router: Router,
     public globlService: GlobalService,
     private venteService: VenteService,
     private sessionService: SessionService,
-    private articleDeVenteService: ArticlesDeVenteService,
     private dialog: MatDialog
   ) {}
 
@@ -68,12 +69,24 @@ export class SessionVenteComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getListProduit();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        if (this.sessionActive) {
+          this.router.navigate(['/session-vente']);
+          this.globlService.toastShow("Vous devez d'abord fermer la session","Attention",'error')
+          
+        }
+      }
+    });
+
+    this.getListProduit()
+
     const storedPointSelected = localStorage.getItem('pointSelected');
     if (storedPointSelected) {
       this.pointSelected = JSON.parse(storedPointSelected);
       console.log(this.pointSelected);
     }
+
     this.calculateTotalVente();
     const user = localStorage.getItem('user');
     if (user) {
@@ -81,10 +94,9 @@ export class SessionVenteComponent {
       console.log(this.user);
     }
 
-    this.startSession();
+     this.startSession();
   }
 
-  
   getListProduit() {
     const produit: GetProduit = { produit_id: 0 };
     this.isloadingpage = true;
@@ -202,7 +214,7 @@ export class SessionVenteComponent {
             this.dataSourceArticleVente.data = [];
             this.montantTotalDeLaVente = 0;
             localStorage.removeItem('pointSelected');
-            this.clientSelected = {} as Client;    
+            this.clientSelected = {} as Client;
             this.message = data.message;
             this.globlService.toastShow(this.message, 'Succès');
             this.isloadingpaiement = false;
@@ -270,6 +282,7 @@ export class SessionVenteComponent {
       'Voulez-vous fermer cette session de vente ?';
     dialog.afterClosed().subscribe((result) => {
       if (result) {
+        this.sessionActive = false;
         this.endSession();
         this.globlService.toastShow(
           'Session Fermé le' +

@@ -126,9 +126,9 @@ export class CommandeAChatComponent {
 
   actions(element: CommandeAchat){
     this.selectedcommandeString = JSON.stringify(element); 
-    localStorage.setItem('selectedVente', this.selectedcommandeString);
+    localStorage.setItem('selectedCommande', this.selectedcommandeString);
     if (this.selectedcommandeString) {
-      this.router.navigateByUrl('commandeAchat/view')
+      this.router.navigateByUrl('commande/achat/view')
     }
   }
 
@@ -138,7 +138,14 @@ export class CommandeAChatComponent {
     this.commandeService.getListFiltreCommandes(this.IDfournisseur, this.IDuser, this.IDpointVente, this.DateDebut, this.DateFin).subscribe(data => {
       console.log(data.message);
       this.commandesachats = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -150,7 +157,14 @@ export class CommandeAChatComponent {
     this.commandeService.getListFiltreCommandes(this.IDfournisseur, this.IDuser, this.IDpointVente, this.DateDebut, this.DateFin).subscribe(data => {
       console.log(data.message);
       this.commandesachats = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -162,7 +176,14 @@ export class CommandeAChatComponent {
     this.commandeService.getListFiltreCommandes(this.IDfournisseur, this.IDuser, this.IDpointVente, this.DateDebut, this.DateFin).subscribe(data => {
       console.log(data.message);
       this.commandesachats = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -174,7 +195,14 @@ export class CommandeAChatComponent {
     this.commandeService.getListFiltreCommandes(this.IDfournisseur, this.IDuser, this.IDpointVente, this.DateDebut, this.DateFin).subscribe(data => {
       console.log(data.message);
       this.commandesachats = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
@@ -186,7 +214,14 @@ export class CommandeAChatComponent {
     this.commandeService.getListFiltreCommandes(this.IDfournisseur, this.IDuser, this.IDpointVente, this.DateDebut, this.DateFin).subscribe(data => {
       console.log(data.message);
       this.commandesachats = data.message
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     } )
