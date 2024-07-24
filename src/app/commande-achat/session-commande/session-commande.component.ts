@@ -1,34 +1,28 @@
 import { ProduitService } from 'src/app/Services/produit.service';
-import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import {Produit } from 'src/app/Models/produit.model';
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import {GetPointsDeVentes,PointsDeVentes} from 'src/app/Models/pointsDeVentes.model';
 import { ArticlesDeVentes } from 'src/app/Models/articlesDeVente.model';
 import { ArticlesDeVenteService } from 'src/app/Services/articles-de-vente.service';
-import { Vente } from 'src/app/Models/vente.model';
-import { VenteService } from 'src/app/Services/vente.service';
 import { GlobalService } from 'src/app/Services/global.service';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
-import { SelectClientComponent } from 'src/app/client/select-client/select-client.component';
-import { Client } from 'src/app/Models/clients.model';
 import { Utilisateur } from 'src/app/Models/users.model';
-import { SessionService } from 'src/app/Services/session.service';
-import { Session } from 'src/app/Models/session.ventes.model';
-import { ArticlesCommandesAchatsComponent } from '../articles-commandes-achats/articles-commandes-achats.component';
 import { ArticlesDeCommandeDAchat } from 'src/app/Models/articles.commandes.achats';
 import { CommandeAchat } from 'src/app/Models/commande.model';
 import { CommandeService } from 'src/app/Services/commande.service';
 import { SelectFournisseurComponent } from 'src/app/fournisseur/select-fournisseur/select-fournisseur.component';
 import { Fournisseur } from 'src/app/Models/fournisseur.model';
+import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 
 @Component({
   selector: 'app-session-commande',
   templateUrl: './session-commande.component.html',
-  styleUrls: ['./session-commande.component.scss']
+  styleUrls: ['./session-commande.component.scss'],
 })
 export class SessionCommandeComponent {
   dataSource!: any;
@@ -66,6 +60,7 @@ export class SessionCommandeComponent {
     private router: Router,
     public globlService: GlobalService,
     private articleDeVenteService: ArticlesDeVenteService,
+    private globalService: GlobalService,
     private commandeService: CommandeService,
     private dialog: MatDialog
   ) {}
@@ -74,7 +69,6 @@ export class SessionCommandeComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getListProduit();
     const storedPointSelected = localStorage.getItem('pointSelectedCommande');
     if (storedPointSelected) {
       this.pointSelected = JSON.parse(storedPointSelected);
@@ -86,16 +80,29 @@ export class SessionCommandeComponent {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
+
+    this.getListProduit();
   }
 
   getListProduit() {
-    const produit: GetProduit = { produit_id: 0 };
+    const point: GetPointsDeVentes = {
+      point_de_vente_id: this.pointSelected.point_de_vente_id,
+    };
     this.isloadingpage = true;
-    this.produitService.getList(produit).subscribe((data) => {
+    this.produitService.getListProduityByPointVente(point).subscribe((data) => {
       console.log(data.message);
-      this.tbProduit = data.message;
-      this.isloadingpage = false;
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([]);
+        const dialog = this.dialog.open(AlertInfoComponent);
+        dialog.afterClosed().subscribe((result) => {
+          this.router.navigateByUrl('/');
+          this.isloadingpage = false;
+        });
+      } else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.tbProduit = data.message;
+        this.isloadingpage = false;
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
@@ -108,9 +115,11 @@ export class SessionCommandeComponent {
 
   checkedProduit(event: any, element: Produit) {
     if (!event.target.checked) {
-      const indexArticleVente = this.dataSourceArticleCommandesAchats.data.findIndex(
-        (item: ArticlesDeCommandeDAchat) => item.produit_id === element.produit_id
-      );
+      const indexArticleVente =
+        this.dataSourceArticleCommandesAchats.data.findIndex(
+          (item: ArticlesDeCommandeDAchat) =>
+            item.produit_id === element.produit_id
+        );
       if (indexArticleVente !== -1) {
         const updatedData = [...this.dataSourceArticleCommandesAchats.data];
         updatedData.splice(indexArticleVente, 1);
@@ -138,7 +147,7 @@ export class SessionCommandeComponent {
         prix_total_commande: 0,
       }),
     };
-console.log(articleCommande);
+    console.log(articleCommande);
 
     this.dataSourceArticleCommandesAchats.data = [
       ...this.dataSourceArticleCommandesAchats.data,
@@ -153,12 +162,12 @@ console.log(articleCommande);
   }
 
   updatePrixTotalVente() {
-    this.dataSourceArticleCommandesAchats.data = this.dataSourceArticleCommandesAchats.data.map(
-      (element) => {
-        element.prix_total_commande = this.calculateTotalApayerByProduit(element);
+    this.dataSourceArticleCommandesAchats.data =
+      this.dataSourceArticleCommandesAchats.data.map((element) => {
+        element.prix_total_commande =
+          this.calculateTotalApayerByProduit(element);
         return element;
-      }
-    );
+      });
   }
 
   updateQuantity(element: ArticlesDeCommandeDAchat) {
@@ -196,7 +205,7 @@ console.log(articleCommande);
             montant_total: this.montantTotalDeLaVente,
             fournisseur_id: this.founisseurSelected.fournisseur_id,
             utilisateur_id: this.user.utilisateur_id,
-            articles: this.dataSourceArticleCommandesAchats.data
+            articles: this.dataSourceArticleCommandesAchats.data,
           };
           console.log(modelCommande);
           this.commandeService.create(modelCommande).subscribe((data) => {
@@ -204,12 +213,12 @@ console.log(articleCommande);
             this.dataSourceArticleCommandesAchats.data = [];
             this.montantTotalDeLaVente = 0;
             localStorage.removeItem('pointSelected');
-            this.founisseurSelected = {} as Fournisseur;    
+            this.founisseurSelected = {} as Fournisseur;
             this.message = data.message;
             this.globlService.toastShow(this.message, 'Succès');
             this.isloadingpaiement = false;
             this.getListProduit();
-            this.router.navigateByUrl('commande/achat/list')
+            this.router.navigateByUrl('commande/achat/list');
           });
         }
       });
@@ -220,7 +229,7 @@ console.log(articleCommande);
     }
   }
 
-  chooseFournisseur() {
+    chooseFournisseur() {
     const dialog = this.dialog.open(SelectFournisseurComponent);
     dialog.afterClosed().subscribe((data) => {
       this.founisseurSelected = dialog.componentInstance.fournisseurSelected;

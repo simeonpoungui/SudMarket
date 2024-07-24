@@ -30,9 +30,16 @@ export class ArticlesCommandesAchatsComponent {
   ];
   tbProduit!: Produit[]
   tbPointdeVente!: PointsDeVentes[]
+  tbarticlecommandes!: ArticlesDeCommandeDAchat[]
   isloadingpage!: boolean
   selectedcommandeString!: string;
   TotalMontant!:number
+
+  DateDebutCommande!: string
+  dateFinCommande!: string 
+  IDpoint!: number
+  IDproduit!: number
+
   constructor(
     private articlecommandeService: ArticlesCommandesAchatsService,
     private router: Router,
@@ -60,7 +67,6 @@ export class ArticlesCommandesAchatsComponent {
     })
   }
 
-
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}
     this.pointService.getList(point).subscribe(data => {
@@ -86,7 +92,7 @@ export class ArticlesCommandesAchatsComponent {
     this.articlecommandeService.getList(article).subscribe(data => {
       console.log(data.message); 
       this.TotalMontant = this.globalService.calculTotal('prix_total_commande', data.message);
-    
+      this.tbarticlecommandes = data.message
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
@@ -101,9 +107,107 @@ export class ArticlesCommandesAchatsComponent {
 
   actions(element: ArticlesDeCommandeDAchat){
     this.selectedcommandeString = JSON.stringify(element); 
-    localStorage.setItem('selectedVente', this.selectedcommandeString);
+    localStorage.setItem('SelectArticleDeCommandes', this.selectedcommandeString);
     if (this.selectedcommandeString) {
-      this.router.navigateByUrl('article/view')
+      this.router.navigateByUrl('articles/commande/view')
     }
+  }
+
+  SelectProduit(event: any){
+    this.IDproduit = Number(event.target.value)
+    console.log(this.IDproduit);
+    this.articlecommandeService.getListFiltreArticlesCommandes(this.IDproduit, this.IDpoint, this.DateDebutCommande, this.dateFinCommande).subscribe(data => {
+      console.log(data.message);
+      this.tbarticlecommandes = data.message
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+  SelectPointDeVente(event: any){
+    console.log(event.target.value);
+   this.IDpoint = Number(event.target.value)
+   this.articlecommandeService.getListFiltreArticlesCommandes(this.IDproduit, this.IDpoint, this.DateDebutCommande, this.dateFinCommande).subscribe(data => {
+    console.log(data.message);
+    this.tbarticlecommandes = data.message
+    if (typeof data.message === 'string') {
+      this.dataSource = new MatTableDataSource([])
+       this.TotalMontant = 0
+      this.globalService.toastShow('Aucune commande effectuée','Information','info')
+    }else {
+      this.dataSource = new MatTableDataSource(data.message);
+      this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+    }
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  } )
+  }
+
+  selectDateDebut(event: any) {
+    this.DateDebutCommande = event.target.value;
+    console.log(this.DateDebutCommande);
+    this.articlecommandeService.getListFiltreArticlesCommandes(this.IDproduit, this.IDpoint, this.DateDebutCommande, this.dateFinCommande).subscribe(data => {
+      console.log(data.message);
+      this.tbarticlecommandes = data.message
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+  selectDateFin(event: any) {
+    this.dateFinCommande = event.target.value;
+    console.log(this.dateFinCommande);
+    this.articlecommandeService.getListFiltreArticlesCommandes(this.IDproduit, this.IDpoint, this.DateDebutCommande, this.dateFinCommande).subscribe(data => {
+      console.log(data.message);
+      this.tbarticlecommandes = data.message
+      if (typeof data.message === 'string') {
+        this.dataSource = new MatTableDataSource([])
+         this.TotalMontant = 0
+        this.globalService.toastShow('Aucune commande effectuée','Information','info')
+      }else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      }
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    } )
+  }
+
+  imprimer() {
+    this.articlecommandeService.getListCommandesPDF(this.tbarticlecommandes).subscribe((data) => {
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+          url +
+          "'></iframe>"
+        );
+      }
+    });
   }
 }

@@ -53,6 +53,7 @@ export class SelectPointDeVenteComponent {
   onClickLine(pointdevente: PointsDeVentes){
     console.log(pointdevente.point_de_vente_id);
     this.pointSelected = pointdevente;
+    console.log(this.pointSelected);
     this.dialog.closeAll()
   }
 

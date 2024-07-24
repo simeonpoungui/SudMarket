@@ -9,7 +9,7 @@ export class GlobalService {
   
   toastConfig = {
     positionClass: 'toast-center-center',
-    timeOut: 3500,
+    timeOut: 3000,
     closeButton: true
   }
   constructor(

@@ -6,7 +6,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import {
+  GetPointsDeVentes,
+  PointsDeVentes,
+} from 'src/app/Models/pointsDeVentes.model';
 import { ArticlesDeVentes } from 'src/app/Models/articlesDeVente.model';
 import { ArticlesDeVenteService } from 'src/app/Services/articles-de-vente.service';
 import { Vente } from 'src/app/Models/vente.model';
@@ -18,6 +21,7 @@ import { Client } from 'src/app/Models/clients.model';
 import { Utilisateur } from 'src/app/Models/users.model';
 import { SessionService } from 'src/app/Services/session.service';
 import { Session } from 'src/app/Models/session.ventes.model';
+import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 
 @Component({
   selector: 'app-session-vente',
@@ -73,38 +77,56 @@ export class SessionVenteComponent {
       if (event instanceof NavigationStart) {
         if (this.sessionActive) {
           this.router.navigate(['/session-vente']);
-          this.globlService.toastShow("Vous devez d'abord fermer la session","Attention",'error')
-          
+          this.globlService.toastShow(
+            "Vous devez d'abord fermer la session",
+            'Attention',
+            'error'
+          );
         }
       }
     });
 
-    this.getListProduit()
-
+    // get point de vente local Sotage
     const storedPointSelected = localStorage.getItem('pointSelected');
     if (storedPointSelected) {
       this.pointSelected = JSON.parse(storedPointSelected);
       console.log(this.pointSelected);
     }
-
-    this.calculateTotalVente();
+    // get user localStorage
     const user = localStorage.getItem('user');
     if (user) {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
 
-     this.startSession();
+    this.getListProduit();
+    this.calculateTotalVente();
+
+    // this.startSession();
   }
 
   getListProduit() {
-    const produit: GetProduit = { produit_id: 0 };
-    this.isloadingpage = true;
-    this.produitService.getList(produit).subscribe((data) => {
+    const point: GetPointsDeVentes = {
+      point_de_vente_id: this.pointSelected.point_de_vente_id,
+    };
+    this.produitService.getListProduityByPointVente(point).subscribe((data) => {
       console.log(data.message);
-      this.tbProduit = data.message;
-      this.isloadingpage = false;
-      this.dataSource = new MatTableDataSource(data.message);
+      if (typeof data.message === 'string') {
+        this.sessionActive = false;
+        this.endSession();
+        const dialog = this.dialog.open(AlertInfoComponent);
+        dialog.afterClosed().subscribe((result) => {
+          this.router.navigateByUrl('/');
+        });
+        dialog.componentInstance.content =
+          'Desolé Aucun produit trouvé avec ce point de vente : ' +
+          ' ' +
+          this.pointSelected.nom;
+        this.dataSource = new MatTableDataSource([]);
+      } else {
+        this.dataSource = new MatTableDataSource(data.message);
+        this.tbProduit = data.message;
+      }
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
@@ -231,9 +253,12 @@ export class SessionVenteComponent {
 
   chooseClient() {
     const dialog = this.dialog.open(SelectClientComponent);
+    dialog.id = 'SelectClientComponent';
     dialog.afterClosed().subscribe((data) => {
-      this.clientSelected = dialog.componentInstance.clientSelected;
-      console.log(this.clientSelected);
+      if (data) {
+        this.clientSelected = dialog.componentInstance.clientSelected;
+        console.log(this.clientSelected);
+      }
     });
   }
 

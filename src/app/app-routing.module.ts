@@ -33,6 +33,7 @@ import { CommandeAChatFicheComponent } from './commande-achat/commande-achat-fic
 import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form/commande-achat-form.component';
 import { ArticlesCommandesAchatsComponent } from './commande-achat/articles-commandes-achats/articles-commandes-achats.component';
 import { SessionCommandeComponent } from './commande-achat/session-commande/session-commande.component';
+import { FicheArticleDeCommandeComponent } from './commande-achat/articles-commandes-achats/fiche-article-de-commande/fiche-article-de-commande.component';
 //Vente Entities
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';
@@ -103,7 +104,6 @@ const routes: Routes = [
   {path: 'articles-de-vente', component: ArticleDeVentesComponent},
   {path: 'article/view', component: FicheArticleDeVenteComponent},
 
-
   // Module commande achat
   {path:'commandes-achats', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
   {path: 'commande/achat/list', component: CommandeAChatComponent},
@@ -111,7 +111,7 @@ const routes: Routes = [
   {path: 'commande/achat/:action', component: CommandeAChatFormComponent},
   {path: 'article-commande-achat', component: ArticlesCommandesAchatsComponent},
   {path: 'session-commande-achat', component: SessionCommandeComponent},
-
+  {path: 'articles/commande/view', component: FicheArticleDeCommandeComponent},
 
   // Module rapport
   {path:'rapports', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},

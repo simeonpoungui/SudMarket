@@ -27,7 +27,8 @@ export class ProduitFormComponent {
   message!: any
   produit!: Produit
   tbPointdeVente!: PointsDeVentes[]
-point_de_vente_id: any;
+  point_de_vente_id!: number | undefined;
+  code_produit!: string | undefined
 
 constructor(
   private route: ActivatedRoute,
@@ -47,6 +48,8 @@ ngOnInit(): void {
   const produitJSON = localStorage.getItem('selectedProduit');
   if (produitJSON) {
     this.produit =  JSON.parse(produitJSON);
+    console.log(this.produit);
+    
   }
   if (this.action === 'edit') {
     this.initFormFournisseur()
@@ -71,7 +74,9 @@ getPointName(point_de_vente_id: any): string {
 //initialise form by info user
 initFormFournisseur(){
   this.produit_id = this.produit.produit_id
+  this.point_de_vente_id = this.produit.point_de_vente_id
   this.nom = this.produit.nom
+  this.code_produit = this.produit.code_produit
   this.description = this.produit.description
   this.categorie = this.produit.categorie
   this.prix = this.produit.prix
@@ -82,6 +87,7 @@ initFormFournisseur(){
 //Submit form user
 onSubmitForm(form: NgForm){
   const produit: Produit = form.value;
+  console.log(produit);
   if (this.action === 'edit') {
     produit.produit_id = this.produit.produit_id
     this.produitService.update(produit).subscribe(data => {

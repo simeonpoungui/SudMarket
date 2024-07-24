@@ -4,6 +4,7 @@ export class ArticlesDeCommandeDAchat {
     point_de_vente_id?: number; 
     produit_id!: number;
     quantite!: number;
+    date_commande?: string
     prix_unitaire!: number;
     prix_total_commande!: number
 }

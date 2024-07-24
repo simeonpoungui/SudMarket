@@ -11,6 +11,8 @@ import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { CommandeService } from 'src/app/Services/commande.service';
 import { CommandeAchat } from 'src/app/Models/commande.model';
+import { Fournisseur, GetFournisseur } from 'src/app/Models/fournisseur.model';
+import { FournisseurService } from 'src/app/Services/fournisseur.service';
 
 @Component({
   selector: 'app-commande-achat-fiche',
@@ -24,6 +26,7 @@ export class CommandeAChatFicheComponent {
   message!: any
   
   tbUsers: Utilisateur[] = []
+  tbFournisseurs!: Fournisseur[]
   tbClients: Client[] = [];
   tbPointdeVente!: PointsDeVentes[]
 
@@ -32,6 +35,7 @@ export class CommandeAChatFicheComponent {
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog,
+    private fournisseurService: FournisseurService,
     private userService: UsersService,
     private clientService: ClientsService,
     private pointService: PointsDeVentesService,
@@ -49,6 +53,7 @@ export class CommandeAChatFicheComponent {
     this.loadClient()
     this.loadUsers()
     this.loadPointDeVente()
+    this.loadFournisseur()
   }
 
   loadPointDeVente(){
@@ -60,6 +65,19 @@ export class CommandeAChatFicheComponent {
     } )
   }
 
+
+  getFournisseurName(fournisseur_id: number): string {
+    const fournisseur = this.tbFournisseurs.find(f => f.fournisseur_id === fournisseur_id);
+    return fournisseur ? fournisseur.nom : 'Unknown Fournisseur';
+  }
+
+  loadFournisseur(){
+    const fournisseur : GetFournisseur = {fournisseur_id: 0}
+    this.fournisseurService.getList(fournisseur).subscribe(data => {
+      console.log(data);
+      this.tbFournisseurs = data.message
+    })
+  }
   getPointName(point_de_vente_id: any): string {
     const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
     return point ? point.nom : 'Unknown Point';

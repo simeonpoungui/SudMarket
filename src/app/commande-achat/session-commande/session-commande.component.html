@@ -208,7 +208,7 @@
             </div>
             <div>
               <p class="fw-bold text-danger fs-5 mx-2">
-                <span>{{ globlService.formatPrix(montantTotalDeLaVente) }}</span>
+                <span>{{ globlService.formatPrixString(montantTotalDeLaVente.toFixed(2)) }}</span>
               </p>
             </div>
           </div>
@@ -334,7 +334,7 @@
                 <span>Etape 6 : </span>
                 <span
                   >Cliquer sur le button
-                  <span class="text-danger">"Valider le paiement"</span></span
+                  <span class="text-danger">"Valider la commande"</span></span
                 >
               </p>
             </div>

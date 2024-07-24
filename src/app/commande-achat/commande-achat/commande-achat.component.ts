@@ -13,6 +13,7 @@ import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { UsersService } from 'src/app/Services/users.service';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 
 @Component({
   selector: 'app-commande-achat',
@@ -45,6 +46,8 @@ export class CommandeAChatComponent {
   DateDebut!: string
   DateFin!: string
 
+  pointSelected!: PointsDeVentes
+  
   constructor(
     private commandeService: CommandeService,
     private router: Router,
@@ -130,6 +133,23 @@ export class CommandeAChatComponent {
     if (this.selectedcommandeString) {
       this.router.navigateByUrl('commande/achat/view')
     }
+  }
+
+  openPointsDeVentesCommande(){
+    const storedPointSelected = localStorage.getItem('pointSelectedCommande');
+    if (storedPointSelected) {
+      localStorage.removeItem('pointSelectedCommande');
+      console.log('PointSelected exists and has been removed.');
+    } else {
+      console.log('PointSelected does not exist.');
+    }
+    const dialog = this.dialog.open(SelectPointDeVenteComponent);
+    dialog.afterClosed().subscribe((result) => {
+      this.pointSelected = dialog.componentInstance.pointSelected;
+      console.log(this.pointSelected);
+      localStorage.setItem('pointSelectedCommande', JSON.stringify(this.pointSelected));
+      this.router.navigateByUrl('/session-commande-achat');
+    }); 
   }
 
   SelectPointDeVente(event: any){

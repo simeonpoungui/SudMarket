@@ -91,6 +91,32 @@
 
               <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
+                  >Code produit</label
+                >
+                <input
+                  [readonly]="action == 'view'"
+                  type="text"
+                  class="form-control"
+                  name="produit.code_produit"
+                  [(ngModel)]="produit.code_produit"
+                />
+              </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Point de vente</label
+                >
+                <input
+                  [readonly]="action == 'view'"
+                  type="text"
+                  class="form-control"
+                  name="produit.point_de_vente_id"
+                  [value]="getPointName(produit.point_de_vente_id)"
+                />
+              </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="validationCustom01" class="form-label label"
                   >Date de modification</label
                 >
                 <input
@@ -98,7 +124,7 @@
                   type="text"
                   class="form-control"
                   name="produit.mis_a_jour_le"
-                  [(ngModel)]="produit.mis_a_jour_le"
+                  [value]="globalService.formatDate(produit.mis_a_jour_le)"
                 />
               </div>
   
@@ -111,7 +137,7 @@
                   type="text"
                   class="form-control"
                   name="produit.cree_le"
-                  [(ngModel)]="produit.cree_le"
+                  [value]="globalService.formatDate(produit.cree_le)"
                 />
               </div>
 

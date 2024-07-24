@@ -1,183 +1,177 @@
 <main class="nxl-container">
-    <div class="nxl-content">
-      <div class="col-lg-11 m-lg-auto">
-        <div class="p-3">
-          <div class="shadow p-2">
-            <h1>Liste des produits</h1>
-          </div>
-          <div class="shadow bg-white mt-1">
-            <div class="row">
-              <div class="col-lg-3">
-                <div class="d-flex align-items-center mt-4">
-                  <i
-                    style="position: absolute"
-                    class="fa-solid p-3 fa-magnifying-glass"
-                  ></i>
-  
-                  <input
-                    type="text"
-                    (keyup)="applyFilter($event)"
-                    placeholder="Recherchez un fournisseur ici..."
-                    class="form-control text-start px-5 text-uppercase"
-                  />
-                </div>
-              </div>
-              <div class="col-lg-3 pt-4">
-                <select (change)="SelectPointDeVente($event)" class="form-control form-select ">
-                  <option selected>Filtrer par point de vente</option>
-                  <option disabled>Choisir un point de vente</option>
-                  <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
-                    {{ point.nom }}
-                  </option>
-                </select> 
-              </div>
-              <div class="col-lg-3 pt-4">
-                <button
-                  style="background-color: #3454d1"
-                  type="button"
-                  (click)="imprimer()"
-                  class="form-control text-white"
-                >
-                  Imprimer la liste <i class="fa-solid fa-print"></i>
-                </button>
-              </div>
-              <div class="col-lg-3 pt-4">
-                <button
-                  style="background-color: #3454d1"
-                  type="button"
-                  routerLink="/produit/create"
-                  class="form-control text-white"
-                >
-                  Ajouter un produit <i class="mx-1 fa-solid fa-user"></i>
-                </button>
+  <div class="nxl-content">
+    <div class="col-lg-11 m-lg-auto">
+      <div class="p-3">
+        <div class="shadow p-2">
+          <h1>Liste des produits</h1>
+        </div>
+        <div class="shadow bg-white mt-1">
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="d-flex align-items-center mt-4">
+                <i
+                  style="position: absolute"
+                  class="fa-solid p-3 fa-magnifying-glass"
+                ></i>
+
+                <input
+                  type="text"
+                  (keyup)="applyFilter($event)"
+                  placeholder="Recherchez un fournisseur ici..."
+                  class="form-control text-start px-5 text-uppercase"
+                />
               </div>
             </div>
-            <div
-              class="mat-elevation-z8 mt-3"
-              style="max-height: 400px; overflow-y: auto"
-              *ngIf="!isloadingpage; else loader"
-            >
-              <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="nom">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Nom
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.nom }}
-                  </td>
-                  <td
+            <div class="col-lg-3 pt-4">
+              <select
+                (change)="SelectPointDeVente($event)"
+                class="form-control form-select"
+              >
+                <option selected>Filtrer par point de vente</option>
+                <option disabled>Choisir un point de vente</option>
+                <option
+                  *ngFor="let point of tbPointdeVente"
+                  [value]="point.point_de_vente_id"
+                >
+                  {{ point.nom }}
+                </option>
+              </select>
+            </div>
+            <div class="col-lg-3 pt-4">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                (click)="imprimer()"
+                class="form-control text-white"
+              >
+                Imprimer la liste <i class="fa-solid fa-print"></i>
+              </button>
+            </div>
+            <div class="col-lg-3 pt-4">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                routerLink="/produit/create"
+                class="form-control text-white"
+              >
+                Ajouter un produit <i class="mx-1 fa-solid fa-user"></i>
+              </button>
+            </div>
+          </div>
+          <div
+            class="mat-elevation-z8 mt-3"
+            style="max-height: 400px; overflow-y: auto"
+            *ngIf="!isloadingpage; else loader"
+          >
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="nom">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Nom
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.nom }}
+                </td>
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
                 >
-                <span class="fw-bold">Nombre de produits : </span> <span class="fw-bold mx-2 ">{{nbreproduits}}</span>
+                  <span class="fw-bold">Nombre de produits : </span>
+                  <span class="fw-bold mx-2">{{ nbreproduits }}</span>
                 </td>
-                </ng-container>
-  
-                <ng-container matColumnDef="description">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Description
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.description }}
-                  </td>
-                  <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
-                </ng-container>
-  
-                <ng-container matColumnDef="categorie">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Categorie
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.categorie }}
-                  </td>
-                  <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
-                </ng-container>
-  
-                <ng-container matColumnDef="prix">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Prix unitaire
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ globalService.formatPrix(element.prix )}}
-                  </td>
-                  <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
-                </ng-container>
-  
-                <ng-container matColumnDef="quantite_en_stock">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Quantité
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.quantite_en_stock }}
-                  </td>
-                  <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
-                </ng-container>
-  
-                <ng-container matColumnDef="niveau_de_reapprovisionnement">
-                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                    Niveau de finis
-                  </th>
-                  <td class="pointer" mat-cell *matCellDef="let element">
-                    {{ element.niveau_de_reapprovisionnement }}
-                  </td>
-                  <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
-                </ng-container>
+              </ng-container>
 
-  
-                <ng-container matColumnDef="Actions">
-                  <th class="text-center" mat-header-cell *matHeaderCellDef>
-                    Actions
-                  </th>
-                  <td class="text-center" mat-cell *matCellDef="let element">
-                    <p
-                      (click)="actions(element)"
-                      style="cursor: pointer"
-                      class="p-2 actions"
-                    >
-                      <span class="fs-6">...</span>
-                    </p>
-                  </td>
-                  <td
+              <ng-container matColumnDef="description">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Description
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.description }}
+                </td>
+                <td
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                >
-                  
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="categorie">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Categorie
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.categorie }}
                 </td>
-                </ng-container>
-  
-                <tr
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="prix">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Prix unitaire
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="quantite_en_stock">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Quantité
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.quantite_en_stock }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="niveau_de_reapprovisionnement">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Niveau de finis
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.niveau_de_reapprovisionnement }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="Actions">
+                <th class="text-center" mat-header-cell *matHeaderCellDef>
+                  Actions
+                </th>
+                <td class="text-center" mat-cell *matCellDef="let element">
+                  <p
+                    (click)="actions(element)"
+                    style="cursor: pointer"
+                    class="p-2 actions"
+                  >
+                    <span class="fs-6">...</span>
+                  </p>
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <tr
                 mat-header-row
                 *matHeaderRowDef="displayedColumns; sticky: true"
               ></tr>
@@ -187,17 +181,16 @@
                 mat-footer-row
                 *matFooterRowDef="displayedColumns; sticky: true"
               ></tr>
-              </table>
-            </div>
+            </table>
           </div>
         </div>
       </div>
     </div>
-  </main>
-  
-  <ng-template #loader>
-    <div class="text-center">
-      <app-loader></app-loader>
-    </div>
-  </ng-template>
-  
+  </div>
+</main>
+
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

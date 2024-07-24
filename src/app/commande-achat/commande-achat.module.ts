@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ArticlesCommandesAchatsComponent } from './articles-commandes-achats/articles-commandes-achats.component';
 import { SessionCommandeComponent } from './session-commande/session-commande.component';
+import { FicheArticleDeCommandeComponent } from './articles-commandes-achats/fiche-article-de-commande/fiche-article-de-commande.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SessionCommandeComponent } from './session-commande/session-commande.co
     CommandeAChatFormComponent,
     CommandeAChatFicheComponent,
     ArticlesCommandesAchatsComponent,
-    SessionCommandeComponent
+    SessionCommandeComponent,
+    FicheArticleDeCommandeComponent
   ],
   imports: [
     CommonModule,

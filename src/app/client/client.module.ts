@@ -10,13 +10,15 @@ import { ClientComponent } from './client/client.component';
 import { ClientFormComponent } from './client/client-form/client-form.component';
 import { FicheClientComponent } from './client/fiche-client/fiche-client.component';
 import { SelectClientComponent } from './select-client/select-client.component';
+import { AddClientModalComponent } from './add-client-modal/add-client-modal.component';
 
 @NgModule({
   declarations: [
     ClientComponent,
     ClientFormComponent,
     FicheClientComponent,
-    SelectClientComponent
+    SelectClientComponent,
+    AddClientModalComponent
   ],
   imports: [
     CommonModule,

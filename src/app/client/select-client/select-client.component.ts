@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { Client, GetClient } from 'src/app/Models/clients.model';
 import { ClientsService } from 'src/app/Services/clients.service';
+import { AddClientModalComponent } from '../add-client-modal/add-client-modal.component';
+
 @Component({
   selector: 'app-select-client',
   templateUrl: './select-client.component.html',
@@ -31,10 +33,12 @@ export class SelectClientComponent {
   
   constructor(
     private router: Router,
+    private dilog: MatDialog,
     private clientService: ClientsService,
     private globalService: GlobalService,
     private dialog: MatDialog
   ){}
+  
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -60,14 +64,18 @@ export class SelectClientComponent {
   }
 
   create(){
-    this.router.navigateByUrl('client/create')
+    const dialog = this.dialog.open(AddClientModalComponent)
+    dialog.id = 'AddClientModalComponent'
+    dialog.afterClosed().subscribe((result) => {
+      if(result){
+        this.getListClient()
+      }
+    })
   }
 
   onClickLine(client: Client){
     console.log(client.client_id);
     this.clientSelected = client;
-    this.dialog.closeAll()
-  }
-
-
+    this.dialog.getDialogById('SelectClientComponent')?.close(true)
+ }
 }

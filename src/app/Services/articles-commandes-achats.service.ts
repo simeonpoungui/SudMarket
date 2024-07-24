@@ -13,6 +13,8 @@ export class ArticlesCommandesAchatsService {
   uricreate = "/v1/sudmarket/create/articles-commandes-achats"
   uridelete = "/v1/sudmarket/delete/articles-commandes-achats"
   uriupdate = "/v1/sudmarket/update/articles-commandes-achats"
+  uriimprimearticlecommandesachats = "/v1/sudmarket/impression/commandes/article"
+  urifiltresarticlescommandes = "/v1/sudmarket/get/filtre/articles/commandes"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -34,6 +36,32 @@ export class ArticlesCommandesAchatsService {
   
   create(article: ArticlesDeCommandeDAchat){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, article)
+  }
+
+  getListCommandesPDF(data: ArticlesDeCommandeDAchat[]): Observable<any> {
+    console.log(environment.apiUrl + this.uriimprimearticlecommandesachats);
+    return this.httpclient.post(environment.apiUrl + this.uriimprimearticlecommandesachats, data , {
+      responseType: 'blob' as 'json'
+    });
+  }
+
+  getListFiltreArticlesCommandes(
+    IDproduit: number,
+    IDpoint: number,
+    DateDebutCommande: string,
+    DateFinCommande: string
+  ) {
+    const data = {
+      produit_id: IDproduit,
+      point_de_vente_id: IDpoint,
+      DateDebutCommande: DateDebutCommande,
+      DateFinCommande: DateFinCommande,
+    };
+    console.log(data);
+    return this.httpclient.post<CodeResponse>(
+      environment.apiUrl + this.urifiltresarticlescommandes,
+      data
+    );
   }
 
 }

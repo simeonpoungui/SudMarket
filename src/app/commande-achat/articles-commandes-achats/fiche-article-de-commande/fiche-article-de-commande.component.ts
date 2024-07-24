@@ -15,13 +15,13 @@ import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
 
 @Component({
-  selector: 'app-fiche-article-de-vente',
-  templateUrl: './fiche-article-de-vente.component.html',
-  styleUrls: ['./fiche-article-de-vente.component.scss']
+  selector: 'app-fiche-article-de-commande',
+  templateUrl: './fiche-article-de-commande.component.html',
+  styleUrls: ['./fiche-article-de-commande.component.scss']
 })
-export class FicheArticleDeVenteComponent {
+export class FicheArticleDeCommandeComponent {
   action:string = 'view';
-  article!: ArticlesDeVentes;
+  article!: ArticlesDeCommandeDAchat;
   message!: any
   tbProduit!: Produit[]
 
@@ -30,13 +30,13 @@ export class FicheArticleDeVenteComponent {
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog,
-    private articleService: ArticlesDeVenteService,
+    private articleService: ArticlesCommandesAchatsService,
     private produitService: ProduitService,
   ){}
 
   ngOnInit(): void {
     console.log(this.action);
-    const articleJson = localStorage.getItem('selectedArticle');
+    const articleJson = localStorage.getItem('SelectArticleDeCommandes');
     if (articleJson) {
       this.article =  JSON.parse(articleJson);
       console.log(this.article);
@@ -61,17 +61,17 @@ export class FicheArticleDeVenteComponent {
 
   deletearticle(){
     const alert = this.dialog.open(AlertComponent)
-    alert.componentInstance.content = "Voulez-vous supprimé la vente numéro " + this.article.article_de_vente_id + ' ?'
+    alert.componentInstance.content = "Voulez-vous supprimé la vente numéro " + this.article.article_commande_achat_id + ' ?'
     alert.componentInstance.backgroundColor = "danger"
     alert.afterClosed().subscribe(confirmDelete => {
       if (confirmDelete) {
         console.log(this.article);
-        this.articleService.delete(this.article).subscribe(data => {
-          console.log(data.message);
-          this.message = data.message
-          this.router.navigateByUrl('articles-de-vente')
-          this.globalService.toastShow(this.message,'Succès','success')
-        } )
+         this.articleService.delete(this.article).subscribe(data => {
+           console.log(data.message);
+           this.message = data.message
+           this.router.navigateByUrl('article-commande-achat')
+           this.globalService.toastShow(this.message,'Succès','success')
+         } )
       }
     })
   }
