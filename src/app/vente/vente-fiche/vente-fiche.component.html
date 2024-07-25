@@ -5,7 +5,7 @@
         <div class="row">
           <div class="border shadow rounded rounded-4 bg-white p-2">
               <h2 class="fw-bold">
-                  <span>Fiche du vente : </span>
+                  <span>Fiche de la vente : </span>
                   <span class="mx-1 title-bg-global-secondary">{{vente.vente_id}}</span>
               </h2>
           </div>
@@ -77,12 +77,58 @@
               </div>
   
   
-              <div class="col-lg-4 mt-3">
+              <div class="col-lg-3 mt-3">
                 <button (click)="deletevente()" class="form-control bg-delete btn text-white">
                   Supprimer <i class="fa-solid mx-1 text-white fa-trash"></i>
                 </button>
               </div> 
             </form>
+          </div>
+          <div class="shadow mt-3 p-3 rounded rounded-4 bg-white">
+            <div>
+              <p class="fw-bold bg-update text-white p-3 ">Historique des articles vendu liés à la vente</p>
+            </div>
+            <div class="row">
+              <div *ngFor="let option of tbarticlesDeVente" class="col-lg-4 border rounded rounded-4 p-3">
+                <p>
+                  <span class="fw-bold">Produit: </span>
+                  <span class="text-danger fw-bold">{{
+                    getProduitName(option.produit_id)
+                  }}</span>
+                </p>
+                <p>
+                  <span class="fw-bold">Quantité: </span>
+                  <span class="text-danger fw-bold">{{
+                    option.quantite
+                  }}</span>
+                </p>
+                <p>
+                  <span class="fw-bold">Prix unitaire: </span>
+                  <span class="text-danger fw-bold">{{
+                    globalService.formatPrix(option.prix_unitaire)
+                  }}</span>
+                </p>
+                <p>
+                  <span class="fw-bold">Prix total vendu: </span>
+                  <span class="text-danger fw-bold">{{
+                   globalService.formatPrix( option.prix_total_vente)
+                  }}</span>
+                </p>
+                <p>
+                  <p>
+                    <span class="fw-bold">Point de vente: </span>
+                    <span class="text-danger fw-bold">{{
+                     getPointName(option.point_de_vente_id)
+                    }}</span>
+                  </p>
+                  <p>
+                  <span class="fw-bold">Date vente: </span>
+                  <span class="text-danger fw-bold">{{
+                   globalService.formatFrenchDateSessionVnte( option.date_article_vendu)
+                  }}</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

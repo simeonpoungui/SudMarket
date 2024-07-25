@@ -22,6 +22,38 @@
             (ngSubmit)="onSubmitForm(produitform)"
             class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
           >
+
+          <div class="col-lg-4 bg-light text-center">
+            <div
+              class="w-75 m-auto mt-2"
+            >
+              <img
+                class="m-auto"
+                [src]="image"
+                style="
+                  height: 200px !important;
+                  width: 175px !important;
+                "
+                alt="photo agent"
+              />
+            </div>
+
+            <div class="col-lg-8 bg-light m-auto">
+              <label
+                for="validationCustom01"
+                class="form-label label mb-2"
+                >Photo de l'enseignant</label
+              >
+              <br />
+              <button
+                type="button"
+                (click)="openCropImage()"
+                class="btn btn-primary"
+              >
+                Choisir une photo
+              </button>
+            </div>
+          </div>
             <div class="col-lg-4 mt-3">
               <label for="validationCustom01" class="form-label label"
                 >Nom <span class="title-bg-global-secondary"> * </span></label

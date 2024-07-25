@@ -10,9 +10,11 @@ import { UsersService } from 'src/app/Services/users.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { CommandeService } from 'src/app/Services/commande.service';
-import { CommandeAchat } from 'src/app/Models/commande.model';
+import { CommandeAchat, GetCommandeAchat } from 'src/app/Models/commande.model';
 import { Fournisseur, GetFournisseur } from 'src/app/Models/fournisseur.model';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
+import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import { ProduitService } from 'src/app/Services/produit.service';
 
 @Component({
   selector: 'app-commande-achat-fiche',
@@ -26,13 +28,16 @@ export class CommandeAChatFicheComponent {
   message!: any
   
   tbUsers: Utilisateur[] = []
+  tbProduit!: Produit[]
   tbFournisseurs!: Fournisseur[]
   tbClients: Client[] = [];
   tbPointdeVente!: PointsDeVentes[]
+  tbArticleCommande!: any
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private produitService: ProduitService,
     public globalService: GlobalService,
     private dialog: MatDialog,
     private fournisseurService: FournisseurService,
@@ -54,6 +59,35 @@ export class CommandeAChatFicheComponent {
     this.loadUsers()
     this.loadPointDeVente()
     this.loadFournisseur()
+    this.loadProduit()
+    this.getArticlesCommande()
+  }
+
+  getArticlesCommande(){
+    const commandeID: GetCommandeAchat = {
+      commande_achat_id: this.commandes.commande_achat_id
+    }
+    this.commandeService.getArticleCommandeByCommandeID(commandeID).subscribe(data => {
+      console.log(data.message);
+      this.tbArticleCommande = data.message
+      if (typeof data.message === 'string') {
+        this.globalService.toastShow('Aucun article commandé','Information','info')
+      }
+    } )
+  }
+
+
+  getProduitName(produit_id: number): string {
+    const produit = this.tbProduit.find(p => p.produit_id === produit_id);
+    return produit ? (produit.nom ): '';
+  }
+  
+  loadProduit(){
+    const produit : GetProduit = {produit_id: 0}
+    this.produitService.getList(produit).subscribe(data => {
+      console.log(data.message);
+      this.tbProduit = data.message
+    })
   }
 
   loadPointDeVente(){
@@ -64,7 +98,6 @@ export class CommandeAChatFicheComponent {
       
     } )
   }
-
 
   getFournisseurName(fournisseur_id: number): string {
     const fournisseur = this.tbFournisseurs.find(f => f.fournisseur_id === fournisseur_id);

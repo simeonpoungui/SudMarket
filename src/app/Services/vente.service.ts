@@ -6,6 +6,7 @@ import { CodeResponse, CodeResponseOneVente, GetVente, Vente } from '../Models/v
 import { Utilisateur } from '../Models/users.model';
 import { Client } from '../Models/clients.model';
 import { PointsDeVentes } from '../Models/pointsDeVentes.model';
+import { ArticlesDeVentes, GetArticleDeVente } from '../Models/articlesDeVente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class VenteService {
   uriupdate = "/v1/sudmarket/update/ventes"
   urigetventefiltre = "/v1/sudmarket/get/produit-by-client-user-point-date"
   uriimpressionetatventes = "/v1/sudmarket/impression/rapports/ventes"
+  urigetarticledeventebyventeid = "/v1/sudmarket/get/filtre/articles-de-vente-by-venteID"
 
   constructor(private httpclient: HttpClient) { }
   getList(vente: GetVente): Observable<CodeResponse>{
@@ -34,6 +36,11 @@ export class VenteService {
   }
   create(vente: Vente){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, vente)
+  }
+
+  getArticleDeVenteByVente(vente: GetVente){
+    console.log(vente);
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetarticledeventebyventeid, vente)
   }
 
   getListVenteByParametre(client: number, user: number,  point: number, DateDebut: string, DateFin: string){

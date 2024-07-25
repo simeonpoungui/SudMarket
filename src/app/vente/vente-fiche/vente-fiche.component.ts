@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
-import { Vente } from 'src/app/Models/vente.model';
+import { GetVente, Vente } from 'src/app/Models/vente.model';
 import { VenteService } from 'src/app/Services/vente.service';
 import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { Client, GetClient } from 'src/app/Models/clients.model';
@@ -11,6 +11,9 @@ import { ClientsService } from 'src/app/Services/clients.service';
 import { UsersService } from 'src/app/Services/users.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { ArticlesDeVentes, GetArticleDeVente } from 'src/app/Models/articlesDeVente.model';
+import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import { ProduitService } from 'src/app/Services/produit.service';
 
 @Component({
   selector: 'app-vente-fiche',
@@ -23,11 +26,14 @@ export class VenteFicheComponent {
   message!: any
   
   tbUsers: Utilisateur[] = []
+  tbProduit!: Produit[]
   tbClients: Client[] = [];
   tbPointdeVente!: PointsDeVentes[]
+  tbarticlesDeVente!: any[]
 
   constructor(
     private route: ActivatedRoute,
+    private produitService: ProduitService,
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog,
@@ -46,6 +52,21 @@ export class VenteFicheComponent {
     this.loadClient()
     this.loadUsers()
     this.loadPointDeVente()
+    this.loadProduit()
+    this.getArticlesDeVenteByVenteID()
+  }
+
+  getArticlesDeVenteByVenteID(){
+    const venteID: GetVente = {
+      vente_id: this.vente.vente_id
+    }
+    this.venteService.getArticleDeVenteByVente(venteID).subscribe(data => {
+      console.log(data.message);
+      this.tbarticlesDeVente = data.message
+      if (typeof data.message === 'string') {
+        this.globalService.toastShow('Aucun article vendu','Information','info')
+      }
+    } )
   }
 
   loadPointDeVente(){
@@ -55,6 +76,19 @@ export class VenteFicheComponent {
       this.tbPointdeVente = data.message
       
     } )
+  }
+
+  loadProduit(){
+    const produit : GetProduit = {produit_id: 0}
+    this.produitService.getList(produit).subscribe(data => {
+      console.log(data.message);
+      this.tbProduit = data.message
+    })
+  }
+
+  getProduitName(produit_id: number): string {
+    const produit = this.tbProduit.find(p => p.produit_id === produit_id);
+    return produit ? (produit.nom ): '';
   }
 
   getPointName(point_de_vente_id: any): string {
