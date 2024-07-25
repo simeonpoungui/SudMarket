@@ -33,7 +33,8 @@ import { CommandeAChatFicheComponent } from './commande-achat/commande-achat-fic
 import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form/commande-achat-form.component';
 import { ArticlesCommandesAchatsComponent } from './commande-achat/articles-commandes-achats/articles-commandes-achats.component';
 import { SessionCommandeComponent } from './commande-achat/session-commande/session-commande.component';
-import { FicheArticleDeCommandeComponent } from './commande-achat/articles-commandes-achats/fiche-article-de-commande/fiche-article-de-commande.component';
+import { FicheArticleDeCommandeComponent } from './commande-achat/fiche-article-de-commande/fiche-article-de-commande.component';
+// import { FicheArticleDeCommandeComponent } from './commande-achat/articles-commandes-achats/fiche-article-de-commande/fiche-article-de-commande.component';
 //Vente Entities
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';

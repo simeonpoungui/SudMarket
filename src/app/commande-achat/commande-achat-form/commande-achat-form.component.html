@@ -78,18 +78,17 @@
                 [value]="getUserName(utilisateur_id)"
               />
             </div>
-
+            
             <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label">
-                Statut</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="statut"
-                [value]="statut"
-              />
+              <label for="validationCustom01" class="form-label label">Statut</label>
+              <select [disabled]="statut == 'terminé' ? true : false" (change)="updateCommandeProduitStock($event)" class="form-control" name="statut" [(ngModel)]="statut">
+                <option *ngFor="let statut of statuts" [value]="statut.value">
+                  {{ statut.label }}
+                </option>
+              </select>
             </div>
+            
+            
 
             <div class="col-lg-2 mt-3">
               <button

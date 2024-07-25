@@ -19,6 +19,7 @@ export class CommandeService {
   uriupdate = '/v1/sudmarket/update/commandes-achats';
   urifiltrescommandes = '/v1/sudmarket/get/filtre/commandes/achats';
   uriimprimecommandesachats = "/v1/sudmarket/impression/commandes/achats"
+  uriupdatestockproduitbystatut = "/v1/sudmarket/update/produits/by-commandes"
 
   constructor(private httpclient: HttpClient) {}
 
@@ -52,6 +53,15 @@ export class CommandeService {
       commande
     );
   }
+
+  updaStatutteProduitStockBySatut(commande: GetCommandeAchat) {
+    console.log(commande);
+    return this.httpclient.post<CodeResponse>(
+      environment.apiUrl + this.uriupdatestockproduitbystatut,
+      commande
+    );
+  }
+
 
   getListFiltreCommandes(
     IDfournisseur: number,

@@ -7,7 +7,7 @@ export class CommandeAchat {
     montant_total!: number;
     statut?: string;
     utilisateur_id!: number;
-    articles!: ArticlesDeCommandeDAchat[];
+    articles?: ArticlesDeCommandeDAchat[];
 
 }
 

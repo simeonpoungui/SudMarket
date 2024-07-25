@@ -26,9 +26,9 @@ export class CommandeAChatComponent {
     'date_commande',
     'fournisseur_id',
     'montant_total',
-    'statut',
     'utilisateur_id',
     'point_de_vente_id',
+    'statut',
     'Actions'
   ];
 
@@ -47,7 +47,7 @@ export class CommandeAChatComponent {
   DateFin!: string
 
   pointSelected!: PointsDeVentes
-  
+
   constructor(
     private commandeService: CommandeService,
     private router: Router,

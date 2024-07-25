@@ -172,7 +172,15 @@
                   Statut
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.statut }}
+                  <input [disabled]="true"
+                  class="form-control"
+                  [value]="element.statut"
+                  type="text"
+                  [ngClass]="{
+                    'bg-vert': element.statut === 'terminé',
+                    'bg-rouge': element.statut !== 'terminé'
+                  }">
+           
                 </td>
                 <td
                   mat-footer-cell
