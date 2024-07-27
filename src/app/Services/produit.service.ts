@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environnement/environnement.prod';
-import { CodeResponse, CodeResponseOneProduit, GetProduit, Produit } from '../Models/produit.model';
+import { CodeResponse, CodeResponseOneProduit, GetProduit, ImageProduit, Produit } from '../Models/produit.model';
 import { GetPointsDeVentes } from '../Models/pointsDeVentes.model';
 
 @Injectable({
@@ -16,6 +16,8 @@ export class ProduitService {
   uriupdate = "/v1/sudmarket/update/produits"
   uriproduitbypointvente = "/v1/sudmarket/get/produits-by-point-de-vente"
   uriimpressionetatsproduit = "/v1/sudmarket/impression/produits"
+  uricreateupdateimagebyproduit = "/v1/sudmarket/update/create/image/produit"
+  urigetimagebyproduit = "/v1/sudmarket/get/image/by-produit"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -46,4 +48,13 @@ export class ProduitService {
       responseType: 'blob' as 'json'
     });
   }
+
+  updateCreateImageByProduit(modelimage: ImageProduit){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreateupdateimagebyproduit, modelimage)
+  }
+
+  getImageByProduit(produit: GetProduit){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetimagebyproduit, produit)
+  }
+
 }

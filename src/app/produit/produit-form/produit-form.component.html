@@ -20,143 +20,156 @@
           <form
             #produitform="ngForm"
             (ngSubmit)="onSubmitForm(produitform)"
-            class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+            class="border rounded rounded-4 bg-white shadow p-3 needs-validation"
           >
+            <div class="row">
+              <div class="col-lg-4 rounded rounded-4 bg-dark">
+                <div class="col-lg-12 p-3 text-center">
+                  <div class="w-75 m-auto mt-2">
+                    <img
+                      class="m-auto"
+                      [src]="image"
+                      style="width: 200px !important"
+                      *ngIf="image"
+                    />
+                  </div>
 
-          <div class="col-lg-4 bg-light text-center">
-            <div
-              class="w-75 m-auto mt-2"
-            >
-              <img
-                class="m-auto"
-                [src]="image"
-                style="
-                  height: 200px !important;
-                  width: 175px !important;
-                "
-                alt="photo agent"
-              />
+                  <div class="col-lg-8 m-auto mt-2">
+                    <label
+                      for="validationCustom01"
+                      class="form-label label mb-2"
+                    >
+                      Image du produit
+                    </label>
+                    <div class="border w-75 m-lg-auto">
+                      <button
+                        type="button"
+                        class="btn border border-0 text-white form-control"
+                        (click)="triggerFileInput()"
+                      >
+                        Choisir une image
+                      </button>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      class="form-control"
+                      (change)="onFileSelected($event)"
+                      #fileInput
+                      style="display: none"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="col-lg-12">
+                  <label for="validationCustom01" class="form-label label"
+                    >Nom
+                    <span class="title-bg-global-secondary"> * </span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nom"
+                    [(ngModel)]="nom"
+                  />
+                </div>
+
+                <div class="col-lg-12 mt-3">
+                  <label for="validationCustom01" class="form-label label"
+                    >Description
+                    <span class="title-bg-global-secondary"> * </span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="description"
+                    [(ngModel)]="description"
+                  />
+                </div>
+
+                <div class="col-lg-12 mt-3">
+                  <label for="validationCustom01" class="form-label label"
+                    >Categorie</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="categorie"
+                    [(ngModel)]="categorie"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div class="col-lg-8 bg-light m-auto">
-              <label
-                for="validationCustom01"
-                class="form-label label mb-2"
-                >Photo de l'enseignant</label
-              >
-              <br />
-              <button
-                type="button"
-                (click)="openCropImage()"
-                class="btn btn-primary"
-              >
-                Choisir une photo
-              </button>
-            </div>
-          </div>
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Nom <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="nom"
-                [(ngModel)]="nom"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Description
-                <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="description"
-                [(ngModel)]="description"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Categorie</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="categorie"
-                [(ngModel)]="categorie"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label">
-                Prix</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                name="prix"
-                [(ngModel)]="prix"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Quantité en stock
-                <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="number"
-                class="form-control"
-                name="quantite_en_stock"
-                [(ngModel)]="quantite_en_stock"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Code produit
-              </label>
-              <input
-                type="text"
-                class="form-control"
-                name="code_produit"
-                [(ngModel)]="code_produit"
-              />
-            </div>
-
-            <div class="col-lg-6 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Niveau de reapprovisionnement
-              </label>
-              <input
-                type="number"
-                class="form-control"
-                name="niveau_de_reapprovisionnement"
-                [(ngModel)]="niveau_de_reapprovisionnement"
-              />
-            </div>
-
-            <div class="col-lg-6 mt-3">
-              <label for="validationCustom01" class="form-label label">
-                Point de vente
-                <span class="title-bg-global-secondary"> * </span>
-              </label>
-              <select
-                class="form-control form-select"
-                name="point_de_vente_id"
-                [(ngModel)]="point_de_vente_id"
-              >
-                <option
-                  *ngFor="let point of tbPointdeVente"
-                  [value]="point.point_de_vente_id"
+            <div class="row">
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Prix</label
                 >
-                  {{ point.nom }}
-                </option>
-              </select>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="prix"
+                  [(ngModel)]="prix"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Quantité en stock
+                  <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="quantite_en_stock"
+                  [(ngModel)]="quantite_en_stock"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Code produit
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="code_produit"
+                  [(ngModel)]="code_produit"
+                />
+              </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Niveau de reapprovisionnement
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="niveau_de_reapprovisionnement"
+                  [(ngModel)]="niveau_de_reapprovisionnement"
+                />
+              </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Point de vente
+                  <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <select
+                  class="form-control form-select"
+                  name="point_de_vente_id"
+                  [(ngModel)]="point_de_vente_id"
+                >
+                  <option
+                    *ngFor="let point of tbPointdeVente"
+                    [value]="point.point_de_vente_id"
+                  >
+                    {{ point.nom }}
+                  </option>
+                </select>
+              </div>
             </div>
 
             <div class="row">

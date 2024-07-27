@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
-import { Produit } from 'src/app/Models/produit.model';
+import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
@@ -30,6 +30,11 @@ export class ProduitFicheComponent {
     private produitService: ProduitService
   ){}
 
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
+  image: any | ArrayBuffer | null = null;
+
+
   ngOnInit(): void {
     console.log(this.action);
     const produitJson = localStorage.getItem('selectedProduit');
@@ -38,11 +43,20 @@ export class ProduitFicheComponent {
       console.log(this.produit);
     }
     this.loadPointDeVente()
+    this.getImageByproduiID()
   }
   updateproduit(){
     this.router.navigateByUrl('/produit/edit')
   }
 
+  getImageByproduiID(){
+    const produit: GetProduit = {produit_id: this.produit.produit_id}
+    this.produitService.getImageByProduit(produit).subscribe(data => {
+      console.log(data.message);
+      this.image = data.message
+    })
+  }
+  
   loadPointDeVente() {
     const point: GetPointsDeVentes = { point_de_vente_id: 0 };
     this.pointService.getList(point).subscribe((data) => {

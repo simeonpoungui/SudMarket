@@ -16,6 +16,11 @@ export class GetProduit {
     produit_id!: number;
 }
 
+export class ImageProduit {
+    produit_id!: number;
+    image: any | ArrayBuffer | null = null;
+}
+
 export class CodeResponse {
     code!:string
     message!:Produit[]
