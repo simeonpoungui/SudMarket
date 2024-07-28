@@ -133,10 +133,18 @@ export class ProduitFormComponent {
     } else {
       console.log(produit);
       this.produitService.create(produit).subscribe((data) => {
-        console.log(data);
+        console.log(data.message);
         this.message = data.message;
         this.router.navigateByUrl('produit/list');
-        this.globaService.toastShow(this.message, 'Succès', 'success');
+        this.globaService.toastShow("Votre produit a été crée avec succès", 'Succès', 'success');
+        const model: ImageProduit = {
+          produit_id: Number(data.message),
+          image: this.image
+        }
+        console.log(model);
+        this.produitService.updateCreateImageByProduit(model).subscribe(data => {
+          console.log(data.message);
+        })
       });
     }
   }

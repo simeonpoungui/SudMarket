@@ -144,7 +144,15 @@ export class UsersFormComponent {
         console.log(data);
         this.message = data.message
         this.router.navigateByUrl('user/list')
-        this.globaService.toastShow(this.message,'Succès','success')
+        this.globaService.toastShow("Utilisateur crée avec succès",'Succès','success')
+        const model: ImageUser = {
+          utilisateur_id: Number(data.message),
+          image: this.image
+        }
+        console.log(model);
+        this.userService.updateCreateImageByUser(model).subscribe(data => {
+          console.log(data.message);
+        })
       })
     }
   }
