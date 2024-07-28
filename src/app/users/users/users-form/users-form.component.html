@@ -4,137 +4,214 @@
       <div class="row">
         <div class="border shadow rounded rounded-4 bg-white p-2">
           <h2 class="fw-bold">
-            <span>{{action !== 'edit'? 'Ajouter un utilisateur' : "Modifier l'utilisateur"}} </span>
-            <span class="mx-1 title-bg-global-secondary"
+            <span
               >{{
-                action == "edit" ? nom_utilisateur : ""
+                action !== "edit"
+                  ? "Ajouter un utilisateur"
+                  : "Modifier l'utilisateur"
               }}
+            </span>
+            <span class="mx-1 title-bg-global-secondary"
+              >{{ action == "edit" ? nom_utilisateur : "" }}
               {{ action == "edit" ? prenom_utilisateur : "" }}</span
             >
           </h2>
         </div>
         <div class="col-12 mt-2">
           <form
-          #userform="ngForm"
-          (ngSubmit)="onSubmitForm(userform)"
-            class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+            #userform="ngForm"
+            (ngSubmit)="onSubmitForm(userform)"
+            class="border rounded rounded-4 bg-white shadow p-3 needs-validation"
           >
-            <div class="col-lg-4">
-              <label for="validationCustom01" class="form-label label"
-                >Nom <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="nom_utilisateur"
-                [(ngModel)]="nom_utilisateur"
-              />
-            </div>
+            <div class="row">
+              <div class="col-lg-4 rounded rounded-4 bg-dark">
+                <div class="col-lg-12 p-3 text-center">
+                  <div class="w-75 m-auto mt-2">
+                    <img
+                      class="m-auto"
+                      [src]="image"
+                      style="width: 200px !important"
+                      *ngIf="image"
+                    />
+                  </div>
 
-            <div class="col-lg-4">
-              <label for="validationCustom01" class="form-label label"
-                >Prénom <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="prenom_utilisateur"
-                [(ngModel)]="prenom_utilisateur"
-              />
-            </div>
+                  <div class="col-lg-8 m-auto mt-2">
+                    <label
+                      for="validationCustom01"
+                      class="form-label label mb-2"
+                    >
+                      Image du produit
+                    </label>
+                    <div class="border w-75 m-lg-auto">
+                      <button
+                        type="button"
+                        class="btn border border-0 text-white form-control"
+                        (click)="triggerFileInput()"
+                      >
+                        Choisir une image
+                      </button>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      class="form-control"
+                      (change)="onFileSelected($event)"
+                      #fileInput
+                      style="display: none"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="col-lg-12 mt-3">
+                  <label for="validationCustom01" class="form-label label"
+                    >Nom
+                    <span class="title-bg-global-secondary"> * </span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nom_utilisateur"
+                    [(ngModel)]="nom_utilisateur"
+                  />
+                </div>
 
-            <div class="col-lg-4">
-              <label for="validationCustom01" class="form-label label">
-                Sexe <span class="title-bg-global-secondary"> * </span>
-              </label>
-              <select class="form-control form-select" name="sexe" [(ngModel)]="sexe">
-                <option disabled>Sélectionner le sexe</option>
-                <option value="Homme">Homme</option>
-                <option value="Femme">Femme</option>
-              </select>
-            </div>
-            
+                <div class="col-lg-12 mt-3">
+                  <label for="validationCustom01" class="form-label label"
+                    >Prénom
+                    <span class="title-bg-global-secondary"> * </span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="prenom_utilisateur"
+                    [(ngModel)]="prenom_utilisateur"
+                  />
+                </div>
 
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Adresse</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="adresse"
-                [(ngModel)]="adresse"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Nationalité</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="nationalite"
-                [(ngModel)]="nationalite"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label">
-                Role <span class="title-bg-global-secondary"> * </span>
-              </label>
-              <select class="form-control form-select " name="role" [(ngModel)]="role">
-                <option *ngFor="let roleOption of TabRole" [value]="roleOption.nom_role">
-                  {{ roleOption.nom_role }}
-                </option>
-              </select>
-            </div>
-            
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Email <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="email"
-                [(ngModel)]="email"
-              />
-            </div>
-
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label"
-                >Télephone <span class="title-bg-global-secondary"> * </span></label
-              >
-              <input
-                type="text"
-                class="form-control"
-                name="telephone"
-                [(ngModel)]="telephone"
-              />
-            </div>
-            <div class="col-lg-4 mt-3">
-              <label for="validationCustom01" class="form-label label">
-                Point de vente <span class="title-bg-global-secondary"> * </span>
-              </label>
-              <select class="form-control form-select " name="point_de_vente_id" [(ngModel)]="point_de_vente_id">
-                <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
-                  {{ point.nom }}
-                </option>
-              </select>
+                <div class="col-lg-12 mt-3">
+                  <label for="validationCustom01" class="form-label label">
+                    Sexe <span class="title-bg-global-secondary"> * </span>
+                  </label>
+                  <select
+                    class="form-control form-select"
+                    name="sexe"
+                    [(ngModel)]="sexe"
+                  >
+                    <option disabled>Sélectionner le sexe</option>
+                    <option value="Homme">Homme</option>
+                    <option value="Femme">Femme</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
             <div class="row">
-             <div class="col-lg-6">
               <div class="col-lg-4 mt-3">
-                <button [disabled]="!isFormValid()"  type="submit" class="form-control bg-global-primary text-white">
-                  Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
-                </button>
+                <label for="validationCustom01" class="form-label label"
+                  >Adresse</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="adresse"
+                  [(ngModel)]="adresse"
+                />
               </div>
-             </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Nationalité</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nationalite"
+                  [(ngModel)]="nationalite"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Role <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <select
+                  class="form-control form-select"
+                  name="role"
+                  [(ngModel)]="role"
+                >
+                  <option
+                    *ngFor="let roleOption of TabRole"
+                    [value]="roleOption.nom_role"
+                  >
+                    {{ roleOption.nom_role }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Email
+                  <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="email"
+                  [(ngModel)]="email"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Télephone
+                  <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="telephone"
+                  [(ngModel)]="telephone"
+                />
+              </div>
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Point de vente
+                  <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <select
+                  class="form-control form-select"
+                  name="point_de_vente_id"
+                  [(ngModel)]="point_de_vente_id"
+                >
+                  <option
+                    *ngFor="let point of tbPointdeVente"
+                    [value]="point.point_de_vente_id"
+                  >
+                    {{ point.nom }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="col-lg-4 mt-3">
+                  <button
+                    [disabled]="!isFormValid()"
+                    type="submit"
+                    class="form-control bg-global-primary text-white"
+                  >
+                    Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+                  </button>
+                </div>
+              </div>
               <div class="col-lg-6 mt-3 text-end pt-3">
-               <p>NB : Les champs en <span class="title-bg-global-secondary"> (*) </span> sont obligatoire</p>
+                <p>
+                  NB : Les champs en
+                  <span class="title-bg-global-secondary"> (*) </span> sont
+                  obligatoire
+                </p>
               </div>
             </div>
           </form>

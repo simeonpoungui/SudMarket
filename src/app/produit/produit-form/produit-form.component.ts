@@ -65,9 +65,9 @@ export class ProduitFormComponent {
     }
     if (this.action === 'edit') {
       this.initFormFournisseur();
+      this.getImageByproduiID()
     }
     this.loadPointDeVente();
-    this.getImageByproduiID()
   }
 
 
@@ -116,7 +116,6 @@ export class ProduitFormComponent {
     this.produitService.updateCreateImageByProduit(model).subscribe(data => {
       console.log(data.message);
     })
-
   }
   //Submit form user
   onSubmitForm(form: NgForm) {

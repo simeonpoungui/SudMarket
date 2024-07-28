@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { CodeResponseOneUser, GetUser, Utilisateur } from '../Models/users.model';
+import { CodeResponseOneUser, GetUser, ImageUser, Utilisateur } from '../Models/users.model';
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponse } from '../Models/users.model';
 import { Client } from '../Models/clients.model';
@@ -19,6 +19,8 @@ export class UsersService {
   urideleteuser = "/v1/sudmarket/delete/users"
   uriuserbypointdevente = "/v1/sudmarket/get/user-by-point-vente"
   uriimprimeuserspdflist = "/v1/sudmarket/impression/utilisateurs"
+  urigetimagebyuser = "/v1/sudmarket/get/image/by-user"
+  uricreateupdateimagebyuser = "/v1/sudmarket/update/create/image/user"
 
   getListUser(user: GetUser): Observable<CodeResponse>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetuses, user)
@@ -45,5 +47,13 @@ export class UsersService {
     return this.httpclient.post(environment.apiUrl + this.uriimprimeuserspdflist, data , {
       responseType: 'blob' as 'json'
     });
+  }
+
+  getImageByUser(user: GetUser){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetimagebyuser, user)
+  }
+
+  updateCreateImageByUser(modelimage: ImageUser){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreateupdateimagebyuser, modelimage)
   }
 }

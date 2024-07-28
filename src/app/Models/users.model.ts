@@ -15,6 +15,10 @@ export class Utilisateur {
     mis_a_jour_le?: Date;
 }
 
+export class ImageUser {
+    utilisateur_id!: number;
+    image: any | ArrayBuffer | null = null;
+}
 
 export class GetUser {
     utilisateur_id!: number;

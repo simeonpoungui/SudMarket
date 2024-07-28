@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Utilisateur } from 'src/app/Models/users.model';
+import { GetUser, ImageUser, Utilisateur } from 'src/app/Models/users.model';
 import { GlobalService } from 'src/app/Services/global.service';
 import { UsersService } from 'src/app/Services/users.service';
 import { GetRole, Role } from 'src/app/Models/role.model';
@@ -48,6 +48,10 @@ export class UsersFormComponent {
     return this.nom_utilisateur && this.prenom_utilisateur && this.email && this.telephone && this.sexe && this.role;
   }
 
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
+  image: any | ArrayBuffer | null = null;
+  
   ngOnInit(): void {
     this.action = this.route.snapshot.params['action']
     console.log(this.action);
@@ -57,11 +61,30 @@ export class UsersFormComponent {
     }
     if (this.action === 'edit') {
       this.initFomForUser()
+      this.getImageUserID()
     }
     this.loadRole()
     this.loadPointDeVente()
   }
   
+  getImageUserID(){
+    const user: GetUser = {utilisateur_id: this.user.utilisateur_id}
+    this.userService.getImageByUser(user).subscribe(data => {
+      console.log(data.message);
+      this.image = data.message
+    })
+  }
+
+  sendImageByUser(){
+    const model: ImageUser = {
+      utilisateur_id: this.user.utilisateur_id,
+      image: this.image
+    }
+    this.userService.updateCreateImageByUser(model).subscribe(data => {
+      console.log(data.message);
+    })
+  }
+
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}
     this.pointService.getList(point).subscribe(data => {
@@ -112,6 +135,8 @@ export class UsersFormComponent {
         this.message = data.message
         this.router.navigateByUrl('user/list')
         this.globaService.toastShow(this.message,'Succès','success')
+        this.sendImageByUser()
+
       })
     }else{
       console.log(user);
@@ -122,5 +147,33 @@ export class UsersFormComponent {
         this.globaService.toastShow(this.message,'Succès','success')
       })
     }
+  }
+
+  //image user
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        this.image = e.target?.result;
+        console.log(this.image);
+        
+        this.convertToBase64(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  convertToBase64(file: File): void {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      console.log('Base64 String - ', base64String);
+    };
+    reader.readAsDataURL(file);
   }
 }

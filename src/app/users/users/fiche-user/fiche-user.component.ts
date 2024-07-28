@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Utilisateur } from 'src/app/Models/users.model';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from 'src/app/Services/users.service';
@@ -29,6 +29,11 @@ export class FicheUserComponent {
     private userService: UsersService
   ){}
 
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
+  image: any | ArrayBuffer | null = null;
+  
+
   ngOnInit(): void {
     this.action = this.route.snapshot.params['action']
     console.log(this.action);
@@ -37,7 +42,17 @@ export class FicheUserComponent {
       this.user =  JSON.parse(utilisateurJson);
     }
     this.loadPointDeVente()
+    this.getImageUserID()
   }
+
+  getImageUserID(){
+    const user: GetUser = {utilisateur_id: this.user.utilisateur_id}
+    this.userService.getImageByUser(user).subscribe(data => {
+      console.log(data.message);
+      this.image = data.message
+    })
+  }
+  
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}
     this.pointService.getList(point).subscribe(data => {
