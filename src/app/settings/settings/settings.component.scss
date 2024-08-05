@@ -1,0 +1,27 @@
+$primary-color:#3454d1;
+$secondary-color: hsl(0, 81%, 61%);
+$third-color: #17c666;
+
+.content {
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+    }
+    
+    .text-on-border {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    padding: 0 5px;
+    }
+
+.block-p{
+    cursor: pointer;
+}
+.block-p:hover{
+    cursor: pointer;
+    background-color:$third-color;
+    color: white;
+    font-weight: bold;
+}

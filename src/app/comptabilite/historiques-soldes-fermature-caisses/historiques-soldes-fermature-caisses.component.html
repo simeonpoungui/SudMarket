@@ -1,0 +1,186 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="col-lg-11 m-lg-auto">
+      <div class="p-3">
+        <div class="shadow p-2">
+          <h1 class="fw-bold">
+            Historiques des clotures des caisses
+          </h1>
+        </div>
+        <div class="shadow bg-white mt-1">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="d-flex align-items-center mt-4">
+                <i
+                  style="position: absolute"
+                  class="fa-solid p-3 fa-magnifying-glass"
+                ></i>
+
+                <input
+                  type="text"
+                  (keyup)="applyFilter($event)"
+                  placeholder="Recherchez un utilisateur ici..."
+                  class="form-control text-start px-5 text-uppercase"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4 pt-4">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                class="form-control text-white"
+              >
+                Imprimer l'historique <i class="fa-solid fa-print"></i>
+              </button>
+            </div>
+            <div class="col-lg-4 pt-4">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                class="form-control text-white"
+                routerLink="/caisse-vendeur-form/create"
+              >
+                Ajouter une caisse <i class="mx-1 fa-solid fa-user"></i>
+              </button>
+            </div>
+          </div>
+          <div
+            class="mat-elevation-z8 mt-3"
+            *ngIf="!isloadingpage; else loader"
+          >
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="caisse_vendeur_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Caisse
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.caisse_vendeur_id }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="date_comptable">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Date
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatDate(element.date_comptable) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="solde_ouverture">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Solde ouverture
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.solde_ouverture) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="solde_fermeture">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Solde fermeture
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.solde_fermeture) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="TotalRetraits">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Total retraits
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.TotalRetraits) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="TotalVersements">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Total versement
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.TotalVersements) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <ng-container matColumnDef="solde_confirme">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Etat du solde
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  <input
+                    type="text"
+                    style="width: 150px;"
+                    class="form-control"
+                    [value]="
+                      element.solde_confirme == 1
+                        ? 'Confirmé'
+                        : ' Non confirmé'
+                    "
+                    [ngClass]="
+                      element.solde_confirme == 1
+                        ? 'sold-confirmed'
+                        : 'sold-not-confirmed'
+                    "
+                  />
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

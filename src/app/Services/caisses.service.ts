@@ -29,7 +29,8 @@ export class CaissesService {
   uricreatecaissevendeur = "/v1/sudmarket/create/caisse/vendeur"
   uriupadtecaissevendeur = "/v1/sudmarket/update/caisse/vendeur"
   urideletecaissevendeur = "/v1/sudmarket/delete/caisse/vendeur"
-
+  urigethistoriquesoldecaissesvendeurs = "/v1/sudmarket/get/solde/caisses/vendeurs"
+  
   //Partie A caisse vendeur
 
   getListCaisseVendeur(caisse: GetCaisseVendeur): Observable<CodeResponse> {
@@ -68,10 +69,7 @@ export class CaissesService {
 
   clotureJourneeComptable(vendeur: any) {
     console.log(vendeur);
-    return this.httpclient.post<any>(
-      environment.apiUrl + this.cloturejourneecomptable,
-      vendeur
-    );
+    return this.httpclient.post<any>(environment.apiUrl + this.cloturejourneecomptable,vendeur);
   }
 
   getinfocaisseJourneeComptable(
@@ -118,5 +116,10 @@ export class CaissesService {
       environment.apiUrl + this.urihisttoriquecaissevendeur,
       data
     );
+  }
+
+  getListSoldeFermetureCaisseVendeur(solde: any) {
+    console.log(solde);
+    return this.httpclient.post<any>(environment.apiUrl + this.urigethistoriquesoldecaissesvendeurs,solde);
   }
 }

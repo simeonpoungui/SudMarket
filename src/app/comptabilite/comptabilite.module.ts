@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { CaissePrincipaleComponent } from './caisse-principale/caisse-principale.component';
 import { CaisseExploitationComponent } from './caisse-exploitation/caisse-exploitation.component';
 import { TransfertInterCaisseComponent } from './transfert-inter-caisse/transfert-inter-caisse.component';
+import { HistoriquesSoldesFermatureCaissesComponent } from './historiques-soldes-fermature-caisses/historiques-soldes-fermature-caisses.component';
 @NgModule({
   declarations: [
     ClotureJourneeComponent,
@@ -27,6 +28,7 @@ import { TransfertInterCaisseComponent } from './transfert-inter-caisse/transfer
     CaissePrincipaleComponent,
     CaisseExploitationComponent,
     TransfertInterCaisseComponent,
+    HistoriquesSoldesFermatureCaissesComponent,
   ],
   imports: [
     CommonModule,

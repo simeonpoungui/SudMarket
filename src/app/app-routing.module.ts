@@ -58,6 +58,11 @@ import { HistoriqueDesCaissesVendeurComponent } from './comptabilite/historique-
 import { CaisseVendeurComponent } from './comptabilite/caisse-vendeur/caisse-vendeur.component';
 import { FormComponent } from './comptabilite/caisse-vendeur/form/form.component';
 import { FicheComponent } from './comptabilite/caisse-vendeur/fiche/fiche.component';
+import { HistoriquesSoldesFermatureCaissesComponent } from './comptabilite/historiques-soldes-fermature-caisses/historiques-soldes-fermature-caisses.component';
+import { EtatCaisseVendeurComponent } from './comptabilite/etat-caisse-vendeur/etat-caisse-vendeur.component';
+import { TransfertInterCaisseComponent } from './comptabilite/transfert-inter-caisse/transfert-inter-caisse.component';
+import { CaissePrincipaleComponent } from './comptabilite/caisse-principale/caisse-principale.component';
+import { CaisseExploitationComponent } from './comptabilite/caisse-exploitation/caisse-exploitation.component';
 
 const routes: Routes = [
   // home page
@@ -133,12 +138,17 @@ const routes: Routes = [
   {path: 'session-vente', component: SessionVenteComponent},
   {path: 'session-vente-list', component: ListSessionVenteComponent},
 
-
+  // Module comptabilité
   {path:'comptabilite', loadChildren: () => import('./comptabilite/comptabilite.module').then(m => m.ComptabiliteModule)},
   {path: 'cloture-journee', component: ClotureJourneeComponent},
   {path: 'caisse-vendeur', component: CaisseVendeurComponent},
   {path: 'caisse-vendeur-form/:action', component: FormComponent},
   {path: 'caisse-vendeur-fiche', component: FicheComponent},
+  {path: 'etat-caisse-vendeur', component: EtatCaisseVendeurComponent},
+  {path: 'caisse-principale', component: CaissePrincipaleComponent},
+  {path: 'caisse-exploitation', component: CaisseExploitationComponent},
+  {path: 'transfer-inter-caisse', component: TransfertInterCaisseComponent},
+  {path: 'historiques-des-clotures-des-caisses', component: HistoriquesSoldesFermatureCaissesComponent},
   {path: 'historique-des-caisses-vendeurs', component: HistoriqueDesCaissesVendeurComponent},
 
 ];
