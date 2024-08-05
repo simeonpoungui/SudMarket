@@ -37,7 +37,7 @@
                     type="text"
                     class="form-control"
                     name="caisse.point_de_vente_id"
-                    [(ngModel)]="caisse.point_de_vente_id"
+                    [value]="getPointName(caisse.point_de_vente_id)"
                   />
                 </div>
   
@@ -50,7 +50,7 @@
                     type="text"
                     class="form-control"
                     name="caisse.utilisateur_id"
-                    [(ngModel)]="caisse.utilisateur_id"
+                    [value]="getUserName(caisse.utilisateur_id)"
                   />
                 </div>
   
@@ -78,7 +78,7 @@
                     type="text"
                     class="form-control"
                     name="caisse.actif"
-                    [(ngModel)]="caisse.actif"
+                    [value]="caisse.actif == true ? 'Actif': 'Non actif' "
                   />
                 </div>
   

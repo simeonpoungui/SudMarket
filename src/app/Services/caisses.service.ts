@@ -25,31 +25,27 @@ export class CaissesService {
   cloturejourneecomptable = '/v1/sudmarket/cloture/journee/comptable';
   urihisttoriquecaissevendeur = '/v1/sudmarket/get/historique/caisses/vendeur';
   urigetcaisselist = '/v1/sudmarket/get/caisse/vendeurs';
-  urisoldehistoriquecaissebydatecomptable = "/v1/sudmarket/get/solde/caisse-by-date-comptable"
+  urisoldehistoriquecaissebydatecomptable ='/v1/sudmarket/get/solde/caisse-by-date-comptable';
+  uricreatecaissevendeur = "/v1/sudmarket/create/caisse/vendeur"
+  uriupadtecaissevendeur = "/v1/sudmarket/update/caisse/vendeur"
+  urideletecaissevendeur = "/v1/sudmarket/delete/caisse/vendeur"
+
+  //Partie A caisse vendeur
 
   getListCaisseVendeur(caisse: GetCaisseVendeur): Observable<CodeResponse> {
-    console.log(caisse);
-    return this.httpclient.post<any>(
-      environment.apiUrl + this.urigetcaisselist,
-      caisse
-    );
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetcaisselist,caisse);
   }
 
-  getHistoriqueCaisseVendeurByPlageDate(
-    caisse_vendeur_id: number,
-    DateDebut: string,
-    DateFin: string
-  ): Observable<CodeResponse> {
-    const data = {
-      caisse_vendeur_id: caisse_vendeur_id,
-      dateDebut: DateDebut,
-      dateFin: DateFin,
-    };
-    console.log(data);
-    return this.httpclient.post<any>(
-      environment.apiUrl + this.urihisttoriquecaissevendeur,
-      data
-    );
+  deleteCaisseVendeur(caisse: CaissesVendeur){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urideletecaissevendeur, caisse)
+  }
+
+  updateCaisseVendeur(caisse: CaissesVendeur){
+    return this.httpclient.put<CodeResponse>(environment.apiUrl + this.uriupadtecaissevendeur, caisse)
+  }
+  
+  createCaisseVendeur(caisse: CaissesVendeur){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreatecaissevendeur, caisse)
   }
 
   getCaisseByUser(user: GetUser): Observable<CodeResponseOneCaisseV> {
@@ -67,6 +63,8 @@ export class CaissesService {
       user
     );
   }
+
+  //Partie B Solde caisse by journée comptable
 
   clotureJourneeComptable(vendeur: any) {
     console.log(vendeur);
@@ -100,6 +98,25 @@ export class CaissesService {
     console.log(data);
     return this.httpclient.post<any>(
       environment.apiUrl + this.urisoldehistoriquecaissebydatecomptable,
+      data
+    );
+  }
+
+  //Partie C Historique des caisses vendeurs
+
+  getHistoriqueCaisseVendeurByPlageDate(
+    caisse_vendeur_id: number,
+    DateDebut: string,
+    DateFin: string
+  ): Observable<CodeResponse> {
+    const data = {
+      caisse_vendeur_id: caisse_vendeur_id,
+      dateDebut: DateDebut,
+      dateFin: DateFin,
+    };
+    console.log(data);
+    return this.httpclient.post<any>(
+      environment.apiUrl + this.urihisttoriquecaissevendeur,
       data
     );
   }

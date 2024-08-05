@@ -8,6 +8,10 @@ import { CaissesService } from 'src/app/Services/caisses.service';
 import { GetCaisseVendeur } from 'src/app/Models/caissevendeur.model';
 import { CaisseVendeur } from 'src/app/Models/historiqueCaisseVendeur.model';
 import { GlobalService } from 'src/app/Services/global.service';
+import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
+import { UsersService } from 'src/app/Services/users.service';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 @Component({
   selector: 'app-caisse-vendeur',
   templateUrl: './caisse-vendeur.component.html',
@@ -31,10 +35,14 @@ export class CaisseVendeurComponent {
   DateFin!: string;
   caisse_vendeur_id!: number;
   tbcaisse!: CaisseVendeur[];
+  tbPointdeVente!: PointsDeVentes[];
+  tbUsers!: Utilisateur[]
 
   constructor(
     public globalService: GlobalService,
     private dialog: MatDialog,
+    private userService: UsersService,
+    private pointService: PointsDeVentesService,
     private caisseSerices: CaissesService,
     private router: Router
   ) {}
@@ -56,6 +64,40 @@ export class CaisseVendeurComponent {
       this.dataSource.paginator = this.paginator;
       this.tbcaisse = data.message;
     });
+
+    this.loadPointDeVente();
+    this.loadUser()
+  }
+
+  loadPointDeVente() {
+    const point: GetPointsDeVentes = { point_de_vente_id: 0 };
+    this.pointService.getList(point).subscribe((data) => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message;
+    });
+  }
+
+  loadUser() {
+    const user: GetUser = { utilisateur_id: 0 };
+    this.userService.getListUser(user).subscribe((data) => {
+      console.log(data.message);
+      this.tbUsers = data.message;
+    });
+  }
+
+
+  getPointName(point_de_vente_id: any): string {
+    const point = this.tbPointdeVente.find(
+      (p) => p.point_de_vente_id === point_de_vente_id
+    );
+    return point ? point.nom : 'Unknown Point';
+  }
+
+  getUserName(utilisateur_id: any): string {
+    const user = this.tbUsers.find(
+      (u) => u.utilisateur_id === utilisateur_id
+    );
+    return user ? user.nom_utilisateur : 'Unknown User';
   }
 
   applyFilter(filterValue: any) {

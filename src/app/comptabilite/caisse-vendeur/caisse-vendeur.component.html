@@ -67,7 +67,7 @@
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{
-                    (element.point_de_vente_id)
+                   getPointName(element.point_de_vente_id)
                   }}
                 </td>
                 <td
@@ -82,7 +82,7 @@
                   Utilisateur
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ (element.utilisateur_id) }}
+                  {{ getUserName(element.utilisateur_id) }}
                 </td>
                 <td
                   mat-footer-cell

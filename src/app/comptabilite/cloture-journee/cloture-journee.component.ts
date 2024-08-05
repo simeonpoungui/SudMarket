@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GetVendeur } from 'src/app/Models/caisse.vendeur.model';
+import { GetCaisseVendeur } from 'src/app/Models/caissevendeur.model';
 import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { CaissesService } from 'src/app/Services/caisses.service';
 import { GlobalService } from 'src/app/Services/global.service'
@@ -93,10 +93,9 @@ export class ClotureJourneeComponent {
   }
   
   ClotureJourneeComptable(){
-   const vendeur : GetVendeur = {
+   const vendeur : GetCaisseVendeur = {
      caisse_vendeur_id: this.caisse_vendeur_id,
      date_comptable: this.date_comptable
-
    }
    console.log(vendeur);
    this.caisseService.clotureJourneeComptable(vendeur).subscribe(data => {

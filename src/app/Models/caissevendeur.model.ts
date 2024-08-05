@@ -8,9 +8,11 @@ export class CaissesVendeur {
     date_mise_a_jour!: Date;
     actif!: boolean;
   }
-  
+
   export class GetCaisseVendeur {
     caisse_vendeur_id!: number;
+    date_comptable?: Date
+
 }
 
 export class CodeResponsecaisse {
