@@ -1,0 +1,97 @@
+<main class="nxl-container">
+  <div class="nxl-content pt-3">
+    <div class="col-lg-11 shadow rounded rounded-4 p-3 m-lg-auto">
+      <h1 class="mt-2 mb-2 bg-white fw-bold  p-2">
+        Cloture Journée utilisateur :
+        <span class="mx-2 text-danger">{{ user.nom_utilisateur }}</span>
+      </h1>
+      <div class="row p-3">
+        <div class="col-lg-6 border bg-light">
+          <div class="mt-2 row">
+            <div class="col-lg-3">
+              <p class="fw-bold pt-3">Date comptable : </p>
+            </div>
+            <div class="col-lg-9">
+                <input (change)="selectDate($event)" type="date" class="form-control"
+              />
+            </div>
+          </div>
+          <div class="mt-2 row">
+            <div class="col-lg-3">
+              <p class="fw-bold pt-3 ">Caisse : </p>
+            </div>
+            <div class="col-lg-9 ">
+              <p class="fw-bold border bg-white p-3">{{ this.caisse }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 border">
+          <div class="mt-2">
+            <span class="fw-bold">Solde Ouverture : </span>
+            <span class="fw-bold text-danger mx-2">{{
+              globalService.formatPrixString(this.solde_ouverture)
+            }}</span>
+          </div>
+          <div class="mt-2">
+            <span class="fw-bold">Solde Fermeture : </span>
+            <span class="fw-bold text-danger mx-2">{{
+              globalService.formatPrixString(this.solde_fermeture)
+            }}</span>
+          </div>
+          <div class="mt-2">
+            <span class="fw-bold">Total versement : </span>
+            <span class="fw-bold text-danger mx-2">{{
+              globalService.formatPrixString(this.TotalVersements)
+            }}</span>
+          </div>
+          <div class="mt-2">
+            <span class="fw-bold">Total Retraits : </span>
+            <span class="fw-bold text-danger mx-2">{{
+              globalService.formatPrixString(this.TotalRetraits)
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 mt-3">
+        <div class="col-lg-6">
+            <button class="form-control bg-update text-white" (click)="confirmeSolde()">Cliquer ici pour confirmer le solde de cloture journée</button>
+        </div>
+        <div class="col-lg-6">
+            <button class="form-control bg-delete text-white" [disabled]="true"><span>{{globalService.formatPrixString(solde_fermeture)}}</span></button>
+        </div>
+      </div>
+      <div class="mt-2 mb-3">
+        <label class="fw-bold">Commentaire : </label>
+        <div>
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              id="floatingTextarea2"
+              style="height: 100px"
+            ></textarea>
+            <label for="floatingTextarea2"></label>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-lg-3">
+          <button
+          (click)="ClotureJourneeComptable()"
+            class="form-control text-white"
+            [ngClass]="{
+              'bg-delete': solde_confirme == false,
+              'bg-update': solde_confirme == true
+            }"
+          >
+            {{
+              solde_confirme == false ? "Journée non cloturée" : "Journée cloturée"
+            }}
+          </button>
+        </div>
+        <div class="col-lg-9">
+            <button class="bg-update text-white form-control">Imprimer le rapport de cloture</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

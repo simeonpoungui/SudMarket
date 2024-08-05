@@ -10,6 +10,7 @@ import { GlobalService } from '../Services/global.service';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 import { VenteService } from '../Services/vente.service';
 import { GetVente, Vente } from '../Models/vente.model';
+import { EtatCaisseVendeurComponent } from '../comptabilite/etat-caisse-vendeur/etat-caisse-vendeur.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,6 +51,9 @@ export class DashboardComponent {
     this.loginService.logout();
   }
 
+  openCaisse(){
+    const dialog = this.dialog.open(EtatCaisseVendeurComponent)
+  }
 
   loadNotifications(): void {
     const modelnotif: GetNotification = {

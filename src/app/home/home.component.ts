@@ -15,6 +15,8 @@ import {
 import { ArticlesDeVenteService } from '../Services/articles-de-vente.service';
 import { GetPointsDeVentes, PointsDeVentes } from '../Models/pointsDeVentes.model';
 import { PointsDeVentesService } from '../Services/points-de-ventes.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EtatCaisseVendeurComponent } from '../comptabilite/etat-caisse-vendeur/etat-caisse-vendeur.component';
 
 @Component({
   selector: 'app-home',
@@ -68,6 +70,7 @@ export class HomeComponent {
     private produitService: ProduitService,
     private venteService: VenteService,
     private userService: UsersService,
+    private dialog: MatDialog,
     private pointService: PointsDeVentesService,
     private articleService: ArticlesDeVenteService,
     private clientService: ClientsService
@@ -81,6 +84,10 @@ export class HomeComponent {
     this.loadClients();
     this.loadVentes();
     this.loadPointDeVente()
+  }
+
+  openCaisse(){
+    const dialog = this.dialog.open(EtatCaisseVendeurComponent)
   }
 
   loadPointDeVente(){

@@ -52,10 +52,14 @@ import { SessionGuardService } from './Services/session-guard.service';
 import { SessionVenteComponent } from './session-vente/session-vente/session-vente.component';
 import { ListSessionVenteComponent } from './session-vente/list-session-vente/list-session-vente.component';
 
-
+//comptabilite
+import { ClotureJourneeComponent } from './comptabilite/cloture-journee/cloture-journee.component';
+import { HistoriqueDesCaissesVendeurComponent } from './comptabilite/historique-des-caisses-vendeur/historique-des-caisses-vendeur.component';
+import { CaisseVendeurComponent } from './comptabilite/caisse-vendeur/caisse-vendeur.component';
+import { FormComponent } from './comptabilite/caisse-vendeur/form/form.component';
+import { FicheComponent } from './comptabilite/caisse-vendeur/fiche/fiche.component';
 
 const routes: Routes = [
-
   // home page
   { path: '', component: HomeComponent, },
 
@@ -128,6 +132,14 @@ const routes: Routes = [
   {path:'session-ventes', loadChildren: () => import('./session-vente/session-vente.module').then(m => m.SessionVenteModule)},
   {path: 'session-vente', component: SessionVenteComponent},
   {path: 'session-vente-list', component: ListSessionVenteComponent},
+
+
+  {path:'comptabilite', loadChildren: () => import('./comptabilite/comptabilite.module').then(m => m.ComptabiliteModule)},
+  {path: 'cloture-journee', component: ClotureJourneeComponent},
+  {path: 'caisse-vendeur', component: CaisseVendeurComponent},
+  {path: 'caisse-vendeur-form/:action', component: FormComponent},
+  {path: 'caisse-vendeur-fiche', component: FicheComponent},
+  {path: 'historique-des-caisses-vendeurs', component: HistoriqueDesCaissesVendeurComponent},
 
 ];
 

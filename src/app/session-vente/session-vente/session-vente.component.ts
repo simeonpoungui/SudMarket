@@ -18,10 +18,11 @@ import { GlobalService } from 'src/app/Services/global.service';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { SelectClientComponent } from 'src/app/client/select-client/select-client.component';
 import { Client } from 'src/app/Models/clients.model';
-import { Utilisateur } from 'src/app/Models/users.model';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { SessionService } from 'src/app/Services/session.service';
 import { Session } from 'src/app/Models/session.ventes.model';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
+import { CaissesService } from 'src/app/Services/caisses.service';
 
 @Component({
   selector: 'app-session-vente',
@@ -57,7 +58,7 @@ export class SessionVenteComponent {
   user!: Utilisateur;
   modepaiement: number = 1;
   currentSessionId: number | undefined;
-
+  IDcaissevendeur!: number
   sessionActive: boolean = true;
 
   constructor(
@@ -65,6 +66,7 @@ export class SessionVenteComponent {
     private router: Router,
     public globlService: GlobalService,
     private venteService: VenteService,
+    private caisseService: CaissesService,
     private sessionService: SessionService,
     private dialog: MatDialog
   ) {}
@@ -102,7 +104,18 @@ export class SessionVenteComponent {
     this.getListProduit();
     this.calculateTotalVente();
 
-    // this.startSession();
+    this.startSession();
+    this.getCaisseUser()
+  }
+
+  getCaisseUser(){
+    const user: GetUser = {utilisateur_id: this.user.utilisateur_id}
+    this.caisseService.getCaisseByUser(user).subscribe( data => {
+      console.log(data.message);
+      this.IDcaissevendeur = data.message.caisse_vendeur_id
+      console.log(this.IDcaissevendeur);
+      
+    })
   }
 
   getListProduit() {
@@ -227,21 +240,29 @@ export class SessionVenteComponent {
             montant_total: this.montantTotalDeLaVente,
             client_id: this.clientSelected.client_id,
             utilisateur_id: this.user.utilisateur_id,
+            caisse_vendeur_id: this.IDcaissevendeur,
             point_de_vente_id: this.pointSelected.point_de_vente_id,
             articles: this.dataSourceArticleVente.data,
           };
           console.log(modelvente);
-          this.venteService.create(modelvente).subscribe((data) => {
-            console.log(data.message);
-            this.dataSourceArticleVente.data = [];
-            this.montantTotalDeLaVente = 0;
-            localStorage.removeItem('pointSelected');
-            this.clientSelected = {} as Client;
-            this.message = data.message;
-            this.globlService.toastShow(this.message, 'Succès');
-            this.isloadingpaiement = false;
-            this.getListProduit();
+          this.venteService.create(modelvente).subscribe({
+            next: (data) => {
+              console.log(data);
+              this.dataSourceArticleVente.data = [];
+              this.montantTotalDeLaVente = 0;
+              localStorage.removeItem('pointSelected');
+              this.clientSelected = {} as Client;
+              this.globlService.toastShow("Vente effectuée avec succès", 'Succès');
+              this.isloadingpaiement = false;
+              this.getListProduit();
+            },
+            error: (error) => {
+              console.error("Erreur lors de la création de la vente:", error);
+              this.globlService.toastShow("Erreur lors de la création de la vente", 'Erreur');
+              this.isloadingpaiement = false;
+            }
           });
+          
         }
       });
     } else {

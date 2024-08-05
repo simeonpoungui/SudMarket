@@ -1,0 +1,47 @@
+
+$primary-color:#3454d1;
+$secondary-color: hsl(0, 81%, 61%);
+$third-color: #17c666;
+
+table {
+  width: 100%;
+}
+.mat-elevation-z8 tr, .mat-elevation-z8 mat-header-cell {
+  height: 2em;
+}
+.mat-elevation-z8 th, .mat-elevation-z8 mat-header-cell {
+  background-color: $primary-color;
+  color: white;
+} 
+
+.bg-sticky-footer{
+  background-color: $primary-color;
+}
+
+h1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
+}
+  tr:nth-child(even) {
+    background-color:#f1f1f1;
+}
+
+mat-paginator{
+  background-color: $primary-color;
+}
+
+.md-dialog {
+  opacity: 0;
+}
+
+tr{
+    &:hover{
+      & td{
+        background:#0f172a;;
+        color: white;
+      }
+    }
+    }
+  
+
+  
