@@ -13,6 +13,9 @@ import { CaisseVendeurComponent } from './caisse-vendeur/caisse-vendeur.componen
 import { FormComponent } from './caisse-vendeur/form/form.component';
 import { FicheComponent } from './caisse-vendeur/fiche/fiche.component';
 import { RouterModule } from '@angular/router';
+import { CaissePrincipaleComponent } from './caisse-principale/caisse-principale.component';
+import { CaisseExploitationComponent } from './caisse-exploitation/caisse-exploitation.component';
+import { TransfertInterCaisseComponent } from './transfert-inter-caisse/transfert-inter-caisse.component';
 @NgModule({
   declarations: [
     ClotureJourneeComponent,
@@ -21,6 +24,9 @@ import { RouterModule } from '@angular/router';
     CaisseVendeurComponent,
     FormComponent,
     FicheComponent,
+    CaissePrincipaleComponent,
+    CaisseExploitationComponent,
+    TransfertInterCaisseComponent,
   ],
   imports: [
     CommonModule,

@@ -89,10 +89,9 @@ export class CaissesService {
     );
   }
 
-  getSoldeCaisseByDateComptable(
-    date_comptable: Date
-  ): Observable<CodeResponseHistorique> {
+  getSoldeCaisseByDateComptable(IDcaisse: number,date_comptable: Date){
     const data = {
+      caisse_vendeur_id:IDcaisse,
       date_comptable: date_comptable,
     };
     console.log(data);

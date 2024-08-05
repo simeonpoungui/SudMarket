@@ -52,6 +52,7 @@ export class EtatCaisseVendeurComponent {
     this.caisseService.getCaisseByUser(user).subscribe((data) => {
       console.log(data.message);
       this.caisse = data.message.nom_caisse;
+      this.solde_ouverture = data.message.solde_caisse;
       this.getInfoByJourneeComptable(
         data.message.caisse_vendeur_id,
         this.date_comptable

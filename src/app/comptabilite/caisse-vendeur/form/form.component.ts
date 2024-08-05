@@ -22,7 +22,7 @@ export class FormComponent {
   nom_caisse!: string;
   point_de_vente_id!: number;
   utilisateur_id!: number;
-  solde_caisse!: number;
+  solde_caisse!: string;
   date_creation!: Date;
   date_mise_a_jour!: Date;
   actif!: boolean;

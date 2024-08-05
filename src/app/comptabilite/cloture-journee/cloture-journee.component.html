@@ -1,7 +1,7 @@
 <main class="nxl-container">
   <div class="nxl-content pt-3">
     <div class="col-lg-11 shadow rounded rounded-4 p-3 m-lg-auto">
-      <h1 class="mt-2 mb-2 bg-white fw-bold  p-2">
+      <h1 class="mt-2 mb-2 bg-white fw-bold p-2">
         Cloture Journée utilisateur :
         <span class="mx-2 text-danger">{{ user.nom_utilisateur }}</span>
       </h1>
@@ -9,18 +9,22 @@
         <div class="col-lg-6 border bg-light">
           <div class="mt-2 row">
             <div class="col-lg-3">
-              <p class="fw-bold pt-3">Date comptable : </p>
+              <p class="fw-bold pt-3">Date comptable :</p>
             </div>
             <div class="col-lg-9">
-                <input (change)="selectDate($event)" type="date" class="form-control"
+              <input
+                (change)="selectDate($event)"
+                type="date"
+                class="form-control"
+                [(ngModel)]="date_comptable"
               />
             </div>
           </div>
           <div class="mt-2 row">
             <div class="col-lg-3">
-              <p class="fw-bold pt-3 ">Caisse : </p>
+              <p class="fw-bold pt-3">Caisse :</p>
             </div>
-            <div class="col-lg-9 ">
+            <div class="col-lg-9">
               <p class="fw-bold border bg-white p-3">{{ this.caisse }}</p>
             </div>
           </div>
@@ -54,10 +58,17 @@
       </div>
       <div class="row mb-3 mt-3">
         <div class="col-lg-6">
-            <button class="form-control bg-update text-white" (click)="confirmeSolde()">Cliquer ici pour confirmer le solde de cloture journée</button>
+          <button
+            class="form-control bg-update text-white"
+            (click)="confirmeSolde()"
+          >
+            Cliquer ici pour confirmer le solde de cloture journée
+          </button>
         </div>
         <div class="col-lg-6">
-            <button class="form-control bg-delete text-white" [disabled]="true"><span>{{globalService.formatPrixString(solde_fermeture)}}</span></button>
+          <button class="form-control bg-delete text-white" [disabled]="true">
+            <span>{{ globalService.formatPrixString(solde_fermeture) }}</span>
+          </button>
         </div>
       </div>
       <div class="mt-2 mb-3">
@@ -76,7 +87,7 @@
       <div class="row mb-3">
         <div class="col-lg-3">
           <button
-          (click)="ClotureJourneeComptable()"
+            (click)="ClotureJourneeComptable()"
             class="form-control text-white"
             [ngClass]="{
               'bg-delete': solde_confirme == false,
@@ -84,12 +95,16 @@
             }"
           >
             {{
-              solde_confirme == false ? "Journée non cloturée" : "Journée cloturée"
+              solde_confirme == false
+                ? "Journée non cloturée"
+                : "Journée cloturée"
             }}
           </button>
         </div>
         <div class="col-lg-9">
-            <button class="bg-update text-white form-control">Imprimer le rapport de cloture</button>
+          <button class="bg-update text-white form-control">
+            Imprimer le rapport de cloture
+          </button>
         </div>
       </div>
     </div>
