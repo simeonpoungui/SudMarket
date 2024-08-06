@@ -43,8 +43,8 @@
         <div class="col-lg-12">
             <button 
               class="form-control text-white" 
-              [ngClass]="{ 'bg-delete': solde_confirme == false, 'bg-update': solde_confirme == true }">
-              {{ solde_confirme == false ? 'Solde non confirmé' : 'Solde confirmé' }}
+              [ngClass]="{ 'bg-delete': solde_confirme == 0, 'bg-update': solde_confirme == 1 }">
+              {{ solde_confirme == 0 ? 'Solde non confirmé' : 'Solde confirmé' }}
             </button>
           </div>
           

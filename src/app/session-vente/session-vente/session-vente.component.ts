@@ -336,7 +336,7 @@ export class SessionVenteComponent {
             this.globlService.formatFrenchDateSessionVnte(this.sessionEndTime),
           'Succès'
         );
-        this.globlService.reloadComponent('/vente/list');
+        this.globlService.reloadComponent('vente-journaliere');
       }
     });
   }

@@ -30,6 +30,7 @@ export class CaissesService {
   uriupadtecaissevendeur = "/v1/sudmarket/update/caisse/vendeur"
   urideletecaissevendeur = "/v1/sudmarket/delete/caisse/vendeur"
   urigethistoriquesoldecaissesvendeurs = "/v1/sudmarket/get/solde/caisses/vendeurs"
+  uribordereaudescaissescreate = "/v1/sudmarket/bordereau/des/caisses"
   
   //Partie A caisse vendeur
 
@@ -121,5 +122,10 @@ export class CaissesService {
   getListSoldeFermetureCaisseVendeur(solde: any) {
     console.log(solde);
     return this.httpclient.post<any>(environment.apiUrl + this.urigethistoriquesoldecaissesvendeurs,solde);
+  }
+
+  //Bordereau des caisses
+  createBordereauDesCaisse(bordereau: any){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uribordereaudescaissescreate, bordereau)
   }
 }

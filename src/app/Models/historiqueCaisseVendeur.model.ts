@@ -14,14 +14,14 @@ export class GetCaisseVendeur {
 }
 
 export class HistoriqueCaisseVendeur {
-    historique_caisse_id!: number
+    historique_caisse_id?: number
     caisse_vendeur_id!: number
     date_comptable!: Date
-    solde_ouverture!: string
-    solde_fermeture!: string
-    TotalRetraits!: string
-    TotalVersements!: string
-    solde_confirme!: boolean
+    solde_ouverture?: string
+    solde_fermeture?: string
+    TotalRetraits?: string
+    TotalVersements?: string
+    solde_confirme?: number
     commentaires!: string
 }
 

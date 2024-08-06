@@ -20,8 +20,11 @@ export class VenteService {
   urigetventefiltre = "/v1/sudmarket/get/produit-by-client-user-point-date"
   uriimpressionetatventes = "/v1/sudmarket/impression/rapports/ventes"
   urigetarticledeventebyventeid = "/v1/sudmarket/get/filtre/articles-de-vente-by-venteID"
+  urigetventejournalierebyuser = "/v1/sudmarket/get/vente/user/journaliere"
+  uriarticleventejournalierebyuser = "/v1/sudmarket/get/article/vente/user/journaliere"
 
   constructor(private httpclient: HttpClient) { }
+
   getList(vente: GetVente): Observable<CodeResponse>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriget, vente)
   }
@@ -36,6 +39,23 @@ export class VenteService {
   }
   create(vente: Vente){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, vente)
+  }
+
+  getVenteJournaliereByUser(utilisateur_id: number, date_comptable: string){
+    const data = {
+      utilisateur_id: utilisateur_id,
+      date_vente : date_comptable
+    }
+    console.log(data);
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetventejournalierebyuser, data)
+  }
+
+  getArticleVenteJournaliereByUser(date_article_vendu: string){
+    const data = {
+      date_article_vendu : date_article_vendu
+    }
+    console.log(data);
+    return this.httpclient.post<any>(environment.apiUrl + this.uriarticleventejournalierebyuser, data)
   }
 
   getArticleDeVenteByVente(vente: GetVente){

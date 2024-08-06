@@ -11,14 +11,14 @@ import { GlobalService } from 'src/app/Services/global.service';
 export class EtatCaisseVendeurComponent {
   user!: Utilisateur;
   date_comptable!: any;
-  historique_caisse_id!: number;
-  caisse_vendeur_id!: number;
-  solde_ouverture!: string;
-  solde_fermeture!: string;
-  TotalRetraits!: string;
-  TotalVersements!: string;
-  solde_confirme!: boolean;
-  commentaires!: string;
+  historique_caisse_id!: number
+  caisse_vendeur_id!: number
+  solde_ouverture: string | undefined
+  solde_fermeture: string | undefined
+  TotalRetraits: string | undefined
+  TotalVersements: string | undefined
+  solde_confirme: number | undefined
+  commentaires!: string
   caisse!: string;
   constructor(private caisseService: CaissesService, public globalService: GlobalService) {}
 

@@ -48,7 +48,7 @@ export class GlobalService {
     return formated + decimal;
   }
 
-  formatPrixString(prix: string, separateur: string = ' ', device: string = 'FCFA') {
+  formatPrixString(prix: any, separateur: string = ' ', device: string = 'FCFA') {
     let reverse: string[] = prix.toString().split('').reverse();
     let prixFormated: string = '';
 

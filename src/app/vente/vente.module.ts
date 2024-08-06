@@ -9,7 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ArticleDeVentesComponent } from './article-de-ventes/article-de-ventes.component';
 import { FicheArticleDeVenteComponent } from './fiche-article-de-vente/fiche-article-de-vente.component';
-
+import { VenteJournaliereByUserComponent } from './vente-journaliere-by-user/vente-journaliere-by-user.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,11 +18,13 @@ import { FicheArticleDeVenteComponent } from './fiche-article-de-vente/fiche-art
     VenteFormComponent,
     VenteFicheComponent,
     ArticleDeVentesComponent,
-    FicheArticleDeVenteComponent
+    FicheArticleDeVenteComponent,
+    VenteJournaliereByUserComponent
   ],
   imports: [
     CommonModule,
     CoreModule,
+    RouterModule,
     MatPaginatorModule,
     MatTableModule,
     FormsModule

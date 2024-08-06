@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
+import { BordereauDeClotureDecaisse } from 'src/app/Models/BordereaudeClotureDecaisse.model';
 import { GetCaisseVendeur } from 'src/app/Models/caissevendeur.model';
+import { HistoriqueCaisseVendeur } from 'src/app/Models/historiqueCaisseVendeur.model';
 import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { CaissesService } from 'src/app/Services/caisses.service';
 import { GlobalService } from 'src/app/Services/global.service';
@@ -17,14 +20,57 @@ export class ClotureJourneeComponent {
   date_comptable!: any;
   historique_caisse_id!: number;
   caisse_vendeur_id!: number;
-  solde_ouverture: string = '0';
-  solde_fermeture: string = '0';
-  TotalRetraits: string = '0';
-  TotalVersements: string = '0';
-  solde_confirme: boolean = false;
+  solde_ouverture?: string = '0';
+  solde_fermeture?: string = '0';
+  TotalRetraits?: string = '0';
+  TotalVersements?: string = '0';
+  solde_confirme?: number = 0;
   commentaires!: string;
   caisse!: string;
   IdCaisseSelected!: number;
+  Billets!: number;
+  Pieces!: number;
+
+  Valeur_Unitaire_Billet_10000: number = 10000;
+  Valeur_Unitaire_Billet_5000: number = 5000;
+  Valeur_Unitaire_Billet_2000: number = 2000;
+  Valeur_Unitaire_Billet_1000: number = 1000;
+  Valeur_Unitaire_Billet_500: number = 500;
+  Valeur_Unitaire_Piece_500: number = 500;
+  Valeur_Unitaire_Piece_100: number = 100;
+  Valeur_Unitaire_Piece_50: number = 50;
+  Valeur_Unitaire_Piece_25: number = 25;
+
+  // Nombres de billets et pièces
+  Billets_10000_nombre: number = 0;
+  Billets_5000_nombre: number = 0;
+  Billets_2000_nombre: number = 0;
+  Billets_1000_nombre: number = 0;
+  Billets_500_nombre: number = 0;
+  Pieces_500_nombre: number = 0;
+  Pieces_100_nombre: number = 0;
+  Pieces_50_nombre: number = 0;
+  Pieces_25_nombre: number = 0;
+
+  // Sommes
+  Billets_10000_somme: number = 0;
+  Billets_5000_somme: number = 0;
+  Billets_2000_somme: number = 0;
+  Billets_1000_somme: number = 0;
+  Billets_500_somme: number = 0;
+  Pieces_500_somme: number = 0;
+  Pieces_100_somme: number = 0;
+  Pieces_50_somme: number = 0;
+  Pieces_25_somme: number = 0;
+
+  // Totaux
+  totalBillets: number = 0;
+  totalSommeBillets: number = 0;
+
+  // Totaux
+  totalPieces: number = 0;
+  totalSommePieces: number = 0;
+  isloadingpage!: boolean
   constructor(
     private caisseService: CaissesService,
     private dialog: MatDialog,
@@ -64,9 +110,7 @@ export class ClotureJourneeComponent {
       this.solde_ouverture = data.message.solde_caisse;
       this.IdCaisseSelected = data.message.caisse_vendeur_id;
       this.caisse_vendeur_id = data.message.caisse_vendeur_id;
-      this.getInfoByJourneeComptable(
-        data.message.caisse_vendeur_id,
-        this.date_comptable
+      this.getInfoByJourneeComptable(data.message.caisse_vendeur_id,this.date_comptable
       );
     });
   }
@@ -122,16 +166,123 @@ export class ClotureJourneeComponent {
     }
   }
 
-  confirmeSolde() {}
+  confirmeSolde(event: any) {
+    console.log((event.target.checked = false));
+    const dialog = this.dialog.open(AlertInfoComponent);
+    dialog.componentInstance.content =
+      'etes-vous sur de vouloir confirmé le solde ?';
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.solde_confirme = 1;
+        event.target.checked = false;
+      }
+    });
+  }
+
+  SendCommentaires(event: any) {
+    console.log(event.target.value);
+    this.commentaires = event.target.value;
+  }
 
   ClotureJourneeComptable() {
-    const vendeur: GetCaisseVendeur = {
+    const vendeur: HistoriqueCaisseVendeur = {
       caisse_vendeur_id: this.caisse_vendeur_id,
       date_comptable: this.date_comptable,
+      commentaires: this.commentaires,
+      solde_confirme: this.solde_confirme,
     };
     console.log(vendeur);
     this.caisseService.clotureJourneeComptable(vendeur).subscribe((data) => {
-      console.log(data);
+      console.log(data.message);
+      this.globalService.toastShow("Journée cloturée avec succès","Succès")
     });
+  }
+
+  calculerSomme(type: string): void {
+    switch (type) {
+      case 'Billets_10000':
+        this.Billets_10000_somme =
+          this.Billets_10000_nombre * this.Valeur_Unitaire_Billet_10000;
+        break;
+      case 'Billets_5000':
+        this.Billets_5000_somme =
+          this.Billets_5000_nombre * this.Valeur_Unitaire_Billet_5000;
+        break;
+      case 'Billets_2000':
+        this.Billets_2000_somme =
+          this.Billets_2000_nombre * this.Valeur_Unitaire_Billet_2000;
+        break;
+      case 'Billets_1000':
+        this.Billets_1000_somme =
+          this.Billets_1000_nombre * this.Valeur_Unitaire_Billet_1000;
+        break;
+      case 'Billets_500':
+        this.Billets_500_somme =
+          this.Billets_500_nombre * this.Valeur_Unitaire_Billet_500;
+        break;
+      case 'Pieces_500':
+        this.Pieces_500_somme =
+          this.Pieces_500_nombre * this.Valeur_Unitaire_Piece_500;
+        break;
+      case 'Pieces_100':
+        this.Pieces_100_somme =
+          this.Pieces_100_nombre * this.Valeur_Unitaire_Piece_100;
+        break;
+      case 'Pieces_50':
+        this.Pieces_50_somme =
+          this.Pieces_50_nombre * this.Valeur_Unitaire_Piece_50;
+        break;
+      case 'Pieces_25':
+        this.Pieces_25_somme =
+          this.Pieces_25_nombre * this.Valeur_Unitaire_Piece_25;
+        break;
+    }
+
+    this.calculerTotalBillets();
+    this.calculerTotalPieces();
+  }
+
+  calculerTotalBillets(): void {
+    this.totalBillets =
+      this.Billets_10000_nombre +
+      this.Billets_5000_nombre +
+      this.Billets_2000_nombre +
+      this.Billets_1000_nombre +
+      this.Billets_500_nombre;
+    this.totalSommeBillets =
+      this.Billets_10000_somme +
+      this.Billets_5000_somme +
+      this.Billets_2000_somme +
+      this.Billets_1000_somme +
+      this.Billets_500_somme;
+  }
+
+  calculerTotalPieces(): void {
+    this.totalPieces =
+      this.Pieces_500_nombre +
+      this.Pieces_100_nombre +
+      this.Pieces_50_nombre +
+      this.Pieces_25_nombre;
+    this.totalSommePieces =
+      this.Pieces_500_somme +
+      this.Pieces_100_somme +
+      this.Pieces_50_somme +
+      this.Pieces_25_somme;
+  }
+
+  onSubmitForm(form: NgForm) {
+    this.isloadingpage = true
+    const bordereau: BordereauDeClotureDecaisse = form.value;
+    bordereau.Billets = this.totalBillets;
+    bordereau.Pieces = this.totalPieces;
+    bordereau.caisse_vendeur_id = this.caisse_vendeur_id
+    bordereau.date_comptable = this.date_comptable
+    console.log(bordereau);
+    this.caisseService.createBordereauDesCaisse(bordereau).subscribe(data  => {
+      console.log(data.message);
+      this.isloadingpage = false
+       this.globalService.toastShow("Bordereau des caisses crée avec succès","Succès")
+    })
+    this.ClotureJourneeComptable();
   }
 }

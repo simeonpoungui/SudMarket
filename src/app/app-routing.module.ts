@@ -34,13 +34,13 @@ import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form
 import { ArticlesCommandesAchatsComponent } from './commande-achat/articles-commandes-achats/articles-commandes-achats.component';
 import { SessionCommandeComponent } from './commande-achat/session-commande/session-commande.component';
 import { FicheArticleDeCommandeComponent } from './commande-achat/fiche-article-de-commande/fiche-article-de-commande.component';
-// import { FicheArticleDeCommandeComponent } from './commande-achat/articles-commandes-achats/fiche-article-de-commande/fiche-article-de-commande.component';
 //Vente Entities
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';
 import { VenteFormComponent } from './vente/vente-form/vente-form.component';
 import { ArticleDeVentesComponent } from './vente/article-de-ventes/article-de-ventes.component';
 import { FicheArticleDeVenteComponent } from './vente/fiche-article-de-vente/fiche-article-de-vente.component';
+import { VenteJournaliereByUserComponent } from './vente/vente-journaliere-by-user/vente-journaliere-by-user.component';
 //Rapport Entities
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
@@ -113,6 +113,8 @@ const routes: Routes = [
   {path: 'vente/:action', component: VenteFormComponent},
   {path: 'articles-de-vente', component: ArticleDeVentesComponent},
   {path: 'article/view', component: FicheArticleDeVenteComponent},
+  {path: 'vente-journaliere', component: VenteJournaliereByUserComponent},
+
 
   // Module commande achat
   {path:'commandes-achats', loadChildren: () => import('./commande-achat/commande-achat.module').then(m => m.CommandeAchatModule)},
