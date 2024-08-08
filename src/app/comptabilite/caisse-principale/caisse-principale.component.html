@@ -1,1 +1,242 @@
-<p>caisse-principale works!</p>
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="col-lg-11 pt-3 m-lg-auto">
+        <div>
+            <h1 class="fw-bold shadow bg-white rounded rounded-4 p-2">Fiche de la caisse principale : <span class="text-danger">{{nom_caisse}}</span></h1>
+        </div>
+        <div class="row m-0 shadow rounded rounded-4 bg-white p-2">
+            <div class="col-lg-4">
+                <label class="fw-bold text-dark" for="">Caisse</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="nom_caisse" >
+            </div>
+            <div class="col-lg-4">
+                <label class="fw-bold text-dark" for="">Banque associé</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="banque_id" >
+            </div>
+            <div class="col-lg-4">
+                <label class="fw-bold text-dark" for="">Description</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="description" >
+            </div>
+
+            <div class="col-lg-4 mt-3">
+                <label class="fw-bold text-dark" for="">Solde de la caisse</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="globalService.formatPrix(solde)" >
+            </div>
+            <div class="col-lg-4 mt-3">
+                <label class="fw-bold text-dark" for="">Montant débit</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="globalService.formatPrix(montant_debit)" >
+            </div>
+            <div class="col-lg-4 mt-3">
+                <label class="fw-bold text-dark" for="">Montant crédit</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="globalService.formatPrix(montant_credit)" >
+            </div>
+
+            <div class="col-lg-6 mt-3">
+                <label class="fw-bold text-dark" for="">Date de création</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="globalService.formatDate(cree_le)" >
+            </div>
+
+            <div class="col-lg-6 mt-3">
+                <label class="fw-bold text-dark" for="">Date de la derniere modification</label>
+                <input type="text" class="form-control mt-1" [disabled]="true" [value]="globalService.formatDate(mis_a_jour_le)" >
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="row m-0 shadow rounded rounded-4 bg-white p-2">
+                <div class="col-lg-6">
+                    <div class="">
+                        <h1 class="p-2 border rounded rounded-4 p-2 bg-light  text-danger fw-bold">
+                         Historique des transferts entrants (caisses vendeurs)
+                        </h1>
+                      </div>
+                      <div class="table-transfert">
+                        <div
+                          class="mat-elevation-z8 mt-3"
+                          style="max-height: 400px; overflow-y: auto"
+                        >
+                          <table mat-table [dataSource]="dataSource1">
+                            <ng-container matColumnDef="caisse_vendeur_id">
+                              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                                Caisse vendeur
+                              </th>
+                              <td class="pointer" mat-cell *matCellDef="let element">
+                                {{ getCaissevendeurName(element.caisse_vendeur_id) }}
+                              </td>
+                              <td
+                                mat-footer-cell
+                                class="bg-table-color text-light"
+                                *matFooterCellDef
+                              ></td>
+                            </ng-container>
+              
+                            <ng-container matColumnDef="caisse_principale_id">
+                              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                                Caisse principale
+                              </th>
+                              <td class="pointer" mat-cell *matCellDef="let element">
+                                {{getCaissePrincippaleName( element.caisse_principale_id )}}
+                              </td>
+                              <td
+                                mat-footer-cell
+                                class="bg-table-color text-light"
+                                *matFooterCellDef
+                              ></td>
+                            </ng-container>
+              
+                            <ng-container matColumnDef="montant">
+                              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                                Montant transferer
+                              </th>
+                              <td class="pointer" mat-cell *matCellDef="let element">
+                                {{globalService.formatPrix( element.montant )}}
+                              </td>
+                              <td
+                                mat-footer-cell
+                                class="bg-table-color text-light"
+                                *matFooterCellDef
+                              ></td>
+                            </ng-container>
+              
+                            <!-- <ng-container matColumnDef="description">
+                              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                                Description
+                              </th>
+                              <td class="pointer" mat-cell *matCellDef="let element">
+                                {{ element.description }}
+                              </td>
+                              <td
+                                mat-footer-cell
+                                class="bg-table-color text-light"
+                                *matFooterCellDef
+                              ></td>
+                            </ng-container> -->
+              
+                            <ng-container matColumnDef="date_transfert">
+                              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                                Date transfert
+                              </th>
+                              <td class="pointer" mat-cell *matCellDef="let element">
+                                {{ globalService.formatDate(element.date_transfert) }}
+                              </td>
+                              <td
+                                mat-footer-cell
+                                class="bg-table-color text-light"
+                                *matFooterCellDef
+                              ></td>
+                            </ng-container>
+              
+                            <tr
+                              mat-header-row
+                              *matHeaderRowDef="displayedColumns1; sticky: true"
+                            ></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+                            <tr
+                              class="bg-sticky-footer"
+                              mat-footer-row
+                              *matFooterRowDef="displayedColumns1; sticky: true"
+                            ></tr>
+                          </table>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="">
+                    <h1 class="p-2 border rounded rounded-4 p-2 bg-light  text-danger fw-bold">
+                     Historique des transferts sortants (Banque)
+                    </h1>
+                  </div>
+                  <div class="table-transfert">
+                    <div
+                      class="mat-elevation-z8 mt-3"
+                      style="max-height: 400px; overflow-y: auto"
+                    >
+                      <table mat-table [dataSource]="dataSource2">
+                        <ng-container matColumnDef="banque_id">
+                          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                            Banque
+                          </th>
+                          <td class="pointer" mat-cell *matCellDef="let element">
+                            {{ getBanqueName(element.banque_id) }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+          
+                        <ng-container matColumnDef="caisse_principale_id">
+                          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                            Caisse principale
+                          </th>
+                          <td class="pointer" mat-cell *matCellDef="let element">
+                            {{getCaissePrincippaleName( element.caisse_principale_id )}}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+          
+                        <ng-container matColumnDef="montant">
+                          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                            Montant transferer
+                          </th>
+                          <td class="pointer" mat-cell *matCellDef="let element">
+                            {{globalService.formatPrix( element.montant )}}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+          
+                        <!-- <ng-container matColumnDef="description">
+                          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                            Description
+                          </th>
+                          <td class="pointer" mat-cell *matCellDef="let element">
+                            {{ element.description }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container> -->
+          
+                        <ng-container matColumnDef="date_transfert">
+                          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                            Date transfert
+                          </th>
+                          <td class="pointer" mat-cell *matCellDef="let element">
+                            {{ globalService.formatDate(element.date_transfert) }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+          
+                        <tr
+                          mat-header-row
+                          *matHeaderRowDef="displayedColumns2; sticky: true"
+                        ></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+                        <tr
+                          class="bg-sticky-footer"
+                          mat-footer-row
+                          *matFooterRowDef="displayedColumns2; sticky: true"
+                        ></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</main>

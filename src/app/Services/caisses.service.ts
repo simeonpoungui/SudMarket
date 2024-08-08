@@ -13,6 +13,10 @@ import {
   CodeResponseHistorique,
   HistoriqueCaisseVendeur,
 } from '../Models/historiqueCaisseVendeur.model';
+import { CodeResponseP, GetCaissePrincipale } from '../Models/caissePrincipale.model';
+import { GetBanque } from '../Models/banque.model';
+import { TransfertCaisseBanque } from '../Models/transfert-inter-caisse-banquaire.model';
+import { TransfertCaisse } from '../Models/transfert-inter-caisse.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +35,19 @@ export class CaissesService {
   urideletecaissevendeur = "/v1/sudmarket/delete/caisse/vendeur"
   urigethistoriquesoldecaissesvendeurs = "/v1/sudmarket/get/solde/caisses/vendeurs"
   uribordereaudescaissescreate = "/v1/sudmarket/bordereau/des/caisses"
-  
+  urigetbordereaudescaisses = "/v1/sudmarket/get/bordereau/des/caisses"
+  uritransfertintercaissevendeurprincipale = "/v1/sudmarket/transfert-inter-caisse/vendeur/principale"
+  urigetcaisseprincipale = "/v1/sudmarket/get/caisse/principale"
+  urigetTransfertintercaisse = "/v1/sudmarket/get/transfert/caisses"
+  urigetbanque = "/v1/sudmarket/get/banque"
+  uritransfertcaissebanque = "/v1/sudmarket/transfert-inter-caisse-banque"
+  urigettransfertcaissebaque = "/v1/sudmarket/get/transfert-caisse-banque"
+
+  // Caisse Principale
+  getListCaissePrincipale(caisse: GetCaissePrincipale): Observable<CodeResponseP> {
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetcaisseprincipale,caisse);
+  }
+
   //Partie A caisse vendeur
 
   getListCaisseVendeur(caisse: GetCaisseVendeur): Observable<CodeResponse> {
@@ -118,7 +134,6 @@ export class CaissesService {
       data
     );
   }
-
   getListSoldeFermetureCaisseVendeur(solde: any) {
     console.log(solde);
     return this.httpclient.post<any>(environment.apiUrl + this.urigethistoriquesoldecaissesvendeurs,solde);
@@ -127,5 +142,30 @@ export class CaissesService {
   //Bordereau des caisses
   createBordereauDesCaisse(bordereau: any){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uribordereaudescaissescreate, bordereau)
+  }
+  getBordereauDesCiasses(bordereau: any){
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetbordereaudescaisses, bordereau)
+  }
+
+  // Transfert inter caisse: Vendeur - principale
+  transfertInterCaisseVendeurPrincipale(transfert: TransfertCaisse){
+    return this.httpclient.post<any>(environment.apiUrl + this.uritransfertintercaissevendeurprincipale, transfert)
+  }
+
+  getListtransfertInterCaisseVendeurPrincipale(transfert: any){
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetTransfertintercaisse, transfert)
+  }
+
+  // Banque
+  getListBanque(banque: GetBanque){
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetbanque, banque)
+  }
+
+  TransfertCaisseBanque(transfert: TransfertCaisseBanque){
+    return this.httpclient.post<any>(environment.apiUrl + this.uritransfertcaissebanque, transfert)
+  }
+
+  getTransfertCaisseBanque(transfert: any){
+    return this.httpclient.post<any>(environment.apiUrl + this.urigettransfertcaissebaque, transfert)
   }
 }

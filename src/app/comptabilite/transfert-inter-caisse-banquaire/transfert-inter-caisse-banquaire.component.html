@@ -1,0 +1,221 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+      <div class="col-lg-11 pt-3 m-lg-auto">
+        <div class="row rounded rounded-4 bg-white shadow">
+          <h1 class="p-2 fw-bold">Transfert inter caisse banquaire</h1>
+        </div>
+        <div class="row rounded rounded-4 mt-3 bg-white p-3 shadow">
+          <div class="col-lg-6 border rounded rounded-4 p-3">
+            <form    #transfertintercaisseform="ngForm"
+            (ngSubmit)="onSubmitForm(transfertintercaisseform)">
+              <div class="row">
+                <div class="col-lg-6">
+                    <div>
+                      <label class="fw-bold text-dark" for=""
+                        >Caisse principale</label
+                      >
+                      <select
+                      (change)="selectCaissePrincipale($event)"
+                        class="form-select"
+                        [disabled]="true"
+                        aria-label="Default select example"
+                      >
+                        <option
+                          *ngFor="let option of tbCaissePrincipale"
+                          [value]="option.caisse_principale_id"
+                        >
+                          {{ option.nom_caisse }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                <div class="col-lg-6 ">
+                  <div>
+                    <label class="fw-bold text-dark" for="">Banque (destination)</label>
+                    <select
+                      class="form-select"
+                      (change)="selectBanque($event)"
+                      [disabled]="true"
+                      aria-label="Default select example"
+                    >
+                      <option
+                        *ngFor="let option of tbBanque"
+                        [value]="option.banque_id"
+                      >
+                        {{ option.nom_banque }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3">
+                <label class="fw-bold text-dark" for=""
+                  >Montant à transferer</label
+                >
+                <input type="number" name="montant" [(ngModel)]="montant" class="form-control" />
+              </div>
+              <div class="mt-3">
+                <label class="fw-bold text-dark" for="floatingTextarea2"
+                  >Description</label
+                >
+                <div class="form-floating">
+                  <textarea
+                  name="description"
+                  [(ngModel)] = "description"
+                    class="form-control"
+                    placeholder="Les details de votre Transfert ici ..."
+                    id="floatingTextarea2"
+                    style="height: 100px"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="mt-3">
+                <button class="form-control bg-update text-white">
+                  Valider le transfert
+                  <i class="fa-solid mx-2 fa-arrows-rotate"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6 p-3 rounded rounded-4 border">
+            <h1 style="color: #17c666" class="fw-bold">
+              Mode d'emploi de transfert inter caisse banquaire
+            </h1>
+            <p class="fs-6">
+              <span>Etape 1 : </span>
+              <span
+                >Sélectionner la caisse principale à partir de laquelle le transfert
+                sera effectué.</span
+              >
+            </p>
+            <p class="fs-6">
+              <span>Etape 2 : </span>
+              <span
+                >Indiquer le montant à transférer de la caisse vendeur vers la
+                caisse principale.</span
+              >
+            </p>
+            <p class="fs-6">
+              <span>Etape 3 : </span>
+              <span
+                >Ajouter une description ou un commentaire pour le transfert, si
+                nécessaire.</span
+              >
+            </p>
+            <p class="fs-6">
+              <span>Etape 4 : </span>
+              <span
+                >Vérifier les informations du transfert pour s'assurer qu'elles
+                sont correctes.</span
+              >
+            </p>
+            <p class="fs-6">
+              <span>Etape 5 : </span>
+              <span>
+                Cliquer sur le bouton
+                <span class="text-danger">"Valider le transfert"</span> pour
+                confirmer et exécuter le transfert.
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="row shadow bg-white rounded rounded-4 p-3 mt-3">
+          <div class="">
+            <h1 class="p-2 border rounded rounded-4 p-2 bg-light  text-danger fw-bold">
+             Historique des transferts-inter-caisse-banquaire recents
+            </h1>
+          </div>
+          <div class="table-transfert">
+            <div
+              class="mat-elevation-z8 mt-3"
+              style="max-height: 400px; overflow-y: auto"
+            >
+              <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="banque_id">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Banque
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ getCaissevendeurName(element.banque_id) }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <ng-container matColumnDef="caisse_principale_id">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Caisse principale
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{getCaissePrincippaleName( element.caisse_principale_id )}}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <ng-container matColumnDef="montant">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Montant transferer
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{globalService.formatPrix( element.montant )}}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <ng-container matColumnDef="description">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Description
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ element.description }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <ng-container matColumnDef="date_transfert">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Date transfert
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ globalService.formatDate(element.date_transfert) }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumns; sticky: true"
+                ></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr
+                  class="bg-sticky-footer"
+                  mat-footer-row
+                  *matFooterRowDef="displayedColumns; sticky: true"
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  

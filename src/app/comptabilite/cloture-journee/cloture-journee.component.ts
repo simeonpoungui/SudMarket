@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
-import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { BordereauDeClotureDecaisse } from 'src/app/Models/BordereaudeClotureDecaisse.model';
-import { GetCaisseVendeur } from 'src/app/Models/caissevendeur.model';
 import { HistoriqueCaisseVendeur } from 'src/app/Models/historiqueCaisseVendeur.model';
 import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { CaissesService } from 'src/app/Services/caisses.service';
@@ -25,7 +23,7 @@ export class ClotureJourneeComponent {
   TotalRetraits?: string = '0';
   TotalVersements?: string = '0';
   solde_confirme?: number = 0;
-  commentaires!: string;
+  commentaires: string = ' ';
   caisse!: string;
   IdCaisseSelected!: number;
   Billets!: number;
@@ -70,7 +68,8 @@ export class ClotureJourneeComponent {
   // Totaux
   totalPieces: number = 0;
   totalSommePieces: number = 0;
-  isloadingpage!: boolean
+  isloadingpage!: boolean;
+  
   constructor(
     private caisseService: CaissesService,
     private dialog: MatDialog,
@@ -110,24 +109,88 @@ export class ClotureJourneeComponent {
       this.solde_ouverture = data.message.solde_caisse;
       this.IdCaisseSelected = data.message.caisse_vendeur_id;
       this.caisse_vendeur_id = data.message.caisse_vendeur_id;
-      this.getInfoByJourneeComptable(data.message.caisse_vendeur_id,this.date_comptable
-      );
+      this.getInfoByJourneeComptable(data.message.caisse_vendeur_id,this.date_comptable);
+      this.getBorderauDesCaisses(data.message.caisse_vendeur_id,this.date_comptable)
     });
   }
   getInfoByJourneeComptable(IDcaisse: number, date_comptable: Date) {
-    this.caisseService
-      .getinfocaisseJourneeComptable(IDcaisse, date_comptable)
-      .subscribe((data) => {
+    this.caisseService.getinfocaisseJourneeComptable(IDcaisse, date_comptable).subscribe((data) => {
         console.log(data.message);
-        this.caisse_vendeur_id = data.message.caisse_vendeur_id;
-        this.solde_ouverture = data.message.solde_ouverture;
-        this.solde_fermeture = data.message.solde_fermeture;
-        this.TotalRetraits = data.message.TotalRetraits;
-        this.TotalVersements = data.message.TotalVersements;
-        this.solde_confirme = data.message.solde_confirme;
-        this.commentaires = data.message.commentaires;
+        if (typeof data.message == 'string') {
+          this.solde_fermeture = this.globalService.formatPrixString("0");
+          this.TotalRetraits = this.globalService.formatPrixString("0");
+          this.TotalVersements = this.globalService.formatPrixString("0");
+          this.solde_confirme = 0;
+          this.commentaires = " ";
+        }else{
+          this.caisse_vendeur_id = data.message.caisse_vendeur_id;
+          this.solde_ouverture = data.message.solde_ouverture;
+          this.solde_fermeture = data.message.solde_fermeture;
+          this.TotalRetraits = data.message.TotalRetraits;
+          this.TotalVersements = data.message.TotalVersements;
+          this.solde_confirme = data.message.solde_confirme;
+          this.commentaires = data.message.commentaires;
+        }
       });
   }
+
+  getBorderauDesCaisses(IDcaisse: number, date_comptable: Date){
+    const bordereau = {
+      caisse_vendeur_id: IDcaisse,
+      date_comptable :  date_comptable
+    }
+    console.log(bordereau);
+    
+    this.caisseService.getBordereauDesCiasses(bordereau).subscribe(data => {
+      console.log(data.message);
+      if (typeof data.message == "string") {
+        this.Billets_10000_nombre = 0;
+        this.Billets_5000_nombre = 0;
+        this.Billets_2000_nombre = 0;
+        this.Billets_1000_nombre = 0;
+        this.Billets_500_nombre = 0;
+        this.Pieces_500_nombre = 0;
+        this.Pieces_100_nombre = 0;
+        this.Pieces_50_nombre = 0;
+        this.Pieces_25_nombre = 0;
+        
+        this.Billets_10000_somme = 0 ;
+        this.Billets_5000_somme = 0;
+        this.Billets_2000_somme = 0;
+        this.Billets_1000_somme = 0;
+        this.Billets_500_somme = 0;
+        this.Pieces_500_somme = 0;
+        this.Pieces_100_somme = 0;
+        this.Pieces_50_somme = 0;
+        this.Pieces_25_somme = 0;
+        this.totalBillets = 0
+        this.totalPieces = 0
+      }else{
+        this.Billets_10000_nombre = data.message.Billets_10000_nombre;
+        this.Billets_5000_nombre = data.message.Billets_5000_nombre;
+        this.Billets_2000_nombre = data.message.Billets_2000_nombre;
+        this.Billets_1000_nombre = data.message.Billets_1000_nombre;
+        this.Billets_500_nombre = data.message.Billets_500_nombre;
+        this.Pieces_500_nombre = data.message.Pieces_500_nombre;
+        this.Pieces_100_nombre = data.message.Pieces_100_nombre;
+        this.Pieces_50_nombre = data.message.Pieces_50_nombre;
+        this.Pieces_25_nombre = data.message.Pieces_25_nombre;
+        
+        this.Billets_10000_somme = data.message.Billets_10000_somme;
+        this.Billets_5000_somme = data.message.Billets_5000_somme;
+        this.Billets_2000_somme = data.message.Billets_2000_somme;
+        this.Billets_1000_somme = data.message.Billets_1000_somme;
+        this.Billets_500_somme = data.message.Billets_500_somme;
+        this.Pieces_500_somme = data.message.Pieces_500_somme;
+        this.Pieces_100_somme = data.message.Pieces_100_somme;
+        this.Pieces_50_somme = data.message.Pieces_50_somme;
+        this.Pieces_25_somme = data.message.Pieces_25_somme;
+        this.totalBillets = data.message.Billets
+        this.totalPieces = data.message.Pieces
+      }
+    })
+  }
+
 
   selectDate(event: any) {
     const selectedDate = new Date(event.target.value);
@@ -156,11 +219,10 @@ export class ClotureJourneeComponent {
               'Information'
             );
             this.getCurrentDateFormatted();
+            this.getCaisseVendeur()
           } else {
-            this.getInfoByJourneeComptable(
-              this.IdCaisseSelected,
-              event.target.value
-            );
+            this.getInfoByJourneeComptable(this.IdCaisseSelected,event.target.value);
+            this.getBorderauDesCaisses(this.IdCaisseSelected,event.target.value)
           }
         });
     }
@@ -194,7 +256,7 @@ export class ClotureJourneeComponent {
     console.log(vendeur);
     this.caisseService.clotureJourneeComptable(vendeur).subscribe((data) => {
       console.log(data.message);
-      this.globalService.toastShow("Journée cloturée avec succès","Succès")
+      this.globalService.toastShow('Journée cloturée avec succès', 'Succès');
     });
   }
 
@@ -271,18 +333,29 @@ export class ClotureJourneeComponent {
   }
 
   onSubmitForm(form: NgForm) {
-    this.isloadingpage = true
     const bordereau: BordereauDeClotureDecaisse = form.value;
     bordereau.Billets = this.totalBillets;
     bordereau.Pieces = this.totalPieces;
-    bordereau.caisse_vendeur_id = this.caisse_vendeur_id
-    bordereau.date_comptable = this.date_comptable
+    bordereau.caisse_vendeur_id = this.caisse_vendeur_id;
+    bordereau.date_comptable = this.date_comptable;
     console.log(bordereau);
-    this.caisseService.createBordereauDesCaisse(bordereau).subscribe(data  => {
-      console.log(data.message);
-      this.isloadingpage = false
-       this.globalService.toastShow("Bordereau des caisses crée avec succès","Succès")
-    })
-    this.ClotureJourneeComptable();
+
+    if (this.solde_confirme == 1 && bordereau) {
+      this.isloadingpage = true;
+      this.caisseService.createBordereauDesCaisse(bordereau).subscribe((data) => {
+        console.log(data.message);
+        this.isloadingpage = false;
+        this.globalService.toastShow(
+          'Bordereau des caisses crée avec succès',
+          'Succès'
+        );
+      });
+      this.ClotureJourneeComptable();
+    }else{
+      const dialog = this.dialog.open(AlertInfoComponent)
+      dialog.componentInstance.content = "Vous devez remplir le tableau du bordereau de cloture de caisse et cocher la case de confirmation!"
+    }
+
+    
   }
 }

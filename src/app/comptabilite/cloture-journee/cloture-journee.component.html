@@ -25,7 +25,7 @@
               <p class="fw-bold pt-3">Caisse :</p>
             </div>
             <div class="col-lg-9">
-              <p class="fw-bold border bg-white p-3">{{ this.caisse }}</p>
+              <p class="fw-bold border bg-white p-3">{{ caisse }}</p>
             </div>
           </div>
         </div>
@@ -33,25 +33,25 @@
           <div class="mt-2">
             <span class="fw-bold">Solde Ouverture : </span>
             <span class="fw-bold text-danger mx-2">{{
-              globalService.formatPrixString(this.solde_ouverture)
+             (solde_ouverture)
             }}</span>
           </div>
           <div class="mt-2">
             <span class="fw-bold">Solde Fermeture : </span>
             <span class="fw-bold text-danger mx-2">{{
-              globalService.formatPrixString(this.solde_fermeture)
+             (solde_fermeture)
             }}</span>
           </div>
           <div class="mt-2">
             <span class="fw-bold">Total vente : </span>
             <span class="fw-bold text-danger mx-2">{{
-              globalService.formatPrixString(this.TotalVersements)
+             (TotalVersements)
             }}</span>
           </div>
           <div class="mt-2">
             <span class="fw-bold">Total Retraits : </span>
             <span class="fw-bold text-danger mx-2">{{
-              globalService.formatPrixString(this.TotalRetraits)
+             (TotalRetraits)
             }}</span>
           </div>
         </div>
@@ -324,9 +324,7 @@
             </div>
             <div class="row mb-3 mt-3">
               <div class="col-lg-6">
-                <button
-                  class="form-control bg-update text-white"
-                >
+                <button class="form-control bg-update text-white">
                   Confirmer le solde de cloture
                 </button>
               </div>
@@ -336,7 +334,7 @@
                   [disabled]="true"
                 >
                   <span>{{
-                    globalService.formatPrixString(solde_fermeture)
+                   (solde_fermeture)
                   }}</span>
                 </button>
               </div>
@@ -346,7 +344,7 @@
               <div>
                 <div class="form-floating">
                   <textarea
-                  (change)="SendCommentaires($event)"
+                    (change)="SendCommentaires($event)"
                     class="form-control"
                     [value]="commentaires"
                     id="floatingTextarea2"
@@ -364,8 +362,8 @@
                       (change)="confirmeSolde($event)"
                       class="form-check-input p-3"
                       type="checkbox"
-                      [disabled]="solde_confirme === 1 ? true: false"
-                      [checked]="solde_confirme === 1 ? true : false "
+                      [disabled]="solde_confirme === 1 ? true : false"
+                      [checked]="solde_confirme === 1 ? true : false"
                       id="flexCheckDefault"
                     />
                   </div>
@@ -373,14 +371,19 @@
                 <div class="col-lg-11 p-0">
                   <p>
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Nihil est sed vel consectetur unde, eius corrupti asperiores,
-                    cumque maiores vero labore incidunt sunt ipsa iusto 
+                    Nihil est sed vel consectetur unde, eius corrupti
+                    asperiores, cumque maiores vero labore incidunt sunt ipsa
+                    iusto
                   </p>
                 </div>
               </div>
               <div class="mt-3">
-                <button *ngIf="!isloadingpage; else loader" type="submit" class="form-control mt-3 text-white bg-update">
-                  Cloturer la Journée 
+                <button
+                  *ngIf="!isloadingpage; else loader"
+                  type="submit"
+                  class="form-control mt-3 text-white bg-update"
+                >
+                  Cloturer la Journée
                 </button>
               </div>
               <div>

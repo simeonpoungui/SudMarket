@@ -63,6 +63,7 @@ import { EtatCaisseVendeurComponent } from './comptabilite/etat-caisse-vendeur/e
 import { TransfertInterCaisseComponent } from './comptabilite/transfert-inter-caisse/transfert-inter-caisse.component';
 import { CaissePrincipaleComponent } from './comptabilite/caisse-principale/caisse-principale.component';
 import { CaisseExploitationComponent } from './comptabilite/caisse-exploitation/caisse-exploitation.component';
+import { TransfertInterCaisseBanquaireComponent } from './comptabilite/transfert-inter-caisse-banquaire/transfert-inter-caisse-banquaire.component';
 
 const routes: Routes = [
   // home page
@@ -152,6 +153,8 @@ const routes: Routes = [
   {path: 'transfer-inter-caisse', component: TransfertInterCaisseComponent},
   {path: 'historiques-des-clotures-des-caisses', component: HistoriquesSoldesFermatureCaissesComponent},
   {path: 'historique-des-caisses-vendeurs', component: HistoriqueDesCaissesVendeurComponent},
+  {path: 'transfert-inter-caisse-banquaire', component: TransfertInterCaisseBanquaireComponent},
+
 
 ];
 

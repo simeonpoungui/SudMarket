@@ -13,11 +13,11 @@ export class EtatCaisseVendeurComponent {
   date_comptable!: any;
   historique_caisse_id!: number
   caisse_vendeur_id!: number
-  solde_ouverture: string | undefined
-  solde_fermeture: string | undefined
-  TotalRetraits: string | undefined
-  TotalVersements: string | undefined
-  solde_confirme: number | undefined
+  solde_ouverture?: string = "0"
+  solde_fermeture?: string = "0"
+  TotalRetraits?: string = "0"
+  TotalVersements?: string = "0"
+  solde_confirme?: number
   commentaires!: string
   caisse!: string;
   constructor(private caisseService: CaissesService, public globalService: GlobalService) {}
@@ -42,7 +42,6 @@ export class EtatCaisseVendeurComponent {
     const seconds = String(currentDate.getSeconds()).padStart(2, '0');
     this.date_comptable = `${year}-${month}-${day}`;
     console.log(this.date_comptable);
-    //  console.log(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
   }
 
   getCaisseVendeur() {
@@ -60,9 +59,7 @@ export class EtatCaisseVendeurComponent {
     });
   }
   getInfoByJourneeComptable(IDcaisse: number, date_comptable: Date) {
-    this.caisseService
-      .getinfocaisseJourneeComptable(IDcaisse, date_comptable)
-      .subscribe((data) => {
+    this.caisseService.getinfocaisseJourneeComptable(IDcaisse, date_comptable).subscribe((data) => {
         console.log(data.message);
         this.caisse_vendeur_id = data.message.caisse_vendeur_id;
         this.solde_ouverture = data.message.solde_ouverture;

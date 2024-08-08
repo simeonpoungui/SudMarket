@@ -5,43 +5,46 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Banque, GetBanque } from 'src/app/Models/banque.model';
 import { CaissePrincipale, GetCaissePrincipale } from 'src/app/Models/caissePrincipale.model';
 import { GetCaisseVendeur } from 'src/app/Models/caissevendeur.model';
 import { CaisseVendeur } from 'src/app/Models/historiqueCaisseVendeur.model';
+import { TransfertCaisseBanque } from 'src/app/Models/transfert-inter-caisse-banquaire.model';
 import { TransfertCaisse } from 'src/app/Models/transfert-inter-caisse.model';
 import { CaissesService } from 'src/app/Services/caisses.service';
 import { GlobalService } from 'src/app/Services/global.service';
 
 @Component({
-  selector: 'app-transfert-inter-caisse',
-  templateUrl: './transfert-inter-caisse.component.html',
-  styleUrls: ['./transfert-inter-caisse.component.scss'],
+  selector: 'app-transfert-inter-caisse-banquaire',
+  templateUrl: './transfert-inter-caisse-banquaire.component.html',
+  styleUrls: ['./transfert-inter-caisse-banquaire.component.scss']
 })
-export class TransfertInterCaisseComponent {
+export class TransfertInterCaisseBanquaireComponent {
+
   dataSource!: any;
   displayedColumns = [
-    'caisse_vendeur_id',
     'caisse_principale_id',
+    'banque_id',
     'montant',
     'description',
     'date_transfert',
   ];
 
-
   isloadingpage!: boolean;
   tbCaissePrincipale!: CaissePrincipale[]
-  tbCaisseVendeur!: CaisseVendeur[]
+  tbBanque!: Banque[]
 
-  caisse_vendeur_id!: number
-  caisse_principale_id!: number
+  transfert_id!: number;
+  caisse_principale_id!: number;
+  banque_id!: number;
   montant!: number;
-  description!: string; 
-  date_transfert!: Date; 
+  description!: string;
+  date_transfert!: Date;
 
   constructor(
     private router: Router,
     public globalService: GlobalService,
-    private caissService: CaissesService,
+    private caisseService: CaissesService,
     private dialog: MatDialog
   ) {}
 
@@ -49,34 +52,38 @@ export class TransfertInterCaisseComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.getListeTrabsefert();
     this.getListCaissePrincipale();
-    this.getListCaisseVendeur();
+    this.getListBanque();
+    this.getListeTrabsefert();
+
   }
 
   getListCaissePrincipale() {
     const caisse: GetCaissePrincipale = {
       caisse_principale_id: 0
     }
-    this.caissService.getListCaissePrincipale(caisse).subscribe(data => {
+    this.caisseService.getListCaissePrincipale(caisse).subscribe(data => {
       console.log(data.message);
+      this.caisse_principale_id = data.message[0].caisse_principale_id
       this.tbCaissePrincipale = data.message
+      
     } )
   }
 
-  getListCaisseVendeur() {
-    const caisse : GetCaisseVendeur = {
-      caisse_vendeur_id: 0
+  getListBanque() {
+    const banque : GetBanque = {
+      banque_id: 0
     }
-    this.caissService.getListCaisseVendeur(caisse).subscribe(data => {
+    this.caisseService.getListBanque(banque).subscribe(data => {
       console.log(data.message);
-      this.tbCaisseVendeur = data.message
+      this.banque_id = data.message[0].banque_id
+      this.tbBanque = data.message
     } )
   }
 
-  getCaissevendeurName(caisse_vendeur_id: number): string {
-    const caisse = this.tbCaisseVendeur.find(p => p.caisse_vendeur_id === caisse_vendeur_id);
-    return caisse ? caisse.nom_caisse : 'Unknown Caisse';
+  getCaissevendeurName(banque_id: number): string {
+    const banque = this.tbBanque.find(p => p.banque_id === banque_id);
+    return banque ? banque.nom_banque : 'Unknown Banque';
   }
 
   getCaissePrincippaleName(caisse_principale_id: number): string {
@@ -86,18 +93,16 @@ export class TransfertInterCaisseComponent {
 
   getListeTrabsefert() {
     const transfert = {
-      transfert_id:0
+        transfert_id: 0
     }
-    this.caissService.getListtransfertInterCaisseVendeurPrincipale(transfert).subscribe(data => {
+    this.caisseService.getTransfertCaisseBanque(transfert).subscribe(data => {
       console.log(data.message)
       this.dataSource = new MatTableDataSource(data.message)
     } )
   }
 
-
-
-  selectCaisseVendeur(event : any){
-    this.caisse_vendeur_id = Number(event.target.value)
+  selectBanque(event : any){
+    this.banque_id = Number(event.target.value)
   }  
 
   selectCaissePrincipale(event: any){
@@ -105,13 +110,15 @@ export class TransfertInterCaisseComponent {
   }
 
   onSubmitForm(form: NgForm){
-    const transfert:  TransfertCaisse = form.value
+    const transfert:  TransfertCaisseBanque = form.value
     transfert.caisse_principale_id = this.caisse_principale_id
-    transfert.caisse_vendeur_id = this.caisse_vendeur_id
+    transfert.banque_id = this.banque_id
     console.log(transfert);
-    this.caissService.transfertInterCaisseVendeurPrincipale(transfert).subscribe(response => {
-      console.log(response.message);
-      this.globalService.toastShow(response.message,"Succès")
-    })
+     this.caisseService.TransfertCaisseBanque(transfert).subscribe(response => {
+       console.log(response.message);
+       this.getListeTrabsefert()
+       this.globalService.toastShow(response.message,"Succès")
+     })
   }
+
 }
