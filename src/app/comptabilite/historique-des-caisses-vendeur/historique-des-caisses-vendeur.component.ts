@@ -11,6 +11,8 @@ import { CaissesService } from 'src/app/Services/caisses.service';
 import { GetCaisseVendeur } from 'src/app/Models/caissevendeur.model';
 import { CaisseVendeur } from 'src/app/Models/historiqueCaisseVendeur.model';
 import { GlobalService } from 'src/app/Services/global.service';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
+import { UsersService } from 'src/app/Services/users.service';
 
 @Component({
   selector: 'app-historique-des-caisses-vendeur',
@@ -34,10 +36,12 @@ export class HistoriqueDesCaissesVendeurComponent {
   DateFin!: string;
   caisse_vendeur_id!: number;
   tbcaisse!: CaisseVendeur[];
+  tbUsers!: Utilisateur[];
 
   constructor(
     public globalService: GlobalService,
     private dialog: MatDialog,
+    private userService: UsersService,
     private caisseSerices: CaissesService,
     private router: Router
   ) {}
@@ -47,6 +51,7 @@ export class HistoriqueDesCaissesVendeurComponent {
 
   ngOnInit(): void {
     this.getListCaissesVendeur();
+    this.loadUser()
   }
   getListCaissesVendeur() {
     const caisse: GetCaisseVendeur = {
@@ -56,6 +61,19 @@ export class HistoriqueDesCaissesVendeurComponent {
       console.log(data.message);
       this.tbcaisse = data.message;
     });
+  }
+
+  loadUser() {
+    const user: GetUser = { utilisateur_id: 0 };
+    this.userService.getListUser(user).subscribe((data) => {
+      console.log(data.message);
+      this.tbUsers = data.message;
+    });
+  }
+
+  getUserName(utilisateur_id: any): string {
+    const user = this.tbUsers.find((u) => u.utilisateur_id === utilisateur_id);
+    return user ? user.nom_utilisateur + ' ' + user.prenom_utilisateur : 'Unknown User';
   }
 
   applyFilter(filterValue: any) {

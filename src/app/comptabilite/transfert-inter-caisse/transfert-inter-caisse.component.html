@@ -149,7 +149,7 @@
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                ></td>
+                >Total</td>
               </ng-container>
 
               <ng-container matColumnDef="caisse_principale_id">
@@ -177,7 +177,7 @@
                   mat-footer-cell
                   class="bg-table-color text-light"
                   *matFooterCellDef
-                ></td>
+                >{{globalService.formatPrix(TotalMontant)}}</td>
               </ng-container>
 
               <ng-container matColumnDef="description">

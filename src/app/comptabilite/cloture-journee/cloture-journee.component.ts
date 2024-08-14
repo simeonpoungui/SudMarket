@@ -18,10 +18,10 @@ export class ClotureJourneeComponent {
   date_comptable!: any;
   historique_caisse_id!: number;
   caisse_vendeur_id!: number;
-  solde_ouverture?: string = '0';
-  solde_fermeture?: string = '0';
-  TotalRetraits?: string = '0';
-  TotalVersements?: string = '0';
+  solde_ouverture?: string = this.globalService.formatPrixString('0');
+  solde_fermeture?: string = this.globalService.formatPrixString('0');
+  TotalRetraits?: string = this.globalService.formatPrixString('0');
+  TotalVersements?: string = this.globalService.formatPrixString('0');
   solde_confirme?: number = 0;
   commentaires: string = ' ';
   caisse!: string;
@@ -105,12 +105,16 @@ export class ClotureJourneeComponent {
     };
     this.caisseService.getCaisseByUser(user).subscribe((data) => {
       console.log(data.message);
-      this.caisse = data.message.nom_caisse;
-      this.solde_ouverture = data.message.solde_caisse;
-      this.IdCaisseSelected = data.message.caisse_vendeur_id;
-      this.caisse_vendeur_id = data.message.caisse_vendeur_id;
-      this.getInfoByJourneeComptable(data.message.caisse_vendeur_id,this.date_comptable);
-      this.getBorderauDesCaisses(data.message.caisse_vendeur_id,this.date_comptable)
+      if (typeof data.message == "string") {
+        this.solde_ouverture = this.globalService.formatPrixString("0")
+      }else{
+        this.caisse = data.message.nom_caisse;
+        this.solde_ouverture = data.message.solde_caisse;
+        this.IdCaisseSelected = data.message.caisse_vendeur_id;
+        this.caisse_vendeur_id = data.message.caisse_vendeur_id;
+        this.getInfoByJourneeComptable(data.message.caisse_vendeur_id,this.date_comptable);
+        this.getBorderauDesCaisses(data.message.caisse_vendeur_id,this.date_comptable)
+      }
     });
   }
   getInfoByJourneeComptable(IDcaisse: number, date_comptable: Date) {
@@ -339,7 +343,6 @@ export class ClotureJourneeComponent {
     bordereau.caisse_vendeur_id = this.caisse_vendeur_id;
     bordereau.date_comptable = this.date_comptable;
     console.log(bordereau);
-
     if (this.solde_confirme == 1 && bordereau) {
       this.isloadingpage = true;
       this.caisseService.createBordereauDesCaisse(bordereau).subscribe((data) => {

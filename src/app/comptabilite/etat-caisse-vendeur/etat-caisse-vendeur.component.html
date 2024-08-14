@@ -4,11 +4,11 @@
         <div class="col-lg-6 bg-light border rounded rounded-4">
             <div class="mt-2">
                 <span class="fw-bold">Date comptable : </span>
-                <span class="fw-bold mx-2">{{this.date_comptable}}</span>
+                <span class="fw-bold mx-2">{{(currentDate)}}</span>
             </div>
             <div class="mt-2">
                 <span class="fw-bold">Caisse : </span>
-                <span class="fw-bold mx-2">{{this.caisse}}</span>
+                <span class="fw-bold mx-2">{{caisse ? caisse : "Aucune caisse trouvée."}}</span>
             </div>
         </div>
         <div class="col-lg-6 bg-light border rounded rounded-4">

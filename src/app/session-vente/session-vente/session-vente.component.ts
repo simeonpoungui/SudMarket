@@ -23,6 +23,7 @@ import { SessionService } from 'src/app/Services/session.service';
 import { Session } from 'src/app/Models/session.ventes.model';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 import { CaissesService } from 'src/app/Services/caisses.service';
+import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 
 @Component({
   selector: 'app-session-vente',
@@ -58,7 +59,7 @@ export class SessionVenteComponent {
   user!: Utilisateur;
   modepaiement: number = 1;
   currentSessionId: number | undefined;
-  IDcaissevendeur!: number
+  IDcaissevendeur!: number;
   sessionActive: boolean = true;
 
   constructor(
@@ -75,18 +76,20 @@ export class SessionVenteComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        if (this.sessionActive) {
-          this.router.navigate(['/session-vente']);
-          this.globlService.toastShow(
-            "Vous devez d'abord fermer la session",
-            'Attention',
-            'error'
-          );
-        }
-      }
-    });
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     if (this.sessionActive) {
+    //       this.router.navigate(['/session-vente']);
+    //       this.globlService.toastShow(
+    //         "Vous devez d'abord fermer la session",
+    //         'Attention',
+    //         'error'
+    //       );
+    //     }
+    //   }
+    // });
+
+    this.openPointsDeVentes();
 
     // get point de vente local Sotage
     const storedPointSelected = localStorage.getItem('pointSelected');
@@ -100,22 +103,36 @@ export class SessionVenteComponent {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
-
-    this.getListProduit();
-    this.calculateTotalVente();
-
-    this.startSession();
-    this.getCaisseUser()
   }
 
-  getCaisseUser(){
-    const user: GetUser = {utilisateur_id: this.user.utilisateur_id}
-    this.caisseService.getCaisseByUser(user).subscribe( data => {
+  openPointsDeVentes() {
+    const dialog = this.dialog.open(SelectPointDeVenteComponent);
+    dialog.afterClosed().subscribe((result) => {
+      this.pointSelected = dialog.componentInstance.pointSelected;
+      console.log(this.pointSelected);
+      if (this.pointSelected) {
+        this.getListProduit();
+        this.calculateTotalVente();
+        this.startSession();
+        this.getCaisseUser();
+      } else {
+        this.router.navigateByUrl('/');
+        this.globlService.toastShow(
+          'Vous devez selectionner un point de vente',
+          'Information',
+          'info'
+        );
+      }
+    });
+  }
+
+  getCaisseUser() {
+    const user: GetUser = { utilisateur_id: this.user.utilisateur_id };
+    this.caisseService.getCaisseByUser(user).subscribe((data) => {
       console.log(data.message);
-      this.IDcaissevendeur = data.message.caisse_vendeur_id
+      this.IDcaissevendeur = data.message.caisse_vendeur_id;
       console.log(this.IDcaissevendeur);
-      
-    })
+    });
   }
 
   getListProduit() {
@@ -252,17 +269,22 @@ export class SessionVenteComponent {
               this.montantTotalDeLaVente = 0;
               localStorage.removeItem('pointSelected');
               this.clientSelected = {} as Client;
-              this.globlService.toastShow("Vente effectuée avec succès", 'Succès');
+              this.globlService.toastShow(
+                'Vente effectuée avec succès',
+                'Succès'
+              );
               this.isloadingpaiement = false;
               this.getListProduit();
             },
             error: (error) => {
-              console.error("Erreur lors de la création de la vente:", error);
-              this.globlService.toastShow("Erreur lors de la création de la vente", 'Erreur');
+              console.error('Erreur lors de la création de la vente:', error);
+              this.globlService.toastShow(
+                'Erreur lors de la création de la vente',
+                'Erreur'
+              );
               this.isloadingpaiement = false;
-            }
+            },
           });
-          
         }
       });
     } else {

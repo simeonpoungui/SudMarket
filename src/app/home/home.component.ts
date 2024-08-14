@@ -77,13 +77,13 @@ export class HomeComponent {
   ) {}
 
   ngOnInit(): void {
+    this.loadPointDeVente()
     this.loadUsers();
     this.getListVente();
     this.getListProduit();
     this.getListArticles();
     this.loadClients();
     this.loadVentes();
-    this.loadPointDeVente()
   }
 
   openCaisse(){
@@ -93,13 +93,13 @@ export class HomeComponent {
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}
     this.pointService.getList(point).subscribe(data => {
-      console.log(data.message);
       this.tbPointdeVente = data.message
+      console.log(this.tbPointdeVente);
       
     } )
   }
 
-  getPointName(point_de_vente_id: any): string {
+  getPointName(point_de_vente_id?: number): string {
     const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
     return point ? point.nom : 'Unknown Point';
   }

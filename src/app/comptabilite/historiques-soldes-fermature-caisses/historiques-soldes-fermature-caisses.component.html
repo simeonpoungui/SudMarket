@@ -54,7 +54,7 @@
                   Caisse
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.caisse_vendeur_id }}
+                  {{getCaisseName(element.caisse_vendeur_id )}}
                 </td>
                 <td
                   mat-footer-cell
@@ -65,7 +65,7 @@
 
               <ng-container matColumnDef="date_comptable">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Date
+                  Date comptable
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ globalService.formatDate(element.date_comptable) }}

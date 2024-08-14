@@ -134,7 +134,7 @@
               <a class="nxl-link" routerLink="/vente/list">Rapports des ventes</a>
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" (click)="openPointsDeVentes()">Ajouter une vente</a>
+              <a class="nxl-link" routerLink="/session-vente">Ajouter une vente</a>
             </li>
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/articles-de-vente">Articles de ventes</a>
@@ -155,7 +155,7 @@
             </li>
             <li class="nxl-item">
               <a class="nxl-link" 
-              (click)="openPointsDeVentesCommande()"
+              routerLink="/session-commande-achat"
                 >Ajouter une commande</a
               >
             </li>
@@ -461,7 +461,7 @@
                 </div>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a (click)="openPointsDeVentesCommande()" href="javascript:void(0);" class="dropdown-item">
+                <a routerLink="/session-commande-achat" href="javascript:void(0);" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-briefcase"></i>
                     <span>Session commande</span>
@@ -470,7 +470,7 @@
                 </a>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a (click)="openPointsDeVentes()" class="dropdown-item">
+                <a routerLink="/session-vente" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-layout"></i>
                     <span>Session de vente</span>

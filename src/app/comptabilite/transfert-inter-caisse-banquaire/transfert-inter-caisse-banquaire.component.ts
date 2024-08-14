@@ -29,7 +29,7 @@ export class TransfertInterCaisseBanquaireComponent {
     'description',
     'date_transfert',
   ];
-
+  TotalMontant!:number
   isloadingpage!: boolean;
   tbCaissePrincipale!: CaissePrincipale[]
   tbBanque!: Banque[]
@@ -97,6 +97,7 @@ export class TransfertInterCaisseBanquaireComponent {
     }
     this.caisseService.getTransfertCaisseBanque(transfert).subscribe(data => {
       console.log(data.message)
+      this.TotalMontant = this.globalService.calculTotal('montant', data.message);
       this.dataSource = new MatTableDataSource(data.message)
     } )
   }

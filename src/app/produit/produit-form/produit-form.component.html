@@ -105,7 +105,19 @@
             <div class="row">
               <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label">
-                  Prix</label
+                  Prix unitaire de vente</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="prix"
+                  [(ngModel)]="prix"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label">
+                  Prix de revient</label
                 >
                 <input
                   type="number"
@@ -140,7 +152,7 @@
                 />
               </div>
 
-              <div class="col-lg-6 mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Niveau de reapprovisionnement
                 </label>
@@ -152,7 +164,7 @@
                 />
               </div>
 
-              <div class="col-lg-6 mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label">
                   Point de vente
                   <span class="title-bg-global-secondary"> * </span>

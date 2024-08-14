@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginService } from './Services/login.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,10 @@ export class AppComponent {
   isLogin: boolean = false;
   user: any
 
-  constructor(private loginServoce: LoginService){}
+  constructor(
+    private loginServoce: LoginService,
+    private dialog: MatDialog
+  ){}
 
   ngOnInit() {
 

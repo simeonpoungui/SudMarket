@@ -18,6 +18,7 @@ import { CommandeService } from 'src/app/Services/commande.service';
 import { SelectFournisseurComponent } from 'src/app/fournisseur/select-fournisseur/select-fournisseur.component';
 import { Fournisseur } from 'src/app/Models/fournisseur.model';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
+import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 
 @Component({
   selector: 'app-session-commande',
@@ -69,21 +70,24 @@ export class SessionCommandeComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    const storedPointSelected = localStorage.getItem('pointSelectedCommande');
-    if (storedPointSelected) {
-      this.pointSelected = JSON.parse(storedPointSelected);
-      console.log(this.pointSelected);
-    }
-    this.calculateTotalVente();
     const user = localStorage.getItem('user');
     if (user) {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
-
-    this.getListProduit();
+    this.openPointsDeVentesCommande()
   }
 
+  openPointsDeVentesCommande(){
+    const dialog = this.dialog.open(SelectPointDeVenteComponent);
+    dialog.afterClosed().subscribe((result) => {
+      this.pointSelected = dialog.componentInstance.pointSelected;
+      console.log(this.pointSelected);
+      this.calculateTotalVente();
+      this.getListProduit();
+    }); 
+  }
+  
   getListProduit() {
     const point: GetPointsDeVentes = {
       point_de_vente_id: this.pointSelected.point_de_vente_id,

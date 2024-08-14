@@ -119,7 +119,7 @@ export class VenteJournaliereByUserComponent {
 
   getProduitName(produit_id: any): string {
     const p = this.ListProduit.find(p => p.produit_id === produit_id);
-    return p ? p.nom : 'Unknown Produit';
+    return p ? p.nom : '';
   }
 
     // getArticleVenteJournaliere(){

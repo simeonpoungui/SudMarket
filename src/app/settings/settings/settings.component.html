@@ -5,25 +5,25 @@
         <span class="text-on-border">Parametres </span>
         <div class="block-comptabilite mt-3">
           <div class="content m-1 pb-1">
-            <span class="text-on-border fw-bold">Comptabilité </span>
+            <span class="text-on-border fw-bold text-danger fw-bold">Comptabilité </span>
             <div class="row p-3">
               <div
               routerLink="/caisse-principale"
                 class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
               >
-                <p>Caisse Principale</p>
+                <p>Caisse Principale <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
               </div>
               <div
               routerLink="/caisse-vendeur"
                 class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
               >
-                <p>Caisses Vendeurs</p>
+                <p>Caisses Vendeurs <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
               </div>
               <div
               routerLink="/caisse-exploitation"
                 class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
               >
-                <p>Caisse d'exploitation</p>
+                <p>Caisse d'exploitation <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
               </div>
               <div
               routerLink="/transfert-inter-caisse-banquaire"
@@ -56,12 +56,24 @@
               >
                 <p>Transferts inter caisse</p>
               </div>
+              <div
+              routerLink="/banque"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+              >
+                <p>Banque</p>
+              </div>
+              <div
+              routerLink="/vente-journaliere"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+              >
+                <p>Historique des ventes journalière</p>
+              </div>
             </div>
           </div>
         </div>
         <div class="block-localisation bg-light mt-3">
           <div class="content m-1 pb-1">
-            <span class="text-on-border fw-bold">Localisation </span>
+            <span class="text-on-border fw-bold text-danger fw-bold">Localisation </span>
             <div class="row p-3">
               <div
                 class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
@@ -109,7 +121,7 @@
         </div>
         <div class="block-divers mt-3">
           <div class="content m-1 pb-1">
-            <span class="text-on-border fw-bold">Divers </span>
+            <span class="text-on-border fw-bold text-danger fw-bold">Divers </span>
             <div class="row p-3">
               <div
                 class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"

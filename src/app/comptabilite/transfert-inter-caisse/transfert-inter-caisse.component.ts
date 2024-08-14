@@ -37,7 +37,8 @@ export class TransfertInterCaisseComponent {
   montant!: number;
   description!: string; 
   date_transfert!: Date; 
-
+  TotalMontant!: number
+  
   constructor(
     private router: Router,
     public globalService: GlobalService,
@@ -90,11 +91,10 @@ export class TransfertInterCaisseComponent {
     }
     this.caissService.getListtransfertInterCaisseVendeurPrincipale(transfert).subscribe(data => {
       console.log(data.message)
+      this.TotalMontant = this.globalService.calculTotal('montant', data.message);
       this.dataSource = new MatTableDataSource(data.message)
     } )
   }
-
-
 
   selectCaisseVendeur(event : any){
     this.caisse_vendeur_id = Number(event.target.value)

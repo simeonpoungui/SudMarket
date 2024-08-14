@@ -17,9 +17,9 @@ export class LoginService {
   }
 
   logout() {
-    this.globalService.toastShow('Vous etes deconncté','Succès','success')
     localStorage.removeItem('user');
-    window.location.reload();
+    this.globalService.toastShow('Vous etes deconnecté','Succès')
+     window.location.reload();
    }
 
 }

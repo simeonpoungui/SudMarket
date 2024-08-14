@@ -8,12 +8,11 @@ import { CaissesService } from 'src/app/Services/caisses.service';
 import { GlobalService } from 'src/app/Services/global.service';
 
 @Component({
-  selector: 'app-caisse-principale',
-  templateUrl: './caisse-principale.component.html',
-  styleUrls: ['./caisse-principale.component.scss']
+  selector: 'app-banque',
+  templateUrl: './banque.component.html',
+  styleUrls: ['./banque.component.scss']
 })
-export class CaissePrincipaleComponent {
-
+export class BanqueComponent {
   dataSource1!: any;
   displayedColumns1 = [
     'caisse_vendeur_id',
@@ -32,22 +31,22 @@ export class CaissePrincipaleComponent {
     'date_transfert',
   ];
 
+
+
   tbCaissePrincipale!: CaissePrincipale[]
   tbCaisseVendeur!: CaisseVendeur[]
   tbBanque!: Banque[]
   
-  nom_caisse!:  string;
-  montant_debit!: number;
-  montant_credit!: number;
-  description!: string; 
+  banque_id!: number;
+  nom_banque!: string;
+  numero_compte!: string;
+  ville!: string;
+  adresse!: string;
+  telephone!: string;
   solde!: number;
-  banque_id!: number
-  cree_le!: Date; 
-  mis_a_jour_le!: Date; 
-
-  TotalMontantTransfertCaissePrincipale!: number
-  TotalMontantTransfertBanque!: number
-  
+  date_creation!: Date;
+  date_mise_a_jour!: Date;
+  TotalMontant!: number
   constructor(
     private caisseService: CaissesService,
     private dialog: MatDialog,
@@ -61,6 +60,7 @@ export class CaissePrincipaleComponent {
     this.getListCaisseVendeur()
     this.getListeTrabsefertBanque()
     this.getListBanque()
+
   }
 
   getListBanque(){
@@ -70,6 +70,14 @@ export class CaissePrincipaleComponent {
     this.caisseService.getListBanque(banque).subscribe(data  => {
       console.log(data.message);
       this.tbBanque = data.message
+      this.solde = data.message[0].solde
+      this.nom_banque = data.message[0].nom_banque
+      this.numero_compte = data.message[0].numero_compte
+      this.ville = data.message[0].ville
+      this.adresse= data.message[0].adresse
+      this.telephone= data.message[0].telephone
+      this.date_mise_a_jour= data.message[0].date_mise_a_jour
+      this.date_creation= data.message[0].date_creation
     })
   }
   
@@ -79,7 +87,7 @@ export class CaissePrincipaleComponent {
     }
     this.caisseService.getTransfertCaisseBanque(transfert).subscribe(data => {
       console.log(data.message)
-      this.TotalMontantTransfertBanque = this.globalService.calculTotal('montant', data.message);
+      this.TotalMontant = this.globalService.calculTotal('montant', data.message);
       this.dataSource2 = new MatTableDataSource(data.message)
     } )
   }
@@ -90,14 +98,7 @@ export class CaissePrincipaleComponent {
     }
     this.caisseService.getListCaissePrincipale(caissep).subscribe(data => {
       console.log(data.message);
-      this.solde = data.message[0].solde
-      this.nom_caisse = data.message[0].nom_caisse
-      this.montant_credit = data.message[0].montant_credit
-      this.montant_debit = data.message[0].solde
-      this.banque_id= data.message[0].banque_id
-      this.description= data.message[0].description
-      this.cree_le= data.message[0].cree_le
-      this.mis_a_jour_le= data.message[0].mis_a_jour_le
+
     })
   }
 
@@ -142,7 +143,6 @@ export class CaissePrincipaleComponent {
     }
     this.caisseService.getListtransfertInterCaisseVendeurPrincipale(transfert).subscribe(data => {
       console.log(data.message)
-      this.TotalMontantTransfertCaissePrincipale = this.globalService.calculTotal('montant', data.message);
       this.dataSource1 = new MatTableDataSource(data.message)
     } )
   }

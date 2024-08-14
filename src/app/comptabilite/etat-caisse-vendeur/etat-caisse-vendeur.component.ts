@@ -20,6 +20,9 @@ export class EtatCaisseVendeurComponent {
   solde_confirme?: number
   commentaires!: string
   caisse!: string;
+
+  currentDate!: string
+
   constructor(private caisseService: CaissesService, public globalService: GlobalService) {}
 
   ngOnInit(): void {
@@ -42,6 +45,7 @@ export class EtatCaisseVendeurComponent {
     const seconds = String(currentDate.getSeconds()).padStart(2, '0');
     this.date_comptable = `${year}-${month}-${day}`;
     console.log(this.date_comptable);
+    this.currentDate = `${day}/${year}/${month}`
   }
 
   getCaisseVendeur() {
