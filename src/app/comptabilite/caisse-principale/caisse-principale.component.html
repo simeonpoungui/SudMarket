@@ -89,29 +89,44 @@
       <div class="mt-3">
         <div class="row m-0 shadow rounded rounded-4 bg-white p-2">
           <div class="col-lg-6">
-            <div class="">
+            <div>
               <h1
                 class="p-2 border rounded rounded-4 p-2 bg-light text-danger fw-bold"
               >
                 Historique des transferts entrants (caisses vendeurs)
               </h1>
             </div>
+            <!-- <div>
+              <select
+              class="form-control form-select"
+              (change)="SelectedPointDeVente($event)"
+            >
+            <option selected>Filtrer par point de vente</option>
+              <option
+                *ngFor="let point of tbPointdeVente"
+                [value]="point.point_de_vente_id"
+              >
+                {{ point.nom }}
+              </option>
+            </select>
+            </div> -->
             <div class="table-transfert">
               <div
                 class="mat-elevation-z8 mt-3"
                 style="max-height: 400px; overflow-y: auto"
               >
                 <table mat-table [dataSource]="dataSource1">
-                  <ng-container matColumnDef="caisse_vendeur_id">
+
+                  <ng-container matColumnDef="point_de_vente_id">
                     <th
                       class="bg-color-primary"
                       mat-header-cell
                       *matHeaderCellDef
                     >
-                      Caisse vendeur
+                      Point de vente
                     </th>
                     <td class="pointer" mat-cell *matCellDef="let element">
-                      {{ getCaissevendeurName(element.caisse_vendeur_id) }}
+                      {{ getCaissevendeurIdPointDeVente(element.caisse_vendeur_id) }}
                     </td>
                     <td
                       mat-footer-cell
@@ -120,7 +135,43 @@
                     >Total</td>
                   </ng-container>
 
-                  <ng-container matColumnDef="caisse_principale_id">
+                  <ng-container matColumnDef="Utilisateur">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Vendeur
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ getCaissevendeurIdUser(element.caisse_vendeur_id) }}
+                    </td>
+                    <td
+                      mat-footer-cell
+                      class="bg-table-color text-light"
+                      *matFooterCellDef
+                    >Total</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="caisse_vendeur_id">
+                    <th
+                      class="bg-color-primary"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Caisse
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ getCaissevendeurName(element.caisse_vendeur_id) }}
+                    </td>
+                    <td
+                      mat-footer-cell
+                      class="bg-table-color text-light"
+                      *matFooterCellDef
+                    ></td>
+                  </ng-container>
+
+                  <!-- <ng-container matColumnDef="caisse_principale_id">
                     <th
                       class="bg-color-primary"
                       mat-header-cell
@@ -138,7 +189,7 @@
                       class="bg-table-color text-light"
                       *matFooterCellDef
                     ></td>
-                  </ng-container>
+                  </ng-container> -->
 
                   <ng-container matColumnDef="montant">
                     <th
@@ -201,9 +252,18 @@
                 Historique des transferts sortants (Banque)
               </h1>
             </div>
+            <!-- <div class="row">
+              <div class="col-lg-5">
+                <p class="pt-3 bg-light p-3 fw-bold rounded rounded-3">Filtrer par date de transfert</p>
+              </div>
+              <div class="col-lg-7">
+                <input type="date" class="form-control" placeholder="Filtrer par date transfert">
+
+              </div>
+            </div> -->
             <div class="table-transfert">
               <div
-                class="mat-elevation-z8 mt-3"
+                class="mat-elevation-z8"
                 style="max-height: 400px; overflow-y: auto"
               >
                 <table mat-table [dataSource]="dataSource2">

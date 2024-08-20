@@ -56,6 +56,7 @@ export class EtatCaisseVendeurComponent {
       console.log(data.message);
       this.caisse = data.message.nom_caisse;
       this.solde_ouverture = data.message.solde_caisse;
+      this.solde_fermeture = data.message.solde_caisse
       this.getInfoByJourneeComptable(
         data.message.caisse_vendeur_id,
         this.date_comptable

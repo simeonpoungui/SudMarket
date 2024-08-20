@@ -109,7 +109,8 @@ export class ClotureJourneeComponent {
         this.solde_ouverture = this.globalService.formatPrixString("0")
       }else{
         this.caisse = data.message.nom_caisse;
-        this.solde_ouverture = data.message.solde_caisse;
+        this.solde_ouverture = this.globalService.formatPrixString(data.message.solde_caisse);
+        this.solde_fermeture = this.globalService.formatPrixString(data.message.solde_caisse)
         this.IdCaisseSelected = data.message.caisse_vendeur_id;
         this.caisse_vendeur_id = data.message.caisse_vendeur_id;
         this.getInfoByJourneeComptable(data.message.caisse_vendeur_id,this.date_comptable);
@@ -121,7 +122,6 @@ export class ClotureJourneeComponent {
     this.caisseService.getinfocaisseJourneeComptable(IDcaisse, date_comptable).subscribe((data) => {
         console.log(data.message);
         if (typeof data.message == 'string') {
-          this.solde_fermeture = this.globalService.formatPrixString("0");
           this.TotalRetraits = this.globalService.formatPrixString("0");
           this.TotalVersements = this.globalService.formatPrixString("0");
           this.solde_confirme = 0;

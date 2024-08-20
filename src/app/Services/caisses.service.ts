@@ -17,6 +17,9 @@ import { CodeResponseP, GetCaissePrincipale } from '../Models/caissePrincipale.m
 import { GetBanque } from '../Models/banque.model';
 import { TransfertCaisseBanque } from '../Models/transfert-inter-caisse-banquaire.model';
 import { TransfertCaisse } from '../Models/transfert-inter-caisse.model';
+import { GetPointsDeVentes } from '../Models/pointsDeVentes.model';
+import { CaisseExploitation, CodeResponseEXP, CodeResponseOneCaisseExploitation, GetCaisseExploitation } from '../Models/caisseExploitation.model';
+import { TransfertCaisseExploitation } from '../Models/transfert-caisse-exploitation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +45,11 @@ export class CaissesService {
   urigetbanque = "/v1/sudmarket/get/banque"
   uritransfertcaissebanque = "/v1/sudmarket/transfert-inter-caisse-banque"
   urigettransfertcaissebaque = "/v1/sudmarket/get/transfert-caisse-banque"
+  urigetcaissevendeurbypointdevente = "/v1/sudmarket/get/caisse/vendeur-by-point-de-vente"
+  urigetcaisseexploitation = "/v1/sudmarket/get/caisse/exploitation"
+  uritransfertcaisseexploitation = "/v1/sudmarket/trnsfert/caisse-principale/caisse-exploitation"
+  urigetlistcaisseexploitation = "/v1/sudmarket/get/transfert"
+  uritrabsfertbanquecaisseexploitation = "/v1/sudmarket/trnsfert/banque/caisse-exploitation"
 
   // Caisse Principale
   getListCaissePrincipale(caisse: GetCaissePrincipale): Observable<CodeResponseP> {
@@ -49,7 +57,6 @@ export class CaissesService {
   }
 
   //Partie A caisse vendeur
-
   getListCaisseVendeur(caisse: GetCaisseVendeur): Observable<CodeResponse> {
     return this.httpclient.post<any>(environment.apiUrl + this.urigetcaisselist,caisse);
   }
@@ -70,6 +77,35 @@ export class CaissesService {
     return this.httpclient.post<any>(
       environment.apiUrl + this.urigetcaissebyuser,
       user
+    );
+  }
+
+  // Caisse exploitation
+  getCaisseExploitation(caisse: GetCaisseExploitation){
+    return this.httpclient.post<CodeResponseEXP>(environment.apiUrl + this.urigetcaisseexploitation, caisse)
+  }
+
+  TransfertCaisseExploiation(caisse: TransfertCaisseExploitation){
+    console.log(caisse)
+    return this.httpclient.post<any>(environment.apiUrl + this.uritransfertcaisseexploitation, caisse)
+  }
+
+  TransfertBanqueCaisseExploiation(caisse: TransfertCaisseExploitation){
+    console.log(caisse)
+    return this.httpclient.post<any>(environment.apiUrl + this.uritrabsfertbanquecaisseexploitation, caisse)
+  }
+
+  getListTransfertCaisseExploiation(caisse: any){
+    console.log(caisse)
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetlistcaisseexploitation, caisse)
+  }
+
+  //filtre
+
+  getCaisseVendeurByPointDeVente(point: GetPointsDeVentes): Observable<any> {
+    return this.httpclient.post<any>(
+      environment.apiUrl + this.urigetcaissevendeurbypointdevente,
+      point
     );
   }
 

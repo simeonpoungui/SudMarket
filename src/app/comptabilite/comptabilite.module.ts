@@ -19,6 +19,9 @@ import { TransfertInterCaisseComponent } from './transfert-inter-caisse/transfer
 import { HistoriquesSoldesFermatureCaissesComponent } from './historiques-soldes-fermature-caisses/historiques-soldes-fermature-caisses.component';
 import { TransfertInterCaisseBanquaireComponent } from './transfert-inter-caisse-banquaire/transfert-inter-caisse-banquaire.component';
 import { BanqueComponent } from './banque/banque.component';
+import { TransfertCaisseExploitationComponent } from './transfert-caisse-exploitation/transfert-caisse-exploitation.component';
+import { ViaBanqueComponent } from './transfert-caisse-exploitation/via-banque/via-banque.component';
+import { SouceTransfertComponent } from './transfert-caisse-exploitation/souce-transfert/souce-transfert.component';
 @NgModule({
   declarations: [
     ClotureJourneeComponent,
@@ -33,6 +36,9 @@ import { BanqueComponent } from './banque/banque.component';
     HistoriquesSoldesFermatureCaissesComponent,
     TransfertInterCaisseBanquaireComponent,
     BanqueComponent,
+    TransfertCaisseExploitationComponent,
+    ViaBanqueComponent,
+    SouceTransfertComponent,
   ],
   imports: [
     CommonModule,
