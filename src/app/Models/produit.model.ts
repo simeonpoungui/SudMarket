@@ -6,6 +6,7 @@ export class Produit {
     description!: string;
     categorie!: string;
     prix!: number;
+    prix_de_revient!: number
     quantite_en_stock!: number;
     niveau_de_reapprovisionnement!: number;
     cree_le!: Date;

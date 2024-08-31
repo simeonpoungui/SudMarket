@@ -26,7 +26,7 @@ export class ArticleDeVentesComponent {
     'quantite',
     'prix_unitaire',
     'prix_total_vente',
-    'remise',
+    'benefice',
     'point_de_vente_id',
     'Actions'
   ];
@@ -44,6 +44,7 @@ export class ArticleDeVentesComponent {
 
   IDproduit!: number
   IDpoint!: number
+  MontantTotalBenefice!: number
 
   constructor(
     public globalService: GlobalService,
@@ -111,6 +112,8 @@ export class ArticleDeVentesComponent {
       this.table = data.message
       this.articlesventes = this.table
       this.MontantTotalVengteJournalier = this.globalService.calculTotal('prix_total_vente', data.message);
+      this.MontantTotalBenefice = this.globalService.calculTotal('benefice', data.message);
+
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;

@@ -1,0 +1,13 @@
+
+$primary-color:#3454d1;
+$secondary-color: hsl(0, 81%, 61%);
+$third-color: #17c666;
+.bg-delete{
+background-color:$secondary-color ;
+}
+.bg-update{
+    background-color:$primary-color;
+}
+.block-historique p{
+    line-height: 0.6;
+}

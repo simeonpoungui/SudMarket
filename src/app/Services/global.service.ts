@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -128,4 +129,28 @@ export class GlobalService {
     return total;
   }
   
+
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Une erreur inconnue s\'est produite !';
+    if (error.error instanceof ErrorEvent) {
+      // Erreur côté client
+      errorMessage = `Erreur : ${error.error.message}`;
+    } else {
+      // Erreur côté serveur
+      if (error.status === 0) {
+        errorMessage = 'Aucune connexion au serveur. Veuillez vérifier votre connexion internet.';
+      } else if (error.status === 401) {
+        errorMessage = 'Votre session a expiré. Veuillez vous reconnecter.';
+      } else if (error.status === 403) {
+        errorMessage = 'Vous n\'avez pas les autorisations nécessaires pour accéder à cette ressource.';
+      } else if (error.status === 404) {
+        errorMessage = 'Ressource non trouvée.';
+      } else if (error.status >= 500) {
+        errorMessage = 'Erreur serveur. Veuillez réessayer plus tard.';
+      } else {
+        errorMessage = error.error.message || errorMessage;
+      }
+    }
+    this.toastrService.error(errorMessage, 'Erreur');
+  }
 }

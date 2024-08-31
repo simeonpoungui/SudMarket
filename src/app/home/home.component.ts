@@ -31,6 +31,8 @@ export class HomeComponent {
   tbUsers!: Utilisateur[];
   ventesParMois: { [mois: string]: number } = {};
   articles: ArticlesDeVentes[] = [];
+  tbBenefices: ArticlesDeVentes[] = [];
+
   topUsers: any[] = [];
   tbPointdeVente!: PointsDeVentes[]
 
@@ -129,6 +131,7 @@ export class HomeComponent {
     this.articleService.getList(article).subscribe((data) => {
       this.articles = data.message;
       console.log(this.articles);
+      this.tbBenefices = data.message
       this.articles = this.articles
         .sort((a, b) => b.quantite - a.quantite)
         .slice(0, 10);
@@ -157,6 +160,7 @@ export class HomeComponent {
     const vente: GetVente = { vente_id: 0 };
     this.venteService.getList(vente).subscribe((data) => {
       this.ventes = data.message;
+      console.log(this.ventes);
       this.calculerTotauxVentes();
       this.calculerTotauxVentesAnnuelle();
       this.calculerVentesMoisEnCours();

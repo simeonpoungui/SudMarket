@@ -10,11 +10,17 @@ import { GlobalService } from './global.service';
 export class LoginService {
 
   urilogin = "/v1/sudmarket/login/users"
+  uriasktoken = "/v1/sudmarket/ask/token"
+  
   constructor(private httpclient: HttpClient,private globalService: GlobalService) { }
 
   login(login: Login): Observable<any>{
    return this.httpclient.post(environment.apiUrl + this.urilogin , login)
   }
+
+  VerifyToken(token: any): Observable<any>{
+    return this.httpclient.post(environment.apiUrl + this.uriasktoken , token)
+   }
 
   logout() {
     localStorage.removeItem('user');

@@ -183,13 +183,17 @@ export class SessionVenteComponent {
   }
 
   addProductToArticleVente(produit: Produit) {
+    const prixAchat = produit.prix_de_revient; // Assurez-vous d'avoir cette information
+    console.log(prixAchat);
+
     const articleVente: ArticlesDeVentes = {
       article_de_vente_id: 0,
-      point_de_vente_id: this.pointSelected.point_de_vente_id,
       vente_id: 0,
       produit_id: produit.produit_id,
       quantite: 1,
+      prix_de_revient: produit.prix_de_revient,
       prix_unitaire: produit.prix,
+      point_de_vente_id:this.pointSelected.point_de_vente_id,
       remise: 0,
       prix_total_vente: this.calculateTotalApayerByProduit({
         article_de_vente_id: 0,
@@ -200,6 +204,18 @@ export class SessionVenteComponent {
         remise: 0,
         prix_total_vente: 0,
       }),
+      benefice: this.calculateBenefice(
+        {
+          article_de_vente_id: 0,
+          vente_id: 0,
+          produit_id: produit.produit_id,
+          quantite: 1,
+          prix_unitaire: produit.prix,
+          remise: 0,
+          prix_total_vente: 0,
+        },
+        prixAchat
+      ),
     };
 
     this.dataSourceArticleVente.data = [
@@ -209,6 +225,34 @@ export class SessionVenteComponent {
     this.updatePrixTotalVente();
     this.montantTotalDeLaVente = this.calculateTotalVente();
   }
+
+  // addProductToArticleVente(produit: Produit) {
+  //   const articleVente: ArticlesDeVentes = {
+  //     article_de_vente_id: 0,
+  //     point_de_vente_id: this.pointSelected.point_de_vente_id,
+  //     vente_id: 0,
+  //     produit_id: produit.produit_id,
+  //     quantite: 1,
+  //     prix_unitaire: produit.prix,
+  //     remise: 0,
+  //     prix_total_vente: this.calculateTotalApayerByProduit({
+  //       article_de_vente_id: 0,
+  //       vente_id: 0,
+  //       produit_id: produit.produit_id,
+  //       quantite: 1,
+  //       prix_unitaire: produit.prix,
+  //       remise: 0,
+  //       prix_total_vente: 0,
+  //     }),
+  //   };
+
+  //   this.dataSourceArticleVente.data = [
+  //     ...this.dataSourceArticleVente.data,
+  //     articleVente,
+  //   ];
+  //   this.updatePrixTotalVente();
+  //   this.montantTotalDeLaVente = this.calculateTotalVente();
+  // }
 
   calculateTotalApayerByProduit(element: ArticlesDeVentes): number {
     return element.quantite * element.prix_unitaire;
@@ -226,6 +270,10 @@ export class SessionVenteComponent {
   updateQuantity(element: ArticlesDeVentes) {
     this.updatePrixTotalVente();
     this.montantTotalDeLaVente = this.calculateTotalVente();
+
+    // Recalculer le bénéfice
+    const prixAchat = Number(element.prix_de_revient);
+    element.benefice = this.calculateBenefice(element, prixAchat);
   }
 
   calculateTotalVente(): number {
@@ -237,6 +285,18 @@ export class SessionVenteComponent {
 
   selectmodepaiement(event: any) {
     this.modepaiement = Number(event.target.value);
+  }
+
+  calculateBenefice(article: ArticlesDeVentes, prixAchat: number): number {
+    const prixVente = article.prix_unitaire * article.quantite;
+    return prixVente - prixAchat * article.quantite;
+  }
+
+  calculateTotalBenefice(): number {
+    return this.dataSourceArticleVente.data.reduce(
+      (acc, element) => acc + (element.benefice || 0),
+      0
+    );
   }
 
   ValidatePaiement() {
@@ -259,32 +319,33 @@ export class SessionVenteComponent {
             utilisateur_id: this.user.utilisateur_id,
             caisse_vendeur_id: this.IDcaissevendeur,
             point_de_vente_id: this.pointSelected.point_de_vente_id,
+            total_benefice_vente: this.calculateTotalBenefice(),
             articles: this.dataSourceArticleVente.data,
           };
           console.log(modelvente);
-          this.venteService.create(modelvente).subscribe({
-            next: (data) => {
-              console.log(data);
-              this.dataSourceArticleVente.data = [];
-              this.montantTotalDeLaVente = 0;
-              localStorage.removeItem('pointSelected');
-              this.clientSelected = {} as Client;
-              this.globlService.toastShow(
-                'Vente effectuée avec succès',
-                'Succès'
-              );
-              this.isloadingpaiement = false;
-              this.getListProduit();
-            },
-            error: (error) => {
-              console.error('Erreur lors de la création de la vente:', error);
-              this.globlService.toastShow(
-                'Erreur lors de la création de la vente',
-                'Erreur'
-              );
-              this.isloadingpaiement = false;
-            },
-          });
+           this.venteService.create(modelvente).subscribe({
+             next: (data) => {
+               console.log(data);
+               this.dataSourceArticleVente.data = [];
+               this.montantTotalDeLaVente = 0;
+               localStorage.removeItem('pointSelected');
+               this.clientSelected = {} as Client;
+               this.globlService.toastShow(
+                 'Vente effectuée avec succès',
+                 'Succès'
+               );
+               this.isloadingpaiement = false;
+               this.getListProduit();
+             },
+             error: (error) => {
+               console.error('Erreur lors de la création de la vente:', error);
+               this.globlService.toastShow(
+                 'Erreur lors de la création de la vente',
+                 'Erreur'
+               );
+               this.isloadingpaiement = false;
+             },
+           });
         }
       });
     } else {
@@ -293,6 +354,62 @@ export class SessionVenteComponent {
         'Selectionner un ou des produits, renseigner le client concerné et le moyen de paiement';
     }
   }
+
+  // ValidatePaiement() {
+  //   if (
+  //     this.dataSourceArticleVente.data.length > 0 &&
+  //     this.clientSelected &&
+  //     this.modepaiement
+  //   ) {
+  //     const dialog = this.dialog.open(AlertComponent);
+  //     dialog.componentInstance.type = 'info';
+  //     dialog.componentInstance.content =
+  //       'Voulez-vous effectuer cette transaction ?';
+  //     dialog.afterClosed().subscribe((result) => {
+  //       if (result) {
+  //         this.isloadingpaiement = true;
+  //         const modelvente: Vente = {
+  //           vente_id: 0,
+  //           montant_total: this.montantTotalDeLaVente,
+  //           client_id: this.clientSelected.client_id,
+  //           utilisateur_id: this.user.utilisateur_id,
+  //           caisse_vendeur_id: this.IDcaissevendeur,
+  //           point_de_vente_id: this.pointSelected.point_de_vente_id,
+  //           total_benefice_vente: 0,
+  //           articles: this.dataSourceArticleVente.data,
+  //         };
+  //         console.log(modelvente);
+  //         this.venteService.create(modelvente).subscribe({
+  //           next: (data) => {
+  //             console.log(data);
+  //             this.dataSourceArticleVente.data = [];
+  //             this.montantTotalDeLaVente = 0;
+  //             localStorage.removeItem('pointSelected');
+  //             this.clientSelected = {} as Client;
+  //             this.globlService.toastShow(
+  //               'Vente effectuée avec succès',
+  //               'Succès'
+  //             );
+  //             this.isloadingpaiement = false;
+  //             this.getListProduit();
+  //           },
+  //           error: (error) => {
+  //             console.error('Erreur lors de la création de la vente:', error);
+  //             this.globlService.toastShow(
+  //               'Erreur lors de la création de la vente',
+  //               'Erreur'
+  //             );
+  //             this.isloadingpaiement = false;
+  //           },
+  //         });
+  //       }
+  //     });
+  //   } else {
+  //     const dialog = this.dialog.open(AlertComponent);
+  //     dialog.componentInstance.content =
+  //       'Selectionner un ou des produits, renseigner le client concerné et le moyen de paiement';
+  //   }
+  // }
 
   chooseClient() {
     const dialog = this.dialog.open(SelectClientComponent);

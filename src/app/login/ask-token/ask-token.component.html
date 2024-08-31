@@ -1,0 +1,28 @@
+<div class="container-fuild p-3">
+  <h2 class="border p-2 bg-light rounded rounded-3 text-danger fw-bold">
+    Veuillez renseigner le token reçcu par email
+  </h2>
+  <form action="">
+    <div>
+      <label for="">Token</label>
+      <input name="token" [(ngModel)]="token" type="text" class="form-control" />
+    </div>
+    <div>
+      <button
+        style="background-color: #3454d1"
+        type="button"
+        *ngIf="!isloading; else loader"
+        (click)="SendToken()"
+        class="form-control text-white mt-3 btn"
+      >
+        Valider le token <i class="fa-solid mx-2 fa-arrows-rotate"></i>
+      </button>
+    </div>
+  </form>
+</div>
+
+<ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>

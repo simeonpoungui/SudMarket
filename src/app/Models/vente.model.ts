@@ -8,6 +8,7 @@ export class Vente {
     utilisateur_id!: number;
     date_vente?: any
     caisse_vendeur_id?: number
+    total_benefice_vente?: number
     articles!: ArticlesDeVentes[];
 
 }  
@@ -28,6 +29,7 @@ export class VenteArticle {
     prix_unitaire: number;
     prix_total_vente?: any;
     date_article_vendu?: string;
+    benefice?: number
     remise: number;
   }
 

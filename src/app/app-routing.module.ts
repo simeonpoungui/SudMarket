@@ -68,6 +68,11 @@ import { BanqueComponent } from './comptabilite/banque/banque.component';
 import { TransfertCaisseExploitationComponent } from './comptabilite/transfert-caisse-exploitation/transfert-caisse-exploitation.component';
 import { ViaBanqueComponent } from './comptabilite/transfert-caisse-exploitation/via-banque/via-banque.component';
 
+// Boutiques
+import { BoutiqueComponent } from './boutique/boutique/boutique.component';
+import { BoutiqueFicheComponent } from './boutique/boutique-fiche/boutique-fiche.component';
+import { BoutiqueFormComponent } from './boutique/boutique-form/boutique-form.component';
+
 const routes: Routes = [
   // home page
   { path: '', component: HomeComponent, },
@@ -161,7 +166,10 @@ const routes: Routes = [
   {path: 'transfert-caisse-exploitation', component: TransfertCaisseExploitationComponent},
   {path: 'transfert-banque-caisse-exploitation', component: ViaBanqueComponent},
 
-
+  {path:'boutique', loadChildren: () => import('./boutique/boutique.module').then(m => m.BoutiqueModule)},
+  {path: 'boutique-list', component: BoutiqueComponent},
+  {path: 'boutique-form/:action', component: BoutiqueFormComponent},
+  {path: 'boutique-fiche', component: BoutiqueFicheComponent},
 
 ];
 

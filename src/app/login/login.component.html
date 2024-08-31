@@ -65,8 +65,10 @@
                   </div>
                 </div>
                 <div class="mt-5">
-                  <button type="submit" class="btn btn-lg btn-primary w-100">
-                    Se connecter
+                  <button type="submit"
+                  *ngIf="!isloading; else loader"
+                  class="btn btn-lg btn-primary w-100">
+                    Se connecter 
                   </button>
                 </div>
               </form>
@@ -568,3 +570,8 @@
     </div>
   </div>
 </div>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

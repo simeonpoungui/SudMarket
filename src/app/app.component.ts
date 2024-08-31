@@ -16,9 +16,8 @@ export class AppComponent {
     private loginServoce: LoginService,
     private dialog: MatDialog
   ){}
-
+  
   ngOnInit() {
-
     const user = localStorage.getItem("user");
     console.log(user);
     if(user){
@@ -26,7 +25,6 @@ export class AppComponent {
       this.user = JSON.parse(user);
       console.log(this.user)
     }
-
     // this.deconnexion.startLogoutTimer();
   }
 

@@ -29,6 +29,7 @@ export class VenteComponent {
     'client_id',
     'utilisateur_id',
     'point_de_vente_id',
+    'total_benefice_vente',
     'Actions'
   ];
   moisNoms = [
@@ -52,6 +53,7 @@ export class VenteComponent {
   tbClients: Client[] = [];
   ventes!: Vente[]
   TotalMontant!: number
+  TotalMontantBenefice!: number
   pointSelected!:PointsDeVentes;
   tbPointdeVente!: PointsDeVentes[]
 
@@ -132,6 +134,7 @@ export class VenteComponent {
     this.venteService.getList(vente).subscribe(data => {
       console.log(data.message);
       this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+      this.TotalMontantBenefice = this.globalService.calculTotal('total_benefice_vente', data.message);
       console.log(this.TotalMontant);
       this.isloadingpage = false
       this.ventes = data.message

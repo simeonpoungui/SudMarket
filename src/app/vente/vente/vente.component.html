@@ -160,6 +160,22 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="total_benefice_vente">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Benefice
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ (element.total_benefice_vente) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  {{globalService.formatPrix(TotalMontantBenefice)}}
+                </td>
+              </ng-container>
+
               <ng-container matColumnDef="Actions">
                 <th class="text-center" mat-header-cell *matHeaderCellDef>
                   Actions
