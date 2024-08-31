@@ -6,6 +6,7 @@ export class PointsDeVentes {
     code_postal!: string;
     pays!: string;
     telephone!: string;
+    boutique_id?: number
     email!: string;
     responsable!: string;
     date_creation!: string;

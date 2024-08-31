@@ -6,6 +6,8 @@ import { GlobalService } from 'src/app/Services/global.service';
 import { PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { NgForm } from '@angular/forms';
+import { Boutique, GetBoutique } from 'src/app/Models/boutique.model';
+import { BoutiqueService } from 'src/app/Services/boutique.service';
 
 @Component({
   selector: 'app-fiche-point-de-vente-form',
@@ -22,17 +24,21 @@ export class FichePointDeVenteFormComponent {
   ville!: string;
   code_postal!: string;
   pays!: string;
+  boutique_id?: number
   telephone!: string;
   email!: string;
   responsable!: string;
   date_creation!: string;
   date_modification!: string;
 
+  tbBoutique!: Boutique[]
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog,
+    private boutiService: BoutiqueService,
     private pointService: PointsDeVentesService
   ){}
 
@@ -51,6 +57,18 @@ export class FichePointDeVenteFormComponent {
     if (this.action == 'edit') {
       this.initFomForPoint()
     }
+    this.loadBoutique()
+  }
+
+  loadBoutique(){
+    const boutique: GetBoutique = {
+      boutique_id: 0
+    }
+    this.boutiService.getList(boutique).subscribe(data  => {
+      console.log(data.message);
+      this.tbBoutique = data.message
+    } 
+  )
   }
 
   initFomForPoint(){
@@ -63,10 +81,13 @@ export class FichePointDeVenteFormComponent {
     this.telephone = this.point.telephone
     this.email = this.point.email
     this.responsable = this.point.responsable
+    this.boutique_id = this.point.boutique_id
   }
   //Submit form point
   onSubmitForm(form: NgForm){
     const point: PointsDeVentes = form.value;
+    console.log(point);
+    
     if (this.action === 'edit') {
       point.point_de_vente_id = this.point.point_de_vente_id
       this.pointService.update(point).subscribe(data => {

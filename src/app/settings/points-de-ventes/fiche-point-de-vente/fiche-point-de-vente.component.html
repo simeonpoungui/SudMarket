@@ -90,7 +90,7 @@
               />
             </div>
 
-            <div class="col-lg-6 mt-3">
+            <div class="col-lg-4 mt-3">
               <label for="validationCustom01" class="form-label label"
                 >Télephone</label
               >
@@ -103,7 +103,7 @@
               />
             </div>
 
-            <div class="col-lg-6 mt-3">
+            <div class="col-lg-4 mt-3">
               <label for="validationCustom01" class="form-label label"
                 >Responsable</label
               >
@@ -113,6 +113,20 @@
                 class="form-control"
                 name="point.responsable"
                 [(ngModel)]="point.responsable"
+              />
+            </div>
+
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Boutique associé</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="point.responsable"
+                [value]="getBoutiqueName(point.boutique_id)"
               />
             </div>
 

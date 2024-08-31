@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { Boutique, GetBoutique } from 'src/app/Models/boutique.model';
+import { BoutiqueService } from 'src/app/Services/boutique.service';
 
 @Component({
   selector: 'app-fiche-point-de-vente',
@@ -12,13 +14,17 @@ import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service
   styleUrls: ['./fiche-point-de-vente.component.scss']
 })
 export class FichePointDeVenteComponent {
+
   action: string = 'view';
   message!: any
   point!: PointsDeVentes
+  tbBoutique!: Boutique[]
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public globalService: GlobalService,
+    private boutiService: BoutiqueService,
     private dialog: MatDialog,
     private pointService: PointsDeVentesService
   ){}
@@ -30,7 +36,25 @@ export class FichePointDeVenteComponent {
       this.point =  JSON.parse(pointtJSON);
       console.log(this.point);
     }
+    this.loadBoutique()
   }
+
+  loadBoutique(){
+    const boutique: GetBoutique = {
+      boutique_id: 0
+    }
+    this.boutiService.getList(boutique).subscribe(data  => {
+      console.log(data.message);
+      this.tbBoutique = data.message
+    } 
+  )
+  }
+  
+  getBoutiqueName(boutique_id?: number) {
+    const boutiqueID = this.tbBoutique.find(p => p.boutique_id === boutique_id);    
+    return boutiqueID ? (boutiqueID.nom ): '';
+  }
+
   updatepoint(){
     this.router.navigateByUrl('/point/vente/edit')
   }
