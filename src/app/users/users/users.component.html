@@ -53,6 +53,7 @@
               <button
                 style="background-color: #3454d1"
                 type="button"
+                [disabled]="user.role === 'Vendeur'  "
                 routerLink="/user/create"
                 class="form-control text-white"
               >
@@ -184,12 +185,13 @@
                   Actions
                 </th>
                 <td class="text-center" mat-cell *matCellDef="let element">
-                  <p
+                  <p 
+                  [ngClass]="{'text-muted disabled': user.role === 'Vendeur'}"
                     (click)="actions(element)"
                     style="cursor: pointer"
                     class="p-2 actions"
                   >
-                    <span class="fs-6">...</span>
+                    <span  class="fs-6">...</span>
                   </p>
                 </td>
                 <td

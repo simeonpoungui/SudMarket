@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
 import { Fournisseur,GetFournisseur } from 'src/app/Models/fournisseur.model';
+import { Utilisateur } from 'src/app/Models/users.model';
 
 @Component({
   selector: 'app-fournisseur',
@@ -28,6 +29,7 @@ export class FournisseurComponent {
   isloadingpage!: boolean
   selectedFournisseurString: string = ''
   nbrefournisseur: number = 0
+  user!: Utilisateur
   
   constructor(
     private fournisseurService: FournisseurService,
@@ -39,6 +41,11 @@ export class FournisseurComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
+    const utilisateurJson = localStorage.getItem('user');
+    if (utilisateurJson) {
+      this.user =  JSON.parse(utilisateurJson);
+      console.log(this.user);
+    }
     this.getListFournisseurs()
   }
 

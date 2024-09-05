@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Utilisateur } from 'src/app/Models/users.model';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from 'src/app/Services/users.service';
@@ -12,7 +12,7 @@ import { UsersService } from 'src/app/Services/users.service';
 export class FicheUserConnectedComponent {
   @Input() action!:string;
   user!: Utilisateur;
-  image: string = "assets/images/avatar/3.png"
+  imageUserConnected!: Utilisateur[]
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -25,9 +25,18 @@ export class FicheUserConnectedComponent {
     if (utilisateurJson) {
       this.user =  JSON.parse(utilisateurJson);
     }
+    this.getImageUserID()
   }
   updateUser(){
     this.router.navigateByUrl('/user/edit')
   }
 
+  getImageUserID(){
+    const user: GetUser = {utilisateur_id: this.user.utilisateur_id}
+    this.userService.getImageByUser(user).subscribe(data => {
+      this.imageUserConnected = data.message
+      console.log(this.imageUserConnected);
+    })
+
+}
 }

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { Boutique } from 'src/app/Models/boutique.model';
+import { Utilisateur } from 'src/app/Models/users.model';
 import { BoutiqueService } from 'src/app/Services/boutique.service';
 import { GlobalService } from 'src/app/Services/global.service';
 
@@ -14,6 +15,9 @@ import { GlobalService } from 'src/app/Services/global.service';
 export class BoutiqueFicheComponent {
   action: string = 'view';
   boutique!: Boutique;
+  user!: Utilisateur
+  logo: string = " "
+
 
   constructor(
     private route: ActivatedRoute,
@@ -24,13 +28,28 @@ export class BoutiqueFicheComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.action);
-    const boutique = localStorage.getItem('boutique');
-    if (boutique) {
-      this.boutique = JSON.parse(boutique);
-      console.log(this.boutique);
+    // console.log(this.action);
+    // const boutique = localStorage.getItem('boutique');
+    // if (boutique) {
+    //   this.boutique = JSON.parse(boutique);
+    //   console.log(this.boutique);
+    // }
+
+    const utilisateurJson = localStorage.getItem('user');
+    if (utilisateurJson) {
+      this.user =  JSON.parse(utilisateurJson);
+      console.log(this.user);
+      this.loadOneBoutiqueByUserCoonected()
     }
   }
+
+  loadOneBoutiqueByUserCoonected(){
+    this.boutiqueService.getBoutiqueByPointDeVente(this.user.point_de_vente_id).subscribe(data => {
+      console.log(data.message);
+      this.boutique = data.message
+    })
+  }
+
 
   updateBoutique() {
     this.router.navigateByUrl('boutique-form/edit');

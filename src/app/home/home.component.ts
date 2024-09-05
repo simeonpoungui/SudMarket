@@ -17,6 +17,7 @@ import { GetPointsDeVentes, PointsDeVentes } from '../Models/pointsDeVentes.mode
 import { PointsDeVentesService } from '../Services/points-de-ventes.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EtatCaisseVendeurComponent } from '../comptabilite/etat-caisse-vendeur/etat-caisse-vendeur.component';
+import { BoutiqueService } from '../Services/boutique.service';
 
 @Component({
   selector: 'app-home',
@@ -67,6 +68,13 @@ export class HomeComponent {
   nombreVentesMoisEnCours: number = 0;
   nombreVentesMoisPrecedent: number = 0;
 
+  user!: Utilisateur
+  imageUserConnected!: Utilisateur[];
+  imageproduit: { [key: number]: string } = {};
+  imageUsers: { [key: number]: string } = {};  
+  imageproduitArticle: { [key: number]: string } = {}; 
+  
+
   constructor(
     public globalService: GlobalService,
     private produitService: ProduitService,
@@ -79,6 +87,11 @@ export class HomeComponent {
   ) {}
 
   ngOnInit(): void {
+    const utilisateurJson = localStorage.getItem('user');
+    if (utilisateurJson) {
+      this.user =  JSON.parse(utilisateurJson);
+      console.log(this.user);
+    }
     this.loadPointDeVente()
     this.loadUsers();
     this.getListVente();
@@ -87,6 +100,7 @@ export class HomeComponent {
     this.loadClients();
     this.loadVentes();
   }
+
 
   openCaisse(){
     const dialog = this.dialog.open(EtatCaisseVendeurComponent)
@@ -97,8 +111,7 @@ export class HomeComponent {
     this.pointService.getList(point).subscribe(data => {
       this.tbPointdeVente = data.message
       console.log(this.tbPointdeVente);
-      
-    } )
+    })
   }
 
   getPointName(point_de_vente_id?: number): string {
@@ -132,6 +145,10 @@ export class HomeComponent {
       this.articles = data.message;
       console.log(this.articles);
       this.tbBenefices = data.message
+      this.produits.forEach((article) => {
+        this.getImageByproduiIDByArticle(article
+          .produit_id);
+      });
       this.articles = this.articles
         .sort((a, b) => b.quantite - a.quantite)
         .slice(0, 10);
@@ -144,15 +161,6 @@ export class HomeComponent {
     };
     this.clientService.getListClient(client).subscribe((data: any) => {
       this.tbClients = data.message.slice(0, 10);
-    });
-  }
-
-  loadUsers(): void {
-    const user: GetUser = {
-      utilisateur_id: 0,
-    };
-    this.userService.getListUser(user).subscribe((data: any) => {
-      this.tbUsers = data.message;
     });
   }
 
@@ -175,6 +183,58 @@ export class HomeComponent {
     this.produitService.getList(produit).subscribe((data) => {
       console.log(data.message);
       this.produits = data.message;
+      this.produits.forEach((produit) => {
+        this.getImageByproduiID(produit.produit_id);
+      });
+    });
+  }
+
+
+  loadUsers(): void {
+    const user: GetUser = {
+      utilisateur_id: 0,
+    };
+    this.userService.getListUser(user).subscribe((data: any) => {
+      this.tbUsers = data.message;
+      this.tbUsers.forEach((user) => {
+        this.getImageUserID(user.utilisateur_id);
+      });
+    });
+  }
+
+  getImageUserID(IDuser: number){
+    const Utilisateur : GetUser = {utilisateur_id: IDuser}
+    this.userService.getImageByUser(Utilisateur).subscribe(data => {
+      this.imageUserConnected = data.message
+      this.imageUsers[IDuser] = `${data.message}`;
+      console.log(this.imageUsers);
+      
+    })
+  }
+
+  getImageByproduiID(IDproduit: number) {
+    const produit: GetProduit = { produit_id: IDproduit };
+    this.produitService.getImageByProduit(produit).subscribe((data) => {
+      console.log(data);
+      if (data.message) {
+        this.imageproduit[IDproduit] = `${data.message}`;
+        console.log(this.imageproduit);
+      } else {
+        console.log(`Aucune image trouvée pour le produit ID: ${IDproduit}`);
+      }      
+    });
+  }
+
+  getImageByproduiIDByArticle(IDproduit: number) {
+    const produit: GetProduit = { produit_id: IDproduit };
+    this.produitService.getImageByProduit(produit).subscribe((data) => {
+      console.log(data);
+      if (data.message) {
+        this.imageproduitArticle[IDproduit] = `${data.message}`;
+        console.log(this.imageproduit);
+      } else {
+        console.log(`Aucune image trouvée pour le produit ID: ${IDproduit}`);
+      }      
     });
   }
 

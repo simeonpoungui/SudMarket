@@ -22,6 +22,7 @@ export class VenteService {
   urigetarticledeventebyventeid = "/v1/sudmarket/get/filtre/articles-de-vente-by-venteID"
   urigetventejournalierebyuser = "/v1/sudmarket/get/vente/user/journaliere"
   uriarticleventejournalierebyuser = "/v1/sudmarket/get/article/vente/user/journaliere"
+  uriventebypointdeventeid = "/v1/sudmarket/GET/ventes-by-point-de-vente"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -56,6 +57,14 @@ export class VenteService {
     }
     console.log(data);
     return this.httpclient.post<any>(environment.apiUrl + this.uriarticleventejournalierebyuser, data)
+  }
+
+  getVenteByPointDeVente(point_de_vente_id: any){
+    const data = {
+      point_de_vente_id : point_de_vente_id
+    }
+    console.log(data);
+    return this.httpclient.post<any>(environment.apiUrl + this.uriventebypointdeventeid, data)
   }
 
   getArticleDeVenteByVente(vente: GetVente){

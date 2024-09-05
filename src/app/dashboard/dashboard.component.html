@@ -4,21 +4,18 @@
 <nav class="nxl-navigation">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a href="#" class="b-brand">
+      <a href="#" class="b-brand w-100 m-lg-auto">
         <!-- ========   change your logo hear   ============ -->
-        <img src="assets/images/logo-full.png" alt="" class="logo logo-lg" />
-        <img src="assets/images/logo-abbr.png" alt="" class="logo logo-sm" />
+        <img [src]="logo" alt="" class="logo w-100 logo-lg" />
+        <img [src]="logo" alt="" class="logo w-100 logo-sm" />
       </a>
     </div>
     <div class="navbar-content">
       <ul class="nxl-navbar">
-        <li class="nxl-item nxl-caption">
-          <label>Navigation</label>
-        </li>
         <li class="nxl-item nxl-hasmenu">
           <a routerLink="/" class="nxl-link">
             <span class="nxl-micon"><i class="feather-airplay"></i></span>
-            <span class="nxl-mtext">Dashboards</span>
+            <span class="nxl-mtext">Tableau de bord</span>
             <!-- <span class="nxl-arrow"><i class="feather-chevron-right"></i></span> -->
           </a>
         </li>
@@ -32,12 +29,22 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/points-de-ventes"
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/points-de-ventes' : null
+                "
                 >Liste des points de vente</a
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/point/vente/create"
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/point/vente/create' : null
+                "
                 >Ajouter un point de vente</a
               >
             </li>
@@ -58,7 +65,10 @@
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/user/create"
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="user.role !== 'Vendeur' ? '/user/create' : null"
                 >Ajouter un utilisateur</a
               >
             </li>
@@ -74,12 +84,15 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a  class="nxl-link" routerLink="/client/list" href="customers-view.html"
+              <a
+                class="nxl-link"
+                routerLink="/client/list"
+                href="customers-view.html"
                 >Liste des clients</a
               >
             </li>
             <li class="nxl-item">
-              <a  class="nxl-link" routerLink="client/create"
+              <a class="nxl-link" routerLink="client/create"
                 >Ajouter un client</a
               >
             </li>
@@ -95,10 +108,17 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/fournisseur/list">Liste des fourniseurs</a>
+              <a class="nxl-link" routerLink="/fournisseur/list"
+                >Liste des fourniseurs</a
+              >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/fournisseur/create"
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/fournisseur/create' : null
+                "
                 >Ajouter un fournisseur</a
               >
             </li>
@@ -114,10 +134,22 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/produit/list">Liste des produits</a>
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="user.role !== 'Vendeur' ? '/produit/list' : null"
+                >Liste des produits</a
+              >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/produit/create">Ajouter un produit</a>
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/produit/create' : null
+                "
+                >Ajouter un produit</a
+              >
             </li>
           </ul>
         </li>
@@ -131,13 +163,30 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/vente/list">Rapports des ventes</a>
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="user.role !== 'Vendeur' ? '/vente/list' : null"
+                >Rapports des ventes</a
+              >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/session-vente">Ajouter une vente</a>
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="user.role !== 'Vendeur' ? '/session-vente' : null"
+                >Ajouter une vente</a
+              >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/articles-de-vente">Articles de ventes</a>
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/articles-de-vente' : null
+                "
+                >Articles de ventes</a
+              >
             </li>
           </ul>
         </li>
@@ -151,16 +200,32 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/commande/achat/list">Rapport des commandes</a>
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/commande/achat/list' : null
+                "
+                >Rapport des commandes</a
+              >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" 
-              routerLink="/session-commande-achat"
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/session-commande-achat' : null
+                "
                 >Ajouter une commande</a
               >
             </li>
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/article-commande-achat"
+              <a
+                class="nxl-link"
+                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+                [routerLink]="
+                  user.role !== 'Vendeur' ? '/article-commande-achat' : null
+                "
                 >Articles commandes achats</a
               >
             </li>
@@ -177,59 +242,41 @@
           </a>
           <ul class="nxl-submenu">
             <li class="nxl-item">
-              <a
-                class="nxl-link"
-               routerLink="/rapport/list"
+              <a class="nxl-link" routerLink="/rapport/list"
                 >Liste des rapports</a
               >
             </li>
+
             <li class="nxl-item">
               <a class="nxl-link" routerLink="/rapport/create"
-                >Ajouer un rapport</a
+                >Rediger un rapport</a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/rapport-de-vente-vendeurs"
+                >Ventes vendeurs</a
               >
             </li>
           </ul>
         </li>
-
         <li class="nxl-item nxl-hasmenu">
-          <a href="javascript:void(0);" class="nxl-link">
-            <span class="nxl-micon"><i class="feather-settings"></i></span>
-            <span class="nxl-mtext">Parametres</span
-            ><span class="nxl-arrow"
-              ><i class="feather-chevron-right"></i
-            ></span>
+          <a routerLink="/rentabilités" class="nxl-link">
+            <span class="nxl-micon"><i class="feather-airplay"></i></span>
+            <span class="nxl-mtext">Rentabilité</span>
           </a>
-          <ul class="nxl-submenu">
-            <li class="nxl-item">
-              <a class="nxl-link" href="settings-general.html">General</a>
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" href="settings-support.html">Support</a>
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" href="settings-finance.html">Finance</a>
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" href="settings-customers.html">Clients</a>
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" href="settings-localization.html"
-                >Localisation</a
-              >
-            </li>
-          </ul>
         </li>
       </ul>
       <div class="card text-center">
         <div class="card-body">
-          <i class="feather-sunrise fs-4 text-dark"></i>
-          <h6 class="mt-4 text-dark fw-bolder">Downloading Center</h6>
+          <i class="feather-shopping-cart fs-4 text-dark"></i>
+          <h6 class="mt-4 text-dark fw-bolder">SUD MARKET</h6>
           <p class="fs-11 my-3 text-dark">
-            Duralux is a production ready CRM to get started up and running
-            easily.
+            SUDMARKET est un système de gestion de point de vente performant,
+            prêt à l'emploi pour vous aider à gérer efficacement vos ventes et
+            votre inventaire.
           </p>
           <a href="javascript:void(0);" class="btn btn-primary text-dark w-100"
-            >Download Now</a
+            >Télécharger Maintenant</a
           >
         </div>
       </div>
@@ -461,7 +508,11 @@
                 </div>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a routerLink="/session-commande-achat" href="javascript:void(0);" class="dropdown-item">
+                <a
+                  routerLink="/session-commande-achat"
+                  href="javascript:void(0);"
+                  class="dropdown-item"
+                >
                   <span class="hstack">
                     <i class="feather-briefcase"></i>
                     <span>Session commande</span>
@@ -2282,7 +2333,7 @@
                                     <i class="feather-bell mx-auto"></i>
                                   </div>
                                   <div>
-                                    <a   href="javascript:void(0);">
+                                    <a href="javascript:void(0);">
                                       <h6
                                         class="menu-item-heading text-truncate-1-line"
                                       >
@@ -2693,9 +2744,13 @@
             </div>
           </div>
           <div class="dropdown nxl-h-item nxl-mega-menu">
-            <li class="breadcrumb-item"><a class="border text-white rounded rounded-3 fw-bold p-2 bg-update" (click)="openCaisse()" >Etat de la caisse</a></li>
-
-
+            <li class="breadcrumb-item">
+              <a
+                class="border text-white rounded rounded-3 fw-bold p-2 bg-update"
+                (click)="openCaisse()"
+                >Etat de la caisse</a
+              >
+            </li>
           </div>
           <!--! [End] nxl-h-item nxl-mega-menu !-->
         </div>
@@ -3417,7 +3472,7 @@
             </div>
           </div>
         </div>
-        <div class="dropdown nxl-h-item" >
+        <div class="dropdown nxl-h-item">
           <a
             class="nxl-head-link me-3"
             data-bs-toggle="dropdown"
@@ -3428,8 +3483,12 @@
             <i class="feather-bell"></i>
             <span class="badge bg-danger nxl-h-badge">{{ unreadCount }}</span>
           </a>
-          <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
-            <div class="d-flex justify-content-between align-items-center notifications-head">
+          <div
+            class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu"
+          >
+            <div
+              class="d-flex justify-content-between align-items-center notifications-head"
+            >
               <h6 class="fw-bold text-dark mb-0">Notifications</h6>
               <a
                 href="javascript:void(0);"
@@ -3442,59 +3501,83 @@
                 <span>Faire comme lu</span>
               </a>
             </div>
-           <div style="max-height: 600px; overflow-y: auto"
-           >
-            <div *ngFor="let notification of notifications" class="notifications-item" >
-              <img
-                src=""
-                alt=""
-                class="rounded me-3 border"
-              />
-              <div class="notifications-desc">
-                <a href="javascript:void(0);" class="font-body text-truncate-2-line">
-                  <span [ngClass]="{'fw-semibold': !notification.est_lu, 'text-dark': !notification.est_lu, 'text-muted': notification.est_lu}">
-                    {{ notification.message }}
-                  </span>                </a>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="notifications-date text-muted border-bottom border-bottom-dashed">
-                    {{globalService.formatDate(notification.date_notification )}}
-                  </div>
-                  <div class="d-flex align-items-center float-end gap-2">
-                 <div>
-                  <a
-                  class="text-success"
-                  data-bs-toggle="tooltip"
-                  title="Marqué comme lu"
-                  (click)="markAsRead(notification)"
-                >
-                  <i class="feather-check fs-5"></i>
-                </a>
-                 </div>
-                  
-              <div>
-                <a
-                class="text-danger"
-                data-bs-toggle="tooltip"
-                title="Supprimé"
-                (click)="removeNotification(notification)"
+            <div style="max-height: 600px; overflow-y: auto">
+              <div
+                *ngFor="let notification of notifications"
+                class="notifications-item"
               >
-                <i class="feather-x fs-5"></i>
-              </a>
-              </div>
+                <img src="" alt="" class="rounded me-3 border" />
+                <div class="notifications-desc">
+                  <a
+                    href="javascript:void(0);"
+                    class="font-body text-truncate-2-line"
+                  >
+                    <span
+                      [ngClass]="{
+                        'fw-semibold': !notification.est_lu,
+                        'text-dark': !notification.est_lu,
+                        'text-muted': notification.est_lu
+                      }"
+                    >
+                      {{ notification.message }}
+                    </span>
+                  </a>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div
+                      class="notifications-date text-muted border-bottom border-bottom-dashed"
+                    >
+                      {{
+                        globalService.formatDate(notification.date_notification)
+                      }}
+                    </div>
+                    <div class="d-flex align-items-center float-end gap-2">
+                      <div>
+                        <a
+                          class="text-success"
+                          data-bs-toggle="tooltip"
+                          title="Marqué comme lu"
+                          (click)="markAsRead(notification)"
+                        >
+                          <i class="feather-check fs-5"></i>
+                        </a>
+                      </div>
+
+                      <div>
+                        <a
+                          class="text-danger"
+                          data-bs-toggle="tooltip"
+                          title="Supprimé"
+                          (click)="removeNotification(notification)"
+                        >
+                          <i class="feather-x fs-5"></i>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-           </div>
-            <div class="text-center notifications-footer" *ngIf="notifications.length > 0">
-              <a routerLink="/notification-produit-stock" class="fs-13 fw-semibold text-dark">Voir toutes les notications</a>
+            <div
+              class="text-center notifications-footer"
+              *ngIf="notifications.length > 0"
+            >
+              <a
+                routerLink="/notification-produit-stock"
+                class="fs-13 fw-semibold text-dark"
+                >Voir toutes les notications</a
+              >
             </div>
-            <div class="text-center notifications-footer" *ngIf="notifications.length === 0">
+            <div
+              class="text-center notifications-footer"
+              *ngIf="notifications.length === 0"
+            >
               <span class="fs-13 fw-semibold text-dark">No notifications</span>
             </div>
           </div>
         </div>
-        
+
         <div class="dropdown nxl-h-item">
           <a
             href="javascript:void(0);"
@@ -3503,7 +3586,7 @@
             data-bs-auto-close="outside"
           >
             <img
-              src="assets/images/avatar/1.png"
+              [src]="imageUserConnected"
               alt="user-image"
               class="img-fluid user-avtar me-0"
             />
@@ -3514,13 +3597,16 @@
             <div class="dropdown-header">
               <div class="d-flex align-items-center">
                 <img
-                  src="assets/images/avatar/1.png"
+                  [src]="imageUserConnected"
                   alt="user-image"
                   class="img-fluid user-avtar"
                 />
                 <div>
                   <h6 class="text-dark mb-0">
-                    Alexandra Della
+                    <span
+                      >{{ user.nom_utilisateur }}
+                      {{ user.prenom_utilisateur }}</span
+                    >
                     <span class="badge bg-soft-success text-success ms-1"
                       >PRO</span
                     >
@@ -3530,7 +3616,7 @@
                       href="https://bestwpware.com/cdn-cgi/l/email-protection"
                       class="__cf_email__"
                       data-cfemail="87e6ebe2ffa9e3e2ebebe6c7e8f2f3ebe8e8eca9e4e8ea"
-                      >[email&#160;protected]</a
+                      >{{ user.email }}</a
                     ></span
                   >
                 </div>
@@ -3550,7 +3636,7 @@
                 </span>
                 <i class="feather-chevron-right ms-auto me-0"></i>
               </a>
-              <div class="dropdown-menu">
+              <!-- <div class="dropdown-menu">
                 <a href="javascript:void(0);" class="dropdown-item">
                   <span class="hstack">
                     <i
@@ -3600,11 +3686,11 @@
                     <span>Cutomization</span>
                   </span>
                 </a>
-              </div>
+              </div> -->
             </div>
             <div class="dropdown-divider"></div>
             <div class="dropdown">
-              <a
+              <!-- <a
                 href="javascript:void(0);"
                 class="dropdown-item"
                 data-bs-toggle="dropdown"
@@ -3614,7 +3700,7 @@
                   <span>Subscriptions</span>
                 </span>
                 <i class="feather-chevron-right ms-auto me-0"></i>
-              </a>
+              </a> -->
               <div class="dropdown-menu">
                 <a href="javascript:void(0);" class="dropdown-item">
                   <span class="hstack">
@@ -3671,12 +3757,20 @@
               <i class="feather-bell"></i>
               <span>Notifications</span>
             </a>
-            <a routerLink="/parametres" class="dropdown-item">
+            <a
+              [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
+              [routerLink]="user.role !== 'Vendeur' ? '/parametres' : null"
+              class="dropdown-item"
+            >
               <i class="feather-settings"></i>
               <span>Parametres</span>
             </a>
             <div class="dropdown-divider"></div>
-            <a (click)="onLogout()" href="auth-login-minimal.html" class="dropdown-item">
+            <a
+              (click)="onLogout()"
+              href="auth-login-minimal.html"
+              class="dropdown-item"
+            >
               <i class="feather-log-out"></i>
               <span>Deconnexion</span>
             </a>
@@ -3696,7 +3790,7 @@
 
 <div class="page-content">
   <router-outlet></router-outlet>
-  </div>
+</div>
 <!--! ================================================================ !-->
 <!--! [End] Main Content !-->
 <!--! ================================================================ !-->

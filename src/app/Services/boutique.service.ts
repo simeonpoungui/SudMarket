@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponseBoutique, CodeResponseOneBoutique, Boutique, GetBoutique } from '../Models/boutique.model';
+import { GetPointsDeVentes } from '../Models/pointsDeVentes.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class BoutiqueService {
   uricreate = "/v1/sudmarket/create/boutiques"
   uridelete = "/v1/sudmarket/delete/boutiques"
   uriupdate = "/v1/sudmarket/update/boutiques"
+  urigetboutiquebypointdevente = "/v1/sudmarket/get/boutiques-by-point-vente"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -34,5 +36,12 @@ export class BoutiqueService {
 
   create(boutique: Boutique): Observable<CodeResponseBoutique> {
     return this.httpclient.post<CodeResponseBoutique>(environment.apiUrl + this.uricreate, boutique);
+  }
+
+  getBoutiqueByPointDeVente(point?: number){
+    const data = {point_de_vente_id:point}
+    console.log(data);
+    
+    return this.httpclient.post<any>(environment.apiUrl + this.urigetboutiquebypointdevente, data);
   }
 }

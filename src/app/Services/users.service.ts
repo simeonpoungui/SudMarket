@@ -29,6 +29,8 @@ export class UsersService {
     return this.httpclient.post<CodeResponseOneUser>(environment.apiUrl + this.urigetuses, user)
   }
   deleteUser(user: Utilisateur){
+    console.log(user);
+    
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urideleteuser, user)
   }
   updateUser(user: Utilisateur){

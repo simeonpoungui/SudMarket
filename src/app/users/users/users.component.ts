@@ -33,6 +33,8 @@ export class UsersComponent {
   selectedUtilisateurString: string = ''
   tbPointdeVente!: PointsDeVentes[]
   users!: Utilisateur[]
+  user!: Utilisateur
+
   nbreusers: number = 0
 
   constructor(
@@ -46,6 +48,12 @@ export class UsersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
+
+    const utilisateurJson = localStorage.getItem('user');
+    if (utilisateurJson) {
+      this.user =  JSON.parse(utilisateurJson);
+      console.log(this.user);
+    }
     this.getListUsers()
     this.loadPointDeVente()
   }
@@ -99,11 +107,16 @@ export class UsersComponent {
 
 
   actions(element: Utilisateur){
-    this.selectedUtilisateurString = JSON.stringify(element); 
-    localStorage.setItem('selectedUtilisateur', this.selectedUtilisateurString);
-    if (this.selectedUtilisateurString) {
-      this.router.navigateByUrl('fiche/view')
+    if (this.user.role === "Vendeur" ) {
+      this.globalService.toastShow("Vous n'avez pas le droit","Information",'info')
+    }else{
+      this.selectedUtilisateurString = JSON.stringify(element); 
+      localStorage.setItem('selectedUtilisateur', this.selectedUtilisateurString);
+      if (this.selectedUtilisateurString) {
+        this.router.navigateByUrl('fiche/view')
+      }
     }
+
   }
 
   SelectPointDeVente(event: any){

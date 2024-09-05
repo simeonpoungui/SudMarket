@@ -6,6 +6,7 @@ export class Boutique {
     responsable!: string;
     logo!: string;
     date_creation!: Date;
+    point_de_vente_id!: number
 }
 
 export class GetBoutique {

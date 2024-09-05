@@ -41,6 +41,7 @@ import { VenteFormComponent } from './vente/vente-form/vente-form.component';
 import { ArticleDeVentesComponent } from './vente/article-de-ventes/article-de-ventes.component';
 import { FicheArticleDeVenteComponent } from './vente/fiche-article-de-vente/fiche-article-de-vente.component';
 import { VenteJournaliereByUserComponent } from './vente/vente-journaliere-by-user/vente-journaliere-by-user.component';
+import { RapportDeVenteVendeursComponent } from './vente/rapport-de-vente-vendeurs/rapport-de-vente-vendeurs.component';
 //Rapport Entities
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
@@ -72,6 +73,9 @@ import { ViaBanqueComponent } from './comptabilite/transfert-caisse-exploitation
 import { BoutiqueComponent } from './boutique/boutique/boutique.component';
 import { BoutiqueFicheComponent } from './boutique/boutique-fiche/boutique-fiche.component';
 import { BoutiqueFormComponent } from './boutique/boutique-form/boutique-form.component';
+
+// Rentabilité
+import { RentabiliteComponent } from './rentabilite/rentabilite/rentabilite.component';
 
 const routes: Routes = [
   // home page
@@ -123,6 +127,8 @@ const routes: Routes = [
   {path: 'articles-de-vente', component: ArticleDeVentesComponent},
   {path: 'article/view', component: FicheArticleDeVenteComponent},
   {path: 'vente-journaliere', component: VenteJournaliereByUserComponent},
+  {path: 'rapport-de-vente-vendeurs', component: RapportDeVenteVendeursComponent},
+
 
 
   // Module commande achat
@@ -170,6 +176,11 @@ const routes: Routes = [
   {path: 'boutique-list', component: BoutiqueComponent},
   {path: 'boutique-form/:action', component: BoutiqueFormComponent},
   {path: 'boutique-fiche', component: BoutiqueFicheComponent},
+
+  //Module rentabilité
+  {path:'rentabilite', loadChildren: () => import('./rentabilite/rentabilite.module').then(m => m.RentabiliteModule)},
+  {path: 'rentabilités', component: RentabiliteComponent},
+
 
 ];
 

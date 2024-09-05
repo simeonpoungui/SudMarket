@@ -11,6 +11,7 @@ import { ArticleDeVentesComponent } from './article-de-ventes/article-de-ventes.
 import { FicheArticleDeVenteComponent } from './fiche-article-de-vente/fiche-article-de-vente.component';
 import { VenteJournaliereByUserComponent } from './vente-journaliere-by-user/vente-journaliere-by-user.component';
 import { RouterModule } from '@angular/router';
+import { RapportDeVenteVendeursComponent } from './rapport-de-vente-vendeurs/rapport-de-vente-vendeurs.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RouterModule } from '@angular/router';
     VenteFicheComponent,
     ArticleDeVentesComponent,
     FicheArticleDeVenteComponent,
-    VenteJournaliereByUserComponent
+    VenteJournaliereByUserComponent,
+    RapportDeVenteVendeursComponent
   ],
   imports: [
     CommonModule,
