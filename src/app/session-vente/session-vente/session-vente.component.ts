@@ -24,6 +24,7 @@ import { Session } from 'src/app/Models/session.ventes.model';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 import { CaissesService } from 'src/app/Services/caisses.service';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { Facture } from 'src/app/Models/Facture.model';
 
 @Component({
   selector: 'app-session-vente',
@@ -57,10 +58,12 @@ export class SessionVenteComponent {
   message!: any;
   clientSelected!: Client;
   user!: Utilisateur;
-  modepaiement: number = 1;
+  modepaiement?: string;
   currentSessionId: number | undefined;
   IDcaissevendeur!: number;
   sessionActive: boolean = true;
+
+  Facture!: Facture
 
   constructor(
     private produitService: ProduitService,
@@ -284,7 +287,9 @@ export class SessionVenteComponent {
   }
 
   selectmodepaiement(event: any) {
-    this.modepaiement = Number(event.target.value);
+    this.modepaiement = (event.target.value);
+    console.log(this.modepaiement);
+    
   }
 
   calculateBenefice(article: ArticlesDeVentes, prixAchat: number): number {
@@ -316,6 +321,7 @@ export class SessionVenteComponent {
             vente_id: 0,
             montant_total: this.montantTotalDeLaVente,
             client_id: this.clientSelected.client_id,
+            mode_de_paiement: this.modepaiement,
             utilisateur_id: this.user.utilisateur_id,
             caisse_vendeur_id: this.IDcaissevendeur,
             point_de_vente_id: this.pointSelected.point_de_vente_id,
@@ -326,6 +332,8 @@ export class SessionVenteComponent {
            this.venteService.create(modelvente).subscribe({
              next: (data) => {
                console.log(data);
+               this.Facture = data.facture
+               console.log(this.Facture);
                this.dataSourceArticleVente.data = [];
                this.montantTotalDeLaVente = 0;
                localStorage.removeItem('pointSelected');
@@ -353,6 +361,29 @@ export class SessionVenteComponent {
       dialog.componentInstance.content =
         'Selectionner un ou des produits, renseigner le client concerné et le moyen de paiement';
     }
+  }
+
+  imprimerPDFFacture() {
+    this.venteService.ImpressionFacture(this.Facture).subscribe((data) => {
+        console.log(data);
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+
+        const pdfWindow = window.open('');
+        if (pdfWindow) {
+          pdfWindow.document.write(
+            "<iframe width='100%' height='100%' style='border:none' src='" +
+              url +
+              "'></iframe>"
+          );
+        }
+      });
   }
 
   // ValidatePaiement() {

@@ -49,8 +49,21 @@
                   [value]="getPointName(vente.point_de_vente_id)"
                 />
               </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="validationCustom01" class="form-label label"
+                  >Mode de paiement</label
+                >
+                <input
+                  [readonly]="action == 'view'"
+                  type="text"
+                  class="form-control"
+                  name="vente.mode_de_paiement"
+                  [(ngModel)]="vente.mode_de_paiement"
+                />
+              </div>
   
-              <div class="col-lg-6 mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Client</label
                 >
@@ -63,7 +76,7 @@
                 />
               </div>
   
-              <div class="col-lg-6 mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Utilisateur</label
                 >

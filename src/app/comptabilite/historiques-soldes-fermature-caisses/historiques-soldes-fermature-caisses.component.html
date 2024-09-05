@@ -1,13 +1,14 @@
 <main class="nxl-container">
   <div class="nxl-content">
-    <div class="col-lg-11 m-lg-auto">
-      <div class="p-3">
-        <div class="shadow p-2">
-          <h1 class="fw-bold">
+  <div class="pt-3">
+    <div class="col-lg-11 m-lg-auto rounded rounded-4 bg-white p-3">
+      <div>
+        <div>
+          <h1 class="fw-bold rounded rounded-4 shadow bg-primary text-white px-3 py-2">
             Historiques des clotures des caisses
           </h1>
         </div>
-        <div class="shadow bg-white mt-1">
+        <div class="mt-1">
           <div class="row">
             <div class="col-lg-4">
               <div class="d-flex align-items-center mt-4">
@@ -45,8 +46,9 @@
             </div>
           </div>
           <div
-            class="mat-elevation-z8 mt-3"
+            class="mat-elevation-z8 rounded rounded-4 mt-3"
             *ngIf="!isloadingpage; else loader"
+            style="max-height: 400px; overflow-y: auto"
           >
             <table mat-table [dataSource]="dataSource">
               <ng-container matColumnDef="caisse_vendeur_id">
@@ -176,6 +178,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </main>
 

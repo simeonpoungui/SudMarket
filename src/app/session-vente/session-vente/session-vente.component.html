@@ -258,8 +258,8 @@
           </button>
         </div>
         <div class="mt-2">
-          <button class="form-control">
-            <i class="fa-solid mx-2 fa-file"></i> Note interne
+          <button class="form-control bg-primary text-white" (click)="imprimerPDFFacture()">
+            <i class="fa-solid fa-print"></i> Imprimer la facture de vente
           </button>
         </div>
       </div>
@@ -305,12 +305,13 @@
                 <select
                   (click)="selectmodepaiement($event)"
                   class="form-select"
-                  name=""
-                  id=""
                 >
-                  <option value="1">Espece</option>
-                  <option value="2">Electronique</option>
-                  <option value="3">Carte visa</option>
+                <option selected>Choisir le mode de paiement</option>
+                  <option value="Espece">Espece</option>
+                  <option value="Mobile Money">Mobile Money</option>
+                  <option value="Airtel Money">Airtel Money</option>
+                  <option value="Electronique">Electronique</option>
+                  <option value="Carte visa">Carte visa</option>
                 </select>
               </div>
             </div>

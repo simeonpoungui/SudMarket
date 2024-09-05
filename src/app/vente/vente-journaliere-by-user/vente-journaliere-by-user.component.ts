@@ -30,7 +30,7 @@ export class VenteJournaliereByUserComponent {
     'prix_unitaire',
     'prix_total_vente',
     'date_article_vendu',
-    'remise'
+    'benefice'
   ];
 
   client!: Client;
@@ -40,6 +40,7 @@ export class VenteJournaliereByUserComponent {
   date_comptable!: string
   user!: Utilisateur;
   TotalMontant!: number
+  TotalBenefice: number = 0
   ListProduit!: Produit[]
 
 
@@ -84,6 +85,8 @@ export class VenteJournaliereByUserComponent {
     this.venteService.getVenteJournaliereByUser(this.user.utilisateur_id, this.date_comptable).subscribe(data => {
       console.log(data.message);
       this.TotalMontant = this.globalService.calculTotal('prix_total_vente', data.message);
+      this.TotalBenefice = this.globalService.calculTotal('benefice', data.message);
+
       console.log(this.TotalMontant);
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;

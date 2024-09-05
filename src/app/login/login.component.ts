@@ -11,6 +11,8 @@ import { GlobalService } from '../Services/global.service';
 })
 export class LoginComponent {
 
+  isPasswordVisible = false;
+
   constructor(
     private loginService: LoginService,
     private router : Router,
@@ -42,6 +44,10 @@ export class LoginComponent {
         this.isloading = false
       }
     })
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
   // onSubmitForm(form: NgForm){

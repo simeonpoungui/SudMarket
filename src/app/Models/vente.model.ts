@@ -6,6 +6,7 @@ export class Vente {
     client_id!: number;
     point_de_vente_id?: number
     utilisateur_id!: number;
+    mode_de_paiement?: string
     date_vente?: any
     caisse_vendeur_id?: number
     total_benefice_vente?: number
@@ -40,7 +41,20 @@ export class GetVente {
 export class CodeResponse {
     code!:string
     message!:Vente[]
+    facture!: Facture
 }
+
+export class Facture {
+  facture_id!: number;
+  vente_id!: number;
+  numero_facture!: string;
+  date_facture!: Date;
+  montant_total!: number;
+  mode_de_paiement!: string;
+  client_id!: number;
+  client_nom?: string;  
+}
+
 
 export class CodeResponseOneVente{
     code!:string

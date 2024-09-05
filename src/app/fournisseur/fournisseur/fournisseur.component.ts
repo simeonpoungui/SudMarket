@@ -20,7 +20,6 @@ export class FournisseurComponent {
     'nom',
     'email',
     'telephone',
-    'sexe',
     'adresse',
     'personne_de_contact',
     'Actions'

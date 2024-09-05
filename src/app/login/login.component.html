@@ -34,13 +34,44 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <input
-                    type="password"
-                    class="form-control"
-                    name="mot_de_passe_hash"
-                    [(ngModel)]="mot_de_passe_hash"
-                  />
-                </div>
+                  <div class="form-floating d-flex align-items-center">
+                    <input
+                      type="password"
+                      id="sPasseWord"
+                      required="ce champ ne doit pas etre vide"
+                      name="mot_de_passe_hash"
+                      [(ngModel)]="mot_de_passe_hash"
+                      type="{{ isPasswordVisible ? 'text' : 'password' }}"
+                      class="form-control"
+                      placeholder="mot de passe"
+                    />
+                    <label for="password">Mot de Passe</label>
+                    <a
+                      style="cursor: pointer"
+                      class="text-black"
+                      (click)="togglePasswordVisibility()"
+                    >
+                      <i
+                        *ngIf="!isPasswordVisible"
+                        style="
+                          position: relative;
+                          margin-left: -40px;
+                          font-size: 17px;
+                        "
+                        class="fa-sharp fa-solid fa-eye pt-2"
+                      ></i>
+                      <i
+                        *ngIf="isPasswordVisible"
+                        style="
+                          position: relative;
+                          margin-left: -40px;
+                          font-size: 17px;
+                        "
+                        class="fa-solid fa-eye-slash pt-2"
+                      ></i>
+                    </a>
+                  </div>
+                  </div>
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
                     <div class="custom-control custom-checkbox">
@@ -575,3 +606,17 @@
     <app-loader></app-loader>
   </div>
 </ng-template>
+
+<script>
+  function togglePassword() {
+    var passwordInput = document.getElementById("passwordInput");
+    console.log(passwordInput);
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      console.log("cliquer");
+    } else {
+      passwordInput.type = "password";
+      console.log("cliquer");
+    }
+  }
+</script>

@@ -1,11 +1,12 @@
 <main class="nxl-container">
   <div class="nxl-content">
-    <div class="col-lg-11 m-lg-auto">
+  <div class="pt-3">
+    <div class="col-lg-11 rounded rounded-4 p-3 bg-white m-lg-auto">
       <div class="p-3">
-        <div class="shadow p-2">
-          <h1 class="fw-bold">Liste des caisses vendeurs</h1>
+        <div>
+          <h1 class="fw-bold rounded rounded-4 px-3 py-2 shadow bg-primary text-white">Liste des caisses vendeurs</h1>
         </div>
-        <div class="shadow bg-white mt-1">
+        <div class="mt-1">
           <div class="row">
             <div class="col-lg-4">
               <div class="d-flex align-items-center mt-4">
@@ -43,7 +44,8 @@
             </div>
           </div>
           <div
-            class="mat-elevation-z8 mt-3"
+            class="mat-elevation-z8 rounded rounded-4 mt-3"
+              style="max-height: 400px; overflow-y: auto"
             *ngIf="!isloadingpage; else loader"
           >
             <table mat-table [dataSource]="dataSource">
@@ -171,6 +173,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </main>
 

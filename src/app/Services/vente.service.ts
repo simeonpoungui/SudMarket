@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environnement/environnement.prod';
-import { CodeResponse, CodeResponseOneVente, GetVente, Vente } from '../Models/vente.model';
+import { CodeResponse, CodeResponseOneVente, Facture, GetVente, Vente } from '../Models/vente.model';
 import { Utilisateur } from '../Models/users.model';
 import { Client } from '../Models/clients.model';
 import { PointsDeVentes } from '../Models/pointsDeVentes.model';
@@ -23,6 +23,7 @@ export class VenteService {
   urigetventejournalierebyuser = "/v1/sudmarket/get/vente/user/journaliere"
   uriarticleventejournalierebyuser = "/v1/sudmarket/get/article/vente/user/journaliere"
   uriventebypointdeventeid = "/v1/sudmarket/GET/ventes-by-point-de-vente"
+  uriimpressionfacture = "/v1/sudmarket/impression/facture"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -91,4 +92,15 @@ export class VenteService {
       responseType: 'blob' as 'json'
     });
   }
+
+  //facture
+  ImpressionFacture(data: Facture): Observable<any> {
+    console.log(data);
+    console.log(environment.apiUrl + this.uriimpressionfacture);
+    return this.httpclient.post(environment.apiUrl + this.uriimpressionfacture, data, {
+      responseType: 'blob' as 'json'
+    });
+  }
+  
+
 }

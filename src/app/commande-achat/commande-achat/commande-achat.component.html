@@ -1,12 +1,13 @@
 <p>commande-achat works!</p>
 <main class="nxl-container">
   <div class="nxl-content">
-    <div class="col-lg-11 m-lg-auto">
-      <div class="p-3">
-        <div class="shadow p-2">
-          <h1>Liste des commandes</h1>
+   <div class="pt-3">
+    <div class="col-lg-11 bg-white rounded rounded-4 m-lg-auto p-3 ">
+      <div>
+        <div>
+          <h1 class="fw-bold rounded rounded-4 text-white bg-primary py-2 px-3 shadow">Liste des commandes</h1>
         </div>
-        <div class="shadow bg-white mt-1">
+        <div class="mt-1">
           <div class="row">
             <div class="col-lg-4">
               <div class="d-flex align-items-center mt-4">
@@ -45,9 +46,6 @@
             </div>
           </div>
           <div class="content m-1 pb-1">
-            <span class="text-on-border fw-bold"
-              >Filtré les commandes par :
-            </span>
             <div class="row">
               <div class="col-lg-2">
                 <label for="" class="mt-3">Fournisseur</label>
@@ -57,6 +55,7 @@
                   name=""
                   id=""
                 >
+                <option selected>Filtrer par fournisseur </option>
                   <option
                     *ngFor="let option of tbfournisseur"
                     [value]="option.fournisseur_id"
@@ -73,6 +72,7 @@
                   name=""
                   id=""
                 >
+                <option selected>Filtrer par utilisateur </option>
                   <option
                     *ngFor="let user of tbUsers"
                     [value]="user.utilisateur_id"
@@ -116,7 +116,7 @@
             </div>
           </div>
           <div
-            class="mat-elevation-z8 mt-3"
+            class="mat-elevation-z8 rounded rounded-4 mt-3"
             style="max-height: 400px; overflow-y: auto"
             *ngIf="!isloadingpage; else loader"
           >
@@ -252,6 +252,7 @@
         </div>
       </div>
     </div>
+   </div>
   </div>
 </main>
 
