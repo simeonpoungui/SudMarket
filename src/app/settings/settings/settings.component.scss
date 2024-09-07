@@ -21,7 +21,8 @@ $third-color: #17c666;
 }
 .block-p:hover{
     cursor: pointer;
-    background-color:$third-color;
+    background-color:$primary-color;
     color: white;
     font-weight: bold;
+    font-size: 20px;
 }

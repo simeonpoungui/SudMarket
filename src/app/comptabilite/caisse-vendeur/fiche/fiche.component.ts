@@ -66,7 +66,7 @@ export class FicheComponent {
     const user = this.tbUsers.find(
       (u) => u.utilisateur_id === utilisateur_id
     );
-    return user ? user.nom_utilisateur : 'Unknown User';
+    return user ? user.nom_utilisateur + ' ' + user.prenom_utilisateur : 'Unknown User';
   }
 
   updateCaisse(){

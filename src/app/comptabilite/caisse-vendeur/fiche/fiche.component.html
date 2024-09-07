@@ -63,7 +63,7 @@
                     type="text"
                     class="form-control"
                     name="caisse.solde_caisse"
-                    [(ngModel)]="caisse.solde_caisse"
+                    [value]="globalService.formatPrixString(caisse.solde_caisse)"
                   />
                 </div>
   

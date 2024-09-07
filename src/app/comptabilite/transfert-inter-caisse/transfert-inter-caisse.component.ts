@@ -176,6 +176,7 @@ export class TransfertInterCaisseComponent {
     if (result) {
       this.caissService.transfertInterCaisseVendeurPrincipale(transfert).subscribe(response => {
         console.log(response.message);
+        this.getListeTrabsefert()
         this.globalService.toastShow(response.message,"Succès")
       })
     }

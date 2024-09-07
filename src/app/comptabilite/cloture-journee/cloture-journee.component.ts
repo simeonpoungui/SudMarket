@@ -69,6 +69,7 @@ export class ClotureJourneeComponent {
   totalPieces: number = 0;
   totalSommePieces: number = 0;
   isloadingpage!: boolean;
+  isCofirmSolde!: number
   
   constructor(
     private caisseService: CaissesService,
@@ -239,8 +240,8 @@ export class ClotureJourneeComponent {
       'etes-vous sur de vouloir confirmé le solde ?';
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        this.solde_confirme = 1;
-        event.target.checked = false;
+        this.isCofirmSolde = 1
+        event.target.checked = true;
       }
     });
   }
@@ -255,7 +256,7 @@ export class ClotureJourneeComponent {
       caisse_vendeur_id: this.caisse_vendeur_id,
       date_comptable: this.date_comptable,
       commentaires: this.commentaires,
-      solde_confirme: this.solde_confirme,
+      solde_confirme: 1,
     };
     console.log(vendeur);
     this.caisseService.clotureJourneeComptable(vendeur).subscribe((data) => {
@@ -343,7 +344,7 @@ export class ClotureJourneeComponent {
     bordereau.caisse_vendeur_id = this.caisse_vendeur_id;
     bordereau.date_comptable = this.date_comptable;
     console.log(bordereau);
-    if (this.solde_confirme == 1 && bordereau) {
+    if (this.isCofirmSolde == 1 && bordereau) {
       this.isloadingpage = true;
       this.caisseService.createBordereauDesCaisse(bordereau).subscribe((data) => {
         console.log(data.message);
@@ -356,7 +357,7 @@ export class ClotureJourneeComponent {
       this.ClotureJourneeComptable();
     }else{
       const dialog = this.dialog.open(AlertInfoComponent)
-      dialog.componentInstance.content = "Vous devez remplir le tableau du bordereau de cloture de caisse et cocher la case de confirmation!"
+      dialog.componentInstance.content = "Remplissez le bordereaux de cloture de caisse et cocher la case de confirmation!"
     }
 
     

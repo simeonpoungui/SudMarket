@@ -137,7 +137,7 @@ export class CaissePrincipaleComponent {
       this.solde = data.message[0].solde
       this.nom_caisse = data.message[0].nom_caisse
       this.montant_credit = data.message[0].montant_credit
-      this.montant_debit = data.message[0].solde
+      this.montant_debit = data.message[0].montant_debit
       this.banque_id= data.message[0].banque_id
       this.description= data.message[0].description
       this.cree_le= data.message[0].cree_le
