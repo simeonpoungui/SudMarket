@@ -1,14 +1,41 @@
 <main class="nxl-container">
   <div class="nxl-content">
- <div class="pt-3">
-  <div class="col-lg-11 shadow rounded rounded-4 p-3 m-lg-auto">
-    <div>
-      <div>
-        <h1 class="rounded bg-primary text-white rounded-4 shadow py-2 px-3">Liste des fournisseurs</h1>
+ <div class="pt-4">
+  <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
+    <div class="p-3">
+      <div class="row">
+        <div class="col-lg-7">
+          <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+            fournisseurs
+          </h1>
+        </div>
+        <div class="col-lg-2">
+          <div class="">
+            <button
+              style="background-color: #3454d1"
+              type="button"
+              class="form-control text-uppercase text-white"
+            >
+            <i class="fa-solid fa-download mx-2"></i>  Export csv
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="">
+            <button
+              style="background-color: #3454d1"
+              type="button"
+              routerLink="/fournisseur/create"
+              class="form-control text-uppercase text-white"
+            >
+            <i class="fa-solid mx-2 fa-plus"></i>  Ajouter un fournisseur 
+            </button>
+          </div>
+        </div>
       </div>
       <div class="mt-1">
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <div class="d-flex align-items-center mt-4">
               <i
                 style="position: absolute"
@@ -23,7 +50,7 @@
               />
             </div>
           </div>
-          <div class="col-lg-4 pt-4">
+          <!-- <div class="col-lg-4 pt-4">
             <button
               style="background-color: #3454d1"
               type="button"
@@ -42,14 +69,12 @@
             >
               Ajouter un fournisseur <i class="mx-1 fa-solid fa-user"></i>
             </button>
-          </div>
+          </div> -->
         </div>
         <div
-          class="mat-elevation-z8 rounded rounded-4 mt-3"
-           style="max-height: 400px; overflow-y: auto"
-          *ngIf="!isloadingpage; else loader"
+          class="mat-elevation-z8 mt-3"
         >
-          <table mat-table [dataSource]="dataSource">
+          <table mat-table [dataSource]="dataSource" style="max-height: 400px; overflow-y: auto" *ngIf="!isloadingpage; else loader">
             <ng-container matColumnDef="nom">
               <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                 Nom
@@ -142,13 +167,13 @@
                 Actions
               </th>
               <td class="text-center" mat-cell *matCellDef="let element">
-                <p
-                  (click)="actions(element)"
-                  style="cursor: pointer"
-                  class="p-2 actions"
-                >
-                  <span class="fs-6">...</span>
-                </p>
+                <button
+                (click)="actions(element)"
+                style="cursor: pointer"
+                class=" border border-0 rounded rounded-2 actions"
+              >
+              <i class="fa-solid fa-eye"></i>
+               </button>
               </td>
               <td
                 mat-footer-cell
@@ -157,17 +182,13 @@
               ></td>
             </ng-container>
 
-            <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"
-            ></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            <tr
-              class="bg-sticky-footer"
-              mat-footer-row
-              *matFooterRowDef="displayedColumns; sticky: true"
-            ></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+          <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements">
+         </mat-paginator>
         </div>
       </div>
     </div>

@@ -2,17 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environnement/environnement.prod';
-import {
-  CaissesVendeur,
-  CodeResponse,
-  CodeResponseOneCaisseV,
-  GetCaisseVendeur,
-} from '../Models/caissevendeur.model';
+import {CaissesVendeur,CodeResponse,CodeResponseOneCaisseV,GetCaisseVendeur} from '../Models/caissevendeur.model';
 import { GetUser } from '../Models/users.model';
-import {
-  CodeResponseHistorique,
-  HistoriqueCaisseVendeur,
-} from '../Models/historiqueCaisseVendeur.model';
+import { CodeResponseHistorique, HistoriqueCaisseVendeur} from '../Models/historiqueCaisseVendeur.model';
 import { CodeResponseP, GetCaissePrincipale } from '../Models/caissePrincipale.model';
 import { GetBanque } from '../Models/banque.model';
 import { TransfertCaisseBanque } from '../Models/transfert-inter-caisse-banquaire.model';

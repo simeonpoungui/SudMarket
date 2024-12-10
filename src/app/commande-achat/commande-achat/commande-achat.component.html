@@ -1,11 +1,11 @@
 <p>commande-achat works!</p>
 <main class="nxl-container">
   <div class="nxl-content">
-   <div class="pt-3">
-    <div class="col-lg-11 bg-white rounded rounded-4 m-lg-auto p-3 ">
-      <div>
+   <div class="pt-4">
+    <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
+      <div class="p-3">
         <div>
-          <h1 class="fw-bold rounded rounded-4 text-white bg-primary py-2 px-3 shadow">Liste des commandes</h1>
+          <h1 class="rounded bg-primary text-white rounded-4 shadow px-3 py-1">Liste des commandes</h1>
         </div>
         <div class="mt-1">
           <div class="row">
@@ -172,15 +172,7 @@
                   Statut
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  <input [disabled]="true"
-                  class="form-control"
-                  [value]="element.statut"
-                  type="text"
-                  [ngClass]="{
-                    'bg-vert': element.statut === 'terminé',
-                    'bg-rouge': element.statut !== 'terminé'
-                  }">
-           
+                    {{element.statut}}
                 </td>
                 <td
                   mat-footer-cell
@@ -222,13 +214,13 @@
                   Actions
                 </th>
                 <td class="text-center" mat-cell *matCellDef="let element">
-                  <p
-                    (click)="actions(element)"
-                    style="cursor: pointer"
-                    class="p-2 actions"
-                  >
-                    <span class="fs-6">...</span>
-                  </p>
+                  <button
+                  (click)="actions(element)"
+                  style="cursor: pointer"
+                  class=" border border-0 rounded rounded-2 actions"
+                >
+                <i class="fa-solid fa-eye"></i>
+                 </button>
                 </td>
                 <td
                   mat-footer-cell
@@ -261,3 +253,5 @@
     <app-loader></app-loader>
   </div>
 </ng-template>
+
+

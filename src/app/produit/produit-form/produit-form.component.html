@@ -1,9 +1,10 @@
 <main class="nxl-container">
   <div class="nxl-content border">
-    <div class="container-fuild p-5">
+    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+      <i data-bs-toggle="tooltip" title="Retour à l'accueil" style="cursor: pointer;" class="fa-solid fs-3 text-dark fa-arrow-left"></i>
       <div class="row">
-        <div class="border shadow rounded rounded-4 bg-white p-2">
-          <h2 class="fw-bold">
+        <!-- <div style="background-color: #3454d1;" class="border shadow  rounded rounded-4">
+          <h2 class="fw-bold mx-2 text-white my-1">
             <span
               >{{
                 action !== "edit"
@@ -11,146 +12,155 @@
                   : "Modifier le produit : "
               }}
             </span>
-            <span class="mx-1 title-bg-global-secondary"
+            <span
               >{{ action == "edit" ? nom : "" }}
             </span>
           </h2>
-        </div>
-        <div class="col-12 mt-2">
+        </div> -->
+        <div class="col-12 mt-1">
           <form
             #produitform="ngForm"
             (ngSubmit)="onSubmitForm(produitform)"
-            class="border rounded rounded-4 bg-white shadow p-3 needs-validation"
-          >
+            class="row border rounded rounded-4 bg-white  p-3 needs-validation"
+            >
             <div class="row">
-              <div class="col-lg-4 rounded rounded-4 bg-dark">
-                <div class="col-lg-12 p-3 text-center">
-                  <div class="w-75 m-auto mt-2">
-                    <img
-                      class="m-auto"
-                      [src]="image"
-                      style="width: 200px !important"
-                      *ngIf="image"
-                    />
-                  </div>
-
-                  <div class="col-lg-8 m-auto mt-2">
-                    <label
-                      for="validationCustom01"
-                      class="form-label label mb-2"
-                    >
-                      Image du produit
-                    </label>
-                    <div class="border w-75 m-lg-auto">
-                      <button
-                        type="button"
-                        class="btn border border-0 text-white form-control"
-                        (click)="triggerFileInput()"
-                      >
-                        Choisir une image
-                      </button>
-                    </div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      class="form-control"
-                      (change)="onFileSelected($event)"
-                      #fileInput
-                      style="display: none"
-                    />
-                  </div>
+              <div class="col-lg-4 bg-light border rounded rounded-4 border-5">
+                <div class="w-75 py-3 m-auto">
+                  <img
+                    class="w-100 m-auto"
+                    [src]="image"
+                    style="width: 200px !important"
+                    *ngIf="image"
+                  />
+                </div>
+                <div class="w-100 m-lg-auto"></div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  class="form-control"
+                  (change)="onFileSelected($event)"
+                  #fileInput
+                  style="display: none"
+                />
+                <div class="w-25 m-auto p-3 rounded rounded-5 bg-dark border">
+                  <img
+                    (click)="triggerFileInput()"
+                    class="w-100"
+                    src="assets/images/signal-2024-12-09-060204_003.png"
+                    alt=""
+                  />
                 </div>
               </div>
               <div class="col-lg-8">
-                <div class="col-lg-12">
-                  <label for="validationCustom01" class="form-label label"
-                    >Nom
-                    <span class="title-bg-global-secondary"> * </span></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="nom"
-                    [(ngModel)]="nom"
-                  />
-                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label for="validationCustom01" class="form-label label"
+                      >Nom
+                      <span class="title-bg-global-secondary"> * </span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nom"
+                      [(ngModel)]="nom"
+                    />
+                  </div>
+                  <div class="col-lg-6">
+                    <label for="validationCustom01" class="form-label label"
+                      >Description
+                      <span class="title-bg-global-secondary"> * </span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="description"
+                      [(ngModel)]="description"
+                    />
+                  </div>
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Categorie</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="categorie"
+                      [(ngModel)]="categorie"
+                    />
+                  </div>
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label">
+                      Prix unitaire de vente</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="prix"
+                      [(ngModel)]="prix"
+                    />
+                  </div>
+    
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label">
+                      Prix de revient</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="prix"
+                      [(ngModel)]="prix"
+                    />
+                  </div>
+    
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Quantité en stock
+                      <span class="title-bg-global-secondary"> * </span></label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="quantite_en_stock"
+                      [(ngModel)]="quantite_en_stock"
+                    />
+                  </div>
+    
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Code produit
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="code_produit"
+                      [(ngModel)]="code_produit"
+                    />
+                  </div>
 
-                <div class="col-lg-12 mt-3">
-                  <label for="validationCustom01" class="form-label label"
-                    >Description
-                    <span class="title-bg-global-secondary"> * </span></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="description"
-                    [(ngModel)]="description"
-                  />
-                </div>
-
-                <div class="col-lg-12 mt-3">
-                  <label for="validationCustom01" class="form-label label"
-                    >Categorie</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="categorie"
-                    [(ngModel)]="categorie"
-                  />
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label">
+                      Point de vente
+                      <span class="title-bg-global-secondary"> * </span>
+                    </label>
+                    <select
+                      class="form-control form-select"
+                      name="point_de_vente_id"
+                      [(ngModel)]="point_de_vente_id"
+                    >
+                      <option
+                        *ngFor="let point of tbPointdeVente"
+                        [value]="point.point_de_vente_id"
+                      >
+                        {{ point.nom }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="row">
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label">
-                  Prix unitaire de vente</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  name="prix"
-                  [(ngModel)]="prix"
-                />
-              </div>
-
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label">
-                  Prix de revient</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  name="prix"
-                  [(ngModel)]="prix"
-                />
-              </div>
-
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Quantité en stock
-                  <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  name="quantite_en_stock"
-                  [(ngModel)]="quantite_en_stock"
-                />
-              </div>
-
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Code produit
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="code_produit"
-                  [(ngModel)]="code_produit"
-                />
-              </div>
+         
 
               <div class="col-lg-4 mt-3">
                 <label for="validationCustom01" class="form-label label"
@@ -164,29 +174,12 @@
                 />
               </div>
 
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label">
-                  Point de vente
-                  <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <select
-                  class="form-control form-select"
-                  name="point_de_vente_id"
-                  [(ngModel)]="point_de_vente_id"
-                >
-                  <option
-                    *ngFor="let point of tbPointdeVente"
-                    [value]="point.point_de_vente_id"
-                  >
-                    {{ point.nom }}
-                  </option>
-                </select>
-              </div>
+            
             </div>
 
             <div class="row">
               <div class="col-lg-6">
-                <div class="col-lg-4 mt-3">
+                <div class="col-lg-3 mt-3">
                   <button
                     [disabled]="!isFormValid()"
                     type="submit"

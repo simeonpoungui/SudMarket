@@ -5,6 +5,9 @@ import { RoleComponent } from './role/role.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CoreModule } from '../core/core.module';
 import { RoleFormComponent } from './role/role-form/role-form.component';
@@ -31,9 +34,12 @@ import { FichePointDeVenteFormComponent } from './points-de-ventes/fiche-point-d
     FormsModule,
     RouterModule,
     CoreModule,
+    MatIconModule,
     MatTableModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    MatMenuModule,
+    MatButtonModule,
   ]
 })
 export class SettingsModule { }

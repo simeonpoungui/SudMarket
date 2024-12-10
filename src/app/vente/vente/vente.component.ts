@@ -138,7 +138,7 @@ export class VenteComponent {
       console.log(this.TotalMontant);
       this.isloadingpage = false
       this.ventes = data.message
-      this.afficherGraphique()
+      // this.afficherGraphique()
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -282,128 +282,128 @@ export class VenteComponent {
     } )
   }
 
-  afficherGraphique() {
-    const montantsParMois = Array(12).fill(0);
-    this.ventes.forEach((vente) => {
-      const dateVente = new Date(vente.date_vente);
-      if (dateVente.getFullYear() === new Date().getFullYear()) {
-        const moisIndex = dateVente.getMonth();
-        montantsParMois[moisIndex] += Number(vente.montant_total);
-      }
-    });
+  // afficherGraphique() {
+  //   const montantsParMois = Array(12).fill(0);
+  //   this.ventes.forEach((vente) => {
+  //     const dateVente = new Date(vente.date_vente);
+  //     if (dateVente.getFullYear() === new Date().getFullYear()) {
+  //       const moisIndex = dateVente.getMonth();
+  //       montantsParMois[moisIndex] += Number(vente.montant_total);
+  //     }
+  //   });
 
-    const montantsParMoisFormatted = montantsParMois.map((montant) => `${montant.toFixed(2)} FCFA`);
-  console.log(montantsParMoisFormatted);
+  //   const montantsParMoisFormatted = montantsParMois.map((montant) => `${montant.toFixed(2)} FCFA`);
+  // console.log(montantsParMoisFormatted);
   
-    const chart = new ApexCharts(
-      document.querySelector('#payment-records-chart2'),
-      {
-        chart: {
-          height: 300,
-          width: '100%',
-          stacked: false,
-          toolbar: { show: false },
-        },
-        stroke: { width: [1], curve: 'smooth', lineCap: 'round' },
-        plotOptions: { bar: { endingShape: 'rounded', columnWidth: '10%' } },
-        colors: ['#3454d1'],
-        series: [
-          {
-            name: 'Ventes Totales',
-            type: 'bar',
-            data: montantsParMoisFormatted,
-          },
-        ],
-        fill: {
-          opacity: [0.85],
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: 'vertical',
-            opacityFrom: 0.5,
-            opacityTo: 0.1,
-            stops: [0, 100, 100, 100],
-          },
-        },
-        markers: { size: 0 },
-        xaxis: {
-          categories: this.moisNoms.map(mois => mois + '/24'),
-          axisBorder: { show: false },
-          axisTicks: { show: false }, 
-          labels: { style: { fontSize: '10px', colors: '#A0ACBB' } },
-        },
-        yaxis: {
-          labels: {
-            formatter: function (e: string | number) {
-              return +e; // Affiche les valeurs sans suffixe
-            },
-            offsetX: -5,
-            offsetY: 0,
-            style: { color: '#A0ACBB' },
-          },
-        },
-        grid: {
-          xaxis: { lines: { show: false } },
-          yaxis: { lines: { show: false } },
-        },
-        dataLabels: { enabled: false },
-        tooltip: {
-          y: {
-            formatter: function (e: string | number) {
-              return +e; // Affiche les valeurs sans suffixe
-            },
-          },
-          style: { fontSize: '12px', fontFamily: 'Inter' },
-        },
-        legend: {
-          show: false,
-          labels: { fontSize: '12px', colors: '#A0ACBB' },
-          fontSize: '12px',
-          fontFamily: 'Inter',
-        },
-      }
-    );
+  //   const chart = new ApexCharts(
+  //     document.querySelector('#payment-records-chart2'),
+  //     {
+  //       chart: {
+  //         height: 300,
+  //         width: '100%',
+  //         stacked: false,
+  //         toolbar: { show: false },
+  //       },
+  //       stroke: { width: [1], curve: 'smooth', lineCap: 'round' },
+  //       plotOptions: { bar: { endingShape: 'rounded', columnWidth: '10%' } },
+  //       colors: ['#3454d1'],
+  //       series: [
+  //         {
+  //           name: 'Ventes Totales',
+  //           type: 'bar',
+  //           data: montantsParMoisFormatted,
+  //         },
+  //       ],
+  //       fill: {
+  //         opacity: [0.85],
+  //         gradient: {
+  //           inverseColors: false,
+  //           shade: 'light',
+  //           type: 'vertical',
+  //           opacityFrom: 0.5,
+  //           opacityTo: 0.1,
+  //           stops: [0, 100, 100, 100],
+  //         },
+  //       },
+  //       markers: { size: 0 },
+  //       xaxis: {
+  //         categories: this.moisNoms.map(mois => mois + '/24'),
+  //         axisBorder: { show: false },
+  //         axisTicks: { show: false }, 
+  //         labels: { style: { fontSize: '10px', colors: '#A0ACBB' } },
+  //       },
+  //       yaxis: {
+  //         labels: {
+  //           formatter: function (e: string | number) {
+  //             return +e; // Affiche les valeurs sans suffixe
+  //           },
+  //           offsetX: -5,
+  //           offsetY: 0,
+  //           style: { color: '#A0ACBB' },
+  //         },
+  //       },
+  //       grid: {
+  //         xaxis: { lines: { show: false } },
+  //         yaxis: { lines: { show: false } },
+  //       },
+  //       dataLabels: { enabled: false },
+  //       tooltip: {
+  //         y: {
+  //           formatter: function (e: string | number) {
+  //             return +e; // Affiche les valeurs sans suffixe
+  //           },
+  //         },
+  //         style: { fontSize: '12px', fontFamily: 'Inter' },
+  //       },
+  //       legend: {
+  //         show: false,
+  //         labels: { fontSize: '12px', colors: '#A0ACBB' },
+  //         fontSize: '12px',
+  //         fontFamily: 'Inter',
+  //       },
+  //     }
+  //   );
 
-    chart.render();
-  }
+  //   chart.render();
+  // }
 
-   renderChart() {
-     const options = {
-       series: [{
-         name: "Desktops",
-         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-       }],
-       chart: {
-         height: 350,
-         type: 'line',
-         zoom: {
-           enabled: false
-         }
-       },
-       dataLabels: {
-         enabled: false
-       },
-       stroke: {
-         curve: 'straight'
-       },
-       title: {
-         text: 'Product Trends by Month',
-         align: 'left'
-       },
-       grid: {
-         row: {
-           colors: ['#f3f3f3', 'transparent'],  
-           opacity: 0.5
-         },
-       },
-       xaxis: {
-         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-       }
-     };
+  //   renderChart() {
+  //     const options = {
+  //       series: [{
+  //         name: "Desktops",
+  //         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+  //       }],
+  //       chart: {
+  //         height: 350,
+  //         type: 'line',
+  //         zoom: {
+  //           enabled: false
+  //         }
+  //       },
+  //       dataLabels: {
+  //         enabled: false
+  //       },
+  //       stroke: {
+  //         curve: 'straight'
+  //       },
+  //       title: {
+  //         text: 'Product Trends by Month',
+  //         align: 'left'
+  //       },
+  //       grid: {
+  //         row: {
+  //           colors: ['#f3f3f3', 'transparent'],  
+  //           opacity: 0.5
+  //         },
+  //       },
+  //       xaxis: {
+  //         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+  //       }
+  //     };
 
-     const chart = new ApexCharts(document.querySelector("#chart"), options);
-     chart.render();
-   }
+  //     const chart = new ApexCharts(document.querySelector("#chart"), options);
+  //     chart.render();
+  //   }
 
   // renderChart2() {
   //   const options = {

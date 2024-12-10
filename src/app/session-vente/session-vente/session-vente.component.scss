@@ -1,59 +1,27 @@
-
-$primary-color:#3454d1;
-$secondary-color: hsl(0, 81%, 61%);
-$third-color: #17c666;
-
-table {
-  width: 100%;
-}
-.mat-elevation-z8 tr, .mat-elevation-z8 mat-header-cell {
-  height: 2em;
-}
-.mat-elevation-z8 th, .mat-elevation-z8 mat-header-cell {
-  background-color: $primary-color;
-  color: white;
-} 
-
-h1 {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-weight: bold;
-}
-  tr:nth-child(even) {
-    background-color:#f1f1f1;
-}
-
-mat-paginator{
-  background-color: $primary-color;
-}
-
-.md-dialog {
-  opacity: 0;
-}
-
-tr{
-    &:hover{
-      & td{
-        background:#17c666;
-        color: white;
-      }
-    }
-    }
+tr.selected {
+    background-color: #d1ecf1; /* Couleur bleu clair */
+    transition: background-color 0.3s ease-in-out; /* Animation pour un effet fluide */
+  }
   
-
-.bg-color-section-vente{
-  background-color: #0f172a;
+  .selected {
+    background-color: #d1ecf1;
+  }
+  #myTab {
+    overflow-x: auto;  /* Active le défilement horizontal */
+    -webkit-overflow-scrolling: touch; /* Pour un meilleur défilement sur mobile */
+    display: flex; /* Assure que les éléments restent alignés sur une seule ligne */
+    padding-bottom: 10px; /* Optionnel, pour laisser un peu d'espace */
 }
 
-.bg-delete{
-background-color:$secondary-color ;
-}
-.bg-update{
-    background-color:$primary-color;
+#myTab::-webkit-scrollbar {
+    height: 8px; /* Taille de la barre de défilement */
 }
 
-.checked-green {
-  background-color: green;
+#myTab::-webkit-scrollbar-thumb {
+    background-color: #888; /* Couleur de la barre de défilement */
+    border-radius: 10px;
 }
-.btn-close-session{
-  background-color:$secondary-color ;
+
+#myTab::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Changement de couleur au survol */
 }

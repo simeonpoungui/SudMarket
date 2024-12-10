@@ -43,7 +43,7 @@ export class ProduitFormComponent {
 
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
-  image: any | ArrayBuffer | null = null;
+  image: any | ArrayBuffer | null = 'assets/images/avatar/2.png';
 
   isFormValid(): any {
     return (

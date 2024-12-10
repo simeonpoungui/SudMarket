@@ -1,13 +1,13 @@
 <main class="nxl-container">
-  <div class="nxl-content border">
-    <div class="col-lg-11 m-lg-auto p-3">
+  <div class="nxl-content">
+   <div class="container-fuild bg-white p-lg-5">
       <div class="row">
-        <div class="border shadow rounded rounded-4 bg-white p-2">
-          <h2 class="fw-bold">
+        <div style="background-color: #3454d1;" class="border shadow  rounded rounded-4">
+          <h2 class="fw-bold mx-2 text-white my-1">
             <span
               >{{ action == "create" ? "Ajouter un rapport" : "Type rapport :" }}
             </span>
-            <span *ngIf="rapport" class="title-bg-global-secondary"
+            <span *ngIf="rapport"
               >{{ action == 'edit' ? rapport.type_rapport : '' }}
             </span>
           </h2>
@@ -56,7 +56,7 @@
                 ></textarea>
               </div>
             </div>
-            <div class="col-lg-3 mt-3">
+            <div class="col-lg-2 mt-3">
               <button type="submit" class="form-control bg-update text-white">
                 Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
               </button>
@@ -65,5 +65,5 @@
         </div>
       </div>
     </div>
-  </div>
+   </div>
 </main>

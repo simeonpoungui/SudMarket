@@ -39,7 +39,6 @@ export class PointsDeVentesService {
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetpointbyuser, user)
   }
 
-
   getListPointsDeVentePDF(): Observable<any> {
     console.log(environment.apiUrl + this.uriimprimepointdevente);
     return this.httpclient.get(environment.apiUrl + this.uriimprimepointdevente, {

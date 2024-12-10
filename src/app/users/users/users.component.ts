@@ -48,13 +48,13 @@ export class UsersComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
+    this.getListUsers()
 
     const utilisateurJson = localStorage.getItem('user');
     if (utilisateurJson) {
       this.user =  JSON.parse(utilisateurJson);
       console.log(this.user);
     }
-    this.getListUsers()
     this.loadPointDeVente()
   }
 
@@ -71,25 +71,29 @@ export class UsersComponent {
     const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
     return point ? point.nom : 'Unknown Point';
   }
-  getListUsers(){
-    const user : GetUser = {utilisateur_id: 0}
-    this.isloadingpage = true
-    this.userService.getListUser(user).subscribe(data => {
-      console.log(data.message);
-      this.isloadingpage = false
-      this.users = data.message
-      this.nbreusers = data.message.length
-      this.dataSource = new MatTableDataSource(data.message);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-     });
-  }
+
+getListUsers() {
+  const user: GetUser = { utilisateur_id: 0 };
+  this.isloadingpage = true;
+  this.userService.getListUser(user).subscribe(data => {
+    console.log(data.message);
+    this.isloadingpage = false;
+    this.users = data.message;
+    this.nbreusers = data.message.length;
+
+    // Assigner les données au dataSource
+    this.dataSource = new MatTableDataSource(data.message);
+
+    // Ajouter paginator et sort à dataSource
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  });
+}
 
   applyFilter(filterValue: any) {
     const value = filterValue.target.value;
     this.dataSource.filter = value.trim().toLowerCase();
     console.log(this.dataSource.filter);
-    
 
     this.dataSource.filterPredicate = (data: Utilisateur, filter: string) => {
       const dataStr = Object.keys(data).reduce((currentTerm, key) => {

@@ -50,7 +50,7 @@ export class UsersFormComponent {
 
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
-  image: any | ArrayBuffer | null = null;
+  image: any | ArrayBuffer | null = 'assets/images/avatar/2.png';
   
   ngOnInit(): void {
     this.action = this.route.snapshot.params['action']

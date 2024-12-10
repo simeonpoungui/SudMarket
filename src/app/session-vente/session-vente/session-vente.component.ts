@@ -33,8 +33,15 @@ import { Facture } from 'src/app/Models/Facture.model';
 })
 export class SessionVenteComponent {
   dataSource!: any;
-  dataSourceArticleVente = new MatTableDataSource<ArticlesDeVentes>([]);
+  tbarticle: any[] = [];
+  selectedArticleId: number | null = null;
+  quantitesProduits: { [produitId: number]: number } = {};
+  quantiteMode: boolean = false; // Mode pour définir la quantité
+  calculatriceValeur: string = '';
+  isQtySelected: boolean = false;
+
   displayedColumnsArticleVente = ['produit_id', 'quantite', 'prixTotal'];
+
   displayedColumns = [
     'nom',
     'description',
@@ -43,9 +50,10 @@ export class SessionVenteComponent {
     'quantite_en_stock',
     'Actions',
   ];
+
   sessionStartTime!: Date;
   sessionEndTime!: Date;
-
+  imageproduit: { [key: number]: string } = {};
   tbprovisoire!: ArticlesDeVentes[];
   tbProduit!: Produit[];
   isloadingpage!: boolean;
@@ -62,8 +70,9 @@ export class SessionVenteComponent {
   currentSessionId: number | undefined;
   IDcaissevendeur!: number;
   sessionActive: boolean = true;
+  nouvelleQuantite!: number;
 
-  Facture!: Facture
+  Facture!: Facture;
 
   constructor(
     private produitService: ProduitService,
@@ -79,23 +88,7 @@ export class SessionVenteComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    // this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationStart) {
-    //     if (this.sessionActive) {
-    //       this.router.navigate(['/session-vente']);
-    //       this.globlService.toastShow(
-    //         "Vous devez d'abord fermer la session",
-    //         'Attention',
-    //         'error'
-    //       );
-    //     }
-    //   }
-    // });
-
-    this.openPointsDeVentes();
-
-    // get point de vente local Sotage
-    const storedPointSelected = localStorage.getItem('pointSelected');
+    const storedPointSelected = localStorage.getItem('pointDeVente');
     if (storedPointSelected) {
       this.pointSelected = JSON.parse(storedPointSelected);
       console.log(this.pointSelected);
@@ -106,6 +99,177 @@ export class SessionVenteComponent {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
+    this.selectQty();
+    this.getListProduit();
+
+  }
+
+  getListProduit() {
+    const point_de_vente_id: GetProduit = {
+      produit_id: 0,
+    };
+    this.produitService.getList(point_de_vente_id).subscribe((data) => {
+        console.log(data.message);
+        if (typeof data.message === 'string') {
+          this.sessionActive = false;
+          this.endSession();
+          const dialog = this.dialog.open(AlertInfoComponent);
+          dialog.afterClosed().subscribe((result) => {
+            this.router.navigateByUrl('/');
+          });
+          dialog.componentInstance.content =
+            'Desolé Aucun produit trouvé avec ce point de vente : ' +
+            ' ' +
+            this.pointSelected.nom;
+          this.dataSource = new MatTableDataSource([]);
+        } else {
+          this.dataSource = new MatTableDataSource(data.message);
+          this.tbProduit = data.message;
+          this.tbProduit.forEach((produit) => {
+            this.getImageByproduiID(produit.produit_id);
+          });
+        }
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  ajouterArticle(produit: any): void {
+    const articleExistant = this.tbarticle.find(
+      (article) => article.produit_id === produit.produit_id
+    );
+    if (articleExistant) {
+      // Ajouter 1 à la quantité existante, et vérifier que le résultat est un entier
+      const nouvelleQuantite = articleExistant.quantite + 1;
+      if (Number.isInteger(nouvelleQuantite) && nouvelleQuantite >= 0) {
+        articleExistant.quantite = nouvelleQuantite;
+        articleExistant.prix_total_vente = nouvelleQuantite * produit.prix;
+        this.quantitesProduits[produit.produit_id] = nouvelleQuantite; // Mise à jour de la quantité
+      }
+    } else {
+      const nouvelleQuantite = 1;  // Définir la quantité initiale comme 1
+      if (Number.isInteger(nouvelleQuantite) && nouvelleQuantite >= 0) {
+        this.tbarticle.push({
+          produit_id: produit.produit_id,
+          quantite: nouvelleQuantite,
+          prix: produit.prix,
+          prix_total_vente: produit.prix,
+        });
+        this.quantitesProduits[produit.produit_id] = nouvelleQuantite;
+      }
+    }
+    this.selectedArticleId = produit.produit_id;
+    console.log(this.tbarticle, this.quantitesProduits);
+  }
+
+  selectArticle(articleId: number): void {
+    this.selectedArticleId = articleId; 
+  }
+
+  selectQty(): void {
+    this.isQtySelected = !this.isQtySelected; // Inverser l'état à chaque clic
+    console.log('Qty sélectionné:', this.isQtySelected);
+  }
+
+
+  modifierQuantiteArticle(valeur: string | number): void {
+    if (this.selectedArticleId !== null) {
+      const article = this.tbarticle.find(
+        (art) => art.produit_id === this.selectedArticleId
+      );
+  
+      if (article) {
+        let nouvelleQuantite = String(article.quantite); // Utiliser la quantité actuelle comme chaîne
+  
+        if (valeur === '+/-') {
+          // Inverser le signe de la quantité
+          nouvelleQuantite = (Number(nouvelleQuantite) * -1).toString();
+        } else if (valeur === '.') {
+          // Ajouter un point décimal seulement si la quantité est >= 10 et qu'il n'y a pas déjà un point
+          if (Number(nouvelleQuantite) >= 2 && !nouvelleQuantite.includes('.')) {
+            nouvelleQuantite += '.';
+          }
+        } else {
+          // Si la quantité est inférieure à 10, remplacer le chiffre
+          if (Number(nouvelleQuantite) < 2) {
+            nouvelleQuantite = String(valeur);
+          } else {
+            // Si la quantité est >= 10, ajouter le chiffre à la fin de la quantité
+            nouvelleQuantite += valeur;
+          }
+        }
+        // Vérifier si la nouvelle quantité est valide
+        const quantiteNumerique = parseFloat(nouvelleQuantite);
+        // Vérifier si la quantité est un nombre positif et valide
+        if (!isNaN(quantiteNumerique) && quantiteNumerique >= 0) {
+          article.quantite = quantiteNumerique;
+          article.prix_total_vente = article.quantite * article.prix;
+          this.quantitesProduits[article.produit_id] = quantiteNumerique;
+          this.tbarticle = [...this.tbarticle];  // Forcer la détection des changements
+          console.log(this.tbarticle);
+        } else {
+          console.error('Quantité invalide');
+        }
+      }
+    } else {
+      console.error('Aucun article sélectionné');
+    }
+  }
+  
+  // Calculer le total des articles
+  calculerTotalArticles(): number {
+    return this.tbarticle.reduce((total, article) => {
+      const prixTotal = Number(article.prix_total_vente); // Convertir en nombre
+      return total + prixTotal; // Additionner les prix
+    }, 0);
+  }
+  
+
+
+// Réinitialiser la ligne sélectionnée
+resetArticle(): void {
+  if (this.selectedArticleId !== null) {
+    const article = this.tbarticle.find(
+      (art) => art.produit_id === this.selectedArticleId
+    );
+    if (article) {
+      article.quantite = 1; // Réinitialiser la quantité
+      article.prix_total_vente = article.quantite * article.prix; // Calculer le prix total en fonction de la quantité
+      this.quantitesProduits[article.produit_id] = 1; // Mettre à jour la quantité dans quantitesProduits
+      this.tbarticle = [...this.tbarticle]; // Forcer la détection des changements
+      console.log('Article réinitialisé:', article);
+    }
+  } else {
+    console.error('Aucun article sélectionné');
+  }
+}
+
+
+selectAction(action: string): void {
+  if (action === 'reset') {
+    this.resetArticle(); 
+  } else {
+    console.log(`Action sélectionnée: ${action}`);
+  }
+}
+
+  
+  getProduitName(produit_id: number): string {
+    const produit = this.tbProduit.find((p) => p.produit_id === produit_id);
+    return produit ? produit.nom : '';
+  }
+
+  getImageByproduiID(IDproduit: number) {
+    const produit: GetProduit = { produit_id: IDproduit };
+    this.produitService.getImageByProduit(produit).subscribe((data) => {
+      console.log(data);
+      if (data.message) {
+        this.imageproduit[IDproduit] = `${data.message}`;
+        console.log(this.imageproduit);
+      } else {
+        console.log(`Aucune image trouvée pour le produit ID: ${IDproduit}`);
+      }
+    });
   }
 
   openPointsDeVentes() {
@@ -114,9 +278,7 @@ export class SessionVenteComponent {
       this.pointSelected = dialog.componentInstance.pointSelected;
       console.log(this.pointSelected);
       if (this.pointSelected) {
-        this.getListProduit();
-        this.calculateTotalVente();
-        this.startSession();
+        // this.startSession();
         this.getCaisseUser();
       } else {
         this.router.navigateByUrl('/');
@@ -138,309 +300,35 @@ export class SessionVenteComponent {
     });
   }
 
-  getListProduit() {
-    const point: GetPointsDeVentes = {
-      point_de_vente_id: this.pointSelected.point_de_vente_id,
-    };
-    this.produitService.getListProduityByPointVente(point).subscribe((data) => {
-      console.log(data.message);
-      if (typeof data.message === 'string') {
-        this.sessionActive = false;
-        this.endSession();
-        const dialog = this.dialog.open(AlertInfoComponent);
-        dialog.afterClosed().subscribe((result) => {
-          this.router.navigateByUrl('/');
-        });
-        dialog.componentInstance.content =
-          'Desolé Aucun produit trouvé avec ce point de vente : ' +
-          ' ' +
-          this.pointSelected.nom;
-        this.dataSource = new MatTableDataSource([]);
-      } else {
-        this.dataSource = new MatTableDataSource(data.message);
-        this.tbProduit = data.message;
-      }
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
-  }
-
   applyFilter(filterValue: any) {
     const value = filterValue.target.value;
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-  checkedProduit(event: any, element: Produit) {
-    if (!event.target.checked) {
-      const indexArticleVente = this.dataSourceArticleVente.data.findIndex(
-        (item: ArticlesDeVentes) => item.produit_id === element.produit_id
-      );
-      if (indexArticleVente !== -1) {
-        const updatedData = [...this.dataSourceArticleVente.data];
-        updatedData.splice(indexArticleVente, 1);
-        this.dataSourceArticleVente.data = updatedData;
-      }
-    } else {
-      this.addProductToArticleVente(element);
-    }
-  }
-
-  addProductToArticleVente(produit: Produit) {
-    const prixAchat = produit.prix_de_revient; // Assurez-vous d'avoir cette information
-    console.log(prixAchat);
-
-    const articleVente: ArticlesDeVentes = {
-      article_de_vente_id: 0,
-      vente_id: 0,
-      produit_id: produit.produit_id,
-      quantite: 1,
-      prix_de_revient: produit.prix_de_revient,
-      prix_unitaire: produit.prix,
-      point_de_vente_id:this.pointSelected.point_de_vente_id,
-      remise: 0,
-      prix_total_vente: this.calculateTotalApayerByProduit({
-        article_de_vente_id: 0,
-        vente_id: 0,
-        produit_id: produit.produit_id,
-        quantite: 1,
-        prix_unitaire: produit.prix,
-        remise: 0,
-        prix_total_vente: 0,
-      }),
-      benefice: this.calculateBenefice(
-        {
-          article_de_vente_id: 0,
-          vente_id: 0,
-          produit_id: produit.produit_id,
-          quantite: 1,
-          prix_unitaire: produit.prix,
-          remise: 0,
-          prix_total_vente: 0,
-        },
-        prixAchat
-      ),
-    };
-
-    this.dataSourceArticleVente.data = [
-      ...this.dataSourceArticleVente.data,
-      articleVente,
-    ];
-    this.updatePrixTotalVente();
-    this.montantTotalDeLaVente = this.calculateTotalVente();
-  }
-
-  // addProductToArticleVente(produit: Produit) {
-  //   const articleVente: ArticlesDeVentes = {
-  //     article_de_vente_id: 0,
-  //     point_de_vente_id: this.pointSelected.point_de_vente_id,
-  //     vente_id: 0,
-  //     produit_id: produit.produit_id,
-  //     quantite: 1,
-  //     prix_unitaire: produit.prix,
-  //     remise: 0,
-  //     prix_total_vente: this.calculateTotalApayerByProduit({
-  //       article_de_vente_id: 0,
-  //       vente_id: 0,
-  //       produit_id: produit.produit_id,
-  //       quantite: 1,
-  //       prix_unitaire: produit.prix,
-  //       remise: 0,
-  //       prix_total_vente: 0,
-  //     }),
-  //   };
-
-  //   this.dataSourceArticleVente.data = [
-  //     ...this.dataSourceArticleVente.data,
-  //     articleVente,
-  //   ];
-  //   this.updatePrixTotalVente();
-  //   this.montantTotalDeLaVente = this.calculateTotalVente();
-  // }
-
-  calculateTotalApayerByProduit(element: ArticlesDeVentes): number {
-    return element.quantite * element.prix_unitaire;
-  }
-
-  updatePrixTotalVente() {
-    this.dataSourceArticleVente.data = this.dataSourceArticleVente.data.map(
-      (element) => {
-        element.prix_total_vente = this.calculateTotalApayerByProduit(element);
-        return element;
-      }
-    );
-  }
-
-  updateQuantity(element: ArticlesDeVentes) {
-    this.updatePrixTotalVente();
-    this.montantTotalDeLaVente = this.calculateTotalVente();
-
-    // Recalculer le bénéfice
-    const prixAchat = Number(element.prix_de_revient);
-    element.benefice = this.calculateBenefice(element, prixAchat);
-  }
-
-  calculateTotalVente(): number {
-    return this.dataSourceArticleVente.data.reduce(
-      (acc, element) => acc + element.prix_total_vente,
-      0
-    );
-  }
-
-  selectmodepaiement(event: any) {
-    this.modepaiement = (event.target.value);
-    console.log(this.modepaiement);
-    
-  }
-
-  calculateBenefice(article: ArticlesDeVentes, prixAchat: number): number {
-    const prixVente = article.prix_unitaire * article.quantite;
-    return prixVente - prixAchat * article.quantite;
-  }
-
-  calculateTotalBenefice(): number {
-    return this.dataSourceArticleVente.data.reduce(
-      (acc, element) => acc + (element.benefice || 0),
-      0
-    );
-  }
-
-  ValidatePaiement() {
-    if (
-      this.dataSourceArticleVente.data.length > 0 &&
-      this.clientSelected &&
-      this.modepaiement
-    ) {
-      const dialog = this.dialog.open(AlertComponent);
-      dialog.componentInstance.type = 'info';
-      dialog.componentInstance.content =
-        'Voulez-vous effectuer cette transaction ?';
-      dialog.afterClosed().subscribe((result) => {
-        if (result) {
-          this.isloadingpaiement = true;
-          const modelvente: Vente = {
-            vente_id: 0,
-            montant_total: this.montantTotalDeLaVente,
-            client_id: this.clientSelected.client_id,
-            mode_de_paiement: this.modepaiement,
-            utilisateur_id: this.user.utilisateur_id,
-            caisse_vendeur_id: this.IDcaissevendeur,
-            point_de_vente_id: this.pointSelected.point_de_vente_id,
-            total_benefice_vente: this.calculateTotalBenefice(),
-            articles: this.dataSourceArticleVente.data,
-          };
-          console.log(modelvente);
-           this.venteService.create(modelvente).subscribe({
-             next: (data) => {
-               console.log(data);
-               this.Facture = data.facture
-               console.log(this.Facture);
-               this.dataSourceArticleVente.data = [];
-               this.montantTotalDeLaVente = 0;
-               localStorage.removeItem('pointSelected');
-               this.clientSelected = {} as Client;
-               this.globlService.toastShow(
-                 'Vente effectuée avec succès',
-                 'Succès'
-               );
-               this.isloadingpaiement = false;
-               this.getListProduit();
-             },
-             error: (error) => {
-               console.error('Erreur lors de la création de la vente:', error);
-               this.globlService.toastShow(
-                 'Erreur lors de la création de la vente',
-                 'Erreur'
-               );
-               this.isloadingpaiement = false;
-             },
-           });
-        }
-      });
-    } else {
-      const dialog = this.dialog.open(AlertComponent);
-      dialog.componentInstance.content =
-        'Selectionner un ou des produits, renseigner le client concerné et le moyen de paiement';
-    }
-  }
+  ValidatePaiement() {}
 
   imprimerPDFFacture() {
     this.venteService.ImpressionFacture(this.Facture).subscribe((data) => {
-        console.log(data);
-        const blob = new Blob([data], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
+      console.log(data);
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
 
-        const pdfWindow = window.open('');
-        if (pdfWindow) {
-          pdfWindow.document.write(
-            "<iframe width='100%' height='100%' style='border:none' src='" +
-              url +
-              "'></iframe>"
-          );
-        }
-      });
+      const pdfWindow = window.open('');
+      if (pdfWindow) {
+        pdfWindow.document.write(
+          "<iframe width='100%' height='100%' style='border:none' src='" +
+            url +
+            "'></iframe>"
+        );
+      }
+    });
   }
-
-  // ValidatePaiement() {
-  //   if (
-  //     this.dataSourceArticleVente.data.length > 0 &&
-  //     this.clientSelected &&
-  //     this.modepaiement
-  //   ) {
-  //     const dialog = this.dialog.open(AlertComponent);
-  //     dialog.componentInstance.type = 'info';
-  //     dialog.componentInstance.content =
-  //       'Voulez-vous effectuer cette transaction ?';
-  //     dialog.afterClosed().subscribe((result) => {
-  //       if (result) {
-  //         this.isloadingpaiement = true;
-  //         const modelvente: Vente = {
-  //           vente_id: 0,
-  //           montant_total: this.montantTotalDeLaVente,
-  //           client_id: this.clientSelected.client_id,
-  //           utilisateur_id: this.user.utilisateur_id,
-  //           caisse_vendeur_id: this.IDcaissevendeur,
-  //           point_de_vente_id: this.pointSelected.point_de_vente_id,
-  //           total_benefice_vente: 0,
-  //           articles: this.dataSourceArticleVente.data,
-  //         };
-  //         console.log(modelvente);
-  //         this.venteService.create(modelvente).subscribe({
-  //           next: (data) => {
-  //             console.log(data);
-  //             this.dataSourceArticleVente.data = [];
-  //             this.montantTotalDeLaVente = 0;
-  //             localStorage.removeItem('pointSelected');
-  //             this.clientSelected = {} as Client;
-  //             this.globlService.toastShow(
-  //               'Vente effectuée avec succès',
-  //               'Succès'
-  //             );
-  //             this.isloadingpaiement = false;
-  //             this.getListProduit();
-  //           },
-  //           error: (error) => {
-  //             console.error('Erreur lors de la création de la vente:', error);
-  //             this.globlService.toastShow(
-  //               'Erreur lors de la création de la vente',
-  //               'Erreur'
-  //             );
-  //             this.isloadingpaiement = false;
-  //           },
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     const dialog = this.dialog.open(AlertComponent);
-  //     dialog.componentInstance.content =
-  //       'Selectionner un ou des produits, renseigner le client concerné et le moyen de paiement';
-  //   }
-  // }
 
   chooseClient() {
     const dialog = this.dialog.open(SelectClientComponent);

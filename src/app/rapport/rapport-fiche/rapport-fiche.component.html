@@ -1,11 +1,11 @@
 <main class="nxl-container">
     <div class="nxl-content border">
-    <div class="container-fuild p-3">
+    <div class="container-fuild p-lg-5">
             <div class="row">
-              <div class="border shadow rounded rounded-4 bg-white p-2">
-                <h2 class="fw-bold">
+              <div style="background-color: #3454d1;" class="border shadow  rounded rounded-4">
+                <h2 class="fw-bold mx-2 text-white my-1">
                   <span>Rapport : </span>
-                  <span class="title-bg-global-secondary"
+                  <span
                     >{{ rapport.type_rapport }}
                   </span>
                 </h2>
@@ -13,8 +13,8 @@
               <div class="col-lg-12 mt-2">
                 <form
                   #userform="ngForm"
-                  class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
-                >
+                  class="row border rounded rounded-4 bg-white  p-3 needs-validation"
+                  >
                   <div class="row">
                     <div class="col-lg-6">
                       <label for="validationCustom01" class="form-label label"
@@ -87,7 +87,7 @@
                   </div>
           
                   <div class="row mt-3">
-                    <div class="col-lg-6">
+                    <div class="col-lg-2">
                       <button
                         type="button"
                         class="form-control bg-update text-white"
@@ -96,7 +96,7 @@
                         Mofifier <i class="fa-solid text-white fa-pen"></i>
                       </button>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-2">
                       <button
                         type="button"
                         class="form-control bg-delete text-white"

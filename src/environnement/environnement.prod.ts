@@ -1,5 +1,5 @@
 export const environment = {
-    apiUrl: 'http://localhost:3000',
+    apiUrl: 'http://localhost:5000',
     regexMtnNumber: /^(06)[0-9]{7}$/,
     regexAirtelNumber: /^(04|05)[0-9]{7}$/,
     regexMtnAirtel: /^(06|05|04)[0-9]{7}$/,

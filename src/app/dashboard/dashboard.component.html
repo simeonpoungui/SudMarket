@@ -20,84 +20,30 @@
           </a>
         </li>
         <li class="nxl-item nxl-hasmenu">
-          <a href="javascript:void(0);" class="nxl-link">
-            <span class="nxl-micon"> <i class="feather-pie-chart"></i></span>
-            <span class="nxl-mtext">Points de vente</span
-            ><span class="nxl-arrow"
-              ><i class="feather-chevron-right"></i
-            ></span>
+          <a     [routerLink]="
+          user.role !== 'Vendeur' ? '/points-de-ventes' : null
+        " class="nxl-link">
+            <span class="nxl-micon"><i class="feather-pie-chart"></i></span>
+            <span class="nxl-mtext">Points de vente</span>
           </a>
-          <ul class="nxl-submenu">
-            <li class="nxl-item">
-              <a
-                class="nxl-link"
-                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
-                [routerLink]="
-                  user.role !== 'Vendeur' ? '/points-de-ventes' : null
-                "
-                >Liste des points de vente</a
-              >
-            </li>
-            <li class="nxl-item">
-              <a
-                class="nxl-link"
-                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
-                [routerLink]="
-                  user.role !== 'Vendeur' ? '/point/vente/create' : null
-                "
-                >Ajouter un point de vente</a
-              >
-            </li>
-          </ul>
         </li>
+
         <li class="nxl-item nxl-hasmenu">
-          <a href="javascript:void(0);" class="nxl-link">
-            <span class="nxl-micon"><i class="feather-users"></i></span>
-            <span class="nxl-mtext">Utilisateurs</span
-            ><span class="nxl-arrow"
-              ><i class="feather-chevron-right"></i
-            ></span>
+          <a     [routerLink]="
+          user.role !== 'Vendeur' ? '/user/list' : null
+        " class="nxl-link">
+           <span class="nxl-micon"><i class="feather-users"></i></span>
+            <span class="nxl-mtext">Employés</span>
           </a>
-          <ul class="nxl-submenu">
-            <li class="nxl-item">
-              <a class="nxl-link" routerLink="/user/list"
-                >Liste des utilisateurs</a
-              >
-            </li>
-            <li class="nxl-item">
-              <a
-                class="nxl-link"
-                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
-                [routerLink]="user.role !== 'Vendeur' ? '/user/create' : null"
-                >Ajouter un utilisateur</a
-              >
-            </li>
-          </ul>
         </li>
+
         <li class="nxl-item nxl-hasmenu">
-          <a href="javascript:void(0);" class="nxl-link">
+          <a  routerLink="/client/list" class="nxl-link">
             <span class="nxl-micon"><i class="feather-users"></i></span>
-            <span class="nxl-mtext">Clients</span
-            ><span class="nxl-arrow"
-              ><i class="feather-chevron-right"></i
-            ></span>
+            <span class="nxl-mtext">Clients</span>
           </a>
-          <ul class="nxl-submenu">
-            <li class="nxl-item">
-              <a
-                class="nxl-link"
-                routerLink="/client/list"
-                href="customers-view.html"
-                >Liste des clients</a
-              >
-            </li>
-            <li class="nxl-item">
-              <a class="nxl-link" routerLink="client/create"
-                >Ajouter un client</a
-              >
-            </li>
-          </ul>
         </li>
+        
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-users"></i></span>
@@ -529,7 +475,7 @@
                   <i class="feather-chevron-right ms-auto me-0"></i>
                 </a>
               </div>
-              <!-- <div class="dropdown nxl-level-menu">
+           <!-- <div class="dropdown nxl-level-menu">
                 <a href="javascript:void(0);" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-power"></i>

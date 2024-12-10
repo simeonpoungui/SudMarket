@@ -6,12 +6,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { CoreModule } from '../core/core.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
 import { UsersFormComponent } from './users/users-form/users-form.component';
 import { FicheUserComponent } from './users/fiche-user/fiche-user.component';
 import { FicheUserConnectedComponent } from './users/fiche-user-connected/fiche-user-connected.component';
 import { RouterModule } from '@angular/router';
-
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     UsersComponent,
@@ -21,6 +21,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
     MatTableModule,
     MatDialogModule,
     RouterModule,

@@ -17,6 +17,7 @@ export class ArticlesDeVenteService {
   uriupdatearticlesVentes = "/v1/sudmarket/update/articlesVentes"
   urigetfiltresbydatearticlesdeventes = "/v1/sudmarket/get/filtres/by-dates/articlesVentes"
   uriimpressionarticleventes ="/v1/sudmarket/impression/articles/ventes"
+  produit_id: any;
 
   constructor(private httpclient: HttpClient) { }
 

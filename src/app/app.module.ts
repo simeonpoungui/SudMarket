@@ -17,6 +17,9 @@ import { AskTokenComponent } from './login/ask-token/ask-token.component';
 import { CoreModule } from "./core/core.module";
 import { AuthInterceptor } from './login/auth.interceptor';
 import { HttpErrorInterceptor } from './login/error.interceptors';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { HttpErrorInterceptor } from './login/error.interceptors';
   ],
   imports: [
     BrowserModule,
+    MatIconModule,
+    MatMenuModule,
+    MatButtonModule,
     MatPaginatorModule,
     FormsModule,
     MatSortModule,

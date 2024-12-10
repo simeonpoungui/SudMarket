@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
+import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 
 @Component({
   selector: 'app-points-de-ventes',
@@ -28,6 +29,11 @@ export class PointsDeVentesComponent {
     'responsable',
     'Actions'
   ];
+
+  TbPointDeVente!: any[]
+  user!: Utilisateur;
+
+
   selectedPointString!: string;
   constructor(
     private pointsDeVenteServive: PointsDeVentesService,
@@ -39,23 +45,32 @@ export class PointsDeVentesComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
   ngOnInit(): void {
+
+    // get user localStorage
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.user = JSON.parse(user);
+      console.log(this.user);
+    }
+
     this.getListPointsDeVentes()
   }
   getListPointsDeVentes(){
     this.isloadingpage = true
-    const pointdevente: GetPointsDeVentes = {
-      point_de_vente_id: 0,
+    const user: GetUser = {
+      utilisateur_id: this.user.utilisateur_id,
     }
-    this.pointsDeVenteServive.getList(pointdevente).subscribe(data => {
+    this.pointsDeVenteServive.getPointDeVenteByUsder(user).subscribe(data => {
       console.log(data);
-      this.nombreDePointsDeVente = data.message.length
-      console.log(this.nombreDePointsDeVente);
-      this.isloadingpage = false
-      this.dataSource = new MatTableDataSource(data.message);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      this.TbPointDeVente = [data.message]
     })
   }
+
+  ouvrirPdv(pointDeVente: any): void {
+    localStorage.setItem('pointDeVente', JSON.stringify(pointDeVente));
+    this.router.navigate(['/session-vente']);
+  }
+  
 
   onClickLine(pointdevente: PointsDeVentes){
     console.log(pointdevente.point_de_vente_id);
@@ -72,7 +87,7 @@ export class PointsDeVentesComponent {
     this.selectedPointString = JSON.stringify(element); 
     localStorage.setItem('selectedPointVente', this.selectedPointString);
     if (this.selectedPointString) {
-      this.router.navigateByUrl('point/vente/view')
+      this.router.navigateByUrl('point/vente/edit')
     }
   }
 
