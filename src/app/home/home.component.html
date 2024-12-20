@@ -409,7 +409,7 @@
             <div class="card-body p-0">
               <div class="table-responsive" style="max-height: 350px; overflow-y: auto"
               >
-                <table class="table">
+                <table class="table" *ngIf="!isloadingproduit; else loader">
                   <thead>
                     <tr>
                       <th class="">Produit</th>
@@ -873,8 +873,9 @@
               <div
                 class="table-responsive"
                 style="max-height: 500px; overflow-y: auto"
+                
               >
-                <table class="table">
+                <table class="table" *ngIf="!isloadingproduit; else loader">
                   <thead>
                     <tr>
                       <th>Produit</th>
@@ -988,7 +989,7 @@
                 class="table-responsive"
                 style="max-height: 500px; overflow-y: auto"
               >
-                <table class="table">
+                <table class="table" *ngIf="!isloadingproduit; else loader">
                   <thead>
                     <tr>
                       <th>Produit</th>
@@ -1313,3 +1314,8 @@
   </footer>
   <!-- [ Footer ] end -->
 </main>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

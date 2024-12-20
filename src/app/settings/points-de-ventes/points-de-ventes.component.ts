@@ -7,6 +7,9 @@ import { MatSort } from '@angular/material/sort';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { GetUser, Utilisateur } from 'src/app/Models/users.model';
+import { GetSession } from 'src/app/Models/session.ventes.model';
+import { SessionService } from 'src/app/Services/session.service';
+import { GlobalService } from 'src/app/Services/global.service';
 
 @Component({
   selector: 'app-points-de-ventes',
@@ -18,6 +21,8 @@ export class PointsDeVentesComponent {
   isloadingpage!: boolean
   pointSelected!: PointsDeVentes
   nombreDePointsDeVente: number = 0;
+  soldeFermeture!: number
+  dateFermeture!: Date
 
   displayedColumns = [
     'nom',
@@ -32,12 +37,14 @@ export class PointsDeVentesComponent {
 
   TbPointDeVente!: any[]
   user!: Utilisateur;
-
-
+  savedSessionId!: number
   selectedPointString!: string;
+
   constructor(
     private pointsDeVenteServive: PointsDeVentesService,
     private dialog: MatDialog,
+    public globalService: GlobalService,
+    private sessionService: SessionService,
     private router: Router
   ){}
 
@@ -54,6 +61,7 @@ export class PointsDeVentesComponent {
     }
 
     this.getListPointsDeVentes()
+    this.getSessionByPointDeVente()
   }
   getListPointsDeVentes(){
     this.isloadingpage = true
@@ -66,9 +74,30 @@ export class PointsDeVentesComponent {
     })
   }
 
-  ouvrirPdv(pointDeVente: any): void {
-    localStorage.setItem('pointDeVente', JSON.stringify(pointDeVente));
-    this.router.navigate(['/session-vente']);
+  getSessionByPointDeVente(){
+    const point: GetPointsDeVentes = {
+      point_de_vente_id: this.user.point_de_vente_id
+    }
+    this.sessionService.getListSessionsByPointDevente(point).subscribe(res =>{
+      console.log(res.message);
+      this.soldeFermeture = res.message.solde_fermeture
+      this.dateFermeture = res.message.end_time
+      console.log(this.dateFermeture,this.soldeFermeture);
+      
+      
+    })
+  }
+
+  historique(id: number){
+    this.router.navigateByUrl('/historique-de-vente/'+id)
+  }
+
+  HistoriqueSession(id: number){
+    this.router.navigateByUrl('/historique-session-by-point/'+id)
+  }
+
+  ouvrirPdv(pointDeVente: PointsDeVentes): void {
+    this.router.navigateByUrl('session-vente/' + pointDeVente.point_de_vente_id )
   }
   
 
@@ -89,6 +118,17 @@ export class PointsDeVentesComponent {
     if (this.selectedPointString) {
       this.router.navigateByUrl('point/vente/edit')
     }
+  }
+
+
+  formatDate(dateString: any): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', options);
   }
 
   imprimer() {

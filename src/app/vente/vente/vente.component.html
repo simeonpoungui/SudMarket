@@ -1,14 +1,41 @@
 <main class="nxl-container">
   <div class="nxl-content">
-  <div class="pt-4">
+  <div class="pt-lg-4">
     <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
       <div class="p-3">
-        <div>
-          <h1 class="rounded bg-primary text-white rounded-4 shadow px-3 py-1">Rapports des Ventes</h1>
+        <div class="row">
+          <div class="col-lg-8">
+            <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+              Rapport des ventes
+            </h1>
+          </div>
+          <div class="col-lg-2">
+            <div class="">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                class="form-control text-uppercase text-white"
+              >
+              <i class="fa-solid fa-download mx-2"></i>  Export csv
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                routerLink="/points-de-ventes"
+                class="form-control text-uppercase text-white"
+              >
+              <i class="fa-solid mx-2 fa-plus"></i>  Ajouter une vente 
+              </button>
+            </div>
+          </div>
         </div>
         <div class="mt-1">
           <div class="row">
-            <div class="col-lg-4">
+            <!-- <div class="col-lg-3">
               <div class="d-flex align-items-center mt-4">
                 <i
                   style="position: absolute"
@@ -22,8 +49,8 @@
                   class="form-control text-start px-5 text-uppercase"
                 />
               </div>
-            </div>
-            <div class="col-lg-4 pt-4">
+            </div> -->
+            <!-- <div class="col-lg-4 pt-4">
               <button
                 style="background-color: #3454d1"
                 type="button"
@@ -42,7 +69,7 @@
               >
                 Ajouter une vente <i class="mx-1 fa-solid fa-user"></i>
               </button>
-            </div>
+            </div> -->
           </div>
           <div class="content m-1 pb-1">
             <span class="text-on-border fw-bold"> </span>
@@ -79,11 +106,11 @@
             </div>
           </div>
           <div
-            class="mat-elevation-z8 rounded rounded-4 mt-3"
-            style="max-height: 300px; overflow-y: auto"
-            *ngIf="!isloadingpage; else loader"
+            class="mat-elevation-z8"
+       
           >
-            <table mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource"      style="max-height: 300px; overflow-y: auto"
+            *ngIf="!isloadingpage; else loader">
               <ng-container matColumnDef="date_vente">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                   Date vente
@@ -107,13 +134,6 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ globalService.formatPrix(element.montant_total) }}
                 </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  {{globalService.formatPrixString(TotalMontant.toFixed(2))}}
-                </td>
               </ng-container>
 
               <ng-container matColumnDef="client_id">
@@ -122,13 +142,6 @@
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ getClientName(element.client_id) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
                 </td>
               </ng-container>
 
@@ -139,13 +152,6 @@
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ getUserName(element.utilisateur_id) }}
                 </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
               </ng-container>
 
               <ng-container matColumnDef="point_de_vente_id">
@@ -154,13 +160,6 @@
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ getPointName(element.point_de_vente_id) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
                 </td>
               </ng-container>
 
@@ -193,26 +192,15 @@
                 <i class="fa-solid fa-eye"></i>
                  </button>
                 </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  
-                </td>
               </ng-container>
 
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
-              ></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              <tr
-                class="bg-sticky-footer"
-                mat-footer-row
-                *matFooterRowDef="displayedColumns; sticky: true"
-              ></tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements">
+           </mat-paginator>
           </div>
         </div>
       </div>

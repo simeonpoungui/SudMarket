@@ -1,150 +1,166 @@
 <main class="nxl-container">
-    <div class="nxl-content border">
-      <div class="container-fuild p-5">
-        <div class="row">
-          <div style="background-color: #3454d1;" class="border shadow  rounded rounded-4">
-              <h2 class="fw-bold mx-2 text-white my-1">
-                  <span>Fiche de la vente : </span>
-                  <span>{{vente.vente_id}}</span>
-              </h2>
+  <div class="nxl-content border">
+    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+      <div class="row">
+        <div class="col-12 mt-2">
+          <form
+            class="px-5 row py-5 rounded rounded-4 bg-white needs-validation row"
+          >
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label label"
+                >Date de vente</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="vente.date_vente"
+                [value]="globalService.formatDate(vente.date_vente)"
+              />
+            </div>
+
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label label"
+                >Montant total vente</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="vente.montant_total"
+                [value]="globalService.formatPrix(vente.montant_total)"
+              />
+            </div>
+
+            <div class="col-lg-4">
+              <label for="validationCustom01" class="form-label label"
+                >Point de vente</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="vente.montant_total"
+                [value]="getPointName(vente.point_de_vente_id)"
+              />
+            </div>
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Mode de paiement</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="vente.mode_de_paiement"
+                [(ngModel)]="vente.mode_de_paiement"
+              />
+            </div>
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Client</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="vente.client_id"
+                [value]="getClientName(vente.client_id)"
+              />
+            </div>
+
+            <div class="col-lg-4 mt-3">
+              <label for="validationCustom01" class="form-label label"
+                >Utilisateur</label
+              >
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control"
+                name="vente.utilisateur_id"
+                [value]="getUserName(vente.utilisateur_id)"
+              />
+            </div>
+
+            <div class="col-lg-2 mt-3">
+              <button
+                (click)="deletevente()"
+                class="form-control bg-delete btn text-white"
+              >
+                Supprimer <i class="fa-solid mx-1 text-white fa-trash"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="mt-3 bg-white rounded rounded-4 py-5 px-5">
+          <div>
+            <h2>Historique des articles vendu</h2>
           </div>
-          <div class="col-12 mt-2">
-            <form class="row border rounded rounded-4 bg-white  p-3 needs-validation"
+          <div class="mat-elevation-z8">
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              style="max-height: 400px; overflow-y: auto"
             >
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >Date de vente</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="vente.date_vente"
-                  [value]="globalService.formatDate(vente.date_vente)"
-                />
-              </div>
-  
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >Montant total vente</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="vente.montant_total"
-                  [value]="globalService.formatPrix(vente.montant_total)"
-                />
-              </div>
+              <ng-container matColumnDef="produit_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Produit
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ getProduitName(element.produit_id) }}
+                </td>
+              </ng-container>
 
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >Point de vente</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="vente.montant_total"
-                  [value]="getPointName(vente.point_de_vente_id)"
-                />
-              </div>
+              <ng-container matColumnDef="quantite">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Quantité
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.quantite }}
+                </td>
+              </ng-container>
 
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Mode de paiement</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="vente.mode_de_paiement"
-                  [(ngModel)]="vente.mode_de_paiement"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Client</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="vente.client_id"
-                  [value]="getClientName(vente.client_id)"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Utilisateur</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="vente.utilisateur_id"
-                  [value]="getUserName(vente.utilisateur_id)"
-                />
-              </div>
-  
-  
-              <div class="col-lg-2 mt-3">
-                <button (click)="deletevente()" class="form-control bg-delete btn text-white">
-                  Supprimer <i class="fa-solid mx-1 text-white fa-trash"></i>
-                </button>
-              </div> 
-            </form>
-          </div>
-          <div class="shadow mt-3 p-3 rounded rounded-4 bg-white">
-            <div>
-              <p class="fw-bold bg-update text-white p-3 ">Historique des articles vendu liés à la vente</p>
-            </div>
-            <div class="row">
-              <div *ngFor="let option of tbarticlesDeVente" class="col-lg-4 border rounded rounded-4 p-3">
-                <p>
-                  <span class="fw-bold">Produit: </span>
-                  <span class="text-danger fw-bold">{{
-                    getProduitName(option.produit_id)
-                  }}</span>
-                </p>
-                <p>
-                  <span class="fw-bold">Quantité: </span>
-                  <span class="text-danger fw-bold">{{
-                    option.quantite
-                  }}</span>
-                </p>
-                <p>
-                  <span class="fw-bold">Prix unitaire: </span>
-                  <span class="text-danger fw-bold">{{
-                    globalService.formatPrix(option.prix_unitaire)
-                  }}</span>
-                </p>
-                <p>
-                  <span class="fw-bold">Prix total vendu: </span>
-                  <span class="text-danger fw-bold">{{
-                   globalService.formatPrix( option.prix_total_vente)
-                  }}</span>
-                </p>
-                <p>
-                  <p>
-                    <span class="fw-bold">Point de vente: </span>
-                    <span class="text-danger fw-bold">{{
-                     getPointName(option.point_de_vente_id)
-                    }}</span>
-                  </p>
-                  <p>
-                  <span class="fw-bold">Date vente: </span>
-                  <span class="text-danger fw-bold">{{
-                   globalService.formatFrenchDateSessionVnte( option.date_article_vendu)
-                  }}</span>
-                </p>
-              </div>
-            </div>
+              <ng-container matColumnDef="prix_unitaire">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Prix unitaire
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix_unitaire) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prix_total_vente">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Prix vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix_total_vente) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="point_de_vente_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Point de vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ getPointName(element.point_de_vente_id) }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <!-- <mat-paginator
+              [pageSizeOptions]="[10, 20, 30]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator> -->
           </div>
         </div>
       </div>
     </div>
-  </main>
-  
+  </div>
+</main>

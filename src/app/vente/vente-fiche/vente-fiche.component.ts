@@ -14,6 +14,7 @@ import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service
 import { ArticlesDeVentes, GetArticleDeVente } from 'src/app/Models/articlesDeVente.model';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-vente-fiche',
@@ -21,6 +22,15 @@ import { ProduitService } from 'src/app/Services/produit.service';
   styleUrls: ['./vente-fiche.component.scss']
 })
 export class VenteFicheComponent {
+  dataSource!: any
+  displayedColumns = [
+    'produit_id',
+    'quantite',
+    'prix_unitaire',
+    'prix_total_vente',
+    'point_de_vente_id'
+  ];
+
   action:string = 'view';
   vente!: Vente;
   message!: any
@@ -30,6 +40,8 @@ export class VenteFicheComponent {
   tbClients: Client[] = [];
   tbPointdeVente!: PointsDeVentes[]
   tbarticlesDeVente!: any[]
+  sort: any;
+  paginator: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -62,7 +74,9 @@ export class VenteFicheComponent {
     }
     this.venteService.getArticleDeVenteByVente(venteID).subscribe(data => {
       console.log(data.message);
-      this.tbarticlesDeVente = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
       if (typeof data.message === 'string') {
         this.globalService.toastShow('Aucun article vendu','Information','info')
       }

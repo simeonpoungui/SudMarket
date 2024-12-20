@@ -1,158 +1,132 @@
 <main class="nxl-container">
   <div class="nxl-content">
- <div class="pt-3">
-  <div class="col-lg-11 m-lg-auto rounded rounded-4 bg-white p-3">
-    <div class="row">
-      <div class="col-lg-6">
-        <h2 class="fw-bold text-start shadow p-3 rounded rounded-4">
-          Historique des ventes du jour pour le vendeur :
-          <span class="mx-2 text-danger fw-bold"
-            >{{ user.nom_utilisateur }} {{ user.prenom_utilisateur }}</span
-          >
-        </h2>
-      </div>
-      <div class="col-lg-3">
-        <h2 class="p-3 text-start shadow rounded rounded-4">
-          <span>Montant total : </span>
-          <span class="text-danger fw-bold">{{
-            globalService.formatPrix(TotalMontant)
-          }}</span>
-        </h2>
-      </div>
-
-      <div class="col-lg-3">
-        <h2 class="p-3 text-start shadow rounded rounded-4">
-          <span>Benefice : </span>
-          <span class="text-danger fw-bold">{{
-            globalService.formatPrix(TotalBenefice)
-          }}</span>
-        </h2>
-      </div>
-    </div>
-    <div>
-      <div
-        class="mat-elevation-z8 rounded rounded-4 mt-3"
-        style="max-height: 400px; overflow-y: auto"
-      >
-        <table mat-table [dataSource]="dataSource">
-          <ng-container matColumnDef="produit_id">
-            <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-              Produit
-            </th>
-            <td class="pointer" mat-cell *matCellDef="let element">
-              {{ getProduitName(element.produit_id) }}
-            </td>
-            <td
-              mat-footer-cell
-              class="bg-table-color text-light"
-              *matFooterCellDef
-            ></td>
-          </ng-container>
-
-          <ng-container matColumnDef="quantite">
-            <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-              Quantité
-            </th>
-            <td class="pointer" mat-cell *matCellDef="let element">
-              {{ element.quantite }}
-            </td>
-            <td
-              mat-footer-cell
-              class="bg-table-color text-light"
-              *matFooterCellDef
-            ></td>
-          </ng-container>
-
-          <ng-container matColumnDef="prix_unitaire">
-            <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-              Prix unitaire
-            </th>
-            <td class="pointer" mat-cell *matCellDef="let element">
-              {{ globalService.formatPrix(element.prix_unitaire) }}
-            </td>
-            <td
-              mat-footer-cell
-              class="bg-table-color text-light"
-              *matFooterCellDef
-            ></td>
-          </ng-container>
-
-          <ng-container matColumnDef="benefice">
-            <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+    <div class="pt-lg-3">
+      <div class="col-lg-11 bg-white p-3 rounded rounded-4 m-lg-auto">
+        <div class="row pb-3 pt-2 rounded rounded-4">
+          <div class="col-lg-2">
+            <div>
+              <button
+                routerLink="/cloture-journee"
+                class="form-control bg-update text-white"
+              >
+                Cloturer ma journée <i class="fa-solid mx-2 fa-floppy-disk"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div>
+              <button class="form-control bg-update text-white">
+                Imprimer l'historique <i class="fa-solid mx-2 fa-print"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <button class="form-control">
               Benefice
-            </th>
-            <td class="pointer" mat-cell *matCellDef="let element">
-              {{ globalService.formatPrix(element.benefice)}}
-            </td>
-            <td
-              mat-footer-cell
-              class="bg-table-color text-light"
-              *matFooterCellDef
-            ><span>{{globalService.formatPrix(TotalBenefice)}}</span></td>
-          </ng-container>
+              <span>{{ globalService.formatPrix(TotalBenefice) }}</span>
+            </button>
+          </div>
+          <div class="col-lg-3">
+            <button class="form-control">
+              Montant total
+              <span>{{ globalService.formatPrix(TotalMontant) }}</span>
+            </button>
+          </div>
 
-          <ng-container matColumnDef="prix_total_vente">
-            <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-              Prix total vente
-            </th>
-            <td class="pointer" mat-cell *matCellDef="let element">
-              {{ globalService.formatPrix(element.prix_total_vente) }}
-            </td>
-            <td
-              mat-footer-cell
-              class="bg-table-color text-light"
-              *matFooterCellDef
-            ><span>{{globalService.formatPrix(TotalMontant)}}</span></td>
-          </ng-container>
-
-          <ng-container matColumnDef="date_article_vendu">
-            <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-              Date vente
-            </th>
-            <td class="pointer" mat-cell *matCellDef="let element">
-              {{ globalService.formatDate(element.date_article_vendu) }}
-            </td>
-            <td
-              mat-footer-cell
-              class="bg-table-color text-light"
-              *matFooterCellDef
-            ></td>
-          </ng-container>
-
-          <tr
-            mat-header-row
-            *matHeaderRowDef="displayedColumns; sticky: true"
-          ></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          <tr
-            class="bg-sticky-footer"
-            mat-footer-row
-            *matFooterRowDef="displayedColumns; sticky: true"
-          ></tr>
-        </table>
-      </div>
-      <div class="row mt-3 pb-3 pt-3 rounded rounded-4">
-        <div class="col-lg-6">
-          <div>
-            <button
-              routerLink="/cloture-journee"
-              class="form-control bg-update text-white"
-            >
-              Cloturer ma journée <i class="fa-solid mx-2 fa-floppy-disk"></i>
+          <div class="col-lg-3">
+            <button class="form-control">
+              Vendeur :
+              <span
+                >{{ user.nom_utilisateur }} {{ user.prenom_utilisateur }}
+              </span>
             </button>
           </div>
         </div>
-        <div class="col-lg-6">
-          <div>
-            <button class="form-control bg-update text-white">
-              Imprimer l'historique <i class="fa-solid mx-2 fa-print"></i>
-            </button>
+          <div class="mat-elevation-z8">
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              style="max-height: 400px; overflow-y: auto"
+            >
+              <ng-container matColumnDef="produit_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Produit
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ getProduitName(element.produit_id) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="quantite">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Quantité
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.quantite }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prix_unitaire">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Prix unitaire
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix_unitaire) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="benefice">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Benefice
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.benefice) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  <span>{{ globalService.formatPrix(TotalBenefice) }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="prix_total_vente">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Prix total vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.prix_total_vente) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  <span>{{ globalService.formatPrix(TotalMontant) }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="date_article_vendu">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Date vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatDate(element.date_article_vendu) }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <mat-paginator
+              [pageSizeOptions]="[10, 20, 30]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator>
           </div>
         </div>
       </div>
     </div>
-  
-  </div>
- </div>
-  </div>
 </main>

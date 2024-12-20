@@ -1,18 +1,12 @@
 <main class="nxl-container">
     <div class="nxl-content">
-      <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+      <div class="col-lg-8 m-lg-auto py-lg-3 px-lg-5">
         <div class="row">
-          <!-- <div style="background-color: #3454d1;" class="border shadow  rounded rounded-4">
-            <h2 class="fw-bold mx-2 text-white my-1">
-                <span>{{action == 'create' ? 'Ajouter un point de vente' : ' '}} </span>
-                <span *ngIf="point">{{ nom }} </span>
-              </h2>
-          </div> -->
-          <div class="col-12 mt-2">
+          <div class="col-12 mt-lg-2">
             <form
             #pointform="ngForm"
             (ngSubmit)="onSubmitForm(pointform)"
-              class="row border rounded rounded-4 bg-white  p-3 needs-validation"
+              class="row px-5 py-5 rounded rounded-4 bg-white  p-3 needs-validation"
             >
               <div class="col-lg-4">
                 <label for="validationCustom01" class="form-label label"
@@ -134,7 +128,7 @@
 
               <div class="row">
                 <div class="col-lg-6">
-                 <div class="col-lg-3 mt-3">
+                 <div class="col-lg-4 mt-3">
                    <button [disabled]="!isFormValid()"  type="submit" class="form-control bg-global-primary text-white">
                      Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
                    </button>

@@ -22,8 +22,12 @@ export class ListSessionVenteComponent {
   tbUsers: Utilisateur[] = []
   displayedColumns = [
     'user_id',
+    'solde_ouverture',
+    'solde_fermeture',
+    'montant_total_vendu',
     'start_time',
-    'end_time'
+    'end_time',
+    'statut'
   ];
   constructor(
     private sessionServicve: SessionService,
@@ -70,5 +74,4 @@ export class ListSessionVenteComponent {
     const value = filterValue.target.value;
     this.dataSource.filter = value.trim().toLowerCase();
   }
-
 }

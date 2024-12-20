@@ -15,6 +15,7 @@ import { Fournisseur, GetFournisseur } from 'src/app/Models/fournisseur.model';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-commande-achat-fiche',
@@ -23,6 +24,17 @@ import { ProduitService } from 'src/app/Services/produit.service';
 })
 
 export class CommandeAChatFicheComponent {
+
+  dataSource!: any
+  displayedColumns = [
+    'produit_id',
+    'quantite',
+    'prix_unitaire',
+    'prix_total_commande',
+    'point_de_vente_id',
+    'date_commande'
+  ];
+
   action:string = 'view';
   commandes!: CommandeAchat;
   message!: any
@@ -33,6 +45,8 @@ export class CommandeAChatFicheComponent {
   tbClients: Client[] = [];
   tbPointdeVente!: PointsDeVentes[]
   tbArticleCommande!: any
+  sort: any;
+  paginator: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,7 +83,9 @@ export class CommandeAChatFicheComponent {
     }
     this.commandeService.getArticleCommandeByCommandeID(commandeID).subscribe(data => {
       console.log(data.message);
-      this.tbArticleCommande = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
       if (typeof data.message === 'string') {
         this.globalService.toastShow('Aucun article commandé','Information','info')
       }

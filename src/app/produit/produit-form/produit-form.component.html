@@ -3,37 +3,21 @@
     <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
       <i data-bs-toggle="tooltip" title="Retour à l'accueil" style="cursor: pointer;" class="fa-solid fs-3 text-dark fa-arrow-left"></i>
       <div class="row">
-        <!-- <div style="background-color: #3454d1;" class="border shadow  rounded rounded-4">
-          <h2 class="fw-bold mx-2 text-white my-1">
-            <span
-              >{{
-                action !== "edit"
-                  ? "Ajouter un produit"
-                  : "Modifier le produit : "
-              }}
-            </span>
-            <span
-              >{{ action == "edit" ? nom : "" }}
-            </span>
-          </h2>
-        </div> -->
         <div class="col-12 mt-1">
           <form
             #produitform="ngForm"
             (ngSubmit)="onSubmitForm(produitform)"
-            class="row border rounded rounded-4 bg-white  p-3 needs-validation"
+            class="px-5 py-5 rounded rounded-4 bg-white  p-3 needs-validation"
             >
             <div class="row">
               <div class="col-lg-4 bg-light border rounded rounded-4 border-5">
-                <div class="w-75 py-3 m-auto">
+                <div class="w-75 m-auto py-3" style="height: 270px;max-height: 270px;">
                   <img
-                    class="w-100 m-auto"
+                    class="w-100"
                     [src]="image"
-                    style="width: 200px !important"
                     *ngIf="image"
                   />
                 </div>
-                <div class="w-100 m-lg-auto"></div>
                 <input
                   type="file"
                   accept="image/*"
@@ -52,7 +36,7 @@
                 </div>
               </div>
               <div class="col-lg-8">
-                <div class="row">
+                <div class="row ps-lg-4">
                   <div class="col-lg-6">
                     <label for="validationCustom01" class="form-label label"
                       >Nom
@@ -138,43 +122,41 @@
                   </div>
 
                   <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label">
-                      Point de vente
-                      <span class="title-bg-global-secondary"> * </span>
+                    <label for="validationCustom01" class="form-label label"
+                      >Niveau de reapprovisionnement
                     </label>
-                    <select
-                      class="form-control form-select"
-                      name="point_de_vente_id"
-                      [(ngModel)]="point_de_vente_id"
-                    >
-                      <option
-                        *ngFor="let point of tbPointdeVente"
-                        [value]="point.point_de_vente_id"
-                      >
-                        {{ point.nom }}
-                      </option>
-                    </select>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="niveau_de_reapprovisionnement"
+                      [(ngModel)]="niveau_de_reapprovisionnement"
+                    />
                   </div>
+
+ 
                 </div>
               </div>
             </div>
 
             <div class="row">
-         
-
               <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Niveau de reapprovisionnement
+                <label for="validationCustom01" class="form-label label">
+                  Point de vente
+                  <span class="title-bg-global-secondary"> * </span>
                 </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="niveau_de_reapprovisionnement"
-                  [(ngModel)]="niveau_de_reapprovisionnement"
-                />
+                <select
+                  class="form-control form-select"
+                  name="point_de_vente_id"
+                  [(ngModel)]="point_de_vente_id"
+                >
+                  <option
+                    *ngFor="let point of tbPointdeVente"
+                    [value]="point.point_de_vente_id"
+                  >
+                    {{ point.nom }}
+                  </option>
+                </select>
               </div>
-
-            
             </div>
 
             <div class="row">

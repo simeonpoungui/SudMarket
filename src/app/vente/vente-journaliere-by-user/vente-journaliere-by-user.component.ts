@@ -86,7 +86,6 @@ export class VenteJournaliereByUserComponent {
       console.log(data.message);
       this.TotalMontant = this.globalService.calculTotal('prix_total_vente', data.message);
       this.TotalBenefice = this.globalService.calculTotal('benefice', data.message);
-
       console.log(this.TotalMontant);
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;

@@ -1,0 +1,124 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="row my-3 bg-white">
+      <div class="col-lg-6 mt-lg-5" >
+          <div style="height: 720px;">
+            <div class="col-lg-10 text-center border-success border m-auto">
+              <div class="py-3 block-info">
+                <p><i class="fa-solid text-success fs-1 fa-circle-check"></i></p>
+                <p style="margin-top: -7px" class="fw-bold fs-6 text-success">
+                  Payement effectué avec succès
+                </p>
+                <p>
+                  <span class="mx-1 fw-bold text-success">{{
+                    globalService.formatPrix(montant_total)
+                  }}</span>
+                  <span
+                    class="mx-1 bg-success p-2 rounded rounded-2 text-white px-1 fw-bold"
+                    >modier le payement</span
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-10 m-auto">
+              <hr />
+            </div>
+            <div class="col-lg-10 text-center border m-auto">
+              <div>
+                <button (click)="imprimerPDFFacture()" class="form-control border-0 bg-light">
+                  <i class="fa-solid mx-2 fa-print"></i> Imprimer le recu
+                </button>
+              </div>
+              <div></div>
+            </div>
+          </div>
+        <div class="mb-1">
+          <button class="py-3 form-control border-0 bg-primary text-white fw-bold fs-6">Retour</button>
+        </div>
+      </div>
+      <div class="col-lg-6 bg-light pt-3">
+        <div class="col-lg-8 border py-4 bg-white m-auto" style="height: 800px; max-height: 800px; overflow-y: auto">
+          <div class="w-25 mb-4 m-auto">
+            <img src="" alt="LOGO">
+          </div>
+          <div class="text-center">
+            <small>Sud Market</small><br>
+            <small>Tel +242 067445795</small><br>
+            <small>pounguisimeon@gmail.com</small><br>
+            <small>http://www.sudmarket.com</small><br>
+            <small class="fs-5">-----------------------</small><br>
+            <small>Initié par {{user.nom_utilisateur}} {{user.prenom_utilisateur}} {{user.role}}</small><br><br>
+            <small class="fs-2 fw-bold">{{Facture.numero_facture}}</small>
+          </div>
+          <div class="text-center">
+            <div class="container">
+              <div class="row" *ngFor="let element of Tbarticles">
+                <!-- Conteneur de ligne pour chaque élément -->
+                <div class="col-12">
+                  <div class="d-flex justify-content-between align-items-start px-3">
+                    <!-- Colonne gauche pour le nom du produit et quantité -->
+                    <div class="col-lg-5">
+                      <p class="text-start">
+                        <span class="fw-bold text-dark">
+                          {{ getProduitName(element.produit_id) }}
+                        </span>
+                        <br />
+                        <span class="text-dark fw-bold">{{ element.quantite }}</span>
+                        <span> unité(s) * </span>
+                        <span>{{ element.prix_unitaire }}</span>
+                      </p>
+                    </div>
+                    <!-- Colonne droite pour le prix total -->
+                    <div class="col-lg-7 text-end">
+                      <p class="text-dark">{{ element.prix_total_vente }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p class="text-center">-------------------------------------------</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="d-flex justify-content-between align-items-start px-4">
+              <div class="col-lg-5">
+                <p class="text-start text-uppercase ">
+                   Total
+                </p>
+              </div>
+              <div class="col-lg-7 text-end">
+                <p class="text-dark">{{vente.montant_total}}</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-start px-4">
+              <div class="col-lg-5">
+                <p class="text-start">
+                   {{mode_de_paiement}}
+                </p>
+              </div>
+              <div class="col-lg-7 text-end">
+                <p class="text-dark">{{vente.montant_total}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-5">
+            <p>Agence Sud Market</p>
+            <p class="mt-3">
+              <small>order / {{Facture.numero_facture}}</small><br>
+              <small>{{Facture.date_facture}}</small>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

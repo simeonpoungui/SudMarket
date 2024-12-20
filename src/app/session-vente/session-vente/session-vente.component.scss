@@ -25,3 +25,21 @@ tr.selected {
 #myTab::-webkit-scrollbar-thumb:hover {
     background-color: #555; /* Changement de couleur au survol */
 }
+
+/* Onglet actif en bleu */
+.nav-tabs .nav-link.active {
+  background-color: #3554d1 !important; /* Bleu de Bootstrap */
+  color: white !important;  /* Assurez-vous que le texte reste blanc */
+}
+
+/* Onglet inactif en gris */
+.nav-tabs .nav-link {
+  background-color:#b0bbe4; /* Gris clair */
+  color: white !important;
+}
+
+/* Survol des onglets inactifs */
+.nav-tabs .nav-link:hover {
+  background-color: #b0bbe4; /* Gris foncé pour l'effet de survol */
+}
+

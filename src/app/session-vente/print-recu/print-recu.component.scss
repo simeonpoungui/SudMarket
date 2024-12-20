@@ -1,0 +1,29 @@
+.block-info p {
+    line-height: 1;
+}
+/* Ajouter une marge et un espacement pour une meilleure présentation */
+.container {
+    margin-top: 20px;
+  }
+  
+  .row {
+    margin-bottom: 10px; /* Espacement entre les lignes */
+  }
+  
+  .fw-bold {
+    font-weight: bold;
+  }
+  
+  .text-dark {
+    color: #333; /* Utiliser une couleur sombre */
+  }
+  
+  .text-end {
+    text-align: right;
+  }
+  
+  .px-3 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  

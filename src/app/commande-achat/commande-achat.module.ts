@@ -4,6 +4,7 @@ import { CommandeAChatComponent } from './commande-achat/commande-achat.componen
 import { CommandeAChatFormComponent } from './commande-achat-form/commande-achat-form.component';
 import { CommandeAChatFicheComponent } from './commande-achat-fiche/commande-achat-fiche.component';
 import { CoreModule } from '../core/core.module';
+import { RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -23,6 +24,7 @@ import { FicheArticleDeCommandeComponent } from './fiche-article-de-commande/fic
   imports: [
     CommonModule,
     CoreModule,
+    RouterModule,
     MatPaginatorModule,
     FormsModule,
     MatTableModule

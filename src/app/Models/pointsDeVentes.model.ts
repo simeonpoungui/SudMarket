@@ -14,7 +14,7 @@ export class PointsDeVentes {
 }
 
 export class GetPointsDeVentes {
-    point_de_vente_id!: number;
+    point_de_vente_id?: number;
 }
 
 export class CodeResponse {

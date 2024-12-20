@@ -151,29 +151,67 @@ export class ProduitFormComponent {
 
   triggerFileInput(): void {
     this.fileInput.nativeElement.click();
-  }
-  onFileSelected(event: Event): void {
+}
+
+onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.image = e.target?.result;
-        console.log(this.image);
-        
-        this.convertToBase64(file);
-      };
-      reader.readAsDataURL(file);
+        const file = input.files[0];
+
+        // Vérifier la taille du fichier (1 Mo = 1024 * 1024 octets)
+        if (file.size > 1024 * 1024) {
+            alert('L\'image dépasse la taille autorisée de 1 Mo');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+            this.image = e.target?.result;
+            console.log(this.image);
+            this.convertToBase64(file);
+            this.resizeImage(file);
+        };
+        reader.readAsDataURL(file);
     }
-  }
-  convertToBase64(file: File): void {
+}
+
+// Fonction pour convertir l'image en Base64
+convertToBase64(file: File): void {
     const reader = new FileReader();
     reader.onloadend = () => {
-      const base64String = reader.result as string;
-      console.log('Base64 String - ', base64String);
+        const base64String = reader.result as string;
+        console.log('Base64 String - ', base64String);
     };
     reader.readAsDataURL(file);
-  }
+}
+
+// Fonction pour redimensionner l'image en 600x600 px
+resizeImage(file: File): void {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+        img.src = e.target?.result as string;
+
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Redimensionner l'image en 600x600 px
+            canvas.width = 600;
+            canvas.height = 600;
+
+            // Dessiner l'image redimensionnée sur le canvas
+            ctx?.drawImage(img, 0, 0, 600, 600);
+
+            // Convertir l'image redimensionnée en base64
+            const resizedBase64 = canvas.toDataURL('image/jpeg', 0.8); // Compression JPEG à 80%
+            console.log('Image redimensionnée en base64 : ', resizedBase64);
+            this.image = resizedBase64;  // Utiliser cette base64 pour afficher l'image
+        };
+    };
+    reader.readAsDataURL(file);
+}
+
 
 
 }

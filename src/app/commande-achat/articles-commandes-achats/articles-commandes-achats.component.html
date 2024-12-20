@@ -1,15 +1,40 @@
-<p>commande-achat works!</p>
 <main class="nxl-container">
   <div class="nxl-content">
- <div class="pt-4">
+ <div class="pt-lg-">
   <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
     <div class="p-3">
-      <div>
-        <h1 class="rounded bg-primary text-white rounded-4 shadow px-3 py-1">Liste des articles commandés</h1>
+      <div class="row">
+        <div class="col-lg-7">
+          <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+            Articles de commandes
+          </h1>
+        </div>
+        <div class="col-lg-2">
+            <button
+              style="background-color: #3454d1"
+              type="button"
+              class="form-control text-uppercase text-white"
+            >
+            <i class="fa-solid fa-download mx-2"></i>  Export csv
+            </button>
+        </div>
+        <div class="col-lg-3">
+          <div class="col-lg-11">
+            <button
+              style="background-color: #3454d1"
+              type="button"
+              type="button"
+              routerLink="/session-commande-achat"
+              class="form-control text-uppercase text-white"
+            >
+            <i class="fa-solid mx-2 fa-plus"></i>  Ajouter une commande 
+            </button>
+          </div>
+        </div>
       </div>
       <div class="mt-1">
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <div class="d-flex align-items-center mt-4">
               <i
                 style="position: absolute"
@@ -18,12 +43,12 @@
               <input
                 type="text"
                 (keyup)="applyFilter($event)"
-                placeholder="Recherchez un fournisseur ici..."
+                placeholder="Recherchez un article ici..."
                 class="form-control text-start px-5 text-uppercase"
               />
             </div>
           </div>
-          <div class="col-lg-4 pt-4">
+          <!-- <div class="col-lg-4 pt-4">
             <button
               style="background-color: #3454d1"
               type="button"
@@ -43,7 +68,7 @@
             >
               Ajouter une commande <i class="mx-1 fa-solid fa-user"></i>
             </button>
-          </div>
+          </div> -->
         </div>
         <div class="content m-1">
           <div class="row mt-3">
@@ -101,24 +126,17 @@
           </div>
         </div>
         <div
-          class="mat-elevation-z8 rounded rounded-4 mt-3"
-          style="max-height: 400px; overflow-y: auto"
-          *ngIf="!isloadingpage; else loader"
+          class="mat-elevation-z8"
+      
         >
-          <table mat-table [dataSource]="dataSource">
+          <table mat-table [dataSource]="dataSource"     style="max-height: 400px; overflow-y: auto"
+          *ngIf="!isloadingpage; else loader">
             <ng-container matColumnDef="date_commande">
               <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                 Date commande
               </th>
               <td class="pointer" mat-cell *matCellDef="let element">
                 {{ globalService.formatDate(element.date_commande) }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-                Total
               </td>
             </ng-container>
 
@@ -129,11 +147,6 @@
               <td class="pointer" mat-cell *matCellDef="let element">
                 {{ getProduitName(element.produit_id) }}
               </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
             </ng-container>
 
             <ng-container matColumnDef="quantite">
@@ -143,11 +156,6 @@
               <td class="pointer" mat-cell *matCellDef="let element">
                 {{ element.quantite }}
               </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
             </ng-container>
 
             <ng-container matColumnDef="prix_unitaire">
@@ -157,11 +165,6 @@
               <td class="pointer" mat-cell *matCellDef="let element">
                 {{ globalService.formatPrix(element.prix_unitaire) }}
               </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
             </ng-container>
 
             <ng-container matColumnDef="prix_total_commande">
@@ -209,24 +212,16 @@
               <i class="fa-solid fa-eye"></i>
                </button>
               </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
             </ng-container>
 
-            <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"
-            ></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            <tr
-              class="bg-sticky-footer"
-              mat-footer-row
-              *matFooterRowDef="displayedColumns; sticky: true"
-            ></tr>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+          <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements">
+         </mat-paginator>
         </div>
       </div>
     </div>

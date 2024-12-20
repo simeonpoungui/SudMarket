@@ -42,6 +42,7 @@ import { ArticleDeVentesComponent } from './vente/article-de-ventes/article-de-v
 import { FicheArticleDeVenteComponent } from './vente/fiche-article-de-vente/fiche-article-de-vente.component';
 import { VenteJournaliereByUserComponent } from './vente/vente-journaliere-by-user/vente-journaliere-by-user.component';
 import { RapportDeVenteVendeursComponent } from './vente/rapport-de-vente-vendeurs/rapport-de-vente-vendeurs.component';
+import { HistoriqueDeVenteByPointDeVenteComponent } from './vente/historique-de-vente-by-point-de-vente/historique-de-vente-by-point-de-vente.component';
 //Rapport Entities
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
@@ -76,6 +77,9 @@ import { BoutiqueFormComponent } from './boutique/boutique-form/boutique-form.co
 
 // Rentabilité
 import { RentabiliteComponent } from './rentabilite/rentabilite/rentabilite.component';
+import { HistoriqueSessionByPointDeVenteComponent } from './session-vente/historique-session-by-point-de-vente/historique-session-by-point-de-vente.component';
+import { ValidatePayementComponent } from './session-vente/validate-payement/validate-payement.component';
+import { PrintRecuComponent } from './session-vente/print-recu/print-recu.component';
 
 const routes: Routes = [
   // home page
@@ -128,7 +132,11 @@ const routes: Routes = [
   {path: 'article/view', component: FicheArticleDeVenteComponent},
   {path: 'vente-journaliere', component: VenteJournaliereByUserComponent},
   {path: 'rapport-de-vente-vendeurs', component: RapportDeVenteVendeursComponent},
+  {path: 'historique-de-vente/:id', component: HistoriqueDeVenteByPointDeVenteComponent},
 
+ // payement
+ {path: 'payement', component: ValidatePayementComponent},
+ {path: 'recu-vente', component: PrintRecuComponent},
 
 
   // Module commande achat
@@ -152,8 +160,10 @@ const routes: Routes = [
 
   // Module Session vente
   {path:'session-ventes', loadChildren: () => import('./session-vente/session-vente.module').then(m => m.SessionVenteModule)},
-  {path: 'session-vente', component: SessionVenteComponent},
+  {path: 'session-vente/:id', component: SessionVenteComponent},
   {path: 'session-vente-list', component: ListSessionVenteComponent},
+  {path: 'historique-session-by-point/:id', component: HistoriqueSessionByPointDeVenteComponent},
+
 
   // Module comptabilité
   {path:'comptabilite', loadChildren: () => import('./comptabilite/comptabilite.module').then(m => m.ComptabiliteModule)},

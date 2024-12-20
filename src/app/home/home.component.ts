@@ -73,7 +73,7 @@ export class HomeComponent {
   imageproduit: { [key: number]: string } = {};
   imageUsers: { [key: number]: string } = {};  
   imageproduitArticle: { [key: number]: string } = {}; 
-  
+  isloadingproduit!: boolean
 
   constructor(
     public globalService: GlobalService,
@@ -179,16 +179,33 @@ export class HomeComponent {
   }
 
   getListProduit() {
+    this.isloadingproduit = true
     const produit: GetProduit = { produit_id: 0 };
-    this.produitService.getList(produit).subscribe((data) => {
-      console.log(data.message);
-      this.produits = data.message;
-      this.produits.forEach((produit) => {
-        this.getImageByproduiID(produit.produit_id);
-      });
-    });
+    this.produitService.getList(produit).subscribe(
+      (data) => {
+        // Vérifiez si la réponse contient un tableau dans `message`
+        if (Array.isArray(data.message)) {
+          console.log(data.message);
+          this.produits = data.message;
+          this.isloadingproduit = false
+          // Itération sur les produits
+          this.produits.forEach((produit) => {
+            this.getImageByproduiID(produit.produit_id);
+          });
+        } else {
+          console.error('Les données reçues ne sont pas sous la forme attendue (tableau).', data);
+          // Gérer le cas où les données ne sont pas dans le bon format
+          this.produits = [];  // Optionnel: vous pouvez définir un tableau vide pour éviter des erreurs ultérieures
+        }
+      },
+      (error) => {
+        // Gérer les erreurs d'API
+        console.error('Erreur lors de la récupération des produits:', error);
+        this.produits = [];  // Optionnel: vous pouvez définir un tableau vide en cas d'erreur
+      }
+    );
   }
-
+  
 
   loadUsers(): void {
     const user: GetUser = {

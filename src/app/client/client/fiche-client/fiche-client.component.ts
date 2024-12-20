@@ -10,6 +10,7 @@ import { ClientsService } from 'src/app/Services/clients.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { Produit } from 'src/app/Models/produit.model';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-fiche-client',
@@ -18,11 +19,22 @@ import { Produit } from 'src/app/Models/produit.model';
 })
 export class FicheClientComponent {
 
+  dataSource!: any
+  displayedColumns = [
+    'produit_nom',
+    'quantite',
+    'prix_unitaire',
+    'prix_total_vente',
+    'point_de_vente_id'
+  ];
+
   @Input() action!:string;
   client!: Client;
   message!: any
   tbPointdeVente!: PointsDeVentes[]
   tbProduit!: any[]
+  sort: any;
+  paginator: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,7 +101,9 @@ export class FicheClientComponent {
     console.log(client);
     this.clientService.getListProduitAchetesByClient(client).subscribe(data => {
       console.log(data.message);
-      this.tbProduit = data.message
+      this.dataSource = new MatTableDataSource(data.message);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
       console.log(this.tbProduit);
     })
   }

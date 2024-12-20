@@ -4,6 +4,7 @@ export class Session {
     user_id!: number;
     start_time!: Date;
     end_time?: Date;
+    statut?: string
 }
 
 export class GetSession {
@@ -17,5 +18,6 @@ export class CodeResponse {
 
 export class CodeResponseOneSession {
     code!: string;
-    message!: Session;
+    detail!: Session;
+    message!: string;
 }

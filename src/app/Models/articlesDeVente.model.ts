@@ -6,9 +6,9 @@ export class ArticlesDeVentes {
   quantite!: number;
   prix_unitaire!: number;
   remise!: number;
-  benefice?: number;
+  benefice!: number;
   prix_total_vente?: any;
-  prix_de_revient?: number
+  prix_de_revient!: number
 }
 
 export class GetArticleDeVente {

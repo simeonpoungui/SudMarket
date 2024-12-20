@@ -1,18 +1,19 @@
 
 export class Vente {
     vente_id!: number;
+    session_id?: number
     montant_total!: number;
-    produit_id?: string
     client_id!: number;
-    point_de_vente_id?: number
+    point_de_vente_id!: number
     utilisateur_id!: number;
-    mode_de_paiement?: string
+    mode_de_paiement!: string
     date_vente?: any
-    caisse_vendeur_id?: number
-    total_benefice_vente?: number
+    caisse_vendeur_id!: number
+    total_benefice_vente!: number
+    note?: string
     articles!: ArticlesDeVentes[];
-
 }  
+
 export class VenteArticle {
   vente_id!: number;
   montant_total!: number;
@@ -22,17 +23,20 @@ export class VenteArticle {
   articles!: ArticlesDeVentes[];
 
 }
-  export interface ArticlesDeVentes {
-    article_de_vente_id: number;
-    vente_id: number;
-    produit_id: number;
-    quantite: number;
-    prix_unitaire: number;
-    prix_total_vente?: any;
-    date_article_vendu?: string;
-    benefice?: number
-    remise: number;
-  }
+
+export class ArticlesDeVentes {
+  article_de_vente_id!: number;
+  point_de_vente_id?: number; 
+  vente_id!: number;
+  produit_id!: number;
+  quantite!: number;
+  prix_unitaire!: number;
+  date_article_vendu?: string
+  remise!: number;
+  benefice!: number;
+  prix_total_vente?: any;
+  prix_de_revient!: number
+}
 
 export class GetVente {
     vente_id!: number;
@@ -51,6 +55,7 @@ export class Facture {
   date_facture!: Date;
   montant_total!: number;
   mode_de_paiement!: string;
+  utilisateur_id?: number
   client_id!: number;
   client_nom?: string;  
 }

@@ -1,27 +1,23 @@
 <main class="nxl-container">
-    <div class="nxl-content border">
-      <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
-        <div class="row">
-<!--     
-              <h2  class="fw-bold rounded rounded-4 shadow text-white py-1" style="background-color: #3454d1;">
-                  <span>Fiche du produit : </span>
-                  <span>{{produit.nom}}</span>
-              </h2> -->
-          <div class="col-12 mt-2">
-            <form             class="row border rounded rounded-4 bg-white  p-3 needs-validation">
-              <div class="row">
-                <div class="col-lg-4 rounded rounded-4 bg-light border border-5 p-3">
-                  <div class="w-75 m-auto mt-2">
-                    <img
-                      class="m-auto"
-                      [src]="image"
-                      style="width: 200px !important"
-                      *ngIf="image"
-                    />
-                  </div>
+  <div class="nxl-content border">
+    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+      <div class="row">
+        <div class="col-12 mt-2">
+          <form class="px-5 py-5 rounded rounded-4 bg-white needs-validation">
+            <div class="row">
+              <div class="col-lg-4 rounded rounded-4 bg-light border border-5">
+                <div class="w-75 m-auto mt-2">
+                  <img
+                    class="m-auto"
+                    [src]="image"
+                    style="width: 200px !important"
+                    *ngIf="image"
+                  />
                 </div>
-                <div class="col-lg-8">
-                  <div class="col-lg-12">
+              </div>
+              <div class="col-lg-8 p-0">
+                <div class="row ps-lg-4">
+                  <div class="col-lg-6">
                     <label for="validationCustom01" class="form-label label"
                       >Nom du produit</label
                     >
@@ -33,8 +29,8 @@
                       [(ngModel)]="produit.nom"
                     />
                   </div>
-      
-                  <div class="col-lg-12 mt-3">
+
+                  <div class="col-lg-6">
                     <label for="validationCustom01" class="form-label label"
                       >Description</label
                     >
@@ -46,88 +42,87 @@
                       [(ngModel)]="produit.description"
                     />
                   </div>
-      
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Categorie</label
+                    >
+                    <input
+                      [readonly]="action == 'view'"
+                      type="text"
+                      class="form-control"
+                      name="produit.categorie"
+                      [(ngModel)]="produit.categorie"
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Prix</label
+                    >
+                    <input
+                      [readonly]="action == 'view'"
+                      type="text"
+                      class="form-control"
+                      name="produit.prix"
+                      [(ngModel)]="produit.prix"
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Quantité en stock</label
+                    >
+                    <input
+                      [readonly]="action == 'view'"
+                      type="text"
+                      class="form-control"
+                      name="produit.quantite_en_stock"
+                      [(ngModel)]="produit.quantite_en_stock"
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Niveau de reapprovisionnement</label
+                    >
+                    <input
+                      [readonly]="action == 'view'"
+                      type="text"
+                      class="form-control"
+                      name="produit.niveau_de_reapprovisionnement"
+                      [(ngModel)]="produit.niveau_de_reapprovisionnement"
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Code produit</label
+                    >
+                    <input
+                      [readonly]="action == 'view'"
+                      type="text"
+                      class="form-control"
+                      name="produit.code_produit"
+                      [(ngModel)]="produit.code_produit"
+                    />
+                  </div>
+                  <div class="col-lg-6 mt-3">
+                    <label for="validationCustom01" class="form-label label"
+                      >Point de vente</label
+                    >
+                    <input
+                      [readonly]="action == 'view'"
+                      type="text"
+                      class="form-control"
+                      name="produit.point_de_vente_id"
+                      [value]="getPointName(produit.point_de_vente_id)"
+                    />
+                  </div>
                 </div>
               </div>
-       
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Categorie</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="produit.categorie"
-                  [(ngModel)]="produit.categorie"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Prix</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="produit.prix"
-                  [(ngModel)]="produit.prix"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Quantité en stock</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="produit.quantite_en_stock"
-                  [(ngModel)]="produit.quantite_en_stock"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Niveau de reapprovisionnement</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="produit.niveau_de_reapprovisionnement"
-                  [(ngModel)]="produit.niveau_de_reapprovisionnement"
-                />
-              </div>
-
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Code produit</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="produit.code_produit"
-                  [(ngModel)]="produit.code_produit"
-                />
-              </div>
-
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Point de vente</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="produit.point_de_vente_id"
-                  [value]="getPointName(produit.point_de_vente_id)"
-                />
-              </div>
-
+            </div>
+            <div class="row">
               <div class="col-lg-6 mt-3">
                 <label for="validationCustom01" class="form-label label"
                   >Date de modification</label
@@ -153,22 +148,28 @@
                   [value]="globalService.formatDate(produit.cree_le)"
                 />
               </div>
-
               <div class="col-lg-2 mt-3">
-                <button (click)="updateproduit()" class="form-control btn bg-update text-white">
+                <button
+                  (click)="updateproduit()"
+                  class="form-control btn bg-update text-white"
+                >
                   Modifier <i class="fa-solid text-white mx-1 fa-pen"></i>
                 </button>
               </div>
   
               <div class="col-lg-2 mt-3">
-                <button (click)="deleteproduit()" class="form-control bg-delete btn text-white">
+                <button
+                  (click)="deleteproduit()"
+                  class="form-control bg-delete btn text-white"
+                >
                   Supprimer <i class="fa-solid mx-1 text-white fa-trash"></i>
                 </button>
               </div>
-            </form>
-          </div>
+            </div>
+
+          </form>
         </div>
       </div>
     </div>
-  </main>
-  
+  </div>
+</main>

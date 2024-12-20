@@ -29,7 +29,7 @@ export class GlobalService {
     }
   }
 
-  formatPrix(prix: number, separateur: string = ' ', device: string = 'FCFA') {
+  formatPrix(prix: number, separateur: string = ' ', device: string = 'XAF') {
     let reverse: string[] = prix.toString().split('').reverse();
     let prixFormated: string = '';
 

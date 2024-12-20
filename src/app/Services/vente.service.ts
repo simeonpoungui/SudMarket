@@ -94,7 +94,11 @@ export class VenteService {
   }
 
   //facture
-  ImpressionFacture(data: Facture): Observable<any> {
+  ImpressionFacture(facture: Facture, vente: Vente): Observable<any> {
+    const data = {
+      facture: facture,
+      vente: vente
+    }
     console.log(data);
     console.log(environment.apiUrl + this.uriimpressionfacture);
     return this.httpclient.post(environment.apiUrl + this.uriimpressionfacture, data, {

@@ -1,24 +1,26 @@
 <main class="nxl-container">
   <div class="nxl-content">
-    <div class="col-lg-10 m-lg-auto py-3 px-lg-5">
-          <div class="row p-0 mb-3">
-            <div class="col-lg-9">
-              <h1 class="py-1 text-uppercase rounded rounded-4 fs-3">
+    <div class="col-lg-11 m-lg-auto py-3 px-5">
+          <div class="row pt-3 p-0 mb-3">
+            <div class="col-lg-10">
+              <h1 class="py-1 text-uppercase rounded rounded-2 fs-3">
                  points de vente
               </h1>
             </div>
-            <div class="col-lg-3">
-              <button
-              routerLink="/point/vente/create"
-                class="form-control rounded rounded-4  btn text-white bg-primary"
-              >
-              <i class="fa-solid mx-1 fa-plus"></i>  Créer un point de vente 
-              </button>
+            <div class="col-lg-2">
+              <div class="col-lg-12 p-0">
+                <button
+                routerLink="/point/vente/create"
+                  class="form-control rounded rounded-2  btn text-white bg-primary"
+                >
+                <i class="fa-solid mx-2 fa-plus"></i>  Créer un point de vente 
+                </button>
+              </div>
             </div>
           </div>
           <div class="row ">
-            <div class="col-lg-6 bg-white rounded rounded-4 py-3" *ngFor="let point of TbPointDeVente">
-              <div class="bg-light rounded mx-1 rounded-5 px-3 py-3">
+            <div class="col-lg-6 rounded rounded-2 py-3" *ngFor="let point of TbPointDeVente">
+              <div class="bg-white rounded mx-1 rounded-4 px-5 py-5">
                 <div class="row">
                   <div class="col-lg-10">
                     <p class="fw-bold text-uppercase pt-1 fs-5">
@@ -30,7 +32,7 @@
                    <p style="margin-top: -30px;" class="fw-bold text-dark fs-1">...</p>
                     </button>
                     <mat-menu #menu="matMenu">
-                      <button mat-menu-item>
+                      <button (click)="HistoriqueSession(point.point_de_vente_id)" mat-menu-item>
                         Historique sessions
                       </button>
                       <button (click)="actions(point)" mat-menu-item>
@@ -41,37 +43,38 @@
                 </div>
                 <div class="row mt-3">
                   <div class="col-lg-8">
-                    <div class="col-5">
+                    <div class="col-lg-5">
                       <button
-                      routerLink="/session-vente"
-                        class="form-control rounded rounded-4 btn text-white bg-primary"
+                      (click)="ouvrirPdv(point)"
+                        class="form-control rounded rounded-2 btn text-white bg-primary"
                       >
                         Ouvrir le pdv
                       </button>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-lg-4 mt-2 mt-lg-0">
                     <p class="">
-                      <span class=" fs-5 fw-bold text-dark">Fermeture</span><br>
-                      <span>Fermeture</span>
+                       <span style="font-size: 18px;" class=" fw-bold text-dark">Fermeture</span><br>
+                      <span>{{formatDate(dateFermeture)}}</span>
                     </p>
                     
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-8">
-                    <div class="col-5">
+                    <div class="col-lg-6">
                       <button
-                        class="form-control rounded rounded-4 btn text-white bg-primary"
+                        (click)="historique(point.point_de_vente_id)"
+                        class="form-control rounded rounded-2 btn text-white bg-primary"
                       >
                         Historique ventes
                       </button>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-lg-4 mt-2 mt-lg-0">
                     <p >
-                      <span class="text-center fs-5 fw-bold text-dark">Solde</span><br>
-                      <span>100.000</span>
+                      <span style="font-size: 18px;"  class="text-center fw-bold text-dark">Solde</span><br>
+                      <span>{{globalService.formatPrix(soldeFermeture)}}</span>
                     </p>
                   </div>
                 </div>

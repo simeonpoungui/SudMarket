@@ -12,6 +12,7 @@ import { FicheArticleDeVenteComponent } from './fiche-article-de-vente/fiche-art
 import { VenteJournaliereByUserComponent } from './vente-journaliere-by-user/vente-journaliere-by-user.component';
 import { RouterModule } from '@angular/router';
 import { RapportDeVenteVendeursComponent } from './rapport-de-vente-vendeurs/rapport-de-vente-vendeurs.component';
+import { HistoriqueDeVenteByPointDeVenteComponent } from './historique-de-vente-by-point-de-vente/historique-de-vente-by-point-de-vente.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RapportDeVenteVendeursComponent } from './rapport-de-vente-vendeurs/rap
     ArticleDeVentesComponent,
     FicheArticleDeVenteComponent,
     VenteJournaliereByUserComponent,
-    RapportDeVenteVendeursComponent
+    RapportDeVenteVendeursComponent,
+    HistoriqueDeVenteByPointDeVenteComponent
   ],
   imports: [
     CommonModule,
