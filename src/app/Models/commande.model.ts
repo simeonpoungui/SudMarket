@@ -6,6 +6,7 @@ export class CommandeAchat {
     date_commande?: string;
     montant_total!: number;
     statut?: string;
+    statut_validation?: string
     utilisateur_id!: number;
     articles?: ArticlesDeCommandeDAchat[];
 
@@ -28,6 +29,7 @@ export class GetCommandeAchat {
 export class CodeResponse {
     code!:string
     message!:CommandeAchat[]
+    commande_achat_id!: number
 }
 
 export class CodeResponseOneCommandeAchat{

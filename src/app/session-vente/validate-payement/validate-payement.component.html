@@ -2,6 +2,7 @@
   <div class="nxl-content">
     <div class="p-2 m-lg-auto">
       <div class="row">
+        <!-- Colonne de sélection du mode de paiement -->
         <div class="col-lg-3">
           <div class="p-2 rounded rounded-2" style="height: 400px">
             <div class="row">
@@ -17,22 +18,23 @@
               </div>
             </div>
           </div>
+          
+ 
           <div class="col-lg-12 mt-3">
             <div class="px-2">
               <div class="row mb-2">
                 <div class="col-lg-6 p-1">
-                  <button class="form-control py-2 text-black mx-1">
-                    client
+                  <button (click)="chooseClient()" class="form-control bg-primary text-white py-2 text-black mx-1">
+                    {{!clientSelected ? 'Client' : clientSelected.nom}}
                   </button>
                 </div>
                 <div class="col-lg-6 p-1">
-                  <button
-                    class="form-control py-2 text-black"
-                    data-bs-toggle="modal"
-                    data-bs-target="#note"
-                  >
-                    Facture
-                  </button>
+                  <div class="form-check bg-white border rounded rounded-3 py-2  d-flex align-items-center justify-content-between">
+                    <div class="form-check-label" for="flexCheckDefault">
+                      facture
+                    </div>
+                    <input class="form-check-input mx-3" type="checkbox" value="" id="flexCheckDefault">
+                  </div>
                 </div>
               </div>
               <div class="row">
@@ -82,7 +84,7 @@
             <div class="row">
               <div class="col-lg-6">
                 <div class="bg-white rounded border rounded-2 p-1">
-                  <button class="form-control border-0 fs-6 text-black">
+                  <button (click)="back()" class="form-control border-0 fs-6 text-black">
                     Retour
                   </button>
                 </div>
@@ -100,6 +102,8 @@
             </div>
           </div>
         </div>
+        
+        <!-- Colonne de récapitulatif de paiement -->
         <div class="col-lg-9 px-3">
           <div class="bg-white row">
             <p class="text-center fs-2 fw-bold py-4">{{globalService.formatPrix(montant_total)}}</p>
@@ -114,7 +118,13 @@
               justify-content: center;
             "
           >
-
+                   <!-- Message de sélection d'un mode de paiement -->
+                   <div class="col-12 mt-3" *ngIf="!mode_de_paiement">
+                    <div class="alert alert-info text-center">
+                      <strong>Sélectionnez un moyen de paiement</strong>
+                    </div>
+                  </div>
+                  
             <div class="col-lg-10" *ngIf="selectedPayments.length > 0">
               <div class="row px-3 py-3 rounded rounded-2 bg-primary">
                 <div class="col-lg-6">
@@ -124,12 +134,11 @@
                   <p class="text-end text-white fs-4">0</p>
                 </div>
               </div>
-              <div class="row"> <!-- Affiche seulement si au moins un paiement est sélectionné -->
+              <div class="row">
                 <div class="mt-3 border bg-light py-3 px-3 d-flex justify-content-between align-items-center" *ngFor="let selectedPayment of selectedPayments; let i = index">
                   {{ selectedPayment }}
                   <div>
                     <span class="mx-3 fw-bold text-black">
-                      <!-- Affiche le montant de la vente seulement pour le premier paiement sélectionné -->
                       {{ i === 0 ? globalService.formatPrix(montant_total) : globalService.formatPrix(0) }}
                     </span>
                     <span class="text-danger" (click)="removePayment(i)">
@@ -145,9 +154,3 @@
     </div>
   </div>
 </main>
-
-<ng-template #loader>
-  <div class="text-center">
-    <app-loader></app-loader>
-  </div>
-</ng-template>

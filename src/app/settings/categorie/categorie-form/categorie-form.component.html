@@ -1,0 +1,43 @@
+<div class="container-fluid rounded rounded-4">
+    <div class="row">
+      <div class="col-lg-12">
+        <form
+          #categorieForm="ngForm"
+          (ngSubmit)="onSubmitCategorieForm(categorieForm)"
+          class="row bg-white shadow p-3 needs-validation"
+        >
+          <!-- Champ Nom -->
+          <div class="col-lg-12">
+            <label for="nom" class="form-label label">Nom de la catégorie</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nom"
+              [(ngModel)]="nom"
+              required
+            />
+          </div>
+  
+          <!-- Champ Description -->
+          <div class="col-lg-12 mt-3">
+            <label for="description" class="form-label label">Description</label>
+            <textarea
+              class="form-control"
+              name="description"
+              rows="3"
+              [(ngModel)]="description"
+              required
+            ></textarea>
+          </div>
+  
+          <!-- Bouton Valider -->
+          <div class="col-lg-3 mt-3">
+            <button type="submit" class="form-control bg-primary text-white">
+              Valider <i class="fa-solid mx-2 fa-arrows-rotate"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

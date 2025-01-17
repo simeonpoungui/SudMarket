@@ -22,9 +22,9 @@ h1 {
     background-color:#f1f1f1;
 }
 
-mat-paginator{
-  background-color: $primary-color;
-}
+// mat-paginator{
+//   background-color: $primary-color;
+// }
 
 .md-dialog {
   opacity: 0;
@@ -33,7 +33,7 @@ mat-paginator{
 tr{
     &:hover{
       & td{
-        background:#0f172a;;
+        background:rgb(182, 181, 181);
         color: white !important;
       }
     }

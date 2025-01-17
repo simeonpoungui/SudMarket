@@ -2,8 +2,11 @@
   <div class="nxl-content">
     <div class="p-2 m-lg-auto">
       <div class="row">
-        <div class="col-lg-3 ">
-          <div class="bg-white border p-2 rounded rounded-2" style="height: 400px">
+        <div class="col-lg-3">
+          <div
+            class="bg-white border p-2 rounded rounded-2"
+            style="height: 400px"
+          >
             <div
               *ngIf="!isloadingpage; else loader"
               class="table-responsive"
@@ -49,7 +52,7 @@
               </div>
               <div class="col-lg-6">
                 <p class="fs-5 px-3 text-end text-dark fw-bold">
-                  {{ montantTotalDeLaVente}}
+                  {{ montantTotalDeLaVente }}
                 </p>
               </div>
             </div>
@@ -58,17 +61,32 @@
             <div class="px-2">
               <div class="row mb-2">
                 <div class="col-lg-4 p-0">
-                  <button (click)="chooseClient()" class="form-control bg-primary py-2 text-white mx-1">{{!clientSelected ? 'Client' : clientSelected.nom}}</button>
-                </div>
-                <div class="col-lg-4 ">
-                  <button class="form-control bg-primary py-2 text-white " data-bs-toggle="modal" data-bs-target="#note">Note</button>
+                  <button
+                    (click)="chooseClient()"
+                    class="form-control bg-primary py-2 text-white mx-1"
+                  >
+                    {{ !clientSelected ? "Client" : clientSelected.nom }}
+                  </button>
                 </div>
                 <div class="col-lg-4">
-                  <button type="button" class="form-control border py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <button
+                    class="form-control bg-primary py-2 text-white"
+                    data-bs-toggle="modal"
+                    data-bs-target="#note"
+                  >
+                    Note
+                  </button>
+                </div>
+                <div class="col-lg-4">
+                  <button
+                    type="button"
+                    class="form-control border py-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                  >
                     Actions
-                  </button>    
-        
-           </div>
+                  </button>
+                </div>
               </div>
               <div class="row">
                 <div class="col-lg-8 calculatrice">
@@ -132,14 +150,17 @@
                       class="form-control fs-5"
                       (click)="selectAction('reset')"
                     >
-                    <i class="fa-solid fa-trash"></i>
+                      <i class="fa-solid fa-trash"></i>
                     </button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="bg-primary p-3">
-              <button (click)="ValidatePaiement()" class="form-control border-0 bg-primary fs-5 text-white">
+              <button
+                (click)="ValidatePaiement()"
+                class="form-control border-0 bg-primary fs-5 text-white"
+              >
                 Valider le payement <i class="fa-solid mx-2 fa-arrow-right"></i>
               </button>
             </div>
@@ -148,82 +169,44 @@
         <div class="col-lg-9 bg-white py-2 px-3">
           <div>
             <ul class="nav nav-tabs mb-3 overflow-auto" id="myTab" role="tablist" style="white-space: nowrap; overflow-x: auto; max-width: 100%; flex-wrap: nowrap;">
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 active bg-secondary text-uppercase " id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Chaises</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Bureau</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Table</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="sofa-tab" data-bs-toggle="tab" href="#sofa" role="tab" aria-controls="sofa" aria-selected="false">Canapés</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="lamp-tab" data-bs-toggle="tab" href="#lamp" role="tab" aria-controls="lamp" aria-selected="false">Lampes</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="bed-tab" data-bs-toggle="tab" href="#bed" role="tab" aria-controls="bed" aria-selected="false">Lits</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="cupboard-tab" data-bs-toggle="tab" href="#cupboard" role="tab" aria-controls="cupboard" aria-selected="false">Armoires</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="shelves-tab" data-bs-toggle="tab" href="#shelves" role="tab" aria-controls="shelves" aria-selected="false">Étagères</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link text-white fs-6 bg-secondary text-uppercase mx-3" id="rug-tab" data-bs-toggle="tab" href="#rug" role="tab" aria-controls="rug" aria-selected="false">Tapis</a>
+              <li class="nav-item mx-3" *ngFor="let category of TbCategorie" role="presentation">
+                <a
+                  class="nav-link text-white fs-6"
+                  [class.active]="category === selectedCategory" 
+                  id="{{category.nom}}-tab"
+                  data-bs-toggle="tab"
+                  href="#{{category.nom}}"
+                  role="tab"
+                  [attr.aria-controls]="category.nom"
+                  [attr.aria-selected]="category === selectedCategory"  
+                  (click)="selectedCategory = category"> 
+                  {{ category.nom }}
+                </a>
               </li>
             </ul>
-            
+
             <!-- Le contenu des onglets -->
             <div class="tab-content" id="myTabContent">
-              <div
-                class="tab-pane fade show active"
-                id="home"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-              >
+              <div *ngFor="let category of TbCategorie" class="tab-pane fade" [id]="category.nom" role="tabpanel" [attr.aria-labelledby]="category.nom + '-tab'" [ngClass]="{'show active': category === selectedCategory}">
                 <div class="row" style="max-height: 700px; overflow-y: auto">
                   <div
-                    style="cursor: pointer"
-                    *ngFor="let produit of tbProduit"
+                    *ngFor="let produit of categorizedProducts[category.categorie_id]"
                     class="col-lg-2 px-2 mb-3"
-                    (click)="ajouterArticle(produit)"
-                  >
-                    <div
-                      class="rounded rounded-4"
-                      style="background-color: #eeeeee"
-                    >
-                      <div class="w-100 px-4 pt-3 m-auto h-100">
-                        <img
-                          class="w-100"
-                          [src]="imageproduit[produit.produit_id]"
-                        />
+                    (click)="ajouterArticle(produit)">
+                    <div class="rounded rounded-4" style="background-color: #eeeeee">
+                      <div class="w-100 px-4 pt-3 m-auto h-100 image-container">
+                        <img class="w-100 h-100" [src]="imageproduit[produit.produit_id]" />
                       </div>
-
-                      <div
-                        class="mt-3 bg-primary pt-3 pb-3 px-4"
-                        style="height: 83px; border-radius: 10px;"
-                      >
+                      
+                      <div class="mt-3 bg-primary pt-3 pb-3 px-4" style="height: 83px; border-radius: 10px">
                         <div class="row">
-                          <div class="col-lg-10" style="line-height: 1.1;">
+                          <div class="col-lg-10" style="line-height: 1.1">
                             <p class="text-white" style="font-size: 12px">{{ produit.nom }}</p>
-                            <p
-                              style="color:#ffcb2f; font-size: 14px;"
-                              class="fw-bold"
-                            >
-                              {{ produit.prix }} XAF
-                            </p>
+                            <p style="color: #ffcb2f; font-size: 14px" class="fw-bold">{{ produit.prix }} XAF</p>
                           </div>
                           <div class="col-lg-2 p-0">
                             <p class="text-white fw-bold fs-2 pt-2">
-                              <span
-                                *ngIf="quantitesProduits[produit.produit_id]"
-                              >
-                                {{ quantitesProduits[produit.produit_id] }}
-                              </span>
+                              <span *ngIf="quantitesProduits[produit.produit_id]">{{ quantitesProduits[produit.produit_id] }}</span>
                             </p>
                           </div>
                         </div>
@@ -232,78 +215,6 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="tab-pane fade"
-                id="profile"
-                role="tabpanel"
-                aria-labelledby="profile-tab"
-              >
-                <h5>Bureau</h5>
-                <p>Voici le contenu de l'onglet Bureau.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="contact"
-                role="tabpanel"
-                aria-labelledby="contact-tab"
-              >
-                <h5>Table</h5>
-                <p>Voici le contenu de l'onglet Table.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="sofa"
-                role="tabpanel"
-                aria-labelledby="sofa-tab"
-              >
-                <h5>Canapés</h5>
-                <p>Voici le contenu de l'onglet Canapés.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="lamp"
-                role="tabpanel"
-                aria-labelledby="lamp-tab"
-              >
-                <h5>Lampes</h5>
-                <p>Voici le contenu de l'onglet Lampes.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="bed"
-                role="tabpanel"
-                aria-labelledby="bed-tab"
-              >
-                <h5>Lits</h5>
-                <p>Voici le contenu de l'onglet Lits.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="cupboard"
-                role="tabpanel"
-                aria-labelledby="cupboard-tab"
-              >
-                <h5>Armoires</h5>
-                <p>Voici le contenu de l'onglet Armoires.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="shelves"
-                role="tabpanel"
-                aria-labelledby="shelves-tab"
-              >
-                <h5>Étagères</h5>
-                <p>Voici le contenu de l'onglet Étagères.</p>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="rug"
-                role="tabpanel"
-                aria-labelledby="rug-tab"
-              >
-                <h5>Tapis</h5>
-                <p>Voici le contenu de l'onglet Tapis.</p>
-              </div>
             </div>
           </div>
         </div>
@@ -311,46 +222,94 @@
     </div>
   </div>
 </main>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel text-uppercase ">Actions</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title fs-5" id="exampleModalLabel text-uppercase ">
+          Actions
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-         <div class="row">
+        <div class="row">
           <div class="col-lg-6 mb-3">
-            <button (click)="resetSale()" data-bs-dismiss="modal" class="bg-primary text-white form-control py-3"><i class="fa-solid mx-2 fa-trash"></i> Renitialiser la vente</button>
+            <button
+              (click)="resetSale()"
+              data-bs-dismiss="modal"
+              class="bg-primary text-white form-control py-3"
+            >
+              <i class="fa-solid mx-2 fa-trash"></i> Renitialiser la vente
+            </button>
           </div>
-         </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" (click)="endSession()" class="btn btn-secondary" data-bs-dismiss="modal">Fermer ma session</button>
+        <button
+          type="button"
+          (click)="endSession()"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Fermer ma session
+        </button>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="note" tabindex="-1" aria-labelledby="noteLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="note"
+  tabindex="-1"
+  aria-labelledby="noteLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-uppercase" id="noteLabel text-uppercase">Rediger une note</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1
+          class="modal-title fs-5 text-uppercase"
+          id="noteLabel text-uppercase"
+        >
+          Rediger une note
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="form-floating">
-          <textarea (input)="valueNote($event)" class="form-control" id="floatingTextarea2" style="height: 100px"></textarea>
+          <textarea
+            (input)="valueNote($event)"
+            class="form-control"
+            id="floatingTextarea2"
+            style="height: 100px"
+          ></textarea>
           <label for="floatingTextarea2">Une courte description</label>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Inserer</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Inserer
+        </button>
       </div>
     </div>
   </div>
 </div>
-
 
 <ng-template #loader>
   <div class="text-center">

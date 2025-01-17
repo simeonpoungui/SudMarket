@@ -13,8 +13,10 @@ import { RoleService } from 'src/app/Services/role.service';
 export class RoleFormComponent {
   action!: string;
   role!: Role;
+  roleString !: string
   role_id!: number;
   nom_role!: string;
+  openBycomponentRole!: boolean
   permissions!: string[];
   roles: string[] = ['Admin', 'User', 'Guest']; 
 
@@ -27,6 +29,8 @@ export class RoleFormComponent {
   ngOnInit(): void {
     console.log(this.role);
     console.log(this.action);
+    console.log(this.openBycomponentRole);
+    
     if (this.action === 'edit') {
       this.initFormRoleUpdate();
     }
@@ -34,7 +38,7 @@ export class RoleFormComponent {
   
   initFormRoleUpdate() {
     (this.nom_role = this.role.nom_role),
-      (this.permissions = this.role.permissions);
+    (this.permissions = this.role.permissions);
   }
 
   onSubmitForm(form: NgForm) {
@@ -58,6 +62,11 @@ export class RoleFormComponent {
       console.log(role);
        this.roleService.createRole(role).subscribe(data => {
          console.log(data);
+         if (this.openBycomponentRole == true) {
+          this.roleString = data.message.nom_role
+          console.log(this.roleString);
+          this.dialog.getDialogById('RoleFormComponent')?.close(true)
+         }
          this.dialog.getDialogById('RoleFormComponent')?.close(true)
          this.globalService.toastShow('Role ajouté avec succès','Succès','success')
        })

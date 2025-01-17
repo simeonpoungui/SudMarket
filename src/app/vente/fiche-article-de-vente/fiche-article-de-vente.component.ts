@@ -55,7 +55,7 @@ export class FicheArticleDeVenteComponent {
 
   getProduitName(produit_id: number): string {
     const produit = this.tbProduit.find(p => p.produit_id === produit_id);
-    return produit ? (produit.nom ) + ' ' + (produit.categorie ): '';
+    return produit ? (produit.nom ): '';
   }
 
 

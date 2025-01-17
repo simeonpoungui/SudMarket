@@ -80,6 +80,8 @@ import { RentabiliteComponent } from './rentabilite/rentabilite/rentabilite.comp
 import { HistoriqueSessionByPointDeVenteComponent } from './session-vente/historique-session-by-point-de-vente/historique-session-by-point-de-vente.component';
 import { ValidatePayementComponent } from './session-vente/validate-payement/validate-payement.component';
 import { PrintRecuComponent } from './session-vente/print-recu/print-recu.component';
+import { NotificationsCommandesComponent } from './settings/notifications-commandes/notifications-commandes.component';
+import { AchatComponent } from './commande-achat/achat/achat.component';
 
 const routes: Routes = [
   // home page
@@ -101,6 +103,8 @@ const routes: Routes = [
   { path: 'role', component: RoleComponent},
   { path: 'role-form', component: RoleFormComponent},
   { path: 'notification-produit-stock', component: NotificationsStockProduitsComponent},
+  { path: 'notification-commandes', component: NotificationsCommandesComponent},
+
   { path: 'points-de-ventes', component: PointsDeVentesComponent},
   { path: 'point/vente/view', component: FichePointDeVenteComponent},
   { path: 'point/vente/:action', component: FichePointDeVenteFormComponent},
@@ -144,9 +148,11 @@ const routes: Routes = [
   {path: 'commande/achat/list', component: CommandeAChatComponent},
   {path: 'commande/achat/view', component: CommandeAChatFicheComponent},
   {path: 'commande/achat/:action', component: CommandeAChatFormComponent},
+  {path: 'commande/achat/:action/:id', component: CommandeAChatFormComponent},
   {path: 'article-commande-achat', component: ArticlesCommandesAchatsComponent},
   {path: 'session-commande-achat', component: SessionCommandeComponent},
   {path: 'articles/commande/view', component: FicheArticleDeCommandeComponent},
+  {path: 'achats-list', component: AchatComponent},
 
   // Module rapport
   {path:'rapports', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},

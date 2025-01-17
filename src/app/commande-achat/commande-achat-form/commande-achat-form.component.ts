@@ -13,6 +13,9 @@ import { CommandeService } from 'src/app/Services/commande.service';
 import { CommandeAchat, GetCommandeAchat } from 'src/app/Models/commande.model';
 import { Fournisseur, GetFournisseur } from 'src/app/Models/fournisseur.model';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { ProduitService } from 'src/app/Services/produit.service';
+import { GetProduit, Produit } from 'src/app/Models/produit.model';
 
 @Component({
   selector: 'app-commande-achat-form',
@@ -28,24 +31,46 @@ export class CommandeAChatFormComponent {
   point_de_vente_id?: number;
   fournisseur_id!: number;
   date_commande?: string;
+  statut_validation?: string
   montant_total!: number;
   statut?: string;
   utilisateur_id!: number;
 
   tbUsers: Utilisateur[] = [];
   tbClients: Client[] = [];
+  tbProduit!: Produit[]
   tbFournisseurs!: Fournisseur[];
   tbPointdeVente!: PointsDeVentes[];
   statuts = [
-    { value: 'terminé', label: 'terminé' },
-    { value: 'En attente', label: 'En attente' },
+    { value: 'livrée', label: 'Livrée' },
+    { value: 'en cours de livraison', label: 'En cours de livraison' },
   ];
 
+  statutsValidation = [
+    { value: 'en attente', label: 'En attente' },
+    { value: 'validée', label: 'Validée' },
+    { value: 'rejetée', label: 'Rejetée' },
+  ];
+
+  dataSource!: any
+  displayedColumns = [
+    'produit_id',
+    'quantite',
+    'prix_unitaire',
+    'prix_total_commande',
+    'point_de_vente_id',
+    'date_commande'
+  ];
   sendIDcommande!: GetCommandeAchat;
+  sort: any;
+  paginator: any;
+  disabelBtnValidate?: string
+  isloadingBtnValidateCommande!: boolean
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private produitService: ProduitService,
     public globalService: GlobalService,
     private dialog: MatDialog,
     private userService: UsersService,
@@ -56,17 +81,77 @@ export class CommandeAChatFormComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.action);
-    const commandeJSON = localStorage.getItem('selectedCommande');
-    if (commandeJSON) {
-      this.commandes = JSON.parse(commandeJSON);
-      console.log(this.commandes);
-      this.initFormCommande();
+    this.commande_achat_id = this.route.snapshot.params['id']
+    console.log(this.commande_achat_id);
+    if (this.commande_achat_id) {
+      this.getOneCommandeAchat()
+    }else{
+      console.log(this.action);
+      const commandeJSON = localStorage.getItem('selectedCommande');
+      if (commandeJSON) {
+        this.commandes = JSON.parse(commandeJSON);
+        console.log(this.commandes);
+        this.disabelBtnValidate = this.commandes.statut
+        this.initFormCommande();
+      }
     }
+
     this.loadClient();
     this.loadUsers();
     this.loadPointDeVente();
+    this.getArticlesCommande()
     this.loadFournisseur();
+    this.loadProduit()
+  }
+  
+    
+    loadProduit(){
+      const produit : GetProduit = {produit_id: 0}
+      this.produitService.getList(produit).subscribe(data => {
+        console.log(data.message);
+        this.tbProduit = data.message
+      })
+    }
+
+
+  getProduitName(produit_id: number): string {
+    const produit = this.tbProduit.find(p => p.produit_id === produit_id);
+    return produit ? (produit.nom ): '';
+  }
+
+    getArticlesCommande(){
+      const commandeID: GetCommandeAchat = {
+        commande_achat_id: this.commande_achat_id
+      }
+      this.commandeService.getArticleCommandeByCommandeID(commandeID).subscribe(data => {
+        console.log(data.message);
+        this.dataSource = new MatTableDataSource(data.message);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        if (typeof data.message === 'string') {
+          this.globalService.toastShow('Aucun article commandé','Information','info')
+        }
+      } )
+    }
+
+    
+
+  getOneCommandeAchat(){
+    const commande_achat_id: GetCommandeAchat = {
+      commande_achat_id: this.commande_achat_id
+    }
+    this.commandeService.getOne(commande_achat_id).subscribe(res =>{
+      console.log(res.message);
+      this.disabelBtnValidate = res.message.statut
+      this.commande_achat_id = res.message.commande_achat_id;
+      this.point_de_vente_id = res.message.point_de_vente_id;
+      this.fournisseur_id = res.message.fournisseur_id;
+      this.date_commande = res.message.date_commande;
+      this.statut_validation = res.message.statut_validation
+      this.montant_total = res.message.montant_total;
+      this.statut = res.message.statut;
+      this.utilisateur_id = res.message.utilisateur_id;
+    })
   }
 
   initFormCommande() {
@@ -77,6 +162,7 @@ export class CommandeAChatFormComponent {
     this.montant_total = this.commandes.montant_total;
     this.statut = this.commandes.statut;
     this.utilisateur_id = this.commandes.utilisateur_id;
+    this.statut_validation = this.commandes.statut_validation
   }
 
   loadPointDeVente() {
@@ -105,7 +191,7 @@ export class CommandeAChatFormComponent {
   loadFournisseur() {
     const fournisseur: GetFournisseur = { fournisseur_id: 0 };
     this.fournisseurService.getList(fournisseur).subscribe((data) => {
-      console.log(data);
+      console.log(data.message);
       this.tbFournisseurs = data.message;
     });
   }
@@ -138,19 +224,30 @@ export class CommandeAChatFormComponent {
   }
 
   updateCommande() {
-    const CommandeAchat: CommandeAchat = {
-      commande_achat_id: this.commandes.commande_achat_id,
-      fournisseur_id: this.commandes.fournisseur_id,
-      montant_total: this.commandes.montant_total,
-      utilisateur_id: this.commandes.utilisateur_id,
+    this.isloadingBtnValidateCommande = true
+    const Commande: CommandeAchat = {
+      commande_achat_id: this.commande_achat_id,
+      fournisseur_id: this.fournisseur_id,
+      montant_total: this.montant_total,
+      utilisateur_id: this.utilisateur_id,
       statut: this.statut,
-      date_commande: this.commandes.date_commande,
-    };
-    console.log(CommandeAchat);
-    this.commandeService.update(CommandeAchat).subscribe((data) => {
-      console.log(data.message);
-      this.updateProduitStockBycommande();
-    });
+      date_commande: this.date_commande,
+      statut_validation : this.statut_validation
+   }
+    
+     console.log(Commande);
+     this.commandeService.update(Commande).subscribe((data) => {
+       console.log(data.message);
+       if (data.code == 'succes' && Commande.statut == "livrée" && Commande.statut_validation == "validée") {
+        this.updateProduitStockBycommande();
+        this.isloadingBtnValidateCommande = false
+       }else{
+        this.isloadingBtnValidateCommande = false
+        this.message = data.message
+        this.globalService.toastShow(this.message, 'Succès');
+        this.router.navigateByUrl('commande/achat/list');
+       }
+     });
   }
 
   updateCommandeProduitStock(event: any) {
@@ -163,9 +260,7 @@ export class CommandeAChatFormComponent {
   }
 
   updateProduitStockBycommande() {
-    this.commandeService
-      .updaStatutteProduitStockBySatut(this.sendIDcommande)
-      .subscribe((data) => {
+    this.commandeService.updaStatutteProduitStockBySatut(this.sendIDcommande).subscribe((data) => {
         console.log(data.message);
         this.globalService.toastShow('Quantités mise à jour', 'Succès');
         this.router.navigateByUrl('commande/achat/list');

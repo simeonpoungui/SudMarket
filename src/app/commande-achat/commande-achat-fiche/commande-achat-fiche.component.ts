@@ -91,7 +91,20 @@ export class CommandeAChatFicheComponent {
       }
     } )
   }
-
+  impressionEtatCommandeAchatPdf() {
+    const commande_achat_id: GetCommandeAchat = {
+      commande_achat_id: this.commandes.commande_achat_id
+    };
+    console.log(commande_achat_id);
+    this.commandeService.etatcommandeAchat(commande_achat_id).subscribe(response => {
+      // Créez un URL pour le blob
+      const pdfUrl = URL.createObjectURL(response);
+      window.open(pdfUrl, '_blank'); // '_blank' ouvre dans un nouvel onglet ou une nouvelle fenêtre
+    }, error => {
+      console.error('Erreur lors de la récupération du PDF', error);
+    });
+  }
+  
 
   getProduitName(produit_id: number): string {
     const produit = this.tbProduit.find(p => p.produit_id === produit_id);

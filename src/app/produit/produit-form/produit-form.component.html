@@ -1,22 +1,24 @@
 <main class="nxl-container">
   <div class="nxl-content border">
-    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
-      <i data-bs-toggle="tooltip" title="Retour à l'accueil" style="cursor: pointer;" class="fa-solid fs-3 text-dark fa-arrow-left"></i>
+    <div class="col-lg-8 m-lg-auto py-4 px-lg-5">
+      <!-- <i
+        data-bs-toggle="tooltip"
+        title="Retour à l'accueil"
+        style="cursor: pointer"
+        class="fa-solid fs-3 text-dark fa-arrow-left"
+      ></i> -->
       <div class="row">
         <div class="col-12 mt-1">
           <form
             #produitform="ngForm"
             (ngSubmit)="onSubmitForm(produitform)"
-            class="px-5 py-5 rounded rounded-4 bg-white  p-3 needs-validation"
-            >
+            class="px-5 py-5 rounded rounded-4 bg-white p-3 needs-validation"
+          >
             <div class="row">
+              <!-- Image Section -->
               <div class="col-lg-4 bg-light border rounded rounded-4 border-5">
-                <div class="w-75 m-auto py-3" style="height: 270px;max-height: 270px;">
-                  <img
-                    class="w-100"
-                    [src]="image"
-                    *ngIf="image"
-                  />
+                <div class="w-75 m-auto py-3" style="height: 270px">
+                  <img class="w-100" [src]="image" *ngIf="image" />
                 </div>
                 <input
                   type="file"
@@ -35,10 +37,12 @@
                   />
                 </div>
               </div>
+
+              <!-- Product Info Section -->
               <div class="col-lg-8">
                 <div class="row ps-lg-4">
                   <div class="col-lg-6">
-                    <label for="validationCustom01" class="form-label label"
+                    <label for="nom" class="form-label label"
                       >Nom
                       <span class="title-bg-global-secondary"> * </span></label
                     >
@@ -47,57 +51,115 @@
                       class="form-control"
                       name="nom"
                       [(ngModel)]="nom"
+                      required
                     />
                   </div>
                   <div class="col-lg-6">
-                    <label for="validationCustom01" class="form-label label"
-                      >Description
+                    <label for="type_produit" class="form-label label">
+                      Type produit
+                      <span class="title-bg-global-secondary"> * </span>
+                    </label>
+                    <select
+                      class="form-select"
+                      name="type_produit"
+                      [(ngModel)]="type_produit"
+                      required
+                    >
+                      <option value="simple">Simple</option>
+                      <option value="variable">Variable</option>
+                    </select>
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="point_de_vente_id" class="form-label label"
+                      >Point de vente
                       <span class="title-bg-global-secondary"> * </span></label
                     >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="description"
-                      [(ngModel)]="description"
-                    />
-                  </div>
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
-                      >Categorie</label
+                    <select
+                      class="form-control form-select"
+                      name="point_de_vente_id"
+                      [(ngModel)]="point_de_vente_id"
+                      required
                     >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="categorie"
-                      [(ngModel)]="categorie"
-                    />
+                      <option
+                        *ngFor="let point of tbPointdeVente"
+                        [value]="point.point_de_vente_id"
+                      >
+                        {{ point.nom }}
+                      </option>
+                    </select>
                   </div>
+
                   <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label">
-                      Prix unitaire de vente</label
+                    <label for="categorie" class="form-label label"
+                      >Catégorie</label
+                    >
+                    <div class="input-group mb-3">
+                      <select
+                        name="categorie_id"
+                        [(ngModel)]="categorie_id"
+                        class="form-select"
+                        id="inputGroupSelect02"
+                      >
+                        <option value="" disabled selected>
+                          Choisissez une catégorie
+                        </option>
+                        <option
+                          *ngFor="let cat of TbCategorie"
+                          [value]="cat.categorie_id"
+                        >
+                          {{ cat.nom }}
+                        </option>
+                      </select>
+                      <label
+                        (click)="addCategorie()"
+                        class="input-group-text bg-primary"
+                        for="inputGroupSelect02"
+                        ><i class="fa-solid text-white fa-plus"></i
+                      ></label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="prix" class="form-label label"
+                      >Prix unitaire de vente</label
                     >
                     <input
                       type="number"
                       class="form-control"
                       name="prix"
                       [(ngModel)]="prix"
+                      required
                     />
                   </div>
-    
+
                   <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label">
-                      Prix de revient</label
+                    <label for="prix_de_revient" class="form-label label"
+                      >Prix de revient</label
                     >
                     <input
                       type="number"
                       class="form-control"
-                      name="prix"
-                      [(ngModel)]="prix"
+                      name="prix_de_revient"
+                      [(ngModel)]="prix_de_revient"
+                      required
                     />
                   </div>
-    
+
                   <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
+                    <label for="prix_reduit" class="form-label label"
+                      >Prix réduit</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="prix_reduit"
+                      [(ngModel)]="prix_reduit"
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="quantite_en_stock" class="form-label label"
                       >Quantité en stock
                       <span class="title-bg-global-secondary"> * </span></label
                     >
@@ -106,56 +168,510 @@
                       class="form-control"
                       name="quantite_en_stock"
                       [(ngModel)]="quantite_en_stock"
+                      required
                     />
                   </div>
-    
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
-                      >Code produit
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="code_produit"
-                      [(ngModel)]="code_produit"
-                    />
-                  </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
-                      >Niveau de reapprovisionnement
-                    </label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      name="niveau_de_reapprovisionnement"
-                      [(ngModel)]="niveau_de_reapprovisionnement"
-                    />
-                  </div>
-
- 
                 </div>
               </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
               <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label">
-                  Point de vente
-                  <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <select
-                  class="form-control form-select"
-                  name="point_de_vente_id"
-                  [(ngModel)]="point_de_vente_id"
+                <label for="unite_mesure" class="form-label label"
+                  >Unité de mesure</label
                 >
-                  <option
-                    *ngFor="let point of tbPointdeVente"
-                    [value]="point.point_de_vente_id"
-                  >
-                    {{ point.nom }}
-                  </option>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="unite_mesure"
+                  [(ngModel)]="unite_mesure"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="code_barres" class="form-label label"
+                  >Code barre</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="code_barres"
+                  [(ngModel)]="code_barres"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="poids" class="form-label label"
+                  >Poids du produit (Kg)</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="poids"
+                  [(ngModel)]="poids"
+                />
+              </div>
+
+              <div class="col-lg-4 mt-3">
+                <label for="etat_du_stock" class="form-label label"
+                  >État du stock
+                  <span class="title-bg-global-secondary"> * </span></label
+                >
+                <select
+                  class="form-select"
+                  name="etat_du_stock"
+                  [(ngModel)]="etat_du_stock"
+                  required
+                >
+                  <option>En stock</option>
+                  <option>Rupture de stock</option>
+                  <option>En réapprovisionnement</option>
                 </select>
+              </div>
+              <div class="col-lg-4 mt-3">
+                <label for="description" class="form-label label"
+                  >Description courte
+                  <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="description_courte"
+                  [(ngModel)]="description_courte"
+                  required
+                />
+              </div>
+              <div class="col-lg-4 mt-3">
+                <label for="description" class="form-label label"
+                  >Description longue
+                  <span class="title-bg-global-secondary"> * </span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="description_longue"
+                  [(ngModel)]="description_longue"
+                  required
+                />
+              </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="poids" class="form-label label"
+                  >Niveau de reapprovisionnement
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="niveau_de_reapprovisionnement"
+                  [(ngModel)]="niveau_de_reapprovisionnement"
+                />
+              </div>
+              <div class="col-lg-6 mt-3">
+                <label for="poids" class="form-label label"
+                  >Code produit
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="code_produit"
+                  [(ngModel)]="code_produit"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="content mx-2 mt-4">
+                <span class="text-on-border fw-bold fs-5">Dimensions (cm)</span>
+                <div class="row">
+                  <div class="col-lg-4 mt-3">
+                    <label for="longueur" class="form-label label"
+                      >Longueur</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="longueur"
+                      [(ngModel)]="longueur"
+                    />
+                  </div>
+                  <div class="col-lg-4 mt-3">
+                    <label for="largeur" class="form-label label"
+                      >Largeur</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="largeur"
+                      [(ngModel)]="largeur"
+                    />
+                  </div>
+                  <div class="col-lg-4 mt-3">
+                    <label for="hauteur" class="form-label label"
+                      >Hauteur</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="hauteur"
+                      [(ngModel)]="hauteur"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="type_produit === 'variable'">
+              <div
+                class="content mx-2 mt-4"
+                *ngIf="type_produit === 'variable'"
+              >
+                <span class="text-on-border fw-bold text-danger fs-5"
+                  >Variations</span
+                >
+                <div class="row">
+                  <div
+                    *ngFor="let variation of TbVariations; let i = index"
+                    class="row my-3 mx-3 py-2"
+                  >
+                    <div class="col-9">
+                      <div class="variation-left">
+                        <div class="variation-name fs-6">
+                          {{ variation.nom }}
+                        </div>
+
+                        <div
+                          *ngFor="let valeur of variation.valeurs"
+                          class="variation-value mt-2 text-center mx-2 px-2 rounded rounded-2 bg-light"
+                        >
+                          <span class="variation-value">{{
+                            valeur.valeur
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-3 text-center mt-3">
+                      <span
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasEdit"
+                        aria-controls="offcanvasEdit"
+                        class="border px-3 border-success py-2 mx-3 rounded rounded-2 fs-6"
+                        (click)="openEditVariation(i)"
+                        >Edit</span
+                      >
+                      <span class="bg-light px-2 py-2 pt-2 rou rounded-2">
+                        <i class="fa-solid fs-5 text-danger fa-trash"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <button
+                          class="btn btn-primary mt-3"
+                          type="button"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvasRight"
+                          aria-controls="offcanvasRight"
+                        >
+                          Ajouter les options
+                        </button>
+                      </div>
+                      <div class="col-lg-4">
+                        <button
+                          type="button"
+                          class="btn btn-primary mt-3"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                        >
+                          Voir les combinaisons
+                        </button>
+                      </div>
+                    </div>
+
+                    <div
+                      class="offcanvas offcanvas-end"
+                      tabindex="-1"
+                      id="offcanvasRight"
+                      aria-labelledby="offcanvasRightLabel"
+                    >
+                      <div class="offcanvas-header border bg-light">
+                        <h2
+                          class="offcanvas-title fw-bold text-uppercase"
+                          id="offcanvasRightLabel"
+                        >
+                          Ajouter les options
+                        </h2>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="offcanvas"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+
+                      <div class="offcanvas-body">
+                        <!-- Formulaire de variation -->
+                        <div class="col-lg-12">
+                          <label for="variationNom" class="form-label label"
+                            >Type option</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="variation.nom"
+                            id="variationNom"
+                            [(ngModel)]="variation.nom"
+                          />
+                        </div>
+
+                        <div class="col-lg-12 mt-3">
+                          <label for="variationValeur" class="form-label label"
+                            >Valeur</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="variation.valeur"
+                            id="variationValeur"
+                            [(ngModel)]="variation.valeur"
+                          />
+                        </div>
+
+                        <div class="col-lg-12 mt-3">
+                          <label for="variationPrix" class="form-label label"
+                            >Prix</label
+                          >
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="variation.prix"
+                            id="variationPrix"
+                            [(ngModel)]="variation.prix"
+                          />
+                        </div>
+
+                        <div class="col-lg-12 mt-3">
+                          <label for="variationStock" class="form-label label"
+                            >Quantité en stock</label
+                          >
+                          <input
+                            type="number"
+                            class="form-control"
+                            name="variation.quantite_en_stock"
+                            id="variationStock"
+                            [(ngModel)]="variation.quantite_en_stock"
+                          />
+                        </div>
+
+                        <div class="row">
+                          <div class="mt-3 col-7">
+                            <button
+                              type="button"
+                              class="bg-primary text-white text-uppercase form-control"
+                              (click)="ajouterOuModifier()"
+                              data-bs-dismiss="offcanvas"
+                              aria-label="Close"
+                            >
+                              Ajouter la variation
+                            </button>
+                          </div>
+                          <div class="mt-3 col-5">
+                            <button
+                              type="button"
+                              class="bg-danger text-white text-uppercase form-control"
+                              data-bs-dismiss="offcanvas"
+                              aria-label="Close"
+                            >
+                              Fermer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Deuxième offcanvas pour modifier les variations -->
+                    <div
+                      class="offcanvas offcanvas-end"
+                      tabindex="-1"
+                      id="offcanvasEdit"
+                      aria-labelledby="offcanvasEditLabel"
+                    >
+                      <div class="offcanvas-header border bg-light">
+                        <h2
+                          class="offcanvas-title fw-bold text-uppercase"
+                          id="offcanvasEditLabel"
+                        >
+                          Modifier les options
+                        </h2>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="offcanvas"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+
+                      <!-- Affichage de la variation sélectionnée -->
+                      <div *ngIf="selectedVariationIndex !== null">
+                        <div class="row my-3 mx-3 py-2">
+                          <div class="col-12">
+                            <div class="variation-left">
+                              <div class="variation-name fs-6">
+                                {{ TbVariations[selectedVariationIndex].nom }}
+                              </div>
+
+                              <!-- Tableau pour afficher les valeurs modifiables -->
+                              <table class="table table-bordered mt-3">
+                                <thead>
+                                  <tr>
+                                    <th>Valeur</th>
+                                    <th>Quantité</th>
+                                    <th>Prix</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr
+                                    *ngFor="
+                                      let valeur of TbVariations[
+                                        selectedVariationIndex
+                                      ].valeurs;
+                                      let j = index
+                                    "
+                                  >
+                                    <td>
+                                      <input
+                                        type="text"
+                                        [(ngModel)]="valeur.valeur"
+                                        class="form-control"
+                                        name="valeur-{{
+                                          selectedVariationIndex
+                                        }}-{{ j }}"
+                                        (ngModelChange)="
+                                          onValueChange(
+                                            selectedVariationIndex,
+                                            j,
+                                            'valeur',
+                                            valeur.valeur
+                                          )
+                                        "
+                                      />
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="number"
+                                        [(ngModel)]="valeur.quantite_en_stock"
+                                        class="form-control"
+                                        name="quantite-{{
+                                          selectedVariationIndex
+                                        }}-{{ j }}"
+                                        (ngModelChange)="
+                                          onValueChange(
+                                            selectedVariationIndex,
+                                            j,
+                                            'quantite_en_stock',
+                                            valeur.quantite_en_stock
+                                          )
+                                        "
+                                      />
+                                    </td>
+                                    <td>
+                                      <input
+                                        type="number"
+                                        [(ngModel)]="valeur.prix"
+                                        class="form-control"
+                                        name="prix-{{
+                                          selectedVariationIndex
+                                        }}-{{ j }}"
+                                        (ngModelChange)="
+                                          onValueChange(
+                                            selectedVariationIndex,
+                                            j,
+                                            'prix',
+                                            valeur.prix
+                                          )
+                                        "
+                                      />
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="offcanvas-body">
+                          <h3
+                            class="text-uppercase bg-light fw-bold text-center py-2"
+                          >
+                            Ajouter une valeur
+                          </h3>
+                          <div class="col-lg-12 mt-3">
+                            <label
+                              for="variationValeur"
+                              class="form-label label"
+                              >Valeur</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="variation.valeur"
+                              id="variationValeur"
+                              [(ngModel)]="newValeur"
+                            />
+                          </div>
+
+                          <div class="col-lg-12 mt-3">
+                            <label for="variationPrix" class="form-label label"
+                              >Prix</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              name="variation.prix"
+                              id="variationPrix"
+                              [(ngModel)]="newPrix"
+                            />
+                          </div>
+
+                          <div class="col-lg-12 mt-3">
+                            <label for="variationStock" class="form-label label"
+                              >Quantité en stock</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              name="variation.quantite_en_stock"
+                              id="variationStock"
+                              [(ngModel)]="newQuantite"
+                            />
+                          </div>
+                          <div class="row">
+                            <div class="mt-3 col-7">
+                              <button
+                                type="button"
+                                class="bg-primary text-uppercase text-white form-control"
+                                data-bs-dismiss="offcanvas"
+                                aria-label="Close"
+                                (click)="addNewValue()"
+                              >
+                                Enregistrer
+                              </button>
+                            </div>
+                            <div class="mt-3 col-5">
+                              <button
+                                type="button"
+                                class="bg-danger text-uppercase text-white form-control"
+                                data-bs-dismiss="offcanvas"
+                                aria-label="Close"
+                              >
+                                Fermer
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -163,6 +679,7 @@
               <div class="col-lg-6">
                 <div class="col-lg-3 mt-3">
                   <button
+                    *ngIf="!isloadingsubmitForm; else loader"
                     [disabled]="!isFormValid()"
                     type="submit"
                     class="form-control bg-global-primary text-white"
@@ -185,3 +702,93 @@
     </div>
   </div>
 </main>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 50%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title text-uppercase fw-bold fs-5" id="exampleModalLabel">Combinaisons</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <!-- Checkbox global pour sélectionner/désélectionner toutes les cases -->
+                  <th>
+                    <input
+                    type="checkbox"
+                    [(ngModel)]="selectAll"
+                    (change)="toggleSelectAll()"
+                    class="form-check-input"
+                  />
+                  </th>
+                  <th>Variation</th>
+                  <th>Quantité</th>
+                  <th>Prix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let combination of productCombinations; let i = index">
+                  <td>
+                    <input
+                      type="checkbox"
+                      [(ngModel)]="combination.selected"
+                      (change)="onCheckboxChange(combination)"
+                      class="form-check-input"
+                    />
+                  </td>
+                  <td>
+                    <button class="form-control">{{ combination.combination_hash }}</button>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      [(ngModel)]="combination.quantite_en_stock"
+                      class="form-control"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      [(ngModel)]="combination.prix"
+                      class="form-control"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+              
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" class="btn btn-primary" (click)="saveChangesVariations()">
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

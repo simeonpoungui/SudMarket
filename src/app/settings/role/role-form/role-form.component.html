@@ -1,27 +1,22 @@
-<div class="container-fuild p-4 rounded rounded-4">
+<div class="container-fuild rounded rounded-4">
   <div class="row">
-    <div class="border shadow rounded rounded-4 bg-white">
-      <h2 class="fw-bold">
-        <span>{{action == 'create' ? 'Ajouter un role' : 'Role :'}} </span>
-        <span *ngIf="role"
-        class="title-bg-global-secondary">{{ role.nom_role }} </span>
-      </h2>
-    </div>
-    <div class="col-lg-12 mt-2">
+    <div class="col-lg-12">
       <form
         #roleForm ="ngForm"
         (ngSubmit)="onSubmitForm(roleForm )"
-        class="row border rounded rounded-4 bg-white shadow p-3 needs-validation"
+        class="row bg-white shadow p-3 needs-validation"
       >
-        <div class="col-lg-12">
-          <label for="validationCustom01" class="form-label label">Role</label>
-          <select class="form-control form-select" [(ngModel)]="nom_role" name="nom_role" id="">
-            <option value="Admin">Admin</option>
-            <option value="Vendeur">Vendeur</option>
-            <option value="Manager">Manager</option>
-            <option value="Gérant">Gérant</option>
-          </select>
-        </div>
+      <div class="col-lg-12">
+        <label for="validationCustom01" class="form-label label">Role</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="nom_role" 
+          name="nom_role" 
+          placeholder="Enter role (e.g., Admin, Vendeur, Manager, Gérant)"
+        />
+      </div>
+      
 
         <div class="col-lg-12 mt-3">
           <label for="validationCustom01" class="form-label label"

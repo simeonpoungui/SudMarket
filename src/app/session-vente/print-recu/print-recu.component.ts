@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { Utilisateur } from 'src/app/Models/users.model';
 import { ArticlesDeVentes, Facture, Vente } from 'src/app/Models/vente.model';
@@ -24,6 +25,7 @@ export class PrintRecuComponent {
   
   constructor(
     public globalService: GlobalService,
+    private router : Router,
     private produitService: ProduitService,
     private venteService: VenteService
   ){}
@@ -51,6 +53,7 @@ export class PrintRecuComponent {
       this.vente = venteParsed
       this.montant_total = venteParsed.montant_total
     }
+    
 
     const factureFromStorage = localStorage.getItem('facture');
     if (factureFromStorage) {
@@ -64,6 +67,10 @@ export class PrintRecuComponent {
 
   }
 
+  back() {
+   this.router.navigateByUrl(('/session-vente/' + this.user.point_de_vente_id))
+  }
+  
   getListProduit() {
     const point_de_vente_id: GetProduit = {
       produit_id: 0,

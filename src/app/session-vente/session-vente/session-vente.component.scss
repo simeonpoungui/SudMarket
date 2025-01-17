@@ -2,6 +2,20 @@ tr.selected {
     background-color: #d1ecf1; /* Couleur bleu clair */
     transition: background-color 0.3s ease-in-out; /* Animation pour un effet fluide */
   }
+  .image-container {
+    position: relative;  /* Permet de positionner l'image à l'intérieur */
+    width: 100%;         /* Largeur de 100% pour s'adapter à l'espace disponible */
+    padding-top: 100%;   /* Hauteur égale à la largeur pour créer un carré (aspect ratio 1:1) */
+    overflow: hidden;    /* Masquer les parties de l'image qui débordent du carré */
+  }
+  
+  .image-container img {
+    width: 100%;           /* S'assurer que l'image prend toute la largeur du conteneur */
+    height: 100%;          /* S'assurer que l'image prend toute la hauteur du conteneur */
+    object-fit: contain;   /* Ajuster l'image pour qu'elle reste proportionnelle sans être coupée */
+    object-position: center; /* Centrer l'image dans le conteneur */
+  }
+  
   
   .selected {
     background-color: #d1ecf1;

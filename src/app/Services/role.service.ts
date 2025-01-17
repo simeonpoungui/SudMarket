@@ -31,7 +31,7 @@ export class RoleService {
     return this.httpclient.put<CodeResponse>(environment.apiUrl + this.uriupdaterole, role)
   }
 
- createRole(role: Role): Observable<CodeResponse>{
+ createRole(role: Role): Observable<any>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreaterole, role)
   }
 

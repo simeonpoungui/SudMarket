@@ -14,6 +14,7 @@ import { EtatCaisseVendeurComponent } from '../comptabilite/etat-caisse-vendeur/
 import { BoutiqueService } from '../Services/boutique.service';
 import { GetUser, Utilisateur } from '../Models/users.model';
 import { UsersService } from '../Services/users.service';
+import { GetNotificationCommande, NotificationCommande } from '../Models/notifications_commandes';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,7 +42,10 @@ export class DashboardComponent {
   ) {}
 
   notifications: NotificationSotckproduit[] = [];
+  notificationscommandes: NotificationCommande[] = [];  // Liste des notifications
+
   unreadCount: number = 0;
+  unreadCountcommande: number = 0
 
   ngOnInit(): void {
     const utilisateurJson = localStorage.getItem('user');
@@ -53,7 +57,10 @@ export class DashboardComponent {
     this.loadNotifications();
     this.getListVente()
     this.getImageUserID()
+    this.getListNotificationsCommandes()
   }
+
+
 
   loadOneBoutiqueByUserCoonected(){
     this.boutiqueService.getBoutiqueByPointDeVente(this.user.point_de_vente_id).subscribe(data => {
@@ -123,6 +130,54 @@ export class DashboardComponent {
     });
   }
 
+
+ // Méthode pour récupérer la liste des notifications
+getListNotificationsCommandes() {
+  const notification: GetNotificationCommande = {
+    notification_id: 0
+  };
+  
+  this.notificationService.getListNotificationsCommandes(notification).subscribe(res => {
+    console.log(res.message);
+    this.notificationscommandes = res.message;
+    // Calculer le nombre de notifications non lues dès la réception des notifications
+    this.unreadCountcommande = this.notificationscommandes.filter(n => n.statut_notification !== 'lu').length;
+  });
+}
+
+// Marquer toutes les notifications comme lues
+markAllAsReadCommandes(): void {
+  // Marquer toutes les notifications comme lues
+  this.notificationscommandes.forEach(notification => {
+    notification.statut_notification = 'lu'; // On met à jour le statut
+  });
+
+  // Réinitialiser le compteur des notifications non lues
+  this.unreadCountcommande = 0;
+}
+
+// Marquer une notification comme lue
+markAsReadCommandes(notification: NotificationCommande): void {
+  // Marquer la notification comme lue
+  notification.statut_notification = 'lu'; 
+  
+  // Recalculer le nombre de notifications non lues
+  this.unreadCountcommande = this.notificationscommandes.filter(n => n.statut_notification !== 'lu').length;
+}
+
+// Supprimer une notification
+removeNotificationCommandes(notification: NotificationCommande): void {
+  // Supprimer la notification de la liste
+  const index = this.notificationscommandes.indexOf(notification);
+  if (index > -1) {
+    this.notificationscommandes.splice(index, 1);
+  }
+
+  // Recalculer le nombre de notifications non lues après suppression
+  this.unreadCountcommande = this.notificationscommandes.filter(n => n.statut_notification !== 'lu').length;
+}
+
+  
 
 
 }

@@ -13,7 +13,13 @@ export class Utilisateur {
     role!: string;
     cree_le?: Date;
     mis_a_jour_le?: Date;
+    ventes?: number;
+    produits?: number;
+    stock?: number;
+    analytics?: number;
+    commandes?: number
 }
+
 
 export class ImageUser {
     utilisateur_id!: number;

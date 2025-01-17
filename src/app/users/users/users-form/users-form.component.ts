@@ -8,6 +8,9 @@ import { GetRole, Role } from 'src/app/Models/role.model';
 import { RoleService } from 'src/app/Services/role.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RoleComponent } from 'src/app/settings/role/role.component';
+import { RoleFormComponent } from 'src/app/settings/role/role-form/role-form.component';
 
 @Component({
   selector: 'app-users-form',
@@ -31,6 +34,12 @@ export class UsersFormComponent {
   cree_le?: Date;
   mis_a_jour_le?: Date;
   message!: any
+  ventes?: number;
+  produits?: number;
+  stock?: number;
+  analytics?: number;
+  commandes?: number
+
   TabRole!: Role[]
   tbPointdeVente!: PointsDeVentes[]
   point_de_vente_id?: number;
@@ -38,6 +47,7 @@ export class UsersFormComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private pointService: PointsDeVentesService,
     private roleService: RoleService,
     private globaService: GlobalService,
@@ -58,6 +68,8 @@ export class UsersFormComponent {
     const utilisateurJson = localStorage.getItem('selectedUtilisateur');
     if (utilisateurJson) {
       this.user =  JSON.parse(utilisateurJson);
+      console.log(this.user);
+      
     }
     if (this.action === 'edit') {
       this.initFomForUser()
@@ -122,40 +134,58 @@ export class UsersFormComponent {
     this.role = this.user.role
     this.cree_le = this.user.cree_le
     this.mis_a_jour_le = this.user.mis_a_jour_le
+    this.ventes = this.user.ventes
+    this.produits = this.user.produits
+    this.stock = this.user.stock
+    this.analytics = this.user.analytics
+  }
+
+  addRole(){
+    const dialog = this.dialog.open(RoleFormComponent)
+    dialog.componentInstance.openBycomponentRole = true
+    dialog.id = 'RoleFormComponent'
+    dialog.afterClosed().subscribe(res  =>{
+      if (res) {
+        this.role = dialog.componentInstance.roleString
+        console.log(this.role);
+        this.loadRole()
+      }
+    })
   }
 
   //Submit form user
-  onSubmitForm(form: NgForm){
+  onSubmitForm(form: NgForm) {
     const user: Utilisateur = form.value;
-    user.mot_de_passe_hash = this.user.mot_de_passe_hash
+    user.mot_de_passe_hash = this.user.mot_de_passe_hash; // Ensure password is included
+    
+    // Convert true/false to 1/0 for permissions
+    user.ventes = form.value.ventes ? 1 : 0;
+    user.produits = form.value.produits ? 1 : 0;
+    user.stock = form.value.stock ? 1 : 0;
+    user.analytics = form.value.analytics ? 1 : 0;
+    user.commandes = form.value.commandes ? 1 : 0;
+  
     if (this.action === 'edit') {
-      user.utilisateur_id = this.user.utilisateur_id
+      user.utilisateur_id = this.user.utilisateur_id; // Ensure user ID is sent for update
+  
       this.userService.updateUser(user).subscribe(data => {
         console.log(data);
-        this.message = data.message
-        this.router.navigateByUrl('user/list')
-        this.globaService.toastShow(this.message,'Succès','success')
-        this.sendImageByUser()
-
-      })
-    }else{
-      console.log(user);
+        this.message = data.message;
+        this.router.navigateByUrl('user/list');
+        this.globaService.toastShow(this.message, 'Succès', 'success');
+        this.sendImageByUser();
+      });
+    } else {
       this.userService.createUser(user).subscribe(data => {
         console.log(data);
-        this.message = data.message
-        this.router.navigateByUrl('user/list')
-        this.globaService.toastShow("Utilisateur crée avec succès",'Succès','success')
-        const model: ImageUser = {
-          utilisateur_id: Number(data.message),
-          image: this.image
-        }
-        console.log(model);
-        this.userService.updateCreateImageByUser(model).subscribe(data => {
-          console.log(data.message);
-        })
-      })
+        this.message = data.message;
+        this.router.navigateByUrl('user/list');
+        this.globaService.toastShow("Utilisateur créé avec succès", 'Succès', 'success');
+      });
     }
   }
+  
+  
 
   //image user
 

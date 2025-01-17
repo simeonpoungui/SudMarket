@@ -58,8 +58,8 @@ export class FicheUserComponent {
     this.pointService.getList(point).subscribe(data => {
       console.log(data.message);
       this.tbPointdeVente = data.message
-      
-    } )
+    }
+  )
   }
 
   getPointName(point_de_vente_id: any): string {

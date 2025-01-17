@@ -75,6 +75,7 @@ initFormFournisseur(){
   //Submit form user
   onSubmitForm(form: NgForm){
     const fournisseur: Fournisseur = form.value;
+    console.log(fournisseur);
     if (this.action === 'edit') {
       fournisseur.fournisseur_id = this.fournisseur.fournisseur_id
       this.fournissuerService.update(fournisseur).subscribe(data => {

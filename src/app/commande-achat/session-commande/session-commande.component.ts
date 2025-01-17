@@ -13,12 +13,13 @@ import { GlobalService } from 'src/app/Services/global.service';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { Utilisateur } from 'src/app/Models/users.model';
 import { ArticlesDeCommandeDAchat } from 'src/app/Models/articles.commandes.achats';
-import { CommandeAchat } from 'src/app/Models/commande.model';
+import { CommandeAchat, GetCommandeAchat } from 'src/app/Models/commande.model';
 import { CommandeService } from 'src/app/Services/commande.service';
 import { SelectFournisseurComponent } from 'src/app/fournisseur/select-fournisseur/select-fournisseur.component';
 import { Fournisseur } from 'src/app/Models/fournisseur.model';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 
 @Component({
   selector: 'app-session-commande',
@@ -53,6 +54,7 @@ export class SessionCommandeComponent {
   message!: any;
   founisseurSelected!: Fournisseur;
   user!: Utilisateur;
+  tbPointdeVente!: PointsDeVentes[];
   modepaiement: number = 1;
   currentSessionId: number | undefined;
 
@@ -63,6 +65,7 @@ export class SessionCommandeComponent {
     private articleDeVenteService: ArticlesDeVenteService,
     private globalService: GlobalService,
     private commandeService: CommandeService,
+    private pointService: PointsDeVentesService,
     private dialog: MatDialog
   ) {}
 
@@ -75,22 +78,37 @@ export class SessionCommandeComponent {
       this.user = JSON.parse(user);
       console.log(this.user);
     }
-    this.openPointsDeVentesCommande()
+    this.calculateTotalVente();
+    this.getListProduit();
+    this.loadPointDeVente()
   }
 
-  openPointsDeVentesCommande(){
-    const dialog = this.dialog.open(SelectPointDeVenteComponent);
-    dialog.afterClosed().subscribe((result) => {
-      this.pointSelected = dialog.componentInstance.pointSelected;
-      console.log(this.pointSelected);
-      this.calculateTotalVente();
-      this.getListProduit();
-    }); 
+  loadPointDeVente() {
+    const point: GetPointsDeVentes = { point_de_vente_id: 0 };
+    this.pointService.getList(point).subscribe((data) => {
+      console.log(data.message);
+      this.tbPointdeVente = data.message;
+    });
   }
+
+  getPointName(point_de_vente_id?: number): string {
+    const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
+    return point ? point.nom : 'Unknown Point';
+  }
+
+  // openPointsDeVentesCommande(){
+  //   const dialog = this.dialog.open(SelectPointDeVenteComponent);
+  //   dialog.afterClosed().subscribe((result) => {
+  //     this.pointSelected = dialog.componentInstance.pointSelected;
+  //     console.log(this.pointSelected);
+  //     this.calculateTotalVente();
+  //     this.getListProduit();
+  //   }); 
+  // }
   
   getListProduit() {
     const point: GetPointsDeVentes = {
-      point_de_vente_id: this.pointSelected.point_de_vente_id,
+      point_de_vente_id: this.user.point_de_vente_id,
     };
     this.isloadingpage = true;
     this.produitService.getListProduityByPointVente(point).subscribe((data) => {
@@ -137,7 +155,7 @@ export class SessionCommandeComponent {
   addProductToArticleVente(produit: Produit) {
     const articleCommande: ArticlesDeCommandeDAchat = {
       article_commande_achat_id: 0,
-      point_de_vente_id: this.pointSelected.point_de_vente_id,
+      point_de_vente_id: this.user.point_de_vente_id,
       commande_achat_id: 0,
       produit_id: produit.produit_id,
       quantite: 1,
@@ -205,7 +223,7 @@ export class SessionCommandeComponent {
           this.isloadingpaiement = true;
           const modelCommande: CommandeAchat = {
             commande_achat_id: 0,
-            point_de_vente_id: this.pointSelected.point_de_vente_id,
+            point_de_vente_id: this.user.point_de_vente_id,
             montant_total: this.montantTotalDeLaVente,
             fournisseur_id: this.founisseurSelected.fournisseur_id,
             utilisateur_id: this.user.utilisateur_id,
@@ -213,16 +231,18 @@ export class SessionCommandeComponent {
           };
           console.log(modelCommande);
           this.commandeService.create(modelCommande).subscribe((data) => {
+            
             console.log(data.message);
+            console.log(data.commande_achat_id);
+            this.impressionEtatCommandeAchatPdf(data.commande_achat_id)
+
             this.dataSourceArticleCommandesAchats.data = [];
             this.montantTotalDeLaVente = 0;
-            localStorage.removeItem('pointSelected');
             this.founisseurSelected = {} as Fournisseur;
             this.message = data.message;
             this.globlService.toastShow(this.message, 'Succès');
             this.isloadingpaiement = false;
-            this.getListProduit();
-            this.router.navigateByUrl('commande/achat/list');
+            this.globalService.reloadComponent('commande/achat/list')
           });
         }
       });
@@ -238,6 +258,20 @@ export class SessionCommandeComponent {
     dialog.afterClosed().subscribe((data) => {
       this.founisseurSelected = dialog.componentInstance.fournisseurSelected;
       console.log(this.founisseurSelected);
+    });
+  }
+
+  impressionEtatCommandeAchatPdf(commande_id: number) {
+    const commande_achat_id: GetCommandeAchat = {
+      commande_achat_id: commande_id
+    };
+    console.log(commande_achat_id);
+    this.commandeService.etatcommandeAchat(commande_achat_id).subscribe(response => {
+      // Créez un URL pour le blob
+      const pdfUrl = URL.createObjectURL(response);
+      window.open(pdfUrl, '_blank'); // '_blank' ouvre dans un nouvel onglet ou une nouvelle fenêtre
+    }, error => {
+      console.error('Erreur lors de la récupération du PDF', error);
     });
   }
 }

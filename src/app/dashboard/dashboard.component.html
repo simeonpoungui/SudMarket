@@ -16,7 +16,6 @@
           <a routerLink="/" class="nxl-link">
             <span class="nxl-micon"><i class="feather-airplay"></i></span>
             <span class="nxl-mtext">Tableau de bord</span>
-            <!-- <span class="nxl-arrow"><i class="feather-chevron-right"></i></span> -->
           </a>
         </li>
         <li class="nxl-item nxl-hasmenu">
@@ -43,22 +42,38 @@
             <span class="nxl-mtext">Clients</span>
           </a>
         </li>
+
         
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
-            <span class="nxl-micon"><i class="feather-users"></i></span>
-            <span class="nxl-mtext">Fournisseurs</span
+            <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
+            <span class="nxl-mtext">Achats et Commandes</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
           </a>
           <ul class="nxl-submenu">
+
             <li class="nxl-item">
-              <a class="nxl-link" routerLink="/fournisseur/list"
-                >Liste des fourniseurs</a
+              <a class="nxl-link"     [routerLink]="
+              user.role !== 'Vendeur' ? '/achats-list' : null
+            "
+                >Achats</a
               >
             </li>
             <li class="nxl-item">
+              <a class="nxl-link"     [routerLink]="
+              user.commandes == 1 ? '/commande/achat/list' : null
+            "
+                >Commandes </a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/fournisseur/list"
+                >Fourniseurs</a
+              >
+            </li>
+            <!-- <li class="nxl-item">
               <a
                 class="nxl-link"
                 [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
@@ -67,7 +82,7 @@
                 "
                 >Ajouter un fournisseur</a
               >
-            </li>
+            </li> -->
           </ul>
         </li>
         <li class="nxl-item nxl-hasmenu">
@@ -136,7 +151,7 @@
             </li>
           </ul>
         </li>
-        <li class="nxl-item nxl-hasmenu">
+        <!-- <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
             <span class="nxl-mtext">Commandes</span
@@ -176,7 +191,7 @@
               >
             </li>
           </ul>
-        </li>
+        </li> -->
 
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
@@ -3362,62 +3377,97 @@
             </a>
           </div>
         </div>
-        <div class="nxl-h-item dark-light-theme">
-          <a href="javascript:void(0);" class="nxl-head-link me-0 dark-button">
-            <i class="feather-moon"></i>
-          </a>
-          <a
-            href="javascript:void(0);"
-            class="nxl-head-link me-0 light-button"
-            style="display: none"
-          >
-            <i class="feather-sun"></i>
-          </a>
-        </div>
         <div class="dropdown nxl-h-item">
           <a
-            href="javascript:void(0);"
-            class="nxl-head-link me-0"
+            class="nxl-head-link me-3"
             data-bs-toggle="dropdown"
+            href="#"
             role="button"
             data-bs-auto-close="outside"
           >
-            <i class="feather-clock"></i>
-            <span class="badge bg-success nxl-h-badge">2</span>
+          <i class="feather-box"></i>
+          <span class="badge bg-danger nxl-h-badge">{{ unreadCountcommande }}</span>
           </a>
-          <div
-            class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-timesheets-menu"
-          >
-            <div
-              class="d-flex justify-content-between align-items-center timesheets-head"
-            >
-              <h6 class="fw-bold text-dark mb-0">Timesheets</h6>
+          <div class="dropdown-menu dropdown-menu-end nxl-h-dropdown nxl-notifications-menu">
+            <div class="d-flex justify-content-between align-items-center notifications-head">
+              <h6 class="fw-bold text-dark mb-0">Notifications commandes</h6>
               <a
                 href="javascript:void(0);"
                 class="fs-11 text-success text-end ms-auto"
                 data-bs-toggle="tooltip"
-                title="Upcomming Timers"
+                title="Lire toutes les notifications"
+                (click)="markAllAsReadCommandes()"
               >
-                <i class="feather-clock"></i>
-                <span>3 Upcomming</span>
+                <i class="feather-check"></i>
+                <span>Faire comme lu</span>
               </a>
             </div>
-            <div
-              class="d-flex justify-content-between align-items-center flex-column timesheets-body"
-            >
-              <i class="feather-clock fs-1 mb-4"></i>
-              <p class="text-muted">No started timers found yes!</p>
-              <a href="javascript:void(0);" class="btn btn-sm btn-primary"
-                >Started Timer</a
+            
+            <div style="max-height: 600px; overflow-y: auto">
+              <div *ngIf="notificationscommandes.length > 0; else noNotifications">
+                <div *ngFor="let notification of notificationscommandes" class="notifications-item">
+                  <div class="notifications-desc">
+                    <a href="javascript:void(0);" class="font-body text-truncate-2-line">
+                      <span
+                        [ngClass]="{
+                          'fw-semibold': notification.statut_notification !== 'lu',
+                          'text-dark': notification.statut_notification !== 'lu',
+                          'text-muted': notification.statut_notification === 'lu'
+                        }"
+                      >
+                        {{ notification.message }}
+                      </span>
+                    </a>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="notifications-date text-muted border-bottom border-bottom-dashed">
+                        {{ notification.date_notification }}
+                      </div>
+                      <div class="d-flex align-items-center float-end gap-2">
+                        <div>
+                          <a
+                            class="text-success"
+                            data-bs-toggle="tooltip"
+                            title="Marquer comme lu"
+                            (click)="markAsReadCommandes(notification)"
+                          >
+                            <i class="feather-check fs-5"></i>
+                          </a>
+                        </div>
+                        <div>
+                          <a
+                            class="text-danger"
+                            data-bs-toggle="tooltip"
+                            title="Supprimer"
+                            (click)="removeNotificationCommandes(notification)"
+                          >
+                            <i class="feather-x fs-5"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <ng-template #noNotifications>
+                <p class="text-center">Aucune notification disponible.</p>
+              </ng-template>
+            </div>
+        
+            <div class="text-center notifications-footer" *ngIf="notificationscommandes.length > 0">
+              <a
+                routerLink="/notification-commandes"
+                class="fs-13 fw-semibold text-dark"
+                >Voir toutes les notifications</a
               >
             </div>
-            <div class="text-center timesheets-footer">
-              <a href="javascript:void(0);" class="fs-13 fw-semibold text-dark"
-                >Alls Timesheets</a
-              >
+            <div class="text-center notifications-footer" *ngIf="notificationscommandes.length === 0">
+              <span class="fs-13 fw-semibold text-dark">No notifications</span>
             </div>
           </div>
         </div>
+        
+        
         <div class="dropdown nxl-h-item">
           <a
             class="nxl-head-link me-3"

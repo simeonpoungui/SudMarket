@@ -1,0 +1,157 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="col-lg-11 m-lg-auto">
+      <div class="p-3">
+        <div class="p-2">
+          <h1 class="text-uppercase">Notifications Commandes</h1>
+        </div>
+        <div class="bg-white rounded rounded-3 py-4 px-3">
+          <div class="row mb-3">
+            <div class="col-lg-2">
+              <div class="d-flex align-items-center">
+                <i
+                  style="position: absolute"
+                  class="fa-solid p-3 fa-magnifying-glass"
+                ></i>
+                <input
+                  type="text"
+                  (keyup)="applyFilter($event)"
+                  placeholder="Recherchez..."
+                  class="form-control text-start px-5 text-uppercase"
+                />
+              </div>
+            </div>
+            <!-- <div class="col-lg-2">
+              <button
+                style="background-color: #3454d1"
+                type="button"
+                class="form-control text-white"
+              >
+                Export CSV
+              </button>
+            </div> -->
+          </div>
+          <div class="mat-elevation-z8">
+            <table
+              *ngIf="!isloadingpage; else loader"
+              mat-table
+              [dataSource]="dataSource"
+            >
+              <!-- Colonne Commande Achat ID -->
+              <ng-container matColumnDef="commande_achat_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Commande
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.commande_achat_id }}
+                </td>
+              </ng-container>
+
+              <!-- Colonne type_notification -->
+              <ng-container matColumnDef="utilisateur_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Utilisateur
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  <span
+                    [ngClass]="{
+                      'fw-semibold': !element.statut_notification,
+                      'text-dark': !element.statut_notification,
+                      'text-muted': element.statut_notification
+                    }"
+                  >
+                    {{ getUserName(element.utilisateur_id) }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Colonne type_notification -->
+              <ng-container matColumnDef="type_notification">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Type notification
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  <span
+                    [ngClass]="{
+                      'fw-semibold': !element.statut_notification,
+                      'text-dark': !element.statut_notification,
+                      'text-muted': element.statut_notification
+                    }"
+                  >
+                    {{ element.type_notification }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Colonne Statut de Notification -->
+              <ng-container matColumnDef="statut_notification">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Statut
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.statut_notification }}
+                </td>
+              </ng-container>
+
+              <!-- Colonne Date de Notification -->
+              <ng-container matColumnDef="date_notification">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Date Notification
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatDate(element.date_notification) }}
+                </td>
+              </ng-container>
+
+              <!-- Colonne Actions -->
+              <ng-container matColumnDef="Actions">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Action
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="d-flex gap-2">
+                    <!-- <a
+                      style="cursor: pointer"
+                      class="text-danger"
+                      data-bs-toggle="tooltip"
+                      title="Supprimer la notif"
+                    >
+                      <i class="feather-x fs-5"></i>
+                    </a> -->
+                    <a
+                      style="cursor: pointer"
+                      *ngIf="user.commandes === 1"
+                      class="text-black px-2 pointer"
+                      data-bs-toggle="tooltip"
+                      title="Voir la commande"
+                      (click)="ViewCommande(element)"
+                    >
+                      <i class="fa-solid fa-eye"></i>
+                    </a>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Affichage des lignes -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 15]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

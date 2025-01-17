@@ -21,6 +21,7 @@ export class CommandeService {
   uriimprimecommandesachats = "/v1/sudmarket/impression/commandes/achats"
   uriupdatestockproduitbystatut = "/v1/sudmarket/update/produits/by-commandes"
   urigetarticlecommandebycommandeid = "/v1/sudmarket/get/filtre/articles-de-commande-by-commandeID"
+  urietatcommendeachat = "/v1/sudmarket/etat/commandes-achats"
 
   constructor(private httpclient: HttpClient) {}
 
@@ -49,6 +50,11 @@ export class CommandeService {
     );
   }
 
+  etatcommandeAchat(commande: GetCommandeAchat): Observable<Blob> {
+    console.log(commande)
+    return this.httpclient.post( environment.apiUrl + this.urietatcommendeachat, commande, { responseType: 'blob' });
+  }
+
   create(commande: CommandeAchat) {
     return this.httpclient.post<CodeResponse>(
       environment.apiUrl + this.uricreate,
@@ -73,12 +79,7 @@ export class CommandeService {
 
 
   getListFiltreCommandes(
-    IDfournisseur: number,
-    IDuser: number,
-    IDpointVente: number,
-    DateDebut: string,
-    DateFin: string
-  ) {
+IDfournisseur: number, IDuser: number, IDpointVente: number, DateDebut: string, DateFin: string ) {
     const data = {
       fournisseur_id: IDfournisseur,
       utilisateur_id: IDuser,

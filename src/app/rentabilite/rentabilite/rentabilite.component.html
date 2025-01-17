@@ -1,336 +1,335 @@
 <main class="nxl-container">
-  <div class="nxl-content">
-    <div class="main-content">
-      <div class="row">
-        <div class="col-lg-12">
-          <h1 class="shadow bg-update text-white fw-bold p-2 rounded rounded-3">
-            Consultation des benefices
-          </h1>
-        </div>
+  <div class="nxl-content pt-lg-4">
+    <div class="col-lg-11 m-lg-auto ">
+      <div>
+        <h1 class="text-uppercase">rentabilités</h1>
       </div>
-      <div class="row">
-        <div class="col-xxl-4 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body">
-              <div class="hstack justify-content-between">
-                <div>
-                  <div class="hstack gap-2 mb-4">
-                    <i class="feather-dollar-sign"></i>
-                    <span>Benefice du jour</span>
+      <div class="bg-white px-3 py-4 rounded rounded-3">
+        <div class="row">
+          <div class="col-xxl-4 col-md-6">
+            <div class="card stretch stretch-full">
+              <div class="card-body">
+                <div class="hstack justify-content-between">
+                  <div>
+                    <div class="hstack gap-2 mb-4">
+                      <i class="feather-dollar-sign"></i>
+                      <span>Benefice du jour</span>
+                    </div>
+                    <h3 class="fw-bolder mb-3">
+                      <span class="counter">{{
+                        globalService.formatPrixString(
+                          totalBeneficesJourActuel.toFixed(2)
+                        )
+                      }}</span>
+                    </h3>
+                    <p class="fs-12 text-muted mb-0">
+                      Jour précedent:
+                      <span class="fw-bold text-dark">{{
+                        globalService.formatPrixString(
+                          totalBeneficesJourPrecedent.toFixed(2)
+                        )
+                      }}</span>
+                    </p>
                   </div>
-                  <h3 class="fw-bolder mb-3">
-                    <span class="counter">{{
-                      globalService.formatPrixString(
-                        totalBeneficesJourActuel.toFixed(2)
-                      )
-                    }}</span>
-                  </h3>
-                  <p class="fs-12 text-muted mb-0">
-                    Jour précedent:
-                    <span class="fw-bold text-dark">{{
-                      globalService.formatPrixString(
-                        totalBeneficesJourPrecedent.toFixed(2)
-                      )
-                    }}</span>
-                  </p>
-                </div>
-                <a
-                  href="javascript:void(0);"
-                  class="badge bg-soft-success text-success"
-                  >+ %</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-4 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body">
-              <div class="hstack justify-content-between">
-                <div>
-                  <div class="hstack gap-2 mb-4">
-                    <i class="feather-dollar-sign"></i>
-                    <span>Benefice du mois</span>
-                  </div>
-                  <h3 class="fw-bolder mb-3">
-                    <span class="counter">{{
-                      globalService.formatPrixString(
-                        totalBeneficesMoisActuel.toFixed(2)
-                      )
-                    }}</span>
-                  </h3>
-                  <p class="fs-12 text-muted mb-0">
-                    Mois précedent:
-                    <span class="fw-bold text-dark">{{
-                      globalService.formatPrixString(
-                        totalBeneficesMoisPrecedent.toFixed(2)
-                      )
-                    }}</span>
-                  </p>
-                </div>
-                <a
-                  href="javascript:void(0);"
-                  class="badge bg-soft-success text-success"
-                  >+ %</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-4 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body">
-              <div class="hstack justify-content-between">
-                <div>
-                  <div class="hstack gap-2 mb-4">
-                    <i class="feather-dollar-sign"></i>
-                    <span>Benefice annuelle</span>
-                  </div>
-                  <h3 class="fw-bolder mb-3">
-                    <span class="counter">{{
-                      globalService.formatPrixString(
-                        totalBeneficesAnneeActuelle.toFixed(2)
-                      )
-                    }}</span>
-                  </h3>
-                  <p class="fs-12 text-muted mb-0">
-                    Année précedente:
-                    <span class="fw-bold text-dark">{{
-                      globalService.formatPrixString(
-                        totalBeneficesAnneePrecedent.toFixed(2)
-                      )
-                    }}</span>
-                  </p>
-                </div>
-                <a
-                  href="javascript:void(0);"
-                  class="badge bg-soft-success text-success"
-                  >+ %</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-12">
-          <div class="card stretch stretch-full">
-            <div class="card-header">
-              <h5 class="card-title">
-                Evolution du chiffre d'affaire benefice global par mois
-              </h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    >
-                    </a>
-                  </div>
-                </div>
-                <div class="dropdown">
                   <a
                     href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
+                    class="badge bg-soft-success text-success"
+                    >+ %</a
                   >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
                 </div>
               </div>
             </div>
-            <div class="card-body custom-card-action p-0">
-              <div id="payment-records-chart2"></div>
+          </div>
+          <div class="col-xxl-4 col-md-6">
+            <div class="card stretch stretch-full">
+              <div class="card-body">
+                <div class="hstack justify-content-between">
+                  <div>
+                    <div class="hstack gap-2 mb-4">
+                      <i class="feather-dollar-sign"></i>
+                      <span>Benefice du mois</span>
+                    </div>
+                    <h3 class="fw-bolder mb-3">
+                      <span class="counter">{{
+                        globalService.formatPrixString(
+                          totalBeneficesMoisActuel.toFixed(2)
+                        )
+                      }}</span>
+                    </h3>
+                    <p class="fs-12 text-muted mb-0">
+                      Mois précedent:
+                      <span class="fw-bold text-dark">{{
+                        globalService.formatPrixString(
+                          totalBeneficesMoisPrecedent.toFixed(2)
+                        )
+                      }}</span>
+                    </p>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="badge bg-soft-success text-success"
+                    >+ %</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-4 col-md-6">
+            <div class="card stretch stretch-full">
+              <div class="card-body">
+                <div class="hstack justify-content-between">
+                  <div>
+                    <div class="hstack gap-2 mb-4">
+                      <i class="feather-dollar-sign"></i>
+                      <span>Benefice annuelle</span>
+                    </div>
+                    <h3 class="fw-bolder mb-3">
+                      <span class="counter">{{
+                        globalService.formatPrixString(
+                          totalBeneficesAnneeActuelle.toFixed(2)
+                        )
+                      }}</span>
+                    </h3>
+                    <p class="fs-12 text-muted mb-0">
+                      Année précedente:
+                      <span class="fw-bold text-dark">{{
+                        globalService.formatPrixString(
+                          totalBeneficesAnneePrecedent.toFixed(2)
+                        )
+                      }}</span>
+                    </p>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="badge bg-soft-success text-success"
+                    >+ %</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xxl-12">
+            <div class="card stretch stretch-full">
+              <div class="card-header">
+                <h5 class="card-title">
+                  Evolution du chiffre d'affaire benefice global par mois
+                </h5>
+                <div class="card-header-action">
+                  <div class="card-header-btn">
+                    <div data-bs-toggle="tooltip" title="Delete">
+                      <a
+                        href="javascript:void(0);"
+                        class="avatar-text avatar-xs bg-danger"
+                        data-bs-toggle="remove"
+                      >
+                      </a>
+                    </div>
+                    <div data-bs-toggle="tooltip" title="Refresh">
+                      <a
+                        href="javascript:void(0);"
+                        class="avatar-text avatar-xs bg-warning"
+                        data-bs-toggle="refresh"
+                      >
+                      </a>
+                    </div>
+                    <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                      <a
+                        href="javascript:void(0);"
+                        class="avatar-text avatar-xs bg-success"
+                        data-bs-toggle="expand"
+                      >
+                      </a>
+                    </div>
+                  </div>
+                  <div class="dropdown">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-sm"
+                      data-bs-toggle="dropdown"
+                      data-bs-offset="25, 25"
+                    >
+                      <div data-bs-toggle="tooltip" title="Options">
+                        <i class="feather-more-vertical"></i>
+                      </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                      <a href="javascript:void(0);" class="dropdown-item"
+                        ><i class="feather-at-sign"></i>New</a
+                      >
+                      <a href="javascript:void(0);" class="dropdown-item"
+                        ><i class="feather-calendar"></i>Event</a
+                      >
+                      <a href="javascript:void(0);" class="dropdown-item"
+                        ><i class="feather-bell"></i>Snoozed</a
+                      >
+                      <a href="javascript:void(0);" class="dropdown-item"
+                        ><i class="feather-trash-2"></i>Deleted</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a href="javascript:void(0);" class="dropdown-item"
+                        ><i class="feather-settings"></i>Settings</a
+                      >
+                      <a href="javascript:void(0);" class="dropdown-item"
+                        ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body custom-card-action p-0">
+                <div id="payment-records-chart2"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="bg-white p-3 shadow rounded rounded-4">
-        <div class="row">
-          <div class="col-lg-3">
-            <select
-              (change)="SelectPointDeVente($event)"
-              class="form-control form-select"
-              name=""
-              id=""
-            >
-              <option value="">Filtrer les benefices par point de vente</option>
-              <option
-                *ngFor="let point of tbPointdeVente"
-                [value]="point.point_de_vente_id"
+  
+        <div class="bg-white p-3  rounded rounded-4">
+          <div class="row">
+            <div class="col-lg-3">
+              <select
+                (change)="SelectPointDeVente($event)"
+                class="form-control form-select"
+                name=""
+                id=""
               >
-                {{ point.nom }}
-              </option>
-            </select>
+                <option value="">Filtrer les benefices par point de vente</option>
+                <option
+                  *ngFor="let point of tbPointdeVente"
+                  [value]="point.point_de_vente_id"
+                >
+                  {{ point.nom }}
+                </option>
+              </select>
+            </div>
+            <div class="col-lg-5">
+              <button class="form-control bg-light btn fw-bold fs-6">
+                <span class="">total des ventes :</span>
+                <span class="mx-3 text-danger">{{
+                  globalService.formatPrixString(TotalMontant.toFixed(2))
+                }}</span>
+              </button>
+            </div>
+            <div class="col-lg-4">
+              <button class="form-control bg-light btn fw-bold fs-6">
+                <span class="">Benefices Totaux :</span>
+                <span class="mx-3 text-danger">{{
+                  globalService.formatPrix(TotalMontantBenefice)
+                }}</span>
+              </button>
+            </div>
           </div>
-          <div class="col-lg-5">
-            <button class="form-control bg-light btn fw-bold fs-6">
-              <span class="">Montant total des ventes :</span>
-              <span class="mx-3 text-danger">{{
-                globalService.formatPrixString(TotalMontant.toFixed(2))
-              }}</span>
-            </button>
+          <div
+            class="mat-elevation-z8  mt-2 "
+            style="max-height: 200px; overflow-y: auto"
+            *ngIf="!isloadingtable; else loader"
+          >
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="date_vente">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Date vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatDate(element.date_vente) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  Total
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="montant_total">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Montant total vendu
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ globalService.formatPrix(element.montant_total) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  {{ globalService.formatPrixString(TotalMontant.toFixed(2)) }}
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="client_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Client
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ getClientName(element.client_id) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+  
+              <ng-container matColumnDef="utilisateur_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Utilisateur
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ getUserName(element.utilisateur_id) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+  
+              <ng-container matColumnDef="point_de_vente_id">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Point de Vente
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ getPointName(element.point_de_vente_id) }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                ></td>
+              </ng-container>
+  
+              <ng-container matColumnDef="total_benefice_vente">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Benefice
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.total_benefice_vente }}
+                </td>
+                <td
+                  mat-footer-cell
+                  class="bg-table-color text-light"
+                  *matFooterCellDef
+                >
+                  {{ globalService.formatPrix(TotalMontantBenefice) }}
+                </td>
+              </ng-container>
+  
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr
+                class="bg-sticky-footer"
+                mat-footer-row
+                *matFooterRowDef="displayedColumns; sticky: true"
+              ></tr>
+            </table>
           </div>
-          <div class="col-lg-4">
-            <button class="form-control bg-light btn fw-bold fs-6">
-              <span class="">Benefices Totaux :</span>
-              <span class="mx-3 text-danger">{{
-                globalService.formatPrix(TotalMontantBenefice)
-              }}</span>
-            </button>
-          </div>
-        </div>
-        <div
-          class="mat-elevation-z8 rounded mt-2 rounded-4"
-          style="max-height: 200px; overflow-y: auto"
-          *ngIf="!isloadingtable; else loader"
-        >
-          <table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="date_vente">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Date vente
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ globalService.formatDate(element.date_vente) }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-                Total
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="montant_total">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Montant total vendu
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ globalService.formatPrix(element.montant_total) }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-                {{ globalService.formatPrixString(TotalMontant.toFixed(2)) }}
-              </td>
-            </ng-container>
-
-            <ng-container matColumnDef="client_id">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Client
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ getClientName(element.client_id) }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="utilisateur_id">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Utilisateur
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ getUserName(element.utilisateur_id) }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="point_de_vente_id">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Point de Vente
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ getPointName(element.point_de_vente_id) }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="total_benefice_vente">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Benefice
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.total_benefice_vente }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-                {{ globalService.formatPrix(TotalMontantBenefice) }}
-              </td>
-            </ng-container>
-
-            <tr
-              mat-header-row
-              *matHeaderRowDef="displayedColumns; sticky: true"
-            ></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            <tr
-              class="bg-sticky-footer"
-              mat-footer-row
-              *matFooterRowDef="displayedColumns; sticky: true"
-            ></tr>
-          </table>
         </div>
       </div>
     </div>
+
   </div>
 </main>
 

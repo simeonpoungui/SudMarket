@@ -17,6 +17,9 @@ import { NotificationsStockProduitsComponent } from './notifications-stock-produ
 import { SelectPointDeVenteComponent } from './points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 import { FichePointDeVenteComponent } from './points-de-ventes/fiche-point-de-vente/fiche-point-de-vente.component';
 import { FichePointDeVenteFormComponent } from './points-de-ventes/fiche-point-de-vente-form/fiche-point-de-vente-form.component';
+import { CategorieComponent } from './categorie/categorie.component';
+import { CategorieFormComponent } from './categorie/categorie-form/categorie-form.component';
+import { NotificationsCommandesComponent } from './notifications-commandes/notifications-commandes.component';
 @NgModule({
   declarations: [
     SettingsComponent,
@@ -27,7 +30,10 @@ import { FichePointDeVenteFormComponent } from './points-de-ventes/fiche-point-d
     FichePointDeVenteFormComponent,
     PointsDeVentesComponent,
     NotificationsStockProduitsComponent,
-    SelectPointDeVenteComponent
+    SelectPointDeVenteComponent,
+    CategorieComponent,
+    CategorieFormComponent,
+    NotificationsCommandesComponent
   ],
   imports: [
     CommonModule,

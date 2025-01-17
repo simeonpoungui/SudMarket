@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environnement/environnement.prod';
 import { CodeResponse, CodeResponseOneProduit, GetProduit, ImageProduit, Produit } from '../Models/produit.model';
 import { GetPointsDeVentes } from '../Models/pointsDeVentes.model';
+import { Categorie } from '../Models/categorie.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,32 @@ export class ProduitService {
   uricreateupdateimagebyproduit = "/v1/sudmarket/update/create/image/produit"
   urigetimagebyproduit = "/v1/sudmarket/get/image/by-produit"
 
+  urigetvariationbyproduit = "/v1/sudmarket/get/variations"
+  urigetcombinaisonsbyproduit = "/v1/sudmarket/get/combinaisons-by-produit"
+
+  urigetcategorieproduit = "/v1/sudmarket/get/categorie/produits"
+  uriupdatecategorieproduit = "/v1/sudmarket/update/categorie/produits"
+  uricreateCategorieproduit = "/v1/sudmarket/create/categorie/produits"
+
   constructor(private httpclient: HttpClient) { }
 
   getList(produit: GetProduit): Observable<CodeResponse>{
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uriget, produit)
   }
+
   getOne(produit: GetProduit): Observable<CodeResponseOneProduit>{
     return this.httpclient.post<CodeResponseOneProduit>(environment.apiUrl + this.uriget, produit)
   }
+
+  getVariationByProduitId(produit: GetProduit): Observable<any>{
+    return this.httpclient.post<CodeResponseOneProduit>(environment.apiUrl + this.urigetvariationbyproduit, produit)
+  }
+
+  getCombinaisonByProduitId(produit: GetProduit): Observable<any>{
+    return this.httpclient.post<CodeResponseOneProduit>(environment.apiUrl + this.urigetcombinaisonsbyproduit, produit)
+  }
+
+
   delete(produit: Produit){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uridelete, produit)
   }
@@ -57,4 +76,17 @@ export class ProduitService {
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetimagebyproduit, produit)
   }
 
+
+// Categorie Produit
+  getListCategorieProduit(): Observable<any>{const data = { categorie_id:0}
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigetcategorieproduit,data)
+  }
+
+  updateCategorieProduit(categorie: Categorie){
+    return this.httpclient.put<CodeResponse>(environment.apiUrl + this.uriupdatecategorieproduit, categorie)
+  }
+
+  createCategoorieProduit(categorie: Categorie){
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreateCategorieproduit, categorie)
+  }
 }

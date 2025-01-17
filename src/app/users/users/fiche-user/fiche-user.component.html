@@ -151,7 +151,7 @@
                     [value]="globalService.formatDate(user.cree_le)"
                   />
                 </div>
-    
+                    
                 <div class="col-lg-6 mt-3">
                   <label for="validationCustom01" class="form-label label"
                     >Date de modification</label
@@ -164,6 +164,24 @@
                     [value]="globalService.formatDate(user.mis_a_jour_le)"
                   />
                 </div>
+                <div class="content mx-2 mt-3">
+                  <span class="text-on-border fw-bold fs-5">Permissions</span>
+                  <div class="row mt-3">
+                    <div class="col-lg-3">
+                      <mat-checkbox [(ngModel)]="user.ventes" name="ventes">Ventes</mat-checkbox>
+                    </div>
+                    <div class="col-lg-3">
+                      <mat-checkbox [(ngModel)]="user.produits" name="produits">Produits</mat-checkbox>
+                    </div>
+                    <div class="col-lg-3">
+                      <mat-checkbox [(ngModel)]="user.stock" name="stock">Stock</mat-checkbox>
+                    </div>
+                    <div class="col-lg-3">
+                      <mat-checkbox [(ngModel)]="user.analytics" name="analytics">Analytics</mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="col-lg-2 mt-3">
                   <button (click)="updateUser()" class="form-control  bg-update text-white">
                     Modifier <i class="fa-solid text-white mx-1 fa-pen"></i>

@@ -11,6 +11,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ArticlesCommandesAchatsComponent } from './articles-commandes-achats/articles-commandes-achats.component';
 import { SessionCommandeComponent } from './session-commande/session-commande.component';
 import { FicheArticleDeCommandeComponent } from './fiche-article-de-commande/fiche-article-de-commande.component';
+import { AchatComponent } from './achat/achat.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FicheArticleDeCommandeComponent } from './fiche-article-de-commande/fic
     CommandeAChatFicheComponent,
     ArticlesCommandesAchatsComponent,
     SessionCommandeComponent,
-    FicheArticleDeCommandeComponent
+    FicheArticleDeCommandeComponent,
+    AchatComponent
   ],
   imports: [
     CommonModule,

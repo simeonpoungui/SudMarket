@@ -2,14 +2,20 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalService } from 'src/app/Services/global.service';
-import { ImageProduit, Produit } from 'src/app/Models/produit.model';
+import { ImageProduit, Produit, Variations} from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit } from 'src/app/Models/produit.model';
+import { ProduitsVariante } from 'src/app/Models/produit.model';
 import {
   GetPointsDeVentes,
   PointsDeVentes,
 } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { Dialog } from '@angular/cdk/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
+import { LOG } from '@zxing/library/esm/core/datamatrix/encoder/constants';
+import { CategorieFormComponent } from 'src/app/settings/categorie/categorie-form/categorie-form.component';
 
 @Component({
   selector: 'app-produit-form',
@@ -21,21 +27,51 @@ export class ProduitFormComponent {
   produit_id!: number;
   nom!: string;
   description!: string;
-  categorie!: string;
+  categorie_id!: number;
   prix!: number;
+  prix_de_revient!: number;
   quantite_en_stock!: number;
   niveau_de_reapprovisionnement!: number;
+  description_courte?: string;
+  description_longue?: string;
+  type_produit?: string;
+  prix_reduit?: number;
+  unite_mesure?: string;
+  code_barres?: string;
+  hauteur?: number;
+  etat_du_stock?: 'En stock' | 'Rupture de stock' | 'En réapprovisionnement';
+  poids?: number; // en kg
+  longueur?: number; // en cm
+  largeur?: number; // en cm
   cree_le!: Date;
   mis_a_jour_le!: Date;
+  code_produit!: string | undefined;
+
   message!: any;
   produit!: Produit;
+  TbCategorie: any
   tbPointdeVente!: PointsDeVentes[];
   point_de_vente_id!: number | undefined;
-  code_produit!: string | undefined;
+  isloadingsubmitForm!: boolean
+
+  TbVariations: ProduitsVariante[] = [];
+  productCombinations: any[] = [];
+  tbCombinaisons: any[] = []
+  variation: any = {}; //
+
+  additionalValue: string = '';
+  additionalPrix!: null ;
+  additionalStock!: null;
+
+  newValeur: string = '';
+  newPrix: number | null = null;
+  newQuantite: number | null = null;
+  selectAll = false; // Variable qui lie le checkbox global
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private dialog: MatDialog,
     private pointService: PointsDeVentesService,
     private produitService: ProduitService,
     private globaService: GlobalService
@@ -48,12 +84,12 @@ export class ProduitFormComponent {
   isFormValid(): any {
     return (
       this.nom &&
-      this.description &&
       this.prix &&
       this.quantite_en_stock &&
-      this.categorie
+      this.categorie_id
     );
   }
+  selectedVariationIndex: number | null = null; 
 
   ngOnInit(): void {
     this.action = this.route.snapshot.params['action'];
@@ -64,10 +100,20 @@ export class ProduitFormComponent {
       console.log(this.produit);
     }
     if (this.action === 'edit') {
-      this.initFormFournisseur();
+      this.initFormProduit();
+      this.getVariationByIdProduit()
+      this.getCombinaisonByProduit()
       this.getImageByproduiID()
     }
     this.loadPointDeVente();
+    this.getCategorieProduit()
+  }
+
+  getCategorieProduit(){
+    this.produitService.getListCategorieProduit().subscribe(res =>{
+      console.log(res.message);
+      this.TbCategorie = res.message
+    })
   }
 
 
@@ -94,19 +140,86 @@ export class ProduitFormComponent {
     return point ? point.nom : 'Unknown Point';
   }
 
-  //initialise form by info user
-  initFormFournisseur() {
+  initFormProduit() {
+    // Initialisation des champs principaux du produit
     this.produit_id = this.produit.produit_id;
     this.point_de_vente_id = this.produit.point_de_vente_id;
     this.nom = this.produit.nom;
     this.code_produit = this.produit.code_produit;
-    this.description = this.produit.description;
-    this.categorie = this.produit.categorie;
+    this.description_courte = this.produit.description_courte;
+    this.description_longue = this.produit.description_longue; // Si vous avez cette propriété
+    this.categorie_id = this.produit.categorie_id;
     this.prix = this.produit.prix;
+    this.prix_de_revient = this.produit.prix_de_revient; // Prix de revient si nécessaire
+    this.prix_reduit = this.produit.prix_reduit; // Prix réduit si nécessaire
+    this.unite_mesure = this.produit.unite_mesure;
+    this.code_barres = this.produit.code_barres;
     this.quantite_en_stock = this.produit.quantite_en_stock;
-    this.niveau_de_reapprovisionnement =
-    this.produit.niveau_de_reapprovisionnement;
+    this.niveau_de_reapprovisionnement = this.produit.niveau_de_reapprovisionnement;
+    this.etat_du_stock = this.produit.etat_du_stock; // "En stock", "Rupture de stock", etc.
+    this.poids = this.produit.poids; // Poids en kg
+    this.longueur = this.produit.longueur; // Longueur en cm
+    this.largeur = this.produit.largeur; // Largeur en cm
+    this.hauteur = this.produit.hauteur; // Hauteur en cm
+    this.type_produit = this.produit.type_produit; // Type de produit (par exemple, "variable" ou "simple")
   }
+
+  getCombinaisonByProduit() {
+    const produit: GetProduit = {
+      produit_id: this.produit.produit_id
+    };
+  
+    this.produitService.getCombinaisonByProduitId(produit).subscribe(res => {
+      console.log(res.message);
+  
+      // Charger les combinaisons et marquer toutes comme sélectionnées
+      this.productCombinations = res.message.map((combination: any) => ({
+        ...combination, // Copier les propriétés existantes
+        selected: true // Ajouter la propriété `selected` à true pour cocher la case
+      }));
+    });
+  }
+  
+
+  getVariationByIdProduit() {
+    const produit: GetProduit = {
+      produit_id: this.produit.produit_id
+    }
+  
+    this.produitService.getVariationByProduitId(produit).subscribe(res => {
+      console.log(res.message);
+      this.TbVariations = [];
+      res.message.forEach((variation: { nom: string; valeur: any; prix: any; quantite_en_stock: any; couleur: any; sku: any; }) => {
+        const existingVariation = this.TbVariations.find(v => v.nom === variation.nom);
+          if (existingVariation) {
+          existingVariation.valeurs.push({
+            valeur: variation.valeur,
+            prix: variation.prix,
+            quantite_en_stock: variation.quantite_en_stock,
+            couleur: variation.couleur,
+            sku: variation.sku
+          });
+        } else {
+          // Si elle n'existe pas, on crée une nouvelle entrée
+          this.TbVariations.push({
+            nom: variation.nom,
+            valeurs: [{
+              valeur: variation.valeur,
+              prix: variation.prix,
+              quantite_en_stock: variation.quantite_en_stock,
+              couleur: variation.couleur,
+              sku: variation.sku
+            }]
+          });
+        }
+      });
+  
+      // Afficher le résultat final
+      console.log(this.TbVariations);
+    });
+  }
+  
+  
 
   sendImageByProduit(){
     const model: ImageProduit = {
@@ -117,37 +230,70 @@ export class ProduitFormComponent {
       console.log(data.message);
     })
   }
-  //Submit form user
+
+
   onSubmitForm(form: NgForm) {
+    this.isloadingsubmitForm = true
     const produit: Produit = form.value;
-    console.log(produit);
-    if (this.action === 'edit') {
-      produit.produit_id = this.produit.produit_id;
-      this.produitService.update(produit).subscribe((data) => {
-        console.log(data);
-        this.message = data.message;
-        this.router.navigateByUrl('produit/list');
-        this.globaService.toastShow(this.message, 'Succès', 'success');
-        this.sendImageByProduit()
-      });
-    } else {
-      console.log(produit);
-      this.produitService.create(produit).subscribe((data) => {
-        console.log(data.message);
-        this.message = data.message;
-        this.router.navigateByUrl('produit/list');
-        this.globaService.toastShow("Votre produit a été crée avec succès", 'Succès', 'success');
-        const model: ImageProduit = {
-          produit_id: Number(data.message),
-          image: this.image
-        }
-        console.log(model);
-        this.produitService.updateCreateImageByProduit(model).subscribe(data => {
-          console.log(data.message);
-        })
-      });
+    produit.TbVariations = this.TbVariations; 
+    const objetSend: any = {
+      nom: produit.nom,
+      type_produit: produit.type_produit,
+      point_de_vente_id: produit.point_de_vente_id,
+      categorie_id: produit.categorie_id,
+      prix: produit.prix,
+      prix_de_revient: produit.prix_de_revient,
+      prix_reduit: produit.prix_reduit,
+      quantite_en_stock: produit.quantite_en_stock,
+      unite_mesure: produit.unite_mesure,
+      code_barres: produit.code_barres,
+      poids: produit.poids,
+      etat_du_stock: produit.etat_du_stock,
+      description_courte: produit.description_courte,
+      description_longue: produit.description_longue,
+      niveau_de_reapprovisionnement: produit.niveau_de_reapprovisionnement,
+      code_produit: produit.code_produit,
+      longueur: produit.longueur,
+      largeur: produit.largeur,
+      hauteur: produit.hauteur,
+      TbVariations: produit.TbVariations,
+      productCombinations: this.tbCombinaisons
     }
-  }
+    console.log(objetSend); 
+     if (this.action === 'edit') {
+       produit.produit_id = this.produit.produit_id;
+       this.produitService.update(produit).subscribe((data) => {
+         console.log(data);
+         this.message = data.message;
+         this.router.navigateByUrl('produit/list');
+         this.isloadingsubmitForm = false
+         this.globaService.toastShow(this.message, 'Succès', 'success');
+         this.sendImageByProduit();
+       });
+     } else {
+       this.produitService.create(objetSend).subscribe((data) => {
+         console.log(data.message);
+         this.message = data.message;
+         if (data.code == 'succes') {
+           this.router.navigateByUrl('produit/list');
+           this.globaService.toastShow("Votre produit a été créé avec succès", 'Succès', 'success');
+           this.isloadingsubmitForm = false
+         }else{
+           this.isloadingsubmitForm = false
+         }
+        
+        // Image du produit
+         const model: ImageProduit = {
+           produit_id: Number(data.message),
+           image: this.image
+         };
+         console.log(model);
+         this.produitService.updateCreateImageByProduit(model).subscribe(data => {
+           console.log(data.message);
+         });
+       });
+     }
+}
 
   triggerFileInput(): void {
     this.fileInput.nativeElement.click();
@@ -212,6 +358,237 @@ resizeImage(file: File): void {
     reader.readAsDataURL(file);
 }
 
+toggleSelectAll() {
+  let allValid = true; // Variable pour vérifier si toutes les combinaisons sont valides
 
+  this.productCombinations.forEach(combination => {
+    if (!combination.prix || !combination.quantite_en_stock) {
+      // Annuler la sélection pour les combinaisons invalides
+      allValid = false;
+      combination.selected = false;
+    } else {
+      // Appliquer la sélection globale uniquement si `selectAll` est vrai
+      combination.selected = this.selectAll;
+    }
+  });
+
+  if (!allValid) {
+    // Si une combinaison invalide est trouvée, décocher `selectAll`
+    this.selectAll = false;
+    this.globaService.toastShow(
+      "Veuillez renseigner le prix et la quantité pour toutes les combinaisons avant de les sélectionner.",
+      "Erreur",
+      "error"
+    );
+  }
+}
+
+
+
+onCheckboxChange(combination: any) {
+  // Vérifier si le prix ou la quantité sont absents
+  if (!combination.prix || !combination.quantite_en_stock) {
+    // Annuler la sélection immédiatement
+    setTimeout(() => {
+      combination.selected = false; // Réinitialise la sélection
+    }, 0);
+
+    // Afficher une alerte pour informer l'utilisateur
+    this.globaService.toastShow(
+      "Veuillez renseigner le prix et la quantité avant de sélectionner cette combinaison.",
+      "Erreur",
+      "error"
+    );
+  }
+}
+
+
+
+saveChangesVariations() {
+  const selectedCombinations = this.productCombinations.filter(combination => combination.selected);
+  if (selectedCombinations.length === 0) {
+    this.globaService.toastShow("Veuillez sélectionner au moins une combinaison avant d’enregistrer.","Information",'info')
+    return; 
+  }
+  console.log(selectedCombinations);
+  
+  // Traiter les combinaisons sélectionnées
+  const updatedCombinations = selectedCombinations.map(combination => {
+    const { selected, ...combinationWithoutSelected } = combination;
+    combinationWithoutSelected.sku = `SKU-${combination.combination_hash}-${combination.quantite_en_stock}`;
+    return combinationWithoutSelected;
+  });
+  this.tbCombinaisons = updatedCombinations;
+  console.log(this.tbCombinaisons);
+  // Fermer le modal après succès
+  const modal = document.getElementById('exampleModal');
+  if (modal) {
+    (modal as any).classList.remove('show'); // Masquer le modal
+    document.body.classList.remove('modal-open'); // Supprimer la classe de scroll bloqué
+    document.body.style.paddingRight = ''; // Réinitialiser le style de padding
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) backdrop.remove(); // Supprimer le fond du modal
+  }
+}
+
+generateCombinations() {
+  const variations = this.TbVariations;
+  const combinations = this.getCombinations(variations.map(v => v.valeurs));
+  this.productCombinations = combinations.map(comb => ({
+    combination_hash: comb.map((c: { valeur: any; }) => c.valeur).join('-'), 
+    quantite_en_stock: 0, 
+    prix: 0,    
+  }));
+  console.log(this.productCombinations);
+}
+
+getCombinations(arrays: any[]): any[] {
+  if (arrays.length === 0) return [[]];
+  const first = arrays[0];
+  const rest = arrays.slice(1);
+  const combinationsWithoutFirst = this.getCombinations(rest);
+  const combinationsWithFirst = first.map((f: any) => combinationsWithoutFirst.map(c => [f, ...c])).flat();
+  return combinationsWithFirst;
+}
+
+
+ajouterValeurSupplementaire() {
+  const produitIndex = this.TbVariations.findIndex(v => v.nom === this.variation.nom);
+  if (produitIndex > -1) {
+      // Vérifier si la valeur supplémentaire existe déjà pour cette variation
+      const valeurExisteDeja = this.TbVariations[produitIndex].valeurs.some(v => v.valeur === this.additionalValue);
+
+      if (!valeurExisteDeja) {
+          // Ajouter la nouvelle valeur au tableau "valeurs" de la variation existante
+          const nouvelleValeur: Variations = {
+              valeur: this.additionalValue,
+              prix: this.additionalPrix,
+              quantite_en_stock: this.additionalStock,
+              sku: this.variation.sku + '-' + this.additionalValue,  // Utiliser un SKU unique pour la nouvelle valeur
+          };
+
+          // Ajouter la nouvelle valeur au tableau des valeurs du produit
+          this.TbVariations[produitIndex].valeurs.push(nouvelleValeur);
+          console.log(this.TbVariations);
+
+          // Régénérer les combinaisons après l'ajout
+          this.generateCombinations();
+      } else {
+          this.globaService.toastShow("Cette valeur existe déjà", "Erreur");
+      }
+  }
+
+  // Réinitialiser les champs après ajout
+  this.additionalValue = '';
+  this.additionalPrix = null;
+  this.additionalStock = null;
+  this.variation = { nom: '', valeur: '', prix: null, quantite_en_stock: null, couleur: '' };
+}
+
+
+  // Fonction appelée à chaque modification dans un champ de saisie
+  onValueChange(variationIndex: number, valueIndex: number, field: string, newValue: any): void {
+    console.log(`Changement détecté dans ${field} de la variation "${this.TbVariations[variationIndex].nom}"`);
+    console.log(`Nouvelle valeur pour ${field}: ${newValue}`);
+    if (field === 'prix' && newValue < 0) {
+      console.log('Prix invalide');
+    }
+    console.log(this.TbVariations);
+  }
+  
+  // Méthode pour ouvrir l'édition d'une variation spécifique
+  openEditVariation(index: number) {
+    this.selectedVariationIndex = index; // On stocke l'index de la variation sélectionnée
+  }
+
+  // Vous pouvez ajouter une méthode pour sauvegarder les modifications, si nécessaire.
+  saveChanges() {
+    const selectedVariation = this.TbVariations[this.selectedVariationIndex!];
+    // Effectuez les actions nécessaires pour sauvegarder cette variation.
+  }
+
+  ajouterVariation() {
+    const sku = 'SKU-' + Math.random().toString(36).substr(2, 9);
+  
+    // Créer un nouvel objet de variation avec la première valeur
+    const nouvelleVariation = {
+      nom: this.variation.nom,
+      valeurs: [
+        {
+          valeur: this.variation.valeur,
+          prix: this.variation.prix,
+          quantite_en_stock: this.variation.quantite_en_stock,
+          sku: sku,
+        }
+      ],
+    };
+  
+    // Vérifier si la variation existe déjà dans le tableau TbVariations
+    const index = this.TbVariations.findIndex(v => v.nom === this.variation.nom);
+  
+    if (index > -1) {
+      // Si la variation existe déjà, on ajoute la nouvelle valeur dans le tableau des valeurs
+      this.TbVariations[index].valeurs.push(...nouvelleVariation.valeurs);
+      console.log(this.TbVariations);
+      
+      this.globaService.toastShow("Variation modifiée avec succès", "Succès");
+    } else {
+      // Si la variation n'existe pas encore, on l'ajoute au tableau TbVariations
+      this.TbVariations.push(nouvelleVariation);
+      this.globaService.toastShow("Variation ajoutée avec succès", "Succès");
+    }
+      // Générer les combinaisons après chaque ajout ou modification de variation
+  this.generateCombinations();
+    console.log(this.TbVariations);
+    // Réinitialiser l'objet variation pour le prochain ajout
+    this.variation = { nom: '', valeur: '', prix: null, quantite_en_stock: null, couleur: '' };
+  }
+
+  
+  addNewValue() {
+    if (this.selectedVariationIndex !== null) {
+        const selectedVariation = this.TbVariations[this.selectedVariationIndex];
+
+        // Ajouter la nouvelle valeur à la liste des valeurs
+        selectedVariation.valeurs.push({
+            valeur: this.newValeur,
+            prix: this.newPrix,
+            quantite_en_stock: this.newQuantite,
+            sku: `SKU-${Math.random().toString(36).substring(7)}`
+        });
+
+        console.log(selectedVariation);
+        console.log(this.TbVariations);
+
+        // Régénérer les combinaisons après ajout de la nouvelle valeur
+        this.generateCombinations();
+
+        // Réinitialiser les champs de saisie
+        this.newValeur = '';
+        this.newPrix = null;
+        this.newQuantite = null;
+    }
+}
+
+  
+  ajouterOuModifier() {
+    if (this.additionalValue && this.additionalPrix !== null && this.additionalStock !== null) {
+      this.ajouterValeurSupplementaire();
+    } else {
+      this.ajouterVariation();
+    }
+  }
+
+  addCategorie(){
+    const dialog = this.dialog.open(CategorieFormComponent)
+    dialog.componentInstance.action = "create"
+    dialog.componentInstance.openByComponentCategorie = true
+    dialog.id = 'CategorieFormComponent'
+    dialog.afterClosed().subscribe(res =>{
+      if (res) {
+        this.getCategorieProduit()
+      }
+    })
+  }
 
 }

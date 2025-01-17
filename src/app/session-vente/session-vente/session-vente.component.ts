@@ -63,7 +63,7 @@ export class SessionVenteComponent {
   isloadingpaiement!: boolean;
   isloadingbtnvalidate!: boolean;
   montantTotalDeLaVente: number = 0;
-  note!: string
+  note!: string;
   message!: any;
   clientSelected!: Client;
   user!: Utilisateur;
@@ -74,6 +74,9 @@ export class SessionVenteComponent {
   nouvelleQuantite!: number;
 
   Facture!: Facture;
+  TbCategorie: any;
+  categorizedProducts: { [key: number]: any[] } = {}; 
+  selectedCategory: any;
 
   constructor(
     private produitService: ProduitService,
@@ -92,7 +95,6 @@ export class SessionVenteComponent {
   ngOnInit(): void {
     const point_de_vente_id = +this.route.snapshot.params['id'];
     this.point_de_vente_id = point_de_vente_id;
-
     // get user localStorage
     const user = localStorage.getItem('user');
     if (user) {
@@ -103,7 +105,7 @@ export class SessionVenteComponent {
     this.getListProduit();
     this.getCaisseUser();
     this.startSession();
-    // this.closeSession()
+    this.getlisCategorieProduits();
   }
 
   getListProduit() {
@@ -124,15 +126,52 @@ export class SessionVenteComponent {
           this.pointSelected.nom;
         this.dataSource = new MatTableDataSource([]);
       } else {
-        this.dataSource = new MatTableDataSource(data.message);
         this.tbProduit = data.message;
+        this.categorizeProductsByCategory(this.tbProduit);
         this.tbProduit.forEach((produit) => {
           this.getImageByproduiID(produit.produit_id);
         });
       }
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
     });
+  }
+
+  getlisCategorieProduits() {
+    this.produitService.getListCategorieProduit().subscribe((res) => {
+      console.log(res.message);
+      this.TbCategorie = res.message;
+      if (this.TbCategorie && this.TbCategorie.length > 0) {
+        this.selectedCategory = this.TbCategorie[0];
+      }
+      this.categorizeProductsByCategory(this.tbProduit);
+    });
+  }
+
+  categorizeProductsByCategory(products: any[]) {
+    this.categorizedProducts = {};
+    products.forEach((product) => {
+      const categoryId = product.categorie_id;
+      if (!this.categorizedProducts[categoryId]) {
+        this.categorizedProducts[categoryId] = [];
+      }
+      this.categorizedProducts[categoryId].push(product);
+    });
+  }
+
+  getImageByproduiID(IDproduit: number) {
+    const produit: GetProduit = { produit_id: IDproduit };
+    this.produitService.getImageByProduit(produit).subscribe((data) => {
+      console.log(data);
+      if (data.message) {
+        this.imageproduit[IDproduit] = `${data.message}`;
+        console.log(this.imageproduit);
+      } else {
+        console.log(`Aucune image trouvée pour le produit ID: ${IDproduit}`);
+      }
+    });
+  }
+
+  onCategorySelect(category: any) {
+    return this.categorizedProducts[category.categorie_id] || [];
   }
 
   ajouterArticle(produit: Produit): void {
@@ -254,6 +293,7 @@ export class SessionVenteComponent {
         article.prix_total_vente = article.quantite * article.prix_unitaire;
         this.quantitesProduits[article.produit_id] = 1;
         this.tbarticle = [...this.tbarticle];
+        this.calculerTotalArticles();
         console.log('Article réinitialisé:', article);
       }
     } else {
@@ -274,19 +314,6 @@ export class SessionVenteComponent {
     return produit ? produit.nom : '';
   }
 
-  getImageByproduiID(IDproduit: number) {
-    const produit: GetProduit = { produit_id: IDproduit };
-    this.produitService.getImageByProduit(produit).subscribe((data) => {
-      console.log(data);
-      if (data.message) {
-        this.imageproduit[IDproduit] = `${data.message}`;
-        console.log(this.imageproduit);
-      } else {
-        console.log(`Aucune image trouvée pour le produit ID: ${IDproduit}`);
-      }
-    });
-  }
-
   getCaisseUser() {
     const user: GetUser = { utilisateur_id: this.user.utilisateur_id };
     this.caisseService.getCaisseByUser(user).subscribe((data) => {
@@ -302,17 +329,16 @@ export class SessionVenteComponent {
   }
 
   valueNote(event: any): void {
-    this.note = event.target.value; 
-    console.log(this.note); 
+    this.note = event.target.value;
+    console.log(this.note);
   }
 
   resetSale(): void {
-        this.tbarticle = [];
-        this.montantTotalDeLaVente = 0
-        console.log(this.tbarticle);
-        this.quantitesProduits = {};
+    this.tbarticle = [];
+    this.montantTotalDeLaVente = 0;
+    console.log(this.tbarticle);
+    this.quantitesProduits = {};
   }
-
 
   ValidatePaiement() {
     const vente = {
@@ -332,36 +358,13 @@ export class SessionVenteComponent {
       articles: this.tbarticle,
     };
     console.log(vente);
-    
+
     const venteString = JSON.stringify(vente);
     localStorage.setItem('vente', venteString);
     if (venteString) {
       this.router.navigateByUrl('/payement');
     }
   }
-
-  // imprimerPDFFacture() {
-  //   this.venteService.ImpressionFacture(this.Facture).subscribe((data) => {
-  //     console.log(data);
-  //     const blob = new Blob([data], { type: 'application/pdf' });
-  //     const url = window.URL.createObjectURL(blob);
-  //     const anchor = document.createElement('a');
-  //     anchor.href = url;
-  //     anchor.download = 'Rapport_de_cloture_de_caisse.pdf';
-  //     document.body.appendChild(anchor);
-  //     anchor.click();
-  //     document.body.removeChild(anchor);
-
-  //     const pdfWindow = window.open('');
-  //     if (pdfWindow) {
-  //       pdfWindow.document.write(
-  //         "<iframe width='100%' height='100%' style='border:none' src='" +
-  //           url +
-  //           "'></iframe>"
-  //       );
-  //     }
-  //   });
-  // }
 
   chooseClient() {
     const dialog = this.dialog.open(SelectClientComponent);

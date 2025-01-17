@@ -2,13 +2,13 @@
     <div class="nxl-content">
       <div class="col-lg-11 m-lg-auto">
         <div class="p-3">
-          <div class="shadow p-2">
-            <h1>Liste des notifications</h1>
+          <div class="text-uppercase">
+            <h1>notifications stock produit</h1>
           </div>
-          <div class="shadow bg-white mt-1">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="d-flex align-items-center mt-4">
+          <div class="px-3 bg-white py-3">
+            <div class="row mb-3">
+              <div class="col-lg-2">
+                <div class="d-flex align-items-center">
                   <i
                     style="position: absolute"
                     class="fa-solid p-3 fa-magnifying-glass"
@@ -17,12 +17,12 @@
                   <input
                     type="text"
                     (keyup)="applyFilter($event)"
-                    placeholder="Recherchez un utilisateur ici..."
+                    placeholder="Recherchez ..."
                     class="form-control text-start px-5 text-uppercase"
                   />
                 </div>
               </div>
-              <div class="col-lg-6 pt-4">
+              <!-- <div class="col-lg-3 pt-4">
                 <button
                   style="background-color: #3454d1"
                   type="button"
@@ -30,15 +30,12 @@
                 >
                   Imprimer la liste <i class="fa-solid fa-print"></i>
                 </button>
-              </div>
-              <div class="col-lg-4 pt-4">
-              </div>
+              </div> -->
             </div>
             <div
-              class="mat-elevation-z8 mt-3"
-              *ngIf="!isloadingpage; else loader"
+              class="mat-elevation-z8"
             >
-              <table mat-table [dataSource]="dataSource">
+              <table *ngIf="!isloadingpage; else loader" mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="produit_id">
                   <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                     Produit
@@ -83,7 +80,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               </table>
               <mat-paginator
-                [pageSizeOptions]="[5, 10, 15]"
+                [pageSizeOptions]="[10, 20, 30]"
                 showFirstLastButtons
                 aria-label="Select page of periodic elements"
               >
