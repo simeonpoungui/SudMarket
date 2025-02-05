@@ -50,11 +50,11 @@ export class RentabiliteComponent {
     'DÉC',
   ];
 
-  ventes!: Vente[];
-  articlesventes!: ArticlesDeVentes[];
+  ventes: Vente[] = [];
+  articlesventes: ArticlesDeVentes[] = [];
   tbUsers: Utilisateur[] = [];
   tbClients: Client[] = [];
-  tbPointdeVente!: PointsDeVentes[];
+  tbPointdeVente: PointsDeVentes[] = [];
 
   isloadingpage!: boolean;
   MontantTotalVengteJournalier: any;
@@ -101,22 +101,25 @@ export class RentabiliteComponent {
     this.venteService.getList(vente).subscribe((data) => {
       this.ventes = data.message;
       console.log(data.message);
-      this.TotalMontant = this.globalService.calculTotal(
-        'montant_total',
-        data.message
-      );
-      this.TotalMontantBenefice = this.globalService.calculTotal(
-        'total_benefice_vente',
-        data.message
-      );
-      this.dataSource = new MatTableDataSource(data.message);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.calculerTotauxBenefices();
-      this.calculerTotauxBeneficeMois()
-      this.calculerTotauxBeneficesAnnuelle()
-      this.afficherGraphique();
-      this.isloadingtable = false;
+      if (data.message) {
+        this.isloadingtable = false;
+        this.TotalMontant = this.globalService.calculTotal(
+          'montant_total',
+          data.message
+        );
+        this.TotalMontantBenefice = this.globalService.calculTotal(
+          'total_benefice_vente',
+          data.message
+        );
+        this.dataSource = new MatTableDataSource(data.message);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.calculerTotauxBenefices();
+        this.calculerTotauxBeneficeMois()
+        this.calculerTotauxBeneficesAnnuelle()
+        this.afficherGraphique();
+      }
+
     });
   }
 

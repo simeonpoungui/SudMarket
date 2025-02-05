@@ -45,7 +45,7 @@ export class ProduitFormComponent {
   largeur?: number; // en cm
   cree_le!: Date;
   mis_a_jour_le!: Date;
-  code_produit!: string | undefined;
+  sku!: string | undefined;
 
   message!: any;
   produit!: Produit;
@@ -79,14 +79,11 @@ export class ProduitFormComponent {
 
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
-  image: any | ArrayBuffer | null = 'assets/images/avatar/2.png';
+  image: any | ArrayBuffer | null = 'assets/images/logo/shopping.png';
 
   isFormValid(): any {
     return (
-      this.nom &&
-      this.prix &&
-      this.quantite_en_stock &&
-      this.categorie_id
+      this.nom && this.type_produit && this.etat_du_stock && this.point_de_vente_id && this.unite_mesure &&  this.unite_mesure && this.code_barres && this.description_courte && this.description_longue  && this.categorie_id
     );
   }
   selectedVariationIndex: number | null = null; 
@@ -145,7 +142,7 @@ export class ProduitFormComponent {
     this.produit_id = this.produit.produit_id;
     this.point_de_vente_id = this.produit.point_de_vente_id;
     this.nom = this.produit.nom;
-    this.code_produit = this.produit.code_produit;
+    this.sku = this.produit.sku;
     this.description_courte = this.produit.description_courte;
     this.description_longue = this.produit.description_longue; // Si vous avez cette propriété
     this.categorie_id = this.produit.categorie_id;
@@ -168,11 +165,10 @@ export class ProduitFormComponent {
     const produit: GetProduit = {
       produit_id: this.produit.produit_id
     };
-  
+  console.log(produit);
     this.produitService.getCombinaisonByProduitId(produit).subscribe(res => {
       console.log(res.message);
-  
-      // Charger les combinaisons et marquer toutes comme sélectionnées
+      this.tbCombinaisons = res.message
       this.productCombinations = res.message.map((combination: any) => ({
         ...combination, // Copier les propriétés existantes
         selected: true // Ajouter la propriété `selected` à true pour cocher la case
@@ -184,40 +180,39 @@ export class ProduitFormComponent {
   getVariationByIdProduit() {
     const produit: GetProduit = {
       produit_id: this.produit.produit_id
-    }
+    };
   
     this.produitService.getVariationByProduitId(produit).subscribe(res => {
-      console.log(res.message);
-      this.TbVariations = [];
-      res.message.forEach((variation: { nom: string; valeur: any; prix: any; quantite_en_stock: any; couleur: any; sku: any; }) => {
-        const existingVariation = this.TbVariations.find(v => v.nom === variation.nom);
+      console.log(res); // Vérifie la structure complète de la réponse
+      
+      // Vérifie si res.message est un tableau
+      if (Array.isArray(res.message)) {
+        this.TbVariations = [];
+        res.message.forEach((variation: { nom: string; valeur: any; prix: any; quantite_en_stock: any; couleur: any; sku: any; }) => {
+          const existingVariation = this.TbVariations.find(v => v.nom === variation.nom);
           if (existingVariation) {
-          existingVariation.valeurs.push({
-            valeur: variation.valeur,
-            prix: variation.prix,
-            quantite_en_stock: variation.quantite_en_stock,
-            couleur: variation.couleur,
-            sku: variation.sku
-          });
-        } else {
-          // Si elle n'existe pas, on crée une nouvelle entrée
-          this.TbVariations.push({
-            nom: variation.nom,
-            valeurs: [{
-              valeur: variation.valeur,
-              prix: variation.prix,
-              quantite_en_stock: variation.quantite_en_stock,
-              couleur: variation.couleur,
-              sku: variation.sku
-            }]
-          });
-        }
-      });
+            existingVariation.valeurs.push({
+              valeur: variation.valeur
+            });
+          } else {
+            // Si elle n'existe pas, on crée une nouvelle entrée
+            this.TbVariations.push({
+              nom: variation.nom,
+              valeurs: [{
+                valeur: variation.valeur
+              }]
+            });
+          }
+        });
   
-      // Afficher le résultat final
-      console.log(this.TbVariations);
+        // Afficher le résultat final
+        console.log(this.TbVariations);
+      } else {
+        console.error('La structure de res.message n\'est pas un tableau', res.message);
+      }
     });
   }
+  
   
   
 
@@ -231,11 +226,20 @@ export class ProduitFormComponent {
     })
   }
 
+  generateSKU(): string {
+    const timestamp = Date.now(); 
+    const randomSuffix = Math.floor(1000 + Math.random() * 9000); 
+    return `SKU-${timestamp}-${randomSuffix}`; 
+  }
+  
 
   onSubmitForm(form: NgForm) {
-    this.isloadingsubmitForm = true
+    this.isloadingsubmitForm = true;
     const produit: Produit = form.value;
     produit.TbVariations = this.TbVariations; 
+  
+    produit.sku = this.generateSKU();
+  
     const objetSend: any = {
       nom: produit.nom,
       type_produit: produit.type_produit,
@@ -252,49 +256,47 @@ export class ProduitFormComponent {
       description_courte: produit.description_courte,
       description_longue: produit.description_longue,
       niveau_de_reapprovisionnement: produit.niveau_de_reapprovisionnement,
-      code_produit: produit.code_produit,
+      sku: produit.sku, 
       longueur: produit.longueur,
       largeur: produit.largeur,
       hauteur: produit.hauteur,
       TbVariations: produit.TbVariations,
       productCombinations: this.tbCombinaisons
-    }
+    };
+  
     console.log(objetSend); 
-     if (this.action === 'edit') {
-       produit.produit_id = this.produit.produit_id;
-       this.produitService.update(produit).subscribe((data) => {
-         console.log(data);
-         this.message = data.message;
-         this.router.navigateByUrl('produit/list');
-         this.isloadingsubmitForm = false
-         this.globaService.toastShow(this.message, 'Succès', 'success');
-         this.sendImageByProduit();
-       });
-     } else {
-       this.produitService.create(objetSend).subscribe((data) => {
-         console.log(data.message);
-         this.message = data.message;
-         if (data.code == 'succes') {
-           this.router.navigateByUrl('produit/list');
-           this.globaService.toastShow("Votre produit a été créé avec succès", 'Succès', 'success');
-           this.isloadingsubmitForm = false
-         }else{
-           this.isloadingsubmitForm = false
-         }
-        
-        // Image du produit
-         const model: ImageProduit = {
-           produit_id: Number(data.message),
-           image: this.image
-         };
-         console.log(model);
-         this.produitService.updateCreateImageByProduit(model).subscribe(data => {
-           console.log(data.message);
-         });
-       });
-     }
-}
-
+      if (this.action === 'edit') {
+        objetSend.produit_id = this.produit.produit_id;
+        this.produitService.update(objetSend).subscribe((data) => {
+          console.log(data);
+          this.message = data.message;
+          this.router.navigateByUrl('produit/list');
+          this.isloadingsubmitForm = false
+          this.globaService.toastShow(this.message, 'Succès', 'success');
+          this.sendImageByProduit();
+        });
+      } else {
+        this.produitService.create(objetSend).subscribe(
+          (data) => {
+            console.log(data); 
+            if (data.code === 'succes') {
+              this.router.navigateByUrl('produit/list');
+              this.globaService.toastShow("Le produit a été ajouté avec succès", 'Succès', 'success');
+              this.isloadingsubmitForm = false;
+            } else {
+              this.isloadingsubmitForm = false;
+              this.globaService.toastShow('Erreur: ' + data.message, 'Erreur', 'error');
+            }
+          },
+          (error) => {
+            console.error('Erreur lors de la requête API:', error); // En cas d'erreur HTTP
+            this.isloadingsubmitForm = false;
+            this.globaService.toastShow('Une erreur est survenue', 'Erreur', 'error');
+          }
+        );
+      }
+  }
+  
   triggerFileInput(): void {
     this.fileInput.nativeElement.click();
 }
@@ -360,7 +362,6 @@ resizeImage(file: File): void {
 
 toggleSelectAll() {
   let allValid = true; // Variable pour vérifier si toutes les combinaisons sont valides
-
   this.productCombinations.forEach(combination => {
     if (!combination.prix || !combination.quantite_en_stock) {
       // Annuler la sélection pour les combinaisons invalides
@@ -407,38 +408,52 @@ onCheckboxChange(combination: any) {
 saveChangesVariations() {
   const selectedCombinations = this.productCombinations.filter(combination => combination.selected);
   if (selectedCombinations.length === 0) {
-    this.globaService.toastShow("Veuillez sélectionner au moins une combinaison avant d’enregistrer.","Information",'info')
+    this.globaService.toastShow("Veuillez sélectionner au moins une combinaison avant d’enregistrer.", "Information", 'info');
     return; 
   }
-  console.log(selectedCombinations);
   
   // Traiter les combinaisons sélectionnées
   const updatedCombinations = selectedCombinations.map(combination => {
+    console.log(combination);
+    
     const { selected, ...combinationWithoutSelected } = combination;
     combinationWithoutSelected.sku = `SKU-${combination.combination_hash}-${combination.quantite_en_stock}`;
     return combinationWithoutSelected;
   });
+
   this.tbCombinaisons = updatedCombinations;
   console.log(this.tbCombinaisons);
+
   // Fermer le modal après succès
   const modal = document.getElementById('exampleModal');
   if (modal) {
-    (modal as any).classList.remove('show'); // Masquer le modal
-    document.body.classList.remove('modal-open'); // Supprimer la classe de scroll bloqué
-    document.body.style.paddingRight = ''; // Réinitialiser le style de padding
+    (modal as any).classList.remove('show');
+    document.body.classList.remove('modal-open');
+    document.body.style.paddingRight = '';
     const backdrop = document.querySelector('.modal-backdrop');
-    if (backdrop) backdrop.remove(); // Supprimer le fond du modal
+    if (backdrop) backdrop.remove();
   }
 }
 
+
 generateCombinations() {
   const variations = this.TbVariations;
+
+  // Génère toutes les combinaisons possibles à partir des variations
   const combinations = this.getCombinations(variations.map(v => v.valeurs));
+
+  // Initialise les combinaisons avec les propriétés par défaut
   this.productCombinations = combinations.map(comb => ({
-    combination_hash: comb.map((c: { valeur: any; }) => c.valeur).join('-'), 
-    quantite_en_stock: 0, 
-    prix: 0,    
+    combination_hash: comb.map((c: { valeur: any }) => c.valeur).join('-'), // Génère le hash de la combinaison
+    quantite_en_stock: 0,  // Quantité par défaut
+    prix: 0,               // Prix par défaut
+    prix_reduit: 0,        // Prix réduit par défaut
+    prix_de_revient: 0,    // Prix de revient par défaut
+    code_barres: '',       // Code-barres par défaut (vide)
+    niveau_de_reapprovisionnement: 0, // Niveau de réapprovisionnement par défaut
+    selected: false        // État sélectionné par défaut
   }));
+
   console.log(this.productCombinations);
 }
 
@@ -446,8 +461,11 @@ getCombinations(arrays: any[]): any[] {
   if (arrays.length === 0) return [[]];
   const first = arrays[0];
   const rest = arrays.slice(1);
+
+  // Combine récursivement les éléments du tableau
   const combinationsWithoutFirst = this.getCombinations(rest);
   const combinationsWithFirst = first.map((f: any) => combinationsWithoutFirst.map(c => [f, ...c])).flat();
+
   return combinationsWithFirst;
 }
 
@@ -461,10 +479,7 @@ ajouterValeurSupplementaire() {
       if (!valeurExisteDeja) {
           // Ajouter la nouvelle valeur au tableau "valeurs" de la variation existante
           const nouvelleValeur: Variations = {
-              valeur: this.additionalValue,
-              prix: this.additionalPrix,
-              quantite_en_stock: this.additionalStock,
-              sku: this.variation.sku + '-' + this.additionalValue,  // Utiliser un SKU unique pour la nouvelle valeur
+              valeur: this.additionalValue
           };
 
           // Ajouter la nouvelle valeur au tableau des valeurs du produit
@@ -490,11 +505,10 @@ ajouterValeurSupplementaire() {
   onValueChange(variationIndex: number, valueIndex: number, field: string, newValue: any): void {
     console.log(`Changement détecté dans ${field} de la variation "${this.TbVariations[variationIndex].nom}"`);
     console.log(`Nouvelle valeur pour ${field}: ${newValue}`);
-    if (field === 'prix' && newValue < 0) {
-      console.log('Prix invalide');
-    }
     console.log(this.TbVariations);
+    this.generateCombinations()
   }
+
   
   // Méthode pour ouvrir l'édition d'une variation spécifique
   openEditVariation(index: number) {
@@ -507,18 +521,13 @@ ajouterValeurSupplementaire() {
     // Effectuez les actions nécessaires pour sauvegarder cette variation.
   }
 
-  ajouterVariation() {
-    const sku = 'SKU-' + Math.random().toString(36).substr(2, 9);
-  
+  ajouterVariation() {  
     // Créer un nouvel objet de variation avec la première valeur
     const nouvelleVariation = {
       nom: this.variation.nom,
       valeurs: [
         {
-          valeur: this.variation.valeur,
-          prix: this.variation.prix,
-          quantite_en_stock: this.variation.quantite_en_stock,
-          sku: sku,
+          valeur: this.variation.valeur
         }
       ],
     };
@@ -547,28 +556,29 @@ ajouterValeurSupplementaire() {
   
   addNewValue() {
     if (this.selectedVariationIndex !== null) {
-        const selectedVariation = this.TbVariations[this.selectedVariationIndex];
-
+      const selectedVariation = this.TbVariations[this.selectedVariationIndex];
+  
+      // Vérifier si la valeur saisie est non vide et unique
+      if (this.newValeur && !selectedVariation.valeurs.some(v => v.valeur === this.newValeur.trim())) {
         // Ajouter la nouvelle valeur à la liste des valeurs
         selectedVariation.valeurs.push({
-            valeur: this.newValeur,
-            prix: this.newPrix,
-            quantite_en_stock: this.newQuantite,
-            sku: `SKU-${Math.random().toString(36).substring(7)}`
+          valeur: this.newValeur.trim() // On enlève les espaces inutiles
         });
-
+  
         console.log(selectedVariation);
         console.log(this.TbVariations);
-
+  
         // Régénérer les combinaisons après ajout de la nouvelle valeur
         this.generateCombinations();
-
-        // Réinitialiser les champs de saisie
-        this.newValeur = '';
-        this.newPrix = null;
-        this.newQuantite = null;
+      }
+  
+      // Réinitialiser les champs de saisie
+      this.newValeur = '';
+      this.newPrix = null;
+      this.newQuantite = null;
     }
-}
+  }
+  
 
   
   ajouterOuModifier() {

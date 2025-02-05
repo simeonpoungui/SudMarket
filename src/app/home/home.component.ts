@@ -25,17 +25,17 @@ import { BoutiqueService } from '../Services/boutique.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  ventes!: Vente[];
-  produits!: Produit[];
+  ventes: Vente[] = [];
+  produits: Produit[] = [];
   dernieresVentes: Vente[] = [];
-  tbClients!: Client[];
-  tbUsers!: Utilisateur[];
+  tbClients: Client[] = [];
+  tbUsers: Utilisateur[] = [];
   ventesParMois: { [mois: string]: number } = {};
   articles: ArticlesDeVentes[] = [];
   tbBenefices: ArticlesDeVentes[] = [];
 
   topUsers: any[] = [];
-  tbPointdeVente!: PointsDeVentes[]
+  tbPointdeVente: PointsDeVentes[] = []
 
   moisNoms = [
     'JANV',
@@ -69,7 +69,7 @@ export class HomeComponent {
   nombreVentesMoisPrecedent: number = 0;
 
   user!: Utilisateur
-  imageUserConnected!: Utilisateur[];
+  imageUserConnected: Utilisateur[] = [];
   imageproduit: { [key: number]: string } = {};
   imageUsers: { [key: number]: string } = {};  
   imageproduitArticle: { [key: number]: string } = {}; 

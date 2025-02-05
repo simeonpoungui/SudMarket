@@ -51,11 +51,11 @@ export class VenteComponent {
   selectedVenteString: string = ''
   tbUsers: Utilisateur[] = []
   tbClients: Client[] = [];
-  ventes!: Vente[]
+  ventes: Vente[] = []
   TotalMontant!: number
   TotalMontantBenefice!: number
   pointSelected!:PointsDeVentes;
-  tbPointdeVente!: PointsDeVentes[]
+  tbPointdeVente: PointsDeVentes[] = []
 
   IDuser!: number 
   IDclient!: number 

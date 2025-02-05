@@ -23,7 +23,7 @@ export class FicheArticleDeVenteComponent {
   action:string = 'view';
   article!: ArticlesDeVentes;
   message!: any
-  tbProduit!: Produit[]
+  tbProduit: Produit[] = []
 
   constructor(
     private route: ActivatedRoute,

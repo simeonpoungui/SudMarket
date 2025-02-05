@@ -36,10 +36,10 @@ export class VenteFicheComponent {
   message!: any
   
   tbUsers: Utilisateur[] = []
-  tbProduit!: Produit[]
+  tbProduit: Produit[] = []
   tbClients: Client[] = [];
-  tbPointdeVente!: PointsDeVentes[]
-  tbarticlesDeVente!: any[]
+  tbPointdeVente: PointsDeVentes[] = []
+  tbarticlesDeVente: any[] = []
   sort: any;
   paginator: any;
 

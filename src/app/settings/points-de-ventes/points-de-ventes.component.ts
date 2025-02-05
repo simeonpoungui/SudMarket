@@ -70,6 +70,7 @@ export class PointsDeVentesComponent {
     }
     this.pointsDeVenteServive.getPointDeVenteByUsder(user).subscribe(data => {
       console.log(data);
+      this.isloadingpage = false
       this.TbPointDeVente = [data.message]
     })
   }

@@ -18,7 +18,7 @@ export class FicheUserComponent {
   @Input() action!:string;
   user!: Utilisateur;
   message!: any
-  tbPointdeVente!: PointsDeVentes[]
+  tbPointdeVente: PointsDeVentes[] = []
 
   constructor(
     private route: ActivatedRoute,

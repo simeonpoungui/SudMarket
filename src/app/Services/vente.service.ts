@@ -98,13 +98,14 @@ export class VenteService {
     const data = {
       facture: facture,
       vente: vente
-    }
+    };
     console.log(data);
     console.log(environment.apiUrl + this.uriimpressionfacture);
     return this.httpclient.post(environment.apiUrl + this.uriimpressionfacture, data, {
-      responseType: 'blob' as 'json'
+      responseType: 'blob'  // Type 'blob' directement
     });
   }
+  
   
 
 }

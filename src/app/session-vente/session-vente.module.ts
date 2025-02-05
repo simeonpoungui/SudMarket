@@ -12,6 +12,7 @@ import { ListSessionVenteComponent } from './list-session-vente/list-session-ven
 import { HistoriqueSessionByPointDeVenteComponent } from './historique-session-by-point-de-vente/historique-session-by-point-de-vente.component';
 import { ValidatePayementComponent } from './validate-payement/validate-payement.component';
 import { PrintRecuComponent } from './print-recu/print-recu.component';
+import { SelectVariationsComponent } from './select-variations/select-variations.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PrintRecuComponent } from './print-recu/print-recu.component';
     ListSessionVenteComponent,
     HistoriqueSessionByPointDeVenteComponent,
     ValidatePayementComponent,
-    PrintRecuComponent
+    PrintRecuComponent,
+    SelectVariationsComponent
   ],
   imports: [
     CommonModule,

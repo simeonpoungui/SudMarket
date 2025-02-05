@@ -31,15 +31,15 @@ export class ArticleDeVentesComponent {
     'Actions'
   ];
   isloadingpage!: boolean;
-  tbVente!: any[]
-  tbProduit!: Produit[]
+  tbVente: any[] = []
+  tbProduit: Produit[] = []
   table!: any
   MontantTotalVengteJournalier!: number
-  tbPointdeVente!: PointsDeVentes[]
-  articlesventes!: ArticlesDeVentes[]
+  tbPointdeVente: PointsDeVentes[] = []
+  articlesventes: ArticlesDeVentes[] = []
   DateDebutVente!: string
   dateFinVente!: string 
-  pointdevetents!: PointsDeVentes[]
+  pointdevetents: PointsDeVentes[] = []
   selectedArticleString!: string;
 
   IDproduit!: number

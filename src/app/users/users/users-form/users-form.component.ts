@@ -20,7 +20,7 @@ import { RoleFormComponent } from 'src/app/settings/role/role-form/role-form.com
 export class UsersFormComponent {
 
   @Input() action!:string;
-  user!: Utilisateur;
+  user: Utilisateur = new Utilisateur();  
   utilisateur_id!: number;
   nom_utilisateur!: string;
   prenom_utilisateur?: string;
@@ -60,17 +60,20 @@ export class UsersFormComponent {
 
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
-  image: any | ArrayBuffer | null = 'assets/images/avatar/2.png';
+  image: any | ArrayBuffer | null = 'assets/images/default-profile-user-removebg-preview.png';
   
   ngOnInit(): void {
-    this.action = this.route.snapshot.params['action']
+    this.action = this.route.snapshot.params['action'];
     console.log(this.action);
+
     const utilisateurJson = localStorage.getItem('selectedUtilisateur');
     if (utilisateurJson) {
-      this.user =  JSON.parse(utilisateurJson);
+      this.user = JSON.parse(utilisateurJson);
       console.log(this.user);
-      
+    } else {
+      console.warn("Aucune donnée utilisateur trouvée dans localStorage");
     }
+  
     if (this.action === 'edit') {
       this.initFomForUser()
       this.getImageUserID()

@@ -1,10 +1,10 @@
 <main class="nxl-container">
-  <div class="nxl-content pt-lg-4">
-    <div class="col-lg-11 m-lg-auto ">
+  <div class="nxl-content">
+    <div class="col-lg-10 p-lg-5 m-lg-auto">
       <div>
         <h1 class="text-uppercase">rentabilités</h1>
       </div>
-      <div class="bg-white px-3 py-4 rounded rounded-3">
+      <div class="bg-white px-3 p-lg-4 rounded rounded-4" >
         <div class="row">
           <div class="col-xxl-4 col-md-6">
             <div class="card stretch stretch-full">
@@ -192,7 +192,7 @@
                 name=""
                 id=""
               >
-                <option value="">Filtrer les benefices par point de vente</option>
+                <option value="">Filtrer par point de vente</option>
                 <option
                   *ngFor="let point of tbPointdeVente"
                   [value]="point.point_de_vente_id"
@@ -219,9 +219,8 @@
             </div>
           </div>
           <div
-            class="mat-elevation-z8  mt-2 "
+            class="mat-elevation-z8  mt-2"
             style="max-height: 200px; overflow-y: auto"
-            *ngIf="!isloadingtable; else loader"
           >
             <table mat-table [dataSource]="dataSource">
               <ng-container matColumnDef="date_vente">

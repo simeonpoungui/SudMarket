@@ -1,7 +1,7 @@
 export class Produit {
     produit_id!: number;
     point_de_vente_id?: number;
-    code_produit?: string;
+    sku?: string;
     nom!: string;
     categorie_id!: number;
     prix!: number;
@@ -32,10 +32,6 @@ export interface ProduitsVariante {
   
   export interface Variations{
     valeur: string;
-    prix: any;
-    quantite_en_stock: any;
-    couleur?: string;
-    sku: string;
   }
   
 

@@ -169,6 +169,18 @@
                 </td>
               </ng-container>
 
+              <ng-container matColumnDef="Action">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Action
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  <!-- Button trigger modal -->
+                <button type="button" (click)="openModal(element)" class="border-0 rounded rounded-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                </td>
+              </ng-container>
+
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
@@ -184,6 +196,44 @@
     </div>
   </div>
 </main>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">  <!-- Ajout de la classe modal-dialog-centered -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title text-uppercase fs-5" id="exampleModalLabel">Variations Commandées</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Tableau Bootstrap -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Variation</th>
+              <th scope="col">Prix unitaire</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Iteration sur les combinaisons de produits -->
+            <tr *ngFor="let combinaison of TbCombinaisons">
+              <td>{{ combinaison.combination_hash }}</td>
+              <td>{{ combinaison.prix }}</td>
+              <td>{{ ObjetCommande.quantite }}</td>
+              <td>{{ ObjetCommande.prix_total_commande }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <ng-template #loader>
   <div class="text-center">
     <app-loader></app-loader>

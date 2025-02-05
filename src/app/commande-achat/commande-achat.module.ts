@@ -12,6 +12,7 @@ import { ArticlesCommandesAchatsComponent } from './articles-commandes-achats/ar
 import { SessionCommandeComponent } from './session-commande/session-commande.component';
 import { FicheArticleDeCommandeComponent } from './fiche-article-de-commande/fiche-article-de-commande.component';
 import { AchatComponent } from './achat/achat.component';
+import { SelectVariationsCommandeComponent } from './session-commande/select-variations-commande/select-variations-commande.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AchatComponent } from './achat/achat.component';
     CommandeAChatFicheComponent,
     ArticlesCommandesAchatsComponent,
     SessionCommandeComponent,
+    SelectVariationsCommandeComponent,
     FicheArticleDeCommandeComponent,
     AchatComponent
   ],

@@ -18,7 +18,7 @@
               </div>
             </div>
           </div>
-          <div class="row ">
+          <div class="row" *ngIf="!isloadingpage; else loader">
             <div class="col-lg-6 rounded rounded-2 py-3" *ngFor="let point of TbPointDeVente">
               <div class="bg-white rounded mx-1 rounded-4 px-5 py-5">
                 <div class="row">

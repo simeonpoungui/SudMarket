@@ -34,11 +34,11 @@ export class CommandeAChatComponent {
 
   isloadingpage!: boolean
   selectedcommandeString!: string;
-  tbfournisseur!: Fournisseur[]
+  tbfournisseur: Fournisseur[] = []
   tbUsers: Utilisateur[] = []
   TotalMontant!: number
-  tbPointdeVente!: PointsDeVentes[]
-  commandesachats!: CommandeAchat[]
+  tbPointdeVente: PointsDeVentes[] = []
+  commandesachats: CommandeAchat[] = []
 
   IDfournisseur!: number
   IDuser!: number

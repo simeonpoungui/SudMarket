@@ -9,6 +9,8 @@ export class ArticlesDeVentes {
   benefice!: number;
   prix_total_vente?: any;
   prix_de_revient!: number
+  id?: number
+  combination_hash?: any
 }
 
 export class GetArticleDeVente {

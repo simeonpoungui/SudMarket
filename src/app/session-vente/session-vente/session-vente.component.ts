@@ -24,6 +24,7 @@ import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component
 import { CaissesService } from 'src/app/Services/caisses.service';
 import { Facture } from 'src/app/Models/Facture.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { SelectVariationsComponent } from '../select-variations/select-variations.component';
 
 @Component({
   selector: 'app-session-vente',
@@ -77,6 +78,8 @@ export class SessionVenteComponent {
   TbCategorie: any;
   categorizedProducts: { [key: number]: any[] } = {}; 
   selectedCategory: any;
+
+  tbselectionsProduitsVariables : any[] = []
 
   constructor(
     private produitService: ProduitService,
@@ -176,52 +179,108 @@ export class SessionVenteComponent {
 
   ajouterArticle(produit: Produit): void {
     console.log(produit);
-
-    // Vérifie si l'article existe déjà dans le tableau
-    const articleExistant = this.tbarticle.find(
-      (article) => article.produit_id === produit.produit_id
-    );
-
-    if (articleExistant) {
-      // Augmente la quantité de l'article existant
-      const nouvelleQuantite = articleExistant.quantite + 1;
-      if (Number.isInteger(nouvelleQuantite) && nouvelleQuantite >= 0) {
-        articleExistant.quantite = nouvelleQuantite;
-        articleExistant.prix_total_vente = nouvelleQuantite * produit.prix;
-
-        // Calcul du bénéfice total en tenant compte de la nouvelle quantité
-        articleExistant.benefice =
-          (produit.prix - produit.prix_de_revient) * nouvelleQuantite;
-
-        // Met à jour la quantité du produit dans quantitesProduits
-        this.quantitesProduits[produit.produit_id] = nouvelleQuantite;
-        this.calculerTotalArticles();
+  
+    // Vérifie si le produit est de type simple
+    if (produit.type_produit === 'simple') {
+      const articleExistant = this.tbarticle.find(
+        (article) => article.produit_id === produit.produit_id
+      );
+  
+      if (articleExistant) {
+        // Augmente la quantité de l'article existant
+        const nouvelleQuantite = articleExistant.quantite + 1;
+        if (Number.isInteger(nouvelleQuantite) && nouvelleQuantite >= 0) {
+          articleExistant.quantite = nouvelleQuantite;
+          articleExistant.prix_total_vente = nouvelleQuantite * produit.prix;
+  
+          // Calcul du bénéfice total en tenant compte de la nouvelle quantité
+          articleExistant.benefice =
+            (produit.prix - produit.prix_de_revient) * nouvelleQuantite;
+  
+          // Met à jour la quantité du produit dans quantitesProduits
+          this.quantitesProduits[produit.produit_id] = nouvelleQuantite;
+          this.calculerTotalArticles();
+        }
+      } else {
+        // Ajoute un nouvel article avec une quantité de 1
+        const nouvelleQuantite = 1;
+        if (Number.isInteger(nouvelleQuantite) && nouvelleQuantite >= 0) {
+          this.tbarticle.push({
+            produit_id: produit.produit_id,
+            quantite: nouvelleQuantite,
+            prix_unitaire: produit.prix,
+            prix_de_revient: produit.prix_de_revient,
+            prix_total_vente: produit.prix,
+            article_de_vente_id: 0,
+            point_de_vente_id: this.point_de_vente_id,
+            vente_id: 0,
+            benefice: (produit.prix - produit.prix_de_revient) * nouvelleQuantite,
+            remise: 0,
+          });
+  
+          // Met à jour la quantité dans quantitesProduits
+          this.quantitesProduits[produit.produit_id] = nouvelleQuantite;
+          this.calculerTotalArticles();
+        }
       }
-    } else {
-      // Ajoute un nouvel article avec une quantité de 1
-      const nouvelleQuantite = 1;
-      if (Number.isInteger(nouvelleQuantite) && nouvelleQuantite >= 0) {
-        this.tbarticle.push({
-          produit_id: produit.produit_id,
-          quantite: nouvelleQuantite,
-          prix_unitaire: produit.prix,
-          prix_de_revient: produit.prix_de_revient,
-          prix_total_vente: produit.prix,
-          article_de_vente_id: 0,
-          point_de_vente_id: this.point_de_vente_id,
-          vente_id: 0,
-          benefice: (produit.prix - produit.prix_de_revient) * nouvelleQuantite,
-          remise: 0,
-        });
-
-        // Met à jour la quantité dans quantitesProduits
-        this.quantitesProduits[produit.produit_id] = nouvelleQuantite;
-        this.calculerTotalArticles();
-      }
+  
+      // Sélectionne l'article actuel
+      this.selectedArticleId = produit.produit_id;
+      console.log(this.tbarticle, this.quantitesProduits);
     }
-    // Sélectionne l'article actuel
-    this.selectedArticleId = produit.produit_id;
-    console.log(this.tbarticle, this.quantitesProduits);
+  
+    // Vérifie si le produit est de type variable
+    else if (produit.type_produit === 'variable') {
+      const dialog = this.dialog.open(SelectVariationsComponent);
+      dialog.componentInstance.produitChoosed = produit;
+      dialog.id = 'SelectVariationsComponent';
+      dialog.afterClosed().subscribe(result => {
+        if (result) {
+          // Une fois que le dialogue est fermé et que nous avons les sélections de produits variables
+          this.tbselectionsProduitsVariables = dialog.componentInstance.tbselectionsProduitsVariables;
+          console.log(this.tbselectionsProduitsVariables);
+  
+          // Ajoute chaque sélection à tbarticle
+          this.tbselectionsProduitsVariables.forEach((variation) => {
+            const nouvelleQuantite = variation.quantite;
+            const prixUnitaire = parseInt(variation.prix_unitaire);
+            const prixDeRevient = parseFloat(variation.prix_de_revient);
+  
+            const prixTotalVente = prixUnitaire * nouvelleQuantite;
+            const benefice = (prixUnitaire - prixDeRevient) * nouvelleQuantite;
+  
+            this.tbarticle.push({
+              id: variation.id,
+              produit_id: variation.produit_id,
+              quantite: nouvelleQuantite,
+              prix_unitaire: prixUnitaire,
+              prix_de_revient: prixDeRevient,
+              prix_total_vente: prixTotalVente,
+              article_de_vente_id: 0,
+              point_de_vente_id: this.point_de_vente_id,
+              vente_id: 0,
+              benefice: benefice,
+              remise: 0,
+              combination_hash: variation.combination_hash
+            });
+  
+            // Met à jour la quantité de chaque produit dans quantitesProduits
+            // this.quantitesProduits[variation.produit_id] = nouvelleQuantite;
+          });
+  
+          // Recalcule les totaux après avoir ajouté les produits variables
+          this.calculerTotalArticles();
+          console.log(this.tbarticle); // Affiche le tableau final mis à jour
+        }
+      });
+    }
+  }
+  
+  calculerTotalArticles() {
+    this.montantTotalDeLaVente = this.tbarticle.reduce((total, article) => {
+      const prixTotal = Number(article.prix_total_vente);
+      return total + prixTotal;
+    }, 0);
   }
 
   selectArticle(articleId: number): void {
@@ -276,12 +335,7 @@ export class SessionVenteComponent {
     }
   }
 
-  calculerTotalArticles() {
-    this.montantTotalDeLaVente = this.tbarticle.reduce((total, article) => {
-      const prixTotal = Number(article.prix_total_vente);
-      return total + prixTotal;
-    }, 0);
-  }
+  
 
   resetArticle(): void {
     if (this.selectedArticleId !== null) {
@@ -359,11 +413,11 @@ export class SessionVenteComponent {
     };
     console.log(vente);
 
-    const venteString = JSON.stringify(vente);
-    localStorage.setItem('vente', venteString);
-    if (venteString) {
-      this.router.navigateByUrl('/payement');
-    }
+     const venteString = JSON.stringify(vente);
+     localStorage.setItem('vente', venteString);
+     if (venteString) {
+       this.router.navigateByUrl('/payement');
+     }
   }
 
   chooseClient() {

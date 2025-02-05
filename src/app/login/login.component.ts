@@ -4,11 +4,12 @@ import { Login } from '../Models/login.model';
 import { LoginService } from '../Services/login.service';
 import { Router } from '@angular/router';
 import { GlobalService } from '../Services/global.service';
+import { CoreModule } from "../core/core.module";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
 

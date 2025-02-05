@@ -14,7 +14,6 @@
                   <img
                     class="w-100 "
                     [src]="image"
-                    *ngIf="image"
                   />
                 </div>
                 <input
@@ -27,10 +26,10 @@
                 />
                 <div class="w-25 m-auto p-3 rounded rounded-5 bg-dark border">
                   <img
+                  style="cursor: pointer;"
                     (click)="triggerFileInput()"
                     class="w-100"
                     src="assets/images/signal-2024-12-09-060204_003.png"
-                    alt=""
                   />
                 </div>
               </div>

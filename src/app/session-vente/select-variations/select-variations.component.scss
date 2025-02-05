@@ -9,22 +9,11 @@ background-color:$secondary-color ;
     background-color:$primary-color;
 }
 
+
   .variation-value{
     display: inline-block; /* L'élément prend la largeur de son contenu */
     white-space: nowrap;   /* Empêche le texte de se couper sur plusieurs lignes */
   }
   
 
-  .content {
-    border: 1px solid #ccc;
-    padding: 10px;
-    position: relative;
-    }
-    
-    .text-on-border {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    background-color: #fff;
-    padding: 0 5px;
-    }
+  

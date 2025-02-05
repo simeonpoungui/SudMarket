@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/Services/users.service';
 import {GetPointsDeVentes,PointsDeVentes} from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { CommandeService } from 'src/app/Services/commande.service';
-import { CommandeAchat, GetCommandeAchat } from 'src/app/Models/commande.model';
+import { ArticlesDeCommandeDAchat, CommandeAchat, GetCommandeAchat } from 'src/app/Models/commande.model';
 import { Fournisseur, GetFournisseur } from 'src/app/Models/fournisseur.model';
 import { FournisseurService } from 'src/app/Services/fournisseur.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -38,9 +38,9 @@ export class CommandeAChatFormComponent {
 
   tbUsers: Utilisateur[] = [];
   tbClients: Client[] = [];
-  tbProduit!: Produit[]
-  tbFournisseurs!: Fournisseur[];
-  tbPointdeVente!: PointsDeVentes[];
+  tbProduit: Produit[] = []
+  tbFournisseurs: Fournisseur[] = []
+  tbPointdeVente: PointsDeVentes[] = []
   statuts = [
     { value: 'livrée', label: 'Livrée' },
     { value: 'en cours de livraison', label: 'En cours de livraison' },
@@ -59,13 +59,17 @@ export class CommandeAChatFormComponent {
     'prix_unitaire',
     'prix_total_commande',
     'point_de_vente_id',
-    'date_commande'
+    'date_commande',
+    'Action'
   ];
   sendIDcommande!: GetCommandeAchat;
   sort: any;
   paginator: any;
   disabelBtnValidate?: string
   isloadingBtnValidateCommande!: boolean
+
+  TbCombinaisons: any[] = []
+  ObjetCommande: any
 
   constructor(
     private route: ActivatedRoute,
@@ -104,6 +108,25 @@ export class CommandeAChatFormComponent {
     this.loadProduit()
   }
   
+  openModal(element:any){
+    console.log(element);
+    this.ObjetCommande = element
+    this.getCombinaisonsByID(element.id)
+
+  }
+
+  getCombinaisonsByID(id: number){
+    this.produitService.getCombinaisonById(id).subscribe(res => {
+      console.log(res.message);
+      if (res.message.id) {
+        this.TbCombinaisons = [res.message]
+        console.log(this.TbCombinaisons);
+      }else{
+        this.TbCombinaisons = []
+        this.globalService.toastShow("Ceci est un produit simple","Information")
+      }
+    });
+  }
     
     loadProduit(){
       const produit : GetProduit = {produit_id: 0}
@@ -241,6 +264,8 @@ export class CommandeAChatFormComponent {
        if (data.code == 'succes' && Commande.statut == "livrée" && Commande.statut_validation == "validée") {
         this.updateProduitStockBycommande();
         this.isloadingBtnValidateCommande = false
+        this.globalService.toastShow(this.message, 'Succès');
+        this.router.navigateByUrl('commande/achat/list');
        }else{
         this.isloadingBtnValidateCommande = false
         this.message = data.message

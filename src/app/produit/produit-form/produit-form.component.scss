@@ -8,30 +8,23 @@ background-color:$secondary-color ;
 .bg-update{
     background-color:$primary-color;
 }
-.content {
-    border: 1px solid #ccc;
-    padding: 10px;
-    position: relative;
-  }
-  
-  .text-on-border {
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    background-color: #fff;
-    padding: 0 5px;
-  }
 
   .variation-value{
     display: inline-block; /* L'élément prend la largeur de son contenu */
     white-space: nowrap;   /* Empêche le texte de se couper sur plusieurs lignes */
   }
   
-  .modal-dialog {
-    max-width: 80%; /* Ajuste la largeur maximale du modal */
-  }
-  
-  .modal-content {
-    border-radius: 10px; /* Si vous voulez arrondir les bords du modal */
-  }
-  
+
+  .content {
+    border: 1px solid #ccc;
+    padding: 10px;
+    position: relative;
+    }
+    
+    .text-on-border {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    padding: 0 5px;
+    }

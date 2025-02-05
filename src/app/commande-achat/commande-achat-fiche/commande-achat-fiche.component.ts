@@ -40,10 +40,10 @@ export class CommandeAChatFicheComponent {
   message!: any
   
   tbUsers: Utilisateur[] = []
-  tbProduit!: Produit[]
-  tbFournisseurs!: Fournisseur[]
+  tbProduit: Produit[] = []
+  tbFournisseurs: Fournisseur[] = []
   tbClients: Client[] = [];
-  tbPointdeVente!: PointsDeVentes[]
+  tbPointdeVente: PointsDeVentes[] = []
   tbArticleCommande!: any
   sort: any;
   paginator: any;

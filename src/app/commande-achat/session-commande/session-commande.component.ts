@@ -20,6 +20,8 @@ import { Fournisseur } from 'src/app/Models/fournisseur.model';
 import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { SelectVariationsComponent } from 'src/app/session-vente/select-variations/select-variations.component';
+import { SelectVariationsCommandeComponent } from './select-variations-commande/select-variations-commande.component';
 
 @Component({
   selector: 'app-session-commande',
@@ -43,6 +45,7 @@ export class SessionCommandeComponent {
 
   tbprovisoire!: ArticlesDeVentes[];
   tbProduit!: Produit[];
+  tbselectionsProduitsVariables: any[] = []
 
   isloadingpage!: boolean;
   pointSelected!: PointsDeVentes;
@@ -136,21 +139,79 @@ export class SessionCommandeComponent {
   }
 
   checkedProduit(event: any, element: Produit) {
-    if (!event.target.checked) {
-      const indexArticleVente =
-        this.dataSourceArticleCommandesAchats.data.findIndex(
-          (item: ArticlesDeCommandeDAchat) =>
-            item.produit_id === element.produit_id
-        );
-      if (indexArticleVente !== -1) {
-        const updatedData = [...this.dataSourceArticleCommandesAchats.data];
-        updatedData.splice(indexArticleVente, 1);
-        this.dataSourceArticleCommandesAchats.data = updatedData;
+    console.log(element);
+  
+    // Vérification du type de produit
+    if (element.type_produit === 'simple') {
+      // Si c'est un produit simple, on l'ajoute directement
+      if (!event.target.checked) {
+        const indexArticleVente =
+          this.dataSourceArticleCommandesAchats.data.findIndex(
+            (item: ArticlesDeCommandeDAchat) =>
+              item.produit_id === element.produit_id
+          );
+        if (indexArticleVente !== -1) {
+          const updatedData = [...this.dataSourceArticleCommandesAchats.data];
+          updatedData.splice(indexArticleVente, 1);
+          this.dataSourceArticleCommandesAchats.data = updatedData;
+        }
+      } else {
+        this.addProductToArticleVente(element);
       }
-    } else {
-      this.addProductToArticleVente(element);
+    } else if (element.type_produit === 'variable') {
+      const dialog = this.dialog.open(SelectVariationsCommandeComponent);
+      dialog.componentInstance.produitChoosed = element;
+      
+      dialog.id = 'SelectVariationsComponent';
+    
+      dialog.afterClosed().subscribe(result => {
+        if (result) {
+          console.log(result);
+          this.tbselectionsProduitsVariables = dialog.componentInstance.tbselectionsProduitsVariables;
+          console.log(this.tbselectionsProduitsVariables);
+          
+          this.tbselectionsProduitsVariables.forEach(variation => {
+        
+            // Conversion des prix en entiers
+            const prixUnitaire = Number(variation.prix_unitaire);  // Conversion en entier
+            const prixTotalCommande = Number(variation.prix_total_commande);  // Conversion en entier
+        
+            // Ajoutez les valeurs mises à jour dans la commande
+            variation.prix_unitaire = prixUnitaire;
+            variation.prix_total_commande = prixTotalCommande;
+        
+            console.log(variation);
+            this.addProductToArticleCommandeVariables(variation);
+          });
+        }
+        
+      });
     }
+    
   }
+
+  addProductToArticleCommandeVariables(variation: any) {
+    const prixTotalCommande = variation.prix_unitaire * variation.quantite;
+    const articleCommande: ArticlesDeCommandeDAchat = {
+      id: variation.id,
+      article_commande_achat_id: 0,  // Si vous avez un ID, vous pouvez le générer ici
+      point_de_vente_id: this.user.point_de_vente_id,
+      commande_achat_id: 0,  // Idem, si nécessaire vous pouvez le générer
+      produit_id: variation.produit_id,
+      quantite: variation.quantite,  // Utilisation de la quantité dans la variation
+      prix_unitaire: variation.prix_unitaire,  // Utilisation du prix unitaire converti
+      prix_total_commande: prixTotalCommande,  // Calcul du prix total
+    };
+    console.log(articleCommande);
+    this.dataSourceArticleCommandesAchats.data = [
+      ...this.dataSourceArticleCommandesAchats.data,
+      articleCommande,
+    ];
+      this.updatePrixTotalVente();
+    this.montantTotalDeLaVente = this.calculateTotalVente();
+  }
+  
+  
 
   addProductToArticleVente(produit: Produit) {
     const articleCommande: ArticlesDeCommandeDAchat = {
@@ -230,20 +291,20 @@ export class SessionCommandeComponent {
             articles: this.dataSourceArticleCommandesAchats.data,
           };
           console.log(modelCommande);
-          this.commandeService.create(modelCommande).subscribe((data) => {
+           this.commandeService.create(modelCommande).subscribe((data) => {
             
-            console.log(data.message);
-            console.log(data.commande_achat_id);
-            this.impressionEtatCommandeAchatPdf(data.commande_achat_id)
+             console.log(data.message);
+             console.log(data.commande_achat_id);
+             this.impressionEtatCommandeAchatPdf(data.commande_achat_id)
 
-            this.dataSourceArticleCommandesAchats.data = [];
-            this.montantTotalDeLaVente = 0;
-            this.founisseurSelected = {} as Fournisseur;
-            this.message = data.message;
-            this.globlService.toastShow(this.message, 'Succès');
-            this.isloadingpaiement = false;
-            this.globalService.reloadComponent('commande/achat/list')
-          });
+             this.dataSourceArticleCommandesAchats.data = [];
+             this.montantTotalDeLaVente = 0;
+             this.founisseurSelected = {} as Fournisseur;
+             this.message = data.message;
+             this.globlService.toastShow(this.message, 'Succès');
+             this.isloadingpaiement = false;
+             this.globalService.reloadComponent('commande/achat/list')
+           });
         }
       });
     } else {

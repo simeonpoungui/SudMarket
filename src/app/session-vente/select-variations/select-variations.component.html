@@ -1,0 +1,61 @@
+<div class="container-fuild px-3 py-3">
+    <div>
+        <h1 class="text-uppercase fw-bold bg-light px-3 py-2 rounded rounded-2">Variations du produit <span>{{produitChoosed.nom}}</span></h1>
+    </div>
+  <div
+    *ngFor="let variation of TbVariations; let i = index"
+    class="row my-3 mx-3 py-2"
+  >
+    <div class="col-9">
+      <div class="variation-left">
+        <div class="variation-name fs-6">
+          {{ variation.nom }}
+        </div>
+
+        <div
+          *ngFor="let valeur of variation.valeurs"
+          class="variation-value mt-2 text-center mx-2 px-2 rounded rounded-2 bg-light"
+        >
+          <span class="variation-value">{{ valeur.valeur }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>
+            <input type="checkbox" (change)="toggleAll($event)" /> <!-- Checkbox pour tout sélectionner -->
+          </th>
+          <th>Variation</th>
+          <th>Prix unitaire</th>
+          <th>Quantité</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let combinaison of TbCombinaisons; let i = index">
+          <td>
+            <input type="checkbox" [(ngModel)]="combinaison.checked" class="p-3"  />
+          </td>
+          <td>{{ combinaison.combination_hash }}</td>
+          <td>{{ combinaison.prix }}</td>
+          <td>
+            <input
+              type="number"
+              [(ngModel)]="combinaison.quantite"
+              min="0"
+              step="1"
+              class="form-control"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>      
+      
+  </div>
+    <div class="modal-footer">
+        <button type="button" class="btn mx-2 btn-secondary" [matDialogClose]="true">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="validerSelections()">Valider</button>
+</div>
+</div>

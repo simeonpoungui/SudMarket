@@ -112,25 +112,37 @@ export class PrintRecuComponent {
 
   imprimerPDFFactureDiv() {
     this.venteService.ImpressionFacture(this.Facture, this.vente).subscribe((data) => {
-      console.log(data);
+      console.log('PDF reçu', data);
+  
+      // Créez un blob avec le type 'application/pdf'
       const blob = new Blob([data], { type: 'application/pdf' });
+  
+      // Créez un URL pour le fichier PDF
       const url = window.URL.createObjectURL(blob);
   
-      // Créez l'élément <iframe> et définissez l'URL comme source
+      // Créez un élément <iframe> pour afficher le PDF
       const iframe = document.createElement('iframe');
       iframe.src = url;
       iframe.width = '100%';
-      iframe.height = '600px'; // ou la hauteur que vous préférez
+      iframe.height = '600px';  // La hauteur peut être ajustée à tes besoins
       iframe.style.border = 'none';
   
-      // Trouvez la div où vous voulez afficher le PDF et ajoutez-y l'iframe
-      const pdfContainer = document.getElementById('pdf-container'); // Assurez-vous que cette div existe dans votre HTML
+      // Trouver la div où vous voulez afficher le PDF
+      const pdfContainer = document.getElementById('pdf-container');
       if (pdfContainer) {
-        pdfContainer.innerHTML = ''; // Effacez tout contenu précédent de la div
-        pdfContainer.appendChild(iframe); // Ajoutez l'iframe dans la div
+        pdfContainer.innerHTML = '';  // Efface le contenu précédent
+        pdfContainer.appendChild(iframe);  // Ajoute l'iframe
       }
+  
+      // Optionnel: Libérer l'URL object après un certain délai
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+      }, 10000);  // Libère l'URL après 10 secondes (ou ajuster si nécessaire)
+    }, error => {
+      console.error('Erreur lors de la génération du PDF', error);
     });
   }
+  
   
 
 }

@@ -74,19 +74,22 @@ export class ValidatePayementComponent {
 
   Valider() {
     this.vente.mode_de_paiement = this.mode_de_paiement;
+    console.log(this.vente);
     const dialog = this.dialog.open(AlertComponent);
     dialog.componentInstance.content = "Voulez-vous effectuer cette vente ?";
     dialog.afterClosed().subscribe(res => {
-      if (res) {
-        this.venteService.create(this.vente).subscribe(res => {
-          if (res.code == "succes") {
-            this.facture = res.facture;
-            localStorage.setItem('mode_de_paiement', JSON.stringify(this.mode_de_paiement));
-            localStorage.setItem('facture', JSON.stringify(this.facture));
-            this.router.navigateByUrl('/recu-vente');
-          }
-        });
-      }
+       if (res) {
+         this.venteService.create(this.vente).subscribe(res => {
+           console.log(res);
+          
+           if (res.code == "succes") {
+             this.facture = res.facture;
+             localStorage.setItem('mode_de_paiement', JSON.stringify(this.mode_de_paiement));
+             localStorage.setItem('facture', JSON.stringify(this.facture));
+             this.router.navigateByUrl('/recu-vente');
+           }
+         });
+       }
     });
   }
 
