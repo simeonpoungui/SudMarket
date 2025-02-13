@@ -8,7 +8,7 @@ import { ProduitComponent } from './produit/produit.component';
 import { ProduitFormComponent } from './produit-form/produit-form.component';
 import { ProduitFicheComponent } from './produit-fiche/produit-fiche.component';
 import { RouterModule } from '@angular/router';
-
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -22,6 +22,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     MatPaginatorModule,
     MatTableModule,
+    QuillModule.forRoot(),
     FormsModule
   ]
 })

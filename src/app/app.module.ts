@@ -20,6 +20,7 @@ import { HttpErrorInterceptor } from './login/error.interceptors';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatDialogModule,
     AppRoutingModule,
     HttpClientModule,
+    QuillModule.forRoot(),
     MatTableModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({

@@ -18,7 +18,7 @@
               <!-- Image Section -->
               <div class="col-lg-4 bg-light border rounded rounded-4 border-5">
                 <div class="w-75 m-auto py-3" style="height: 270px">
-                  <img class="w-100" [src]="image"  />
+                  <img class="w-100" [src]="image" />
                 </div>
                 <input
                   type="file"
@@ -30,7 +30,7 @@
                 />
                 <div class="w-25 m-auto p-3 rounded rounded-5 bg-dark border">
                   <img
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                     (click)="triggerFileInput()"
                     class="w-100"
                     src="assets/images/signal-2024-12-09-060204_003.png"
@@ -92,7 +92,8 @@
 
                   <div class="col-lg-6 mt-3">
                     <label for="categorie" class="form-label label"
-                      >Catégorie  <span class="title-bg-global-secondary"> * </span></label
+                      >Catégorie
+                      <span class="title-bg-global-secondary"> * </span></label
                     >
                     <div class="input-group mb-3">
                       <select
@@ -125,7 +126,7 @@
                       >Prix unitaire de vente</label
                     >
                     <input
-                    [disabled]="type_produit == 'variable'"
+                      [disabled]="type_produit == 'variable'"
                       type="number"
                       class="form-control"
                       name="prix"
@@ -139,7 +140,7 @@
                       >Prix de revient</label
                     >
                     <input
-                    [disabled]="type_produit == 'variable'"
+                      [disabled]="type_produit == 'variable'"
                       type="number"
                       class="form-control"
                       name="prix_de_revient"
@@ -153,7 +154,7 @@
                       >Prix réduit</label
                     >
                     <input
-                    [disabled]="type_produit == 'variable'"
+                      [disabled]="type_produit == 'variable'"
                       type="number"
                       class="form-control"
                       name="prix_reduit"
@@ -164,10 +165,9 @@
                   <div class="col-lg-6 mt-3">
                     <label for="quantite_en_stock" class="form-label label"
                       >Quantité en stock
-                     </label
-                    >
+                    </label>
                     <input
-                    [disabled]="type_produit == 'variable'"
+                      [disabled]="type_produit == 'variable'"
                       type="number"
                       class="form-control"
                       name="quantite_en_stock"
@@ -182,7 +182,8 @@
             <div class="row mt-3">
               <div class="col-lg-4 mt-3">
                 <label for="unite_mesure" class="form-label label"
-                  >Unité de mesure  <span class="title-bg-global-secondary"> * </span></label
+                  >Unité de mesure
+                  <span class="title-bg-global-secondary"> * </span></label
                 >
                 <input
                   type="text"
@@ -194,10 +195,11 @@
 
               <div class="col-lg-4 mt-3">
                 <label for="code_barres" class="form-label label"
-                  >Code barre  <span class="title-bg-global-secondary"> * </span></label
+                  >Code barre
+                  <span class="title-bg-global-secondary"> * </span></label
                 >
                 <input
-                [disabled]="type_produit == 'variable'"
+                  [disabled]="type_produit == 'variable'"
                   type="text"
                   class="form-control"
                   name="code_barres"
@@ -218,12 +220,12 @@
                 />
               </div> -->
 
-              <div class="col-lg-4   mt-3">
+              <div class="col-lg-4 mt-3">
                 <label for="poids" class="form-label label"
                   >Niveau de reapprovisionnement
                 </label>
                 <input
-                [disabled]="type_produit == 'variable'"
+                  [disabled]="type_produit == 'variable'"
                   type="number"
                   class="form-control"
                   name="niveau_de_reapprovisionnement"
@@ -231,7 +233,6 @@
                 />
               </div>
 
- 
               <div class="col-lg-6 mt-3">
                 <label for="poids" class="form-label label"
                   >Poids du produit (Kg)</label
@@ -243,7 +244,7 @@
                   [(ngModel)]="poids"
                 />
               </div>
-  
+
               <div class="col-lg-6 mt-3">
                 <label for="etat_du_stock" class="form-label label"
                   >État du stock
@@ -262,41 +263,34 @@
               </div>
             </div>
 
-
             <div class="row p-0">
-
-
-
               <div class="col-lg-12 p-0 mt-3">
                 <label for="description" class="form-label label"
                   >Description courte
                   <span class="title-bg-global-secondary"> * </span></label
                 >
                 <textarea
-                class="form-control"
-                name="description_courte"
-                [(ngModel)]="description_courte"
-                rows="4"
-              ></textarea>
-
+                  class="form-control"
+                  name="description_courte"
+                  [(ngModel)]="description_courte"
+                  rows="4"
+                ></textarea>
               </div>
-
+              
               <div class="col-lg-12 p-0 mt-3">
                 <label for="description" class="form-label label"
                   >Description longue
                   <span class="title-bg-global-secondary"> * </span></label
                 >
-                <textarea
-                class="form-control"
-                name="description_longue"
-                [(ngModel)]="description_longue"
-                rows="4"
-              ></textarea>
-
+                <quill-editor
+                  #quillEditor
+                  style="height: 200px"
+                  class="w-100"
+                  [(ngModel)]="editorContent"
+                  (onEditorChanged)="onEditorChanged($event)"
+                ></quill-editor>
               </div>
-
             </div>
-
 
             <div class="row">
               <div class="content mx-2 mt-4">
@@ -646,8 +640,10 @@
               <div class="col-lg-6 mt-3 text-end pt-3">
                 <p>
                   NB : Les champs en
-                  <span> (<span  class="title-bg-global-secondary"> * </span>) </span> sont
-                  obligatoire
+                  <span>
+                    (<span class="title-bg-global-secondary"> * </span>)
+                  </span>
+                  sont obligatoire
                 </p>
               </div>
             </div>
@@ -666,10 +662,18 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 80%;">
+  <div
+    class="modal-dialog modal-dialog-centered modal-lg"
+    style="max-width: 80%"
+  >
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title text-uppercase fw-bold fs-5" id="exampleModalLabel">les variations</h1>
+        <h1
+          class="modal-title text-uppercase fw-bold fs-5"
+          id="exampleModalLabel"
+        >
+          les variations
+        </h1>
         <button
           type="button"
           class="btn-close"
@@ -686,11 +690,11 @@
                   <!-- Checkbox global pour sélectionner/désélectionner toutes les cases -->
                   <th>
                     <input
-                    type="checkbox"
-                    [(ngModel)]="selectAll"
-                    (change)="toggleSelectAll()"
-                    class="form-check-input"
-                  />
+                      type="checkbox"
+                      [(ngModel)]="selectAll"
+                      (change)="toggleSelectAll()"
+                      class="form-check-input"
+                    />
                   </th>
                   <th>Variation</th>
                   <th>Quantité</th>
@@ -702,7 +706,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let combination of productCombinations; let i = index">
+                <tr
+                  *ngFor="let combination of productCombinations; let i = index"
+                >
                   <td>
                     <input
                       type="checkbox"
@@ -712,12 +718,14 @@
                     />
                   </td>
                   <td>
-                    <button class="form-control">{{ combination.combination_hash }}</button>
+                    <button class="form-control">
+                      {{ combination.combination_hash }}
+                    </button>
                   </td>
                   <td>
                     <input
                       type="number"
-                      style="width: 100px; max-width: 100px;"
+                      style="width: 100px; max-width: 100px"
                       [(ngModel)]="combination.quantite_en_stock"
                       class="form-control"
                     />
@@ -759,21 +767,22 @@
                   </td>
                 </tr>
               </tbody>
-              
             </table>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button  type="button" class="btn btn-primary" (click)="saveChangesVariations()">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="saveChangesVariations()"
+        >
           Enregistrer
         </button>
       </div>
     </div>
   </div>
 </div>
-
-
 
 <ng-template #loader>
   <div class="text-center">
