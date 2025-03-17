@@ -10,6 +10,7 @@ export class PointsDeVentes {
     email!: string;
     responsable!: string;
     date_creation!: string;
+    entrepot_id?: number
     date_modification!: string;
 }
 

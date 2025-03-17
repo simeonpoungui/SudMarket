@@ -75,6 +75,7 @@ export class SelectVariationsCommandeComponent {
   validerSelections(): void {
     const selections = this.TbCombinaisons.filter(combinaison => combinaison.checked).map(combinaison => {
         // Convertir prix_unitaire en nombre
+        const prix_achat = Number(combinaison.prix_achat || 0);  // Conversion en nombre flottant
         const prixUnitaire = Number(combinaison.prix || 0);  // Conversion en nombre flottant
         const prixDeRevient = Number(combinaison.prix_de_revient || 0);  // Si prix_de_revient est vide, on le met à 0
         const benefice = (prixUnitaire - prixDeRevient) * combinaison.quantite;
@@ -86,8 +87,9 @@ export class SelectVariationsCommandeComponent {
           commande_achat_id: 0,  // Id temporaire
           produit_id: combinaison.produit_id,  // Id du produit
           quantite: combinaison.quantite,  // Quantité sélectionnée
-          prix_unitaire: prixUnitaire.toFixed(2),  // Formatage à 2 décimales
-          prix_total_commande: (prixUnitaire * combinaison.quantite).toFixed(2),  // Calcul du total de la commande
+          prix_achat: prix_achat.toFixed(2),  // Formatage à 2 décimales
+          prix: prixUnitaire.toFixed(2),  // Formatage à 2 décimales
+          prix_total_commande: (prix_achat * combinaison.quantite).toFixed(2),  // Calcul du total de la commande
         };
       });
   

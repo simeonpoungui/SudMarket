@@ -13,6 +13,8 @@ import { SessionCommandeComponent } from './session-commande/session-commande.co
 import { FicheArticleDeCommandeComponent } from './fiche-article-de-commande/fiche-article-de-commande.component';
 import { AchatComponent } from './achat/achat.component';
 import { SelectVariationsCommandeComponent } from './session-commande/select-variations-commande/select-variations-commande.component';
+import { PaiementCommandeComponent } from './paiement-commande/paiement-commande.component';
+import { PaiementCommandeListComponent } from './paiement-commande-list/paiement-commande-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { SelectVariationsCommandeComponent } from './session-commande/select-var
     SessionCommandeComponent,
     SelectVariationsCommandeComponent,
     FicheArticleDeCommandeComponent,
-    AchatComponent
+    AchatComponent,
+    PaiementCommandeComponent,
+    PaiementCommandeListComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +36,13 @@ import { SelectVariationsCommandeComponent } from './session-commande/select-var
     MatPaginatorModule,
     FormsModule,
     MatTableModule
-  ]
+  ],
+    exports: [
+      AchatComponent,
+      CommandeAChatComponent
+    ]
 })
+
+
+
 export class CommandeAchatModule { }

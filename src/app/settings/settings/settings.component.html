@@ -9,70 +9,76 @@
             <div class="row p-3">
               <div
               routerLink="/caisse-principale"
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2  px-3 text-center"
               >
-                <p>Caisse Principale <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
+                <p class="border p-2 rounded rounded-4"> Caisse Principale <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
               </div>
               <div
               routerLink="/caisse-vendeur"
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Caisses Vendeurs <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
+                <p class="border p-2 rounded rounded-4">Caisses Vendeurs <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
               </div>
               <div
               routerLink="/caisse-exploitation"
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Caisse d'exploitation <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
+                <p class="border p-2 rounded rounded-4">Caisse d'exploitation <span class="text-end mx-3 fw-bold text-dark"><i class="fa-solid fa-dollar-sign"></i></span></p>
               </div>
               <div
               routerLink="/transfert-inter-caisse-banquaire"
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Transfert inter caisse banquaire</p>
+                <p class="border p-2 rounded rounded-4">Transfert inter caisse banquaire</p>
               </div>
 
               <div
               routerLink="/cloture-journee"
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Cloture des caisses</p>
+                <p class="border p-2 rounded rounded-4">Cloture des caisses</p>
               </div>
               <div
               routerLink="/historique-des-caisses-vendeurs"
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historiques des caisses</p>
+                <p class="border p-2 rounded rounded-4">Historiques des caisses</p>
               </div>
               <div
               routerLink="/historiques-des-clotures-des-caisses"
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historiques des clotures des caisses</p>
+                <p class="border p-2 rounded rounded-4">Historiques des clotures des caisses</p>
               </div>
               <div
               routerLink="/transfer-inter-caisse"
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Transferts inter caisse</p>
+                <p class="border p-2 rounded rounded-4">Transferts inter caisse</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
                 (click)="chooseSource()"
               >
-                <p>Transferts caisse exploitation</p>
+                <p class="border p-2 rounded rounded-4">Transferts caisse exploitation</p>
               </div>
               <div
               routerLink="/banque"
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Banque</p>
+                <p class="border p-2 rounded rounded-4">Banque</p>
               </div>
               <div
               routerLink="/vente-journaliere"
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historique des ventes journalière</p>
+                <p class="border p-2 rounded rounded-4">Historique des ventes journalière</p>
+              </div>
+              <div
+              routerLink="/historique-mouvement-stock"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
+              >
+                <p class="border p-2 rounded rounded-4">Historique mouvements stock</p>
               </div>
             </div>
           </div>
@@ -82,45 +88,45 @@
             <span class="text-on-border fw-bold text-danger fw-bold">Localisation </span>
             <div class="row p-3">
               <div
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Caisses Principale</p>
+                <p class="border p-2 rounded rounded-4">Caisses Principale</p>
               </div>
               <div
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Caisses Vendeurs</p>
+                <p class="border p-2 rounded rounded-4">Caisses Vendeurs</p>
               </div>
               <div
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Caisses d'exploitation</p>
+                <p class="border p-2 rounded rounded-4">Caisses d'exploitation</p>
               </div>
               <div
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Etat de la caisse</p>
+                <p class="border p-2 rounded rounded-4">Etat de la caisse</p>
               </div>
 
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Cloture des caisses</p>
+                <p class="border p-2 rounded rounded-4">Cloture des caisses</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historiques des caisses</p>
+                <p class="border p-2 rounded rounded-4">Historiques des caisses</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historiques des clotures des caisses</p>
+                <p class="border p-2 rounded rounded-4">Historiques des clotures des caisses</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Transferts inter caisse</p>
+                <p class="border p-2 rounded rounded-4">Transferts inter caisse</p>
               </div>
             </div>
           </div>
@@ -130,47 +136,47 @@
             <span class="text-on-border fw-bold text-danger fw-bold">Divers </span>
             <div class="row p-3">
               <div
-              routerLink="/boutique-fiche"
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+              routerLink="/paiement-commande-list"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Boutique</p>
+                <p class="border p-2 rounded rounded-4">Paiements commandes</p>
               </div>
               <div
-              routerLink="/role"
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+              routerLink="/list-stock-point-de-vente"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Roles</p>
+                <p class="border p-2 rounded rounded-4">Stock points de ventes</p>
               </div>
               <div
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Caisses d'exploitation</p>
+                <p class="border p-2 rounded rounded-4">Caisses d'exploitation</p>
               </div>
               <div
-                class="col-lg-3 rounded rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Etat de la caisse</p>
+                <p class="border p-2 rounded rounded-4">Etat de la caisse</p>
               </div>
 
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Cloture des caisses</p>
+                <p class="border p-2 rounded rounded-4">Cloture des caisses</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historiques des caisses</p>
+                <p class="border p-2 rounded rounded-4">Historiques des caisses</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Historiques des clotures des caisses</p>
+                <p class="border p-2 rounded rounded-4">Historiques des clotures des caisses</p>
               </div>
               <div
-                class="col-lg-3 rounded mt-2 rounded-5 pt-2 border block-p text-center"
+                class="col-lg-3 rounded mt-2 rounded-5 pt-2 text-center" style="cursor: pointer;"
               >
-                <p>Transferts inter caisse</p>
+                <p class="border p-2 rounded rounded-4">Transferts inter caisse</p>
               </div>
             </div>
           </div>

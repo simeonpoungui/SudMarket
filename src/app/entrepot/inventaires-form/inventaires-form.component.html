@@ -1,0 +1,234 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+      <div class="row">
+        <div class="col-12 mt-3">
+          <form
+            #inventoryForm="ngForm"
+            (ngSubmit)="onSubmitForm(inventoryForm)"
+            class="row px-5 py-5 rounded rounded-4 bg-white p-3 needs-validation"
+          >
+
+                 <!-- Champ Entrepôt -->
+                 <div class="col-lg-4 mt-3">
+                  <label for="entrepot_id" class="form-label label">
+                    Entrepôt
+                    <span class="title-bg-global-secondary"> * </span>
+                  </label>
+                  <select
+                    class="form-control"
+                    name="entrepot_id"
+                    [(ngModel)]="entrepot_id"
+                    (change)="entrepotSelected($event)"
+                    required
+                  >
+                    <option
+                      *ngFor="let entrepot of entrepots"
+                      [value]="entrepot.entrepot_id"
+                    >
+                      {{ entrepot.nom }}
+                    </option>
+                  </select>
+                </div>
+
+            <!-- Champ Produit -->
+            <div class="col-lg-4 mt-3">
+              <label for="produit_id" class="form-label label">
+                Produit
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select
+                class="form-control"
+                name="produit_id"
+                [(ngModel)]="produit_id"
+                required
+                (change)="selectProduit($event)"
+              >
+                <option
+                  *ngFor="let produit of produitsEntrepot"
+                  [value]="produit.produit_id"
+                >
+                  {{ getProduitName(produit.produit_id) }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Champ Type de Produit -->
+            <div class="col-lg-4 mt-3">
+              <label for="type_produit" class="form-label label">
+                Type de Produit
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select
+                class="form-control"
+                name="type_produit"
+                [(ngModel)]="type_produit"
+                required
+              >
+                <option value="simple">Simple</option>
+                <option value="variable">Variable</option>
+              </select>
+            </div>
+
+            <!-- Champ Combinaison -->
+            <div class="col-lg-4 mt-3">
+              <label for="combination_hash" class="form-label label">
+                Combinaison
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select
+              [disabled]="produitSelected && produitSelected.type_produit == 'simple' "
+                class="form-control"
+                name="combination_hash"
+                [(ngModel)]="combination_hash"
+                (change)="selectCombination($event)"
+              >
+                <option value="" disabled selected>
+                  Choisir une combinaison
+                </option>
+                <option
+                  *ngFor="let combinaison of TbCombinaisons"
+                  [value]="combinaison.combination_hash"
+                >
+                  {{ combinaison.combination_hash }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Champ Quantité Initiale -->
+            <div class="col-lg-4 mt-3">
+              <label for="quantite_initiale" class="form-label label">
+                Quantité Initiale
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                type="number"
+                class="form-control"
+                name="quantite_initiale"
+                [(ngModel)]="quantite_initiale"
+                required
+              />
+            </div>
+
+
+            <!-- Champ Quantité Comptée -->
+            <div class="col-lg-4 mt-3">
+              <label for="quantite_comptée" class="form-label label">
+                Quantité Comptée
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                type="number"
+                class="form-control"
+                name="quantite_comptee"
+                [(ngModel)]="quantite_comptee"
+                required
+              />
+            </div>
+
+            <div class="col-lg-6 mt-3">
+                <label for="quantite_comptée" class="form-label label">
+                  Ecart
+                  <span class="title-bg-global-secondary"> * </span>
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="ecart"
+                  [(ngModel)]="ecart"
+                  required
+                />
+              </div>
+            <!-- Champ Motif -->
+            <div class="col-lg-6 mt-3">
+              <label for="motif" class="form-label label">
+                Motif de l'ajustement
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select
+                class="form-control"
+                name="motif"
+                [(ngModel)]="motif"
+                required
+              >
+                <option value="" disabled selected>Choisir un motif</option>
+                <option value="surplus">Surplus</option>
+                <option value="manque">Manque</option>
+                <option value="erreur">Erreur</option>
+                <!-- Ajoutez d'autres options si nécessaire -->
+              </select>
+            </div>
+
+            <!-- Champ Action Recommandée -->
+            <div class="col-lg-6 mt-3">
+              <label for="action_recommande" class="form-label label">
+                Action Recommandée
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select
+                class="form-control"
+                name="action_recommande"
+                [(ngModel)]="action_recommande"
+                required
+              >
+                <option value="" disabled selected>Choisir une action</option>
+                <option value="Augmenter">Augmenter</option>
+                <option value="Réduire">Réduire</option>
+                <!-- Ajoutez d'autres options si nécessaire -->
+              </select>
+            </div>
+
+            <!-- Champ Utilisateur -->
+            <div class="col-lg-6 mt-3">
+              <label for="utilisateur_id" class="form-label label">
+                Utilisateur
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                  class="form-control"
+                  [value]="getUserName(user.utilisateur_id)"
+                  required
+                />
+            </div>
+
+  
+
+            <!-- Champ Commentaire -->
+            <div class="col-lg-12 mt-3">
+              <label for="commentaire" class="form-label label">
+                Commentaire
+              </label>
+              <textarea
+                class="form-control"
+                name="commentaire"
+                [(ngModel)]="commentaire"
+                rows="4"
+                placeholder="Entrez un commentaire ici"
+              ></textarea>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="col-lg-4 mt-3">
+                  <button
+                    type="submit"
+                    class="form-control bg-global-primary text-white"
+                  >
+                    Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-lg-6 mt-3 text-end pt-3">
+                <p>
+                  NB : Les champs en
+                  <span class="title-bg-global-secondary"> (*) </span> sont
+                  obligatoires
+                </p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

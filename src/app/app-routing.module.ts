@@ -34,6 +34,8 @@ import { CommandeAChatFormComponent } from './commande-achat/commande-achat-form
 import { ArticlesCommandesAchatsComponent } from './commande-achat/articles-commandes-achats/articles-commandes-achats.component';
 import { SessionCommandeComponent } from './commande-achat/session-commande/session-commande.component';
 import { FicheArticleDeCommandeComponent } from './commande-achat/fiche-article-de-commande/fiche-article-de-commande.component';
+import { PaiementCommandeComponent } from './commande-achat/paiement-commande/paiement-commande.component';
+
 //Vente Entities
 import { VenteComponent } from './vente/vente/vente.component';
 import { VenteFicheComponent } from './vente/vente-fiche/vente-fiche.component';
@@ -83,6 +85,21 @@ import { PrintRecuComponent } from './session-vente/print-recu/print-recu.compon
 import { NotificationsCommandesComponent } from './settings/notifications-commandes/notifications-commandes.component';
 import { AchatComponent } from './commande-achat/achat/achat.component';
 
+// Entrepots
+import { EntrepotComponent } from './entrepot/entrepot/entrepot.component';
+import { EntrepotFormComponent } from './entrepot/entrepot-form/entrepot-form.component';
+import { EntrepotFicheComponent } from './entrepot/entrepot-fiche/entrepot-fiche.component';
+import { StockEntrepotsComponent } from './entrepot/stock-entrepots/stock-entrepots.component';
+import { ListProductEntrepotsComponent } from './entrepot/list-product-entrepots/list-product-entrepots.component';
+import { InventairesFormComponent } from './entrepot/inventaires-form/inventaires-form.component';
+import { TransfertStockEntrepotPointDeVenteComponent } from './entrepot/transfert-stock-entrepot-point-de-vente/transfert-stock-entrepot-point-de-vente.component';
+import { MouvementStockComponent } from './entrepot/mouvement-stock/mouvement-stock.component';
+import { PaiementCommandeListComponent } from './commande-achat/paiement-commande-list/paiement-commande-list.component';
+import { ListStockPointDeVenteComponent } from './entrepot/list-stock-point-de-vente/list-stock-point-de-vente.component';
+import { DepenseComponent } from './depenses/depense/depense.component';
+import { DepenseFormComponent } from './depenses/depense-form/depense-form.component';
+// Inventaires
+
 const routes: Routes = [
   // home page
   { path: '', component: HomeComponent, },
@@ -90,12 +107,33 @@ const routes: Routes = [
   // login form
   { path: 'login', component: LoginComponent },
 
+  // Module Entrepot
+  {path:'entrepots', loadChildren: () => import('./entrepot/entrepot.module').then(m => m.EntrepotModule)},
+  {path: 'entrepot-list', component: EntrepotComponent},
+  {path: 'entrepot-stock', component: StockEntrepotsComponent},
+
+  {path: 'entrepot/:action/:id', component: EntrepotFormComponent},
+  {path: 'entrepot-fiche/:action/:id', component: EntrepotFicheComponent},
+  {path: 'entrepot-stock-list', component: ListProductEntrepotsComponent},
+  {path: 'transfert-stock-entrepot-point', component: TransfertStockEntrepotPointDeVenteComponent},
+  {path: 'historique-mouvement-stock', component: MouvementStockComponent},
+  {path: 'list-stock-point-de-vente', component: ListStockPointDeVenteComponent},
+
+   // inventaires
+   { path: 'inventaire-form', component: InventairesFormComponent },
+   { path: 'inventaire-form/:action/:id', component: InventairesFormComponent },
+
   // Module User
   {path:'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule)},
   { path: 'user/list', component: UsersComponent },
   { path: 'user/:action', component: UsersFormComponent},
   { path: 'fiche/:action', component: FicheUserComponent },
   { path: 'profile/user', component: FicheUserConnectedComponent },
+
+  //Depense
+  {path:'depenses', loadChildren: () => import('./depenses/depenses.module').then(m => m.DepensesModule)},
+  { path: 'depense/list', component: DepenseComponent },
+  { path: 'depense/:action/:id', component: DepenseFormComponent},
 
   // Module Settings
   {path:'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
@@ -153,6 +191,9 @@ const routes: Routes = [
   {path: 'session-commande-achat', component: SessionCommandeComponent},
   {path: 'articles/commande/view', component: FicheArticleDeCommandeComponent},
   {path: 'achats-list', component: AchatComponent},
+  {path: 'paiement-commande-form/:idcommande', component: PaiementCommandeComponent},
+  {path: 'paiement-commande-list', component: PaiementCommandeListComponent},
+
 
   // Module rapport
   {path:'rapports', loadChildren: () => import('./rapport/rapport.module').then(m => m.RapportModule)},

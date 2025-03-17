@@ -1,0 +1,149 @@
+<div class="ol-lg-12 bg-white rounded rounded-4 m-lg-auto px-4 py-4">
+  <div class="row p-2">
+    <div class="col-lg-7">
+      <h1 class="rounded fw-bold rounded-4 text-uppercase py-1">
+       Inventaires
+      </h1>
+    </div>
+    <div class="col-lg-2">
+      <div class="">
+        <button
+          style="background-color: #3454d1"
+          type="button"
+          class="form-control text-uppercase text-white"
+        >
+          <i class="fa-solid fa-download mx-2"></i> Export CSV
+        </button>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="">
+        <button
+          style="background-color: #3454d1"
+          type="button"
+          routerLink="/inventaire-form"
+          class="form-control text-uppercase text-white"
+        >
+          <i class="fa-solid mx-2 fa-plus"></i> Ajouter un inventaire
+        </button>
+      </div>
+    </div>
+  </div>
+    <div class="mat-elevation-z8 mt-3">
+      <table mat-table [dataSource]="dataSource" style="max-height: 400px; overflow-y: auto" *ngIf="!isloadingpage; else loader">
+        <!-- Entrepot -->
+        <ng-container matColumnDef="entrepot_id">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Entrepot
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ getEntrepotName(element.entrepot_id) }}
+          </td>
+        </ng-container>
+
+        <!-- Produit -->
+        <ng-container matColumnDef="produit_id">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Produit
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ getProduitName(element.produit_id) }}
+          </td>
+        </ng-container>
+
+        <!-- Quantité Comptée -->
+        <ng-container matColumnDef="quantite_comptee">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Quantité Comptée
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.quantite_comptee }}
+          </td>
+        </ng-container>
+
+        <!-- Quantité Initiale -->
+        <ng-container matColumnDef="quantite_initiale">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Quantité Initiale
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.quantite_initiale }}
+          </td>
+        </ng-container>
+
+        <!-- Ecart -->
+        <ng-container matColumnDef="ecart">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Ecart
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.ecart }}
+          </td>
+        </ng-container>
+
+        <!-- Motif -->
+        <ng-container matColumnDef="motif">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Motif
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.motif }}
+          </td>
+        </ng-container>
+
+        <!-- Date Inventaire -->
+        <ng-container matColumnDef="date_inventaire">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Date Inventaire
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.date_inventaire | date: 'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <!-- Type Produit -->
+        <ng-container matColumnDef="type_produit">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Type Produit
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.type_produit }}
+          </td>
+        </ng-container>
+
+        <!-- Combination Hash -->
+        <ng-container matColumnDef="combination_hash">
+          <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+            Combination
+          </th>
+          <td class="pointer" mat-cell *matCellDef="let element">
+            {{ element.combination_hash }}
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="Actions">
+          <th class="text-center" mat-header-cell *matHeaderCellDef>
+            Actions
+          </th>
+          <td class="text-center" mat-cell *matCellDef="let element">
+            <button (click)="actions(element.id)" style="cursor: pointer" class="border border-0 rounded rounded-2 actions">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </div>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

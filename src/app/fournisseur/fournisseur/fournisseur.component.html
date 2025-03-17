@@ -1,199 +1,331 @@
 <main class="nxl-container">
   <div class="nxl-content">
- <div class="pt-4">
-  <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
-    <div class="p-3">
-      <div class="row">
-        <div class="col-lg-7">
-          <h1 class="rounded  rounded-4 text-uppercase py-1 px-3">
-            fournisseurs
-          </h1>
-        </div>
-        <div class="col-lg-2">
-          <div class="">
-            <button
-              style="background-color: #3454d1"
-              type="button"
-              class="form-control text-uppercase text-white"
+    <div class="">
+      <!-- Les Onglets -->
+      <div class="container pt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link active fw-bold text-uppercase"
+              id="home-tab"
+              data-bs-toggle="tab"
+              href="#home"
+              role="tab"
+              aria-controls="home"
+              aria-selected="true"
+              >Fournisseurs</a
             >
-            <i class="fa-solid fa-download mx-2"></i>  Export csv
-            </button>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="">
-            <button
-              style="background-color: #3454d1"
-              type="button"
-              routerLink="/fournisseur/create"
-              class="form-control text-uppercase text-white"
+          </li>
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link fw-bold text-uppercase"
+              id="settings-tab"
+              data-bs-toggle="tab"
+              href="#settings"
+              role="tab"
+              aria-controls="settings"
+              aria-selected="false"
+              >Commandes</a
             >
-            <i class="fa-solid mx-2 fa-plus"></i>  Ajouter un fournisseur 
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="mt-1">
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="d-flex align-items-center mt-4">
-              <i
-                style="position: absolute"
-                class="fa-solid p-3 fa-magnifying-glass"
-              ></i>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link fw-bold text-uppercase"
+              id="profile-tab"
+              data-bs-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+              >Historique des achats</a
+            >
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+          >
+            <div class="mt-4">
+              <div class="col-lg-12 bg-white p-2 rounded rounded-4 m-lg-auto">
+                <div class="p-3">
+                  <div class="row">
+                    <div class="col-lg-7">
+                      <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+                        fournisseurs
+                      </h1>
+                    </div>
+                    <div class="col-lg-2">
+                      <div class="">
+                        <button
+                          style="background-color: #3454d1"
+                          type="button"
+                          class="form-control text-uppercase text-white"
+                        >
+                          <i class="fa-solid fa-download mx-2"></i> Export csv
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="">
+                        <button
+                          style="background-color: #3454d1"
+                          type="button"
+                          routerLink="/fournisseur/create"
+                          class="form-control text-uppercase text-white"
+                        >
+                          <i class="fa-solid mx-2 fa-plus"></i> Ajouter un
+                          fournisseur
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-1">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <div class="d-flex align-items-center mt-4">
+                          <i
+                            style="position: absolute"
+                            class="fa-solid p-3 fa-magnifying-glass"
+                          ></i>
 
-              <input
-                type="text"
-                (keyup)="applyFilter($event)"
-                placeholder="Recherchez un fournisseur ici..."
-                class="form-control text-start px-5 text-uppercase"
-              />
+                          <input
+                            type="text"
+                            (keyup)="applyFilter($event)"
+                            placeholder="Recherchez un fournisseur ici..."
+                            class="form-control text-start px-5 text-uppercase"
+                          />
+                        </div>
+                      </div>
+                      <!-- <div class="col-lg-4 pt-4">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-white"
+                >
+                  Imprimer la liste <i class="fa-solid fa-print"></i>
+                </button>
+              </div>
+              <div class="col-lg-4 pt-4">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  [disabled]="user.role === 'Vendeur'"
+                  routerLink="/fournisseur/create"
+                  class="form-control text-white"
+                >
+                  Ajouter un fournisseur <i class="mx-1 fa-solid fa-user"></i>
+                </button>
+              </div> -->
+                    </div>
+                    <div class="mat-elevation-z8 mt-3">
+                      <table
+                        mat-table
+                        [dataSource]="dataSource"
+                        style="max-height: 400px; overflow-y: auto"
+                        *ngIf="!isloadingpage; else loader"
+                      >
+                        <ng-container matColumnDef="nom">
+                          <th
+                            class="bg-color-primary"
+                            mat-header-cell
+                            *matHeaderCellDef
+                          >
+                            Nom
+                          </th>
+                          <td
+                            class="pointer"
+                            mat-cell
+                            *matCellDef="let element"
+                          >
+                            {{ element.nom }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          >
+                            <span class="fw-bold"
+                              >Nonmbre de fournisseurs :
+                            </span>
+                            <span class="mx-2 fw-bold">{{
+                              nbrefournisseur
+                            }}</span>
+                          </td>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="sexe">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Sexe
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ element.sexe }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container> -->
+
+                        <ng-container matColumnDef="adresse">
+                          <th
+                            class="bg-color-primary"
+                            mat-header-cell
+                            *matHeaderCellDef
+                          >
+                            Adresse
+                          </th>
+                          <td
+                            class="pointer"
+                            mat-cell
+                            *matCellDef="let element"
+                          >
+                            {{ element.adresse }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email">
+                          <th
+                            class="bg-color-primary"
+                            mat-header-cell
+                            *matHeaderCellDef
+                          >
+                            Email
+                          </th>
+                          <td
+                            class="pointer"
+                            mat-cell
+                            *matCellDef="let element"
+                          >
+                            {{ element.email }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="telephone">
+                          <th
+                            class="bg-color-primary"
+                            mat-header-cell
+                            *matHeaderCellDef
+                          >
+                            Telephone
+                          </th>
+                          <td
+                            class="pointer"
+                            mat-cell
+                            *matCellDef="let element"
+                          >
+                            {{ element.telephone }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="personne_de_contact">
+                          <th
+                            class="bg-color-primary"
+                            mat-header-cell
+                            *matHeaderCellDef
+                          >
+                            Personne à contacter
+                          </th>
+                          <td
+                            class="pointer"
+                            mat-cell
+                            *matCellDef="let element"
+                          >
+                            {{ element.personne_de_contact }}
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Actions">
+                          <th
+                            class="text-center"
+                            mat-header-cell
+                            *matHeaderCellDef
+                          >
+                            Actions
+                          </th>
+                          <td
+                            class="text-center"
+                            mat-cell
+                            *matCellDef="let element"
+                          >
+                            <button
+                              (click)="actions(element)"
+                              style="cursor: pointer"
+                              class="border border-0 rounded rounded-2 actions"
+                            >
+                              <i class="fa-solid fa-eye"></i>
+                            </button>
+                          </td>
+                          <td
+                            mat-footer-cell
+                            class="bg-table-color text-light"
+                            *matFooterCellDef
+                          ></td>
+                        </ng-container>
+
+                        <tr
+                          mat-header-row
+                          *matHeaderRowDef="displayedColumns"
+                        ></tr>
+                        <tr
+                          mat-row
+                          *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                      </table>
+                      <mat-paginator
+                        [pageSizeOptions]="[10, 20, 30]"
+                        showFirstLastButtons
+                        aria-label="Select page of periodic elements"
+                      >
+                      </mat-paginator>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- <div class="col-lg-4 pt-4">
-            <button
-              style="background-color: #3454d1"
-              type="button"
-              class="form-control text-white"
-            >
-              Imprimer la liste <i class="fa-solid fa-print"></i>
-            </button>
+          <div
+            class="tab-pane fade"
+            id="profile"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+          >
+            <app-achat></app-achat>
           </div>
-          <div class="col-lg-4 pt-4">
-            <button
-              style="background-color: #3454d1"
-              type="button"
-              [disabled]="user.role === 'Vendeur'"
-              routerLink="/fournisseur/create"
-              class="form-control text-white"
-            >
-              Ajouter un fournisseur <i class="mx-1 fa-solid fa-user"></i>
-            </button>
-          </div> -->
-        </div>
-        <div
-          class="mat-elevation-z8 mt-3"
-        >
-          <table mat-table [dataSource]="dataSource" style="max-height: 400px; overflow-y: auto" *ngIf="!isloadingpage; else loader">
-            <ng-container matColumnDef="nom">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Nom
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.nom }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              >
-                <span class="fw-bold">Nonmbre de fournisseurs : </span>
-                <span class="mx-2 fw-bold">{{ nbrefournisseur }}</span>
-              </td>
-            </ng-container>
-
-            <!-- <ng-container matColumnDef="sexe">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Sexe
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.sexe }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container> -->
-
-            <ng-container matColumnDef="adresse">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Adresse
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.adresse }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="email">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Email
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.email }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="telephone">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Telephone
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.telephone }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="personne_de_contact">
-              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                Personne à contacter
-              </th>
-              <td class="pointer" mat-cell *matCellDef="let element">
-                {{ element.personne_de_contact }}
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <ng-container matColumnDef="Actions">
-              <th class="text-center" mat-header-cell *matHeaderCellDef>
-                Actions
-              </th>
-              <td class="text-center" mat-cell *matCellDef="let element">
-                <button
-                (click)="actions(element)"
-                style="cursor: pointer"
-                class=" border border-0 rounded rounded-2 actions"
-              >
-              <i class="fa-solid fa-eye"></i>
-               </button>
-              </td>
-              <td
-                mat-footer-cell
-                class="bg-table-color text-light"
-                *matFooterCellDef
-              ></td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <mat-paginator [pageSizeOptions]="[10, 20, 30]"
-          showFirstLastButtons
-          aria-label="Select page of periodic elements">
-         </mat-paginator>
+          <div
+            class="tab-pane fade"
+            id="settings"
+            role="tabpanel"
+            aria-labelledby="settings-tab"
+          >
+            <app-commande-achat></app-commande-achat>
+          </div>
         </div>
       </div>
     </div>
-  </div>
- </div>
   </div>
 </main>
 

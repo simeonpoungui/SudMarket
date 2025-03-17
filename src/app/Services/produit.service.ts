@@ -24,6 +24,9 @@ export class ProduitService {
   urigetcombinaisonsbyproduit = "/v1/sudmarket/get/combinaisons-by-produit"
   urigetcombinaisonbyid = "/v1/sudmarket/get/combinaisons-by-id"
 
+  urigetvariationbyproduitentrepot = "/v1/sudmarket/get/variations/entrepots"
+  urigetcombinaisonsbyproduitentrepo = "/v1/sudmarket/get/combinaisons-by-produit/entrepot"
+
   urigetcategorieproduit = "/v1/sudmarket/get/categorie/produits"
   uriupdatecategorieproduit = "/v1/sudmarket/update/categorie/produits"
   uricreateCategorieproduit = "/v1/sudmarket/create/categorie/produits"
@@ -46,10 +49,21 @@ export class ProduitService {
     return this.httpclient.post<CodeResponseOneProduit>(environment.apiUrl + this.urigetcombinaisonsbyproduit, produit)
   }
 
+
+  getVariationByProduitIdEntrepot(produit: GetProduit): Observable<any>{
+    return this.httpclient.post<CodeResponseOneProduit>(environment.apiUrl + this.urigetvariationbyproduitentrepot, produit)
+  }
+
+  getCombinaisonByProduitIdEntrepot(produit: GetProduit): Observable<any>{
+    return this.httpclient.post<CodeResponseOneProduit>(environment.apiUrl + this.urigetcombinaisonsbyproduitentrepo, produit)
+  }
+
   getCombinaisonById(id: number): Observable<any>{
     const data = {
       id:id
     }
+    console.log(data);
+    
     return this.httpclient.post<any>(environment.apiUrl + this.urigetcombinaisonbyid, data)
   }
 

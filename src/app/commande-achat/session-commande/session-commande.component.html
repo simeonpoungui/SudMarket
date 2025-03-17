@@ -4,11 +4,11 @@
       <div class="p-2">
         <div class="row">
           <div class="col-lg-4">
-            <div class="article-de-vente" style="height: 300px;max-height: 300px;">
+            <div class="article-de-vente" style="height: 390px;max-height: 390px;">
               <div
                 class="mat-elevation-z8 mt-1"
                 *ngIf="!isloadingpage; else loader"
-                style="max-height: 300px; overflow-y: auto"
+                style="max-height: 370px; overflow-y: auto"
               >
                 <table
                 [dataSource]="dataSource" 
@@ -106,12 +106,12 @@
                   <div class="row">
                     <div class="col-lg-6">
                       <button  class="form-control">
-                     Point de vente
+                         Entrepôt
                       </button>
                     </div>
                     <div class="col-lg-6">
                       <button class="form-control">
-                        {{ user ? getPointName(user.point_de_vente_id) : "" }}
+                        {{entrepotName ? entrepotName : "Pas d'entrepot"}}
                       </button>
                     </div>
                   </div>
@@ -146,19 +146,6 @@
                   </button>
                 </div>
                 <div class="mt-3">
-                  <div>
-                    <label  class="text-dark fw-bold">Moyen de paiment</label>
-                    <select
-                      (click)="selectmodepaiement($event)"
-                      class="form-select"
-                    >
-                      <option value="1">Espece</option>
-                      <option value="2">Electronique</option>
-                      <option value="3">Carte visa</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="mt-3">
                   <button
                     *ngIf="!isloadingpaiement; else loader"
                     (click)="ValidatePaiement()"
@@ -174,6 +161,7 @@
             <div class="produit">
               <div
                 class="mat-elevation-z8 mt-1"
+                style="max-height: 699px; overflow-y: auto"
                 *ngIf="!isloadingpage; else loader"
               >
                 <table mat-table [dataSource]="dataSource">
@@ -216,31 +204,20 @@
                     </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="prix">
+                  <ng-container matColumnDef="type_produit">
                     <th
                       class="bg-color-primary"
                       mat-header-cell
                       *matHeaderCellDef
                     >
-                      Prix unitaire
+                      Type Produit
                     </th>
                     <td class="pointer" mat-cell *matCellDef="let element">
-                      {{ element.prix }}
+                      {{ element.type_produit }}
                     </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="quantite_en_stock">
-                    <th
-                      class="bg-color-primary"
-                      mat-header-cell
-                      *matHeaderCellDef
-                    >
-                      Quantité stock
-                    </th>
-                    <td class="pointer" mat-cell *matCellDef="let element">
-                      {{ element.quantite_en_stock }}
-                    </td>
-                  </ng-container>
+
                   <ng-container matColumnDef="Actions">
                     <th class="text-center" mat-header-cell *matHeaderCellDef>
                       Cocher ici

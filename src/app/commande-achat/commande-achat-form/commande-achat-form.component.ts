@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertComponent } from 'src/app/core/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,6 +16,8 @@ import { FournisseurService } from 'src/app/Services/fournisseur.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
+import { Entrepot, GetEntrepot } from 'src/app/Models/entrepot.model';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
 
 @Component({
   selector: 'app-commande-achat-form',
@@ -58,7 +60,7 @@ export class CommandeAChatFormComponent {
     'quantite',
     'prix_unitaire',
     'prix_total_commande',
-    'point_de_vente_id',
+    'entrepot_id',
     'date_commande',
     'Action'
   ];
@@ -69,13 +71,25 @@ export class CommandeAChatFormComponent {
   isloadingBtnValidateCommande!: boolean
 
   TbCombinaisons: any[] = []
+  tbEntrepot: Entrepot[] = []
+  
   ObjetCommande: any
+  base64Documentfacture: string = ''; 
+  base64Documentbon: string = ''; 
+
+  imagepardefaut: string = "assets/images/image_vehicule-removebg-preview.png"
+
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
+  image: any | ArrayBuffer | null = null;
+  
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private produitService: ProduitService,
     public globalService: GlobalService,
+    private entrepotService: EntrepotService,
     private dialog: MatDialog,
     private userService: UsersService,
     private fournisseurService: FournisseurService,
@@ -102,10 +116,24 @@ export class CommandeAChatFormComponent {
 
     this.loadClient();
     this.loadUsers();
+    this.loadEntrepot()
     this.loadPointDeVente();
     this.getArticlesCommande()
     this.loadFournisseur();
     this.loadProduit()
+  }
+
+  loadEntrepot(){
+    const entrepot : GetEntrepot = {entrepot_id: 0}
+    this.entrepotService.getListEntrepot(entrepot).subscribe(data => {
+      console.log(data.message);
+      this.tbEntrepot = data.message
+    })
+  }
+
+  getEntrepotName(entrepot_id: number): string {
+    const entrepot = this.tbEntrepot.find(e => e.entrepot_id === entrepot_id);
+    return entrepot ? (entrepot.nom ): '';
   }
   
   openModal(element:any){
@@ -259,21 +287,80 @@ export class CommandeAChatFormComponent {
    }
     
      console.log(Commande);
-     this.commandeService.update(Commande).subscribe((data) => {
-       console.log(data.message);
-       if (data.code == 'succes' && Commande.statut == "livrée" && Commande.statut_validation == "validée") {
-        this.updateProduitStockBycommande();
-        this.isloadingBtnValidateCommande = false
-        this.globalService.toastShow(this.message, 'Succès');
-        this.router.navigateByUrl('commande/achat/list');
-       }else{
-        this.isloadingBtnValidateCommande = false
+      this.commandeService.update(Commande).subscribe((data) => {
+        console.log(data);
         this.message = data.message
-        this.globalService.toastShow(this.message, 'Succès');
-        this.router.navigateByUrl('commande/achat/list');
-       }
-     });
+        if (data.code == 'succes' && Commande.statut == "livrée" && Commande.statut_validation == "validée") {
+         this.updateProduitStockBycommande();
+         this.isloadingBtnValidateCommande = false
+        }else{
+         this.isloadingBtnValidateCommande = false
+         this.message = data.message
+         this.globalService.toastShow(this.message, 'Succès');
+         this.router.navigateByUrl('fournisseur/list');
+        }
+
+      });
+
+    console.log(this.base64Documentbon,this.base64Documentfacture);
+    if (this.base64Documentbon) {
+      this.function_update_bon_de_livraison_commande()
+    }
+    if (this.base64Documentfacture) {
+      this.function_update_facture_commande()
+    }
+
   }
+
+  function_update_facture_commande() {
+    const facture = {
+      commande_achat_id: this.commande_achat_id,
+      utilisateur_id: this.utilisateur_id,
+      pdf_path: this.base64Documentfacture
+    };
+    console.log(facture);
+
+    // Appel du service pour insérer la facture
+    this.commandeService.insertFacture(facture).subscribe(
+      (response) => {
+        if (response.code === 'succes') {
+          console.log('Facture insérée avec succès');
+        } else {
+          console.error('Erreur lors de l\'insertion de la facture:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Erreur API:', error)
+      }
+    );
+  }
+
+  // Fonction pour mettre à jour le bon de livraison
+  function_update_bon_de_livraison_commande() {
+    const bon_de_livraison = {
+      commande_achat_id: this.commande_achat_id,
+      pdf_path: this.base64Documentbon
+    };
+    console.log(bon_de_livraison);
+
+    // Appel du service pour insérer le bon de livraison
+    this.commandeService.insertBonLivraison(bon_de_livraison).subscribe(
+      (response) => {
+        if (response.code === 'succes') {
+          console.log('Bon de livraison inséré avec succès');
+          this.globalService.toastShow("Bon de livraison inséré avec succès","Succès")
+        } else {
+          this.message = response.message
+          this.globalService.toastShow(this.message,"Info")
+          console.error('Erreur lors de l\'insertion du bon de livraison:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Erreur API:', error);
+      }
+    );
+  }
+
 
   updateCommandeProduitStock(event: any) {
     console.log(event.target.value);
@@ -287,8 +374,8 @@ export class CommandeAChatFormComponent {
   updateProduitStockBycommande() {
     this.commandeService.updaStatutteProduitStockBySatut(this.sendIDcommande).subscribe((data) => {
         console.log(data.message);
-        this.globalService.toastShow('Quantités mise à jour', 'Succès');
-        this.router.navigateByUrl('commande/achat/list');
+        this.globalService.toastShow('Commande et quantités mise à jour', 'Succès');
+        this.router.navigateByUrl('paiement-commande-form/' + this.commandes.commande_achat_id);
       });
   }
 
@@ -305,10 +392,47 @@ export class CommandeAChatFormComponent {
         this.commandeService.delete(this.commandes).subscribe((data) => {
           console.log(data.message);
           this.message = data.message;
-          this.router.navigateByUrl('commande/achat/list');
+          this.router.navigateByUrl('fournisseur/list');
           this.globalService.toastShow(this.message, 'Succès', 'success');
         });
       }
     });
   }
+
+  convertPDFToBase64Facture(file: File): void {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.base64Documentfacture = reader.result as string; 
+      console.log('Base64 String - ', this.base64Documentfacture);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onDocumentSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        console.log(file);
+        this.convertPDFToBase64Facture(file); 
+    }
+  }
+
+  convertPDFToBase64Bon(file: File): void {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.base64Documentbon = reader.result as string; 
+      console.log('Base64 String - ', this.base64Documentbon);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onDocumentSelectedBon(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        console.log(file);
+        this.convertPDFToBase64Bon(file); 
+    }
+  }
+
 }

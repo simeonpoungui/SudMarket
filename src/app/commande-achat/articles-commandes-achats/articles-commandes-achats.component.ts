@@ -11,6 +11,8 @@ import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { Entrepot, GetEntrepot } from 'src/app/Models/entrepot.model';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
 
 @Component({
   selector: 'app-articles-commandes-achats',
@@ -22,15 +24,18 @@ export class ArticlesCommandesAchatsComponent {
   displayedColumns = [
     'date_commande',
     'produit_id',
+    'entrepot_id',
     'quantite',
     'prix_unitaire',
     'prix_total_commande',
     'point_de_vente_id',
     'Actions'
   ];
-  tbProduit!: Produit[]
-  tbPointdeVente!: PointsDeVentes[]
-  tbarticlecommandes!: ArticlesDeCommandeDAchat[]
+  tbProduit: Produit[] = []
+  tbPointdeVente: PointsDeVentes[] = []
+  tbarticlecommandes: ArticlesDeCommandeDAchat[] = []
+  tbEntrepot: Entrepot[] = []
+  
   isloadingpage!: boolean
   selectedcommandeString!: string;
   TotalMontant!:number
@@ -46,6 +51,7 @@ export class ArticlesCommandesAchatsComponent {
     private produitService: ProduitService,
     public globalService: GlobalService,
     private pointService: PointsDeVentesService,
+    private entrepotService: EntrepotService,
     private dialog: MatDialog
   ){}
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -55,8 +61,21 @@ export class ArticlesCommandesAchatsComponent {
     this.getListCommandes()
     this.loadProduit()
     this.loadPointDeVente()
+    this.loadEntrepot()
+  }
+  loadEntrepot(){
+    const entrepot : GetEntrepot = {entrepot_id: 0}
+    this.entrepotService.getListEntrepot(entrepot).subscribe(data => {
+      console.log(data.message);
+      this.tbEntrepot = data.message
+    })
   }
 
+  getEntrepotName(entrepot_id: number): string {
+    const entrepot = this.tbEntrepot.find(e => e.entrepot_id === entrepot_id);
+    return entrepot ? (entrepot.nom ): '';
+  }
+  
   loadProduit(){
     const produit : GetProduit = {produit_id: 0}
     this.produitService.getList(produit).subscribe(data => {

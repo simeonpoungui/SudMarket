@@ -43,8 +43,43 @@
           </a>
         </li>
 
-        
         <li class="nxl-item nxl-hasmenu">
+          <a href="javascript:void(0);" class="nxl-link">
+            <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
+            <span class="nxl-mtext">Gestion de stocks </span
+            ><span class="nxl-arrow"
+              ><i class="feather-chevron-right"></i
+            ></span>
+          </a>
+          <ul class="nxl-submenu">
+
+            <li class="nxl-item">
+              <a class="nxl-link"     [routerLink]="
+              user.role !== 'Vendeur' ? '/entrepot-list' : null
+            "
+                >Entrepôts</a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link"     [routerLink]="
+              user.commandes == 1 ? '/entrepot-stock-list' : null
+            "
+                >Stocks et Inventaire </a
+              >
+            </li>
+            <li class="nxl-item">
+              <a class="nxl-link" routerLink="/fournisseur/list"
+                >Fourniseurs et Achats</a
+              >
+            </li>     <li class="nxl-item">
+              <a class="nxl-link" routerLink="/produit/list"
+                >Gestion des produits</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
             <span class="nxl-mtext">Achats et Commandes</span
@@ -73,22 +108,14 @@
                 >Fourniseurs</a
               >
             </li>
-            <!-- <li class="nxl-item">
-              <a
-                class="nxl-link"
-                [ngClass]="{ 'text-muted disabled': user.role === 'Vendeur' }"
-                [routerLink]="
-                  user.role !== 'Vendeur' ? '/fournisseur/create' : null
-                "
-                >Ajouter un fournisseur</a
-              >
-            </li> -->
           </ul>
-        </li>
-        <li class="nxl-item nxl-hasmenu">
+        </li> -->
+    
+
+        <!-- <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-send"></i></span>
-            <span class="nxl-mtext">Stock</span
+            <span class="nxl-mtext">Stock Produits</span
             ><span class="nxl-arrow"
               ><i class="feather-chevron-right"></i
             ></span>
@@ -113,7 +140,13 @@
               >
             </li>
           </ul>
-        </li>
+        </li> -->
+        <!-- <li class="nxl-item nxl-hasmenu">
+          <a  routerLink="/commande/achat/list" class="nxl-link">
+            <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
+            <span class="nxl-mtext">Commandes</span>
+          </a>
+        </li> -->
         <li class="nxl-item nxl-hasmenu">
           <a href="javascript:void(0);" class="nxl-link">
             <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
@@ -446,48 +479,38 @@
                 </div>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a href="javascript:void(0);" class="dropdown-item">
+                <a href="transfert-stock-entrepot-point" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-alert-circle"></i>
-                    <span>Leads</span>
+                    <span>Transfert stock point</span>
                   </span>
-                  <i class="feather-chevron-right ms-auto me-0"></i>
                 </a>
-                <div class="dropdown-menu nxl-h-dropdown">
-                  <a href="leads.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Leads</span>
-                  </a>
-                  <a href="leads-view.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Leads View</span>
-                  </a>
-                  <a href="leads-create.html" class="dropdown-item">
-                    <i class="wd-5 ht-5 bg-gray-500 rounded-circle me-3"></i>
-                    <span>Leads Create</span>
-                  </a>
-                </div>
+              </div>
+              <div class="dropdown nxl-level-menu">
+                <a href="entrepot-stock" class="dropdown-item">
+                  <span class="hstack">
+                    <i class="feather-alert-circle"></i>
+                    <span>Ajouter stock entrepot</span>
+                  </span>
+                </a>
               </div>
               <div class="dropdown nxl-level-menu">
                 <a
-                  routerLink="/session-commande-achat"
-                  href="javascript:void(0);"
+                  href="session-commande-achat"
                   class="dropdown-item"
                 >
                   <span class="hstack">
                     <i class="feather-briefcase"></i>
                     <span>Session commande</span>
                   </span>
-                  <i class="feather-chevron-right ms-auto me-0"></i>
                 </a>
               </div>
               <div class="dropdown nxl-level-menu">
-                <a routerLink="/session-vente" class="dropdown-item">
+                <a href="session-vente" class="dropdown-item">
                   <span class="hstack">
                     <i class="feather-layout"></i>
                     <span>Session de vente</span>
                   </span>
-                  <i class="feather-chevron-right ms-auto me-0"></i>
                 </a>
               </div>
            <!-- <div class="dropdown nxl-level-menu">

@@ -70,7 +70,7 @@
                     </select>
                   </div>
 
-                  <div class="col-lg-6 mt-3">
+                  <!-- <div class="col-lg-6 mt-3">
                     <label for="point_de_vente_id" class="form-label label"
                       >Point de vente
                       <span class="title-bg-global-secondary"> * </span></label
@@ -88,9 +88,65 @@
                         {{ point.nom }}
                       </option>
                     </select>
+                  </div> -->
+
+           
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="prix" class="form-label label"
+                      >Prix de vente</label
+                    >
+                    <input
+                      [disabled]="type_produit == 'variable'"
+                      type="number"
+                      class="form-control"
+                      name="prix"
+                      [(ngModel)]="prix"
+                      required
+                    />
                   </div>
 
                   <div class="col-lg-6 mt-3">
+                    <label for="prix" class="form-label label"
+                      >Prix d'achat</label
+                    >
+                    <input
+                      [disabled]="type_produit == 'variable'"
+                      type="number"
+                      class="form-control"
+                      name="prix_achat"
+                      [(ngModel)]="prix_achat"
+                      required
+                    />
+                  </div>
+                  <div class="col-lg-6 mt-3">
+                    <label for="prix_de_revient" class="form-label label"
+                      >Prix de revient</label
+                    >
+                    <input
+                      [disabled]="type_produit == 'variable'"
+                      type="number"
+                      class="form-control"
+                      name="prix_de_revient"
+                      [(ngModel)]="prix_de_revient"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="prix_reduit" class="form-label label"
+                      >Prix réduit</label
+                    >
+                    <input
+                      [disabled]="type_produit == 'variable'"
+                      type="number"
+                      class="form-control"
+                      name="prix_reduit"
+                      [(ngModel)]="prix_reduit"
+                    />
+                  </div>
+
+                  <div class="col-lg-12 mt-3">
                     <label for="categorie" class="form-label label"
                       >Catégorie
                       <span class="title-bg-global-secondary"> * </span></label
@@ -120,49 +176,7 @@
                       ></label>
                     </div>
                   </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="prix" class="form-label label"
-                      >Prix unitaire de vente</label
-                    >
-                    <input
-                      [disabled]="type_produit == 'variable'"
-                      type="number"
-                      class="form-control"
-                      name="prix"
-                      [(ngModel)]="prix"
-                      required
-                    />
-                  </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="prix_de_revient" class="form-label label"
-                      >Prix de revient</label
-                    >
-                    <input
-                      [disabled]="type_produit == 'variable'"
-                      type="number"
-                      class="form-control"
-                      name="prix_de_revient"
-                      [(ngModel)]="prix_de_revient"
-                      required
-                    />
-                  </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="prix_reduit" class="form-label label"
-                      >Prix réduit</label
-                    >
-                    <input
-                      [disabled]="type_produit == 'variable'"
-                      type="number"
-                      class="form-control"
-                      name="prix_reduit"
-                      [(ngModel)]="prix_reduit"
-                    />
-                  </div>
-
-                  <div class="col-lg-6 mt-3">
+                  <!-- <div class="col-lg-6 mt-3">
                     <label for="quantite_en_stock" class="form-label label"
                       >Quantité en stock
                     </label>
@@ -174,7 +188,7 @@
                       [(ngModel)]="quantite_en_stock"
                       required
                     />
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -293,7 +307,7 @@
             </div>
 
             <div class="row">
-              <div class="content mx-2 mt-4">
+              <div class="content  mt-4">
                 <span class="text-on-border fw-bold fs-5">Dimensions (cm)</span>
                 <div class="row">
                   <div class="col-lg-4 mt-3">
@@ -697,8 +711,8 @@
                     />
                   </th>
                   <th>Variation</th>
-                  <th>Quantité</th>
-                  <th>Prix</th>
+                  <th>Prix d'achat</th>
+                  <th>Prix de vente</th>
                   <th>Prix reduit</th>
                   <th>Prix de revient</th>
                   <th>Code à barre</th>
@@ -725,8 +739,7 @@
                   <td>
                     <input
                       type="number"
-                      style="width: 100px; max-width: 100px"
-                      [(ngModel)]="combination.quantite_en_stock"
+                      [(ngModel)]="combination.prix_achat"
                       class="form-control"
                     />
                   </td>

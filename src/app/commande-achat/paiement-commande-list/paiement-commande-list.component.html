@@ -1,0 +1,114 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+      <div class="pt-4">
+        <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
+          <div class="p-3">
+            <div class="row">
+              <div class="col-lg-10">
+                <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+                  Paiements commandes
+                </h1>
+              </div>
+              <div class="col-lg-2">
+                <div class="">
+                  <button
+                    style="background-color: #3454d1"
+                    type="button"
+                    class="form-control text-uppercase text-white"
+                  >
+                    <i class="fa-solid fa-download mx-2"></i>  Export csv
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="row mb-3">
+                <div class="col-lg-3">
+                  <div class="d-flex align-items-center mt-4">
+                    <i
+                      style="position: absolute"
+                      class="fa-solid p-3 fa-magnifying-glass"
+                    ></i>
+  
+                    <input
+                      type="text"
+                      (keyup)="applyFilter($event)"
+                      placeholder="Recherchez un paiement ici..."
+                      class="form-control text-start px-5 text-uppercase"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="mat-elevation-z8">
+                <table *ngIf="!isloadingpage; else loader" mat-table [dataSource]="dataSource"  style="max-height: 400px; overflow-y: auto">
+                  <ng-container matColumnDef="commande_achat_id">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      ID Commande
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.commande_achat_id }}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="montant">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Montant
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ globalService.formatPrix(element.montant) }}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="date_paiement">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Date de Paiement
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ globalService.formatDate(element.date_paiement )}}
+                    </td>
+                  </ng-container>
+  
+                  <ng-container matColumnDef="mode_paiement">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Mode de Paiement
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.mode_paiement }}
+                    </td>
+                  </ng-container>
+  
+                  <!-- <ng-container matColumnDef="Actions">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef>
+                      Actions
+                    </th>
+                    <td class="text-center" mat-cell *matCellDef="let element">
+                      <button
+                        (click)="actions(element)"
+                        style="cursor: pointer"
+                        class="border border-0 rounded rounded-2 actions"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </td>
+                  </ng-container> -->
+  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                  showFirstLastButtons
+                  aria-label="Select page of periodic elements">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

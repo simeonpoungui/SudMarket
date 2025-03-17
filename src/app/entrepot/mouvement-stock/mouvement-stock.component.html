@@ -1,0 +1,151 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+    <div class="pt-4">
+      <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
+        <div class="p-3">
+          <div class="row">
+            <div class="col-lg-10">
+              <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+                Historique mouvements de stock
+              </h1>
+            </div>
+            <div class="col-lg-2">
+              <div class="">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-uppercase text-white"
+                >
+                <i class="fa-solid fa-download mx-2"></i>  Export csv
+                </button>
+              </div>
+            </div>
+            <!-- <div class="col-lg-2">
+              <div class="">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  (click)="create()"
+                  class="form-control text-uppercase text-white"
+                >
+                <i class="fa-solid mx-2 fa-plus"></i>  Ajouter un client 
+                </button>
+              </div>
+            </div> -->
+          </div>
+          <div>
+            <div class="row mb-3">
+              <div class="col-lg-3">
+                <div class="d-flex align-items-center mt-4">
+                  <i
+                    style="position: absolute"
+                    class="fa-solid p-3 fa-magnifying-glass"
+                  ></i>
+  
+                  <input
+                    type="text"
+                    (keyup)="applyFilter($event)"
+                    placeholder="Recherchez un client ici..."
+                    class="form-control text-start px-5 text-uppercase"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="mat-elevation-z8">
+                <!-- Affichage du tableau si la page n'est pas en cours de chargement -->
+                <table *ngIf="!isloadingpage; else loader" mat-table [dataSource]="dataSource" style="max-height: 400px; overflow-y: auto">
+                  
+                  <!-- Colonne 'Produit' -->
+                  <ng-container matColumnDef="produit">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Produit </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{getProduitName(element.produit)}} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Libellé' -->
+                  <ng-container matColumnDef="libelle">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Libellé </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.libelle }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Origine' (Entrepôt d'origine) -->
+                  <ng-container matColumnDef="origine">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Origine </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.origine }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Destination' (Point de vente) -->
+                  <ng-container matColumnDef="destination">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Destination </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Stock Initial' -->
+                  <ng-container matColumnDef="stock_initial">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Stock Initial </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.stock_initial }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Entrée' (Quantité entrée) -->
+                  <ng-container matColumnDef="entree">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Entrée </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.entree }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Sortie' (Quantité sortie) -->
+                  <ng-container matColumnDef="sortie">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Sortie </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.sortie }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Stock Final' -->
+                  <ng-container matColumnDef="stock_final">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Stock Final </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.stock_final }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Date Mouvement' -->
+                  <ng-container matColumnDef="date_mouvement">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Date Mouvement </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.date_mouvement | date:'dd/MM/yyyy' }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Observations' -->
+                  <ng-container matColumnDef="observations">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Observations </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.observations }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Combination Hash' -->
+                  <ng-container matColumnDef="combination_hash">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Combination </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.combination_hash }} </td>
+                  </ng-container>
+              
+                  <!-- Colonne 'Type Produit' -->
+                  <ng-container matColumnDef="type_produit">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef> Type Produit </th>
+                    <td class="pointer" mat-cell *matCellDef="let element"> {{ element.type_produit }} </td>
+                  </ng-container>
+              
+                  <!-- Lignes du tableau -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              
+                <!-- Pagination -->
+                <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons aria-label="Sélectionner une page des éléments">
+                </mat-paginator>
+              </div>
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

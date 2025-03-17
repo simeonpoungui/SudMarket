@@ -11,6 +11,7 @@ export class Produit {
     description_courte?: string = '';
     description_longue?: string = '';
     type_produit?: string;
+    prix_achat!: number
     prix_reduit?: number;
     unite_mesure?: string;
     code_barres?: string;

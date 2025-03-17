@@ -14,6 +14,8 @@ import { UsersService } from 'src/app/Services/users.service';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
+import { Entrepot, GetEntrepot } from 'src/app/Models/entrepot.model';
 
 @Component({
   selector: 'app-achat',
@@ -27,7 +29,7 @@ export class AchatComponent {
     'fournisseur_id',
     'montant_total',
     'utilisateur_id',
-    'point_de_vente_id',
+    'entrepot_id',
     'statut',
     'Actions'
   ];
@@ -39,6 +41,7 @@ export class AchatComponent {
   TotalMontant!: number
   tbPointdeVente: PointsDeVentes[] = []
   commandesachats: CommandeAchat[] = []
+  tbEntrepot: Entrepot[] = []
 
   IDfournisseur!: number
   IDuser!: number
@@ -55,6 +58,7 @@ export class AchatComponent {
     private fournisseurService: FournisseurService,
     public globalService: GlobalService,
     private userService: UsersService,
+    private entrepotService: EntrepotService,
     private dialog: MatDialog
   ){}
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
@@ -64,6 +68,7 @@ export class AchatComponent {
     this.getListCommandes()
     this.loadFournisseur()
     this.loadUsers()
+    this.loadEntrepot()
     this.loadPointDeVente()
   }
 
@@ -75,6 +80,18 @@ export class AchatComponent {
     })
   }
 
+    loadEntrepot(){
+      const entrepot : GetEntrepot = {entrepot_id: 0}
+      this.entrepotService.getListEntrepot(entrepot).subscribe(data => {
+        console.log(data.message);
+        this.tbEntrepot = data.message
+      })
+    }
+  
+    getEntrepotName(entrepot_id: number): string {
+      const entrepot = this.tbEntrepot.find(e => e.entrepot_id === entrepot_id);
+      return entrepot ? (entrepot.nom ): '';
+    }
 
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}

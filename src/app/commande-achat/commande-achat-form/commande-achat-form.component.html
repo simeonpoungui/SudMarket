@@ -70,6 +70,15 @@
                 [value]="getUserName(utilisateur_id)"
               />
             </div>
+
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom01" class="form-label label">Statut validation</label>
+              <select [disabled]="disabelBtnValidate == 'livrée' ? true : false" class="form-control" name="	statut_validation" [(ngModel)]="statut_validation">
+                <option *ngFor="let statut of statutsValidation" [value]="statut.value">
+                  {{ statut.label }}
+                </option>
+              </select>
+            </div>
             
             <div class="col-lg-6 mt-3">
               <label for="validationCustom01" class="form-label label">Statut livraison</label>
@@ -80,13 +89,24 @@
               </select>
             </div>
 
-            <div class="col-lg-6 mt-3">
-              <label for="validationCustom01" class="form-label label">Statut de validation</label>
-              <select [disabled]="disabelBtnValidate == 'livrée' ? true : false" class="form-control" name="	statut_validation" [(ngModel)]="statut_validation">
-                <option *ngFor="let statut of statutsValidation" [value]="statut.value">
-                  {{ statut.label }}
-                </option>
-              </select>
+            <div class="mb-3 mt-3 col-lg-6">
+              <label for="validationCustom01" class="form-label label">Facture</label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+                class="form-control"
+                (change)="onDocumentSelected($event)"
+              />
+            </div>
+
+            <div class="mb-3 mt-3 col-lg-6">
+              <label for="validationCustom01" class="form-label label">Bon de livraison </label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+                class="form-control"
+                (change)="onDocumentSelectedBon($event)"
+              />
             </div>
             
       <div>
@@ -151,12 +171,12 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="point_de_vente_id">
+              <ng-container matColumnDef="entrepot_id">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Point de vente
+                  Entrepôt
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ getPointName(element.point_de_vente_id) }}
+                  {{getEntrepotName(element.entrepot_id) }}
                 </td>
               </ng-container>
 

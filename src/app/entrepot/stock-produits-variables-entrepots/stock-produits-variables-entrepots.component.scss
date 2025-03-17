@@ -1,0 +1,19 @@
+
+$primary-color:#3454d1;
+$secondary-color: hsl(0, 81%, 61%);
+$third-color: #17c666;
+.bg-delete{
+background-color:$secondary-color ;
+}
+.bg-update{
+    background-color:$primary-color;
+}
+
+
+  .variation-value{
+    display: inline-block; /* L'élément prend la largeur de son contenu */
+    white-space: nowrap;   /* Empêche le texte de se couper sur plusieurs lignes */
+  }
+  
+
+  

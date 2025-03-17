@@ -1,0 +1,159 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+    <div class="pt-4">
+      <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
+        <div class="p-3">
+          <div class="row">
+            <div class="col-lg-10">
+              <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+                Stock points de vente
+              </h1>
+            </div>
+            <div class="col-lg-2">
+              <div class="">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-uppercase text-white"
+                >
+                <i class="fa-solid fa-download mx-2"></i>  Export csv
+                </button>
+              </div>
+            </div>
+            <!-- <div class="col-lg-2">
+              <div class="">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  (click)="create()"
+                  class="form-control text-uppercase text-white"
+                >
+                <i class="fa-solid mx-2 fa-plus"></i>  Ajouter un client 
+                </button>
+              </div>
+            </div> -->
+          </div>
+          <div class="row mt-3 mb-3">
+            <div class="col-lg-3">
+                <label for="Produit">Point de vente</label>
+                <select class="form-select" (change)="onPointChange($event)" aria-label="Default select example">
+                    <option selected>Filtrer par point de vente</option>
+                    <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">{{ point.nom }}</option>
+
+                  </select>
+            </div> 
+            <div class="col-lg-3">
+                <label for="Produit">Entrepot</label>
+                <select class="form-select" (change)="onEntrepotChange($event)" aria-label="Default select example">
+                    <option selected>Filtrer par entrepot</option>
+                    <option *ngFor="let entrepot of tbEntrepot" [value]="entrepot.entrepot_id">{{ entrepot.nom }}</option>
+
+                  </select>
+            </div> 
+            <div class="col-lg-3">
+                <label for="Produit">Produit</label>
+              <!-- Select pour filtrer les produits -->
+            <select class="form-select" aria-label="Filtrer par produit" (change)="onProduitChange($event)">
+                <option value="" selected>Filtrer par produit</option>
+                <option *ngFor="let produit of tbProduit" [value]="produit.produit_id">{{ produit.nom }}</option>
+            </select>
+  
+            </div>
+         <div class="col-lg-3">
+                <label for="Produit">Type produit</label>
+                <select (change)="onTypeProduitChange($event)" class="form-select" aria-label="Default select example">
+                    <option selected>Filtrer par type produit</option>
+                    <option value="simple">Simple</option>
+                    <option value="variable">Variable</option>
+                  </select>
+            </div>
+          </div>
+          <div>
+            <div class="mat-elevation-z8">
+                <table *ngIf="!isloadingpage; else loader" mat-table [dataSource]="dataSource" style="max-height: 400px; overflow-y: auto">
+                    <ng-container matColumnDef="entrepot_id">
+                      <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                        Entrepôt 
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ getEntrepotName(element.entrepot_id )}}
+                      </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="point_de_vente_id">
+                      <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                        Point de vente 
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ getPointName(element.point_de_vente_id )}}
+                      </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="produit_id">
+                      <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                        Produit 
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ getProduitName(element.produit_id )}}
+                      </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="quantite">
+                      <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                        Quantité
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.quantite }}
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="combination_hash">
+                        <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                            combination
+                        </th>
+                        <td class="pointer" mat-cell *matCellDef="let element">
+                          {{ element.combination_hash }}
+                        </td>
+                      </ng-container>
+                  
+                    <ng-container matColumnDef="type_produit">
+                      <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                        Type Produit
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.type_produit }}
+                      </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="Actions">
+                      <th class="text-center" mat-header-cell *matHeaderCellDef>
+                        Actions
+                      </th>
+                      <td class="text-center" mat-cell *matCellDef="let element">
+                        <button (click)="actions(element)" style="cursor: pointer" class="border border-0 rounded rounded-2 actions">
+                          <i class="fa-solid fa-eye"></i>
+                        </button>
+                      </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  
+              <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements">
+             </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

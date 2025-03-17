@@ -16,6 +16,8 @@ import { FournisseurService } from 'src/app/Services/fournisseur.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { ProduitService } from 'src/app/Services/produit.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { Entrepot, GetEntrepot } from 'src/app/Models/entrepot.model';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
 
 @Component({
   selector: 'app-commande-achat-fiche',
@@ -31,7 +33,7 @@ export class CommandeAChatFicheComponent {
     'quantite',
     'prix_unitaire',
     'prix_total_commande',
-    'point_de_vente_id',
+    'entrepot_id',
     'date_commande'
   ];
 
@@ -44,9 +46,14 @@ export class CommandeAChatFicheComponent {
   tbFournisseurs: Fournisseur[] = []
   tbClients: Client[] = [];
   tbPointdeVente: PointsDeVentes[] = []
+  tbEntrepot: Entrepot[] = []
+  
   tbArticleCommande!: any
   sort: any;
   paginator: any;
+
+  facturecommande: any
+  bonDeLivraisoncommande: any
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +61,7 @@ export class CommandeAChatFicheComponent {
     private produitService: ProduitService,
     public globalService: GlobalService,
     private dialog: MatDialog,
+    private entrepotService: EntrepotService,
     private fournisseurService: FournisseurService,
     private userService: UsersService,
     private clientService: ClientsService,
@@ -72,10 +80,127 @@ export class CommandeAChatFicheComponent {
     this.loadClient()
     this.loadUsers()
     this.loadPointDeVente()
+    this.loadEntrepot()
     this.loadFournisseur()
     this.loadProduit()
     this.getArticlesCommande()
+    this.getFacturecommande()
+    this.getBonLivraisoncommande()
   }
+
+
+  getFacturecommande(){
+    this.commandeService.getOneFacture(this.commandes.commande_achat_id).subscribe(res =>{
+      console.log(res.message.pdf_path);
+      this.facturecommande = res.message.pdf_path
+    })
+  }
+
+  getBonLivraisoncommande(){
+    this.commandeService.getOneBonLivraison(this.commandes.commande_achat_id).subscribe(res =>{
+      console.log(res.message.pdf_path);
+      this.bonDeLivraisoncommande = res.message.pdf_path
+    })
+  }
+
+
+  impressionFacture() {
+    console.log(this.facturecommande);
+    
+    if (this.facturecommande) {
+      try {
+        const pdfBase64 = this.facturecommande;
+  
+        // Vérifier si la chaîne est une base64 valide
+        if (!/^data:application\/pdf;base64,/.test(pdfBase64)) {
+          console.error("La chaîne Base64 n'est pas valide.");
+          return;
+        }
+  
+        // Décoder la chaîne Base64
+        const byteCharacters = atob(pdfBase64.split(',')[1]); // Enlever le préfixe "data:application/pdf;base64,"
+        const byteArrays = new Uint8Array(byteCharacters.length);
+  
+        // Remplir le tableau d'octets
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteArrays[i] = byteCharacters.charCodeAt(i);
+        }
+  
+        // Créer le Blob avec le type PDF
+        const blob = new Blob([byteArrays], { type: 'application/pdf' });
+  
+        // Créer un lien pour forcer le téléchargement
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'facture.pdf'; // Nom du fichier à télécharger
+        link.click(); // Déclenche le téléchargement
+      } catch (error) {
+        console.error("Erreur lors du traitement du fichier PDF : ", error);
+      }
+    } else {
+      console.error("Aucune facture disponible.");
+    }
+  }
+  
+  
+
+
+  impressionBonDeLivraison() {
+    console.log(this.bonDeLivraisoncommande); // Vérifier la valeur dans la console
+    
+    if (this.bonDeLivraisoncommande) {
+      try {
+        const pdfBase64 = this.bonDeLivraisoncommande;
+  
+        // Vérifier si la chaîne est une base64 valide (si elle contient un préfixe comme "data:application/pdf;base64,")
+        if (!/^data:application\/pdf;base64,/.test(pdfBase64)) {
+          console.error("La chaîne Base64 n'est pas valide.");
+          return;
+        }
+  
+        // Supprimer le préfixe "data:application/pdf;base64," si présent
+        const base64Data = pdfBase64.split(',')[1]; 
+  
+        // Décoder la chaîne base64
+        const byteCharacters = atob(base64Data); // Décoder la chaîne base64
+        const byteArrays = new Uint8Array(byteCharacters.length); // Créer un tableau d'octets avec la longueur de la chaîne
+  
+        // Remplir le tableau d'octets
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteArrays[i] = byteCharacters.charCodeAt(i);
+        }
+  
+        // Créer le Blob avec le type PDF
+        const blob = new Blob([byteArrays], { type: 'application/pdf' });
+  
+        // Créer un lien pour forcer le téléchargement
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'bon_de_livraison.pdf'; // Nom du fichier à télécharger
+        link.click(); // Déclenche le téléchargement
+      } catch (error) {
+        console.error("Erreur lors du traitement du fichier PDF : ", error);
+      }
+    } else {
+      console.error("Aucun bon de livraison disponible.");
+    }
+  }
+  
+  
+
+
+    loadEntrepot(){
+      const entrepot : GetEntrepot = {entrepot_id: 0}
+      this.entrepotService.getListEntrepot(entrepot).subscribe(data => {
+        console.log(data.message);
+        this.tbEntrepot = data.message
+      })
+    }
+  
+    getEntrepotName(entrepot_id: number): string {
+      const entrepot = this.tbEntrepot.find(e => e.entrepot_id === entrepot_id);
+      return entrepot ? (entrepot.nom ): '';
+    }
 
   getArticlesCommande(){
     const commandeID: GetCommandeAchat = {

@@ -1,0 +1,212 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+
+
+    <!-- Les Onglets -->
+<div class="container pt-4 ">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link text-uppercase fw-bold active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Stocks entrepots</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link text-uppercase fw-bold" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Inventaires</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="mt-4" >
+        <div class="col-lg-12 bg-white p-2 rounded rounded-4 m-lg-auto">
+          <div class="p-3">
+            <div class="row">
+              <div class="col-lg-8">
+                <h1 class="rounded fw-bold rounded-4 text-uppercase py-1">
+                 Entrepôts
+                </h1>
+              </div>
+              <div class="col-lg-2">
+                <div class="">
+                  <button
+                    style="background-color: #3454d1"
+                    type="button"
+                    class="form-control text-uppercase text-white"
+                  >
+                    <i class="fa-solid fa-download mx-2"></i> Export CSV
+                  </button>
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="">
+                  <button
+                    style="background-color: #3454d1"
+                    type="button"
+                    (click)="create()"
+                    class="form-control text-uppercase text-white"
+                  >
+                    <i class="fa-solid mx-2 fa-plus"></i> Ajouter stock
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-lg-4">
+                  <label for="Produit">Entrepot</label>
+                  <select class="form-select" (change)="onEntrepotChange($event)" aria-label="Default select example">
+                      <option selected>Filtrer par entrepot</option>
+                      <option *ngFor="let entrepot of tbEntrepot" [value]="entrepot.entrepot_id">{{ entrepot.nom }}</option>
+  
+                    </select>
+              </div> 
+              <div class="col-lg-4">
+                  <label for="Produit">Produit</label>
+                <!-- Select pour filtrer les produits -->
+              <select class="form-select" aria-label="Filtrer par produit" (change)="onProduitChange($event)">
+                  <option value="" selected>Filtrer par produit</option>
+                  <option *ngFor="let produit of tbProduit" [value]="produit.produit_id">{{ produit.nom }}</option>
+              </select>
+    
+              </div>
+           <div class="col-lg-4">
+                  <label for="Produit">Type produit</label>
+                  <select (change)="onTypeProduitChange($event)" class="form-select" aria-label="Default select example">
+                      <option selected>Filtrer par type produit</option>
+                      <option value="simple">Simple</option>
+                      <option value="variable">Variable</option>
+                    </select>
+              </div>
+            </div>
+            <div class="mat-elevation-z8 mt-3">
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                style="max-height: 400px; overflow-y: auto"
+                *ngIf="!isloadingpage; else loader"
+              >
+                <!-- Produit ID -->
+                <ng-container matColumnDef="produit_id">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Produit
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ getProduitName(element.produit_id) }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <ng-container matColumnDef="entrepot_id">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Entrepot
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ getEntrepotName(element.entrepot_id) }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <!-- Quantité -->
+                <ng-container matColumnDef="quantite">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Quantité
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ element.quantite }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <!-- Type Produit -->
+                <ng-container matColumnDef="type_produit">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Type Produit
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ element.type_produit }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <!-- Combination Hash -->
+                <ng-container matColumnDef="combination_hash">
+                  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                    Combination
+                  </th>
+                  <td class="pointer" mat-cell *matCellDef="let element">
+                    {{ element.combination_hash }}
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <!-- Actions -->
+                <ng-container matColumnDef="Actions">
+                  <th class="text-center" mat-header-cell *matHeaderCellDef>
+                    Actions
+                  </th>
+                  <td class="text-center" mat-cell *matCellDef="let element">
+                    <button
+                      (click)="actions(element)"
+                      style="cursor: pointer"
+                      class="border border-0 rounded rounded-2 actions"
+                    >
+                      <i class="fa-solid fa-eye"></i>
+                    </button>
+                  </td>
+                  <td
+                    mat-footer-cell
+                    class="bg-table-color text-light"
+                    *matFooterCellDef
+                  ></td>
+                </ng-container>
+  
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </table>
+              <mat-paginator
+                [pageSizeOptions]="[10, 20, 30]"
+                showFirstLastButtons
+                aria-label="Select page of periodic elements"
+              >
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="col-lg-12  p-2 rounded rounded-4 mt-4 mb-3">
+          <app-inventaires></app-inventaires>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  </div>
+</main>
+
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

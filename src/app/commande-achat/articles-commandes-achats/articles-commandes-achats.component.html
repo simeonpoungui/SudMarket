@@ -149,6 +149,15 @@
               </td>
             </ng-container>
 
+            <ng-container matColumnDef="entrepot_id">
+              <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                Entrepot
+              </th>
+              <td class="pointer" mat-cell *matCellDef="let element">
+                {{ getEntrepotName(element.entrepot_id) }}
+              </td>
+            </ng-container>
+
             <ng-container matColumnDef="quantite">
               <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
                 Quantité

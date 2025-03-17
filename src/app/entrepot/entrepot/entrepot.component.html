@@ -1,0 +1,99 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="pt-4">
+      <div class="col-lg-10  p-2 rounded rounded-4 m-lg-auto">
+        <div class="p-3">
+          <div class="row">
+            <div class="col-lg-7">
+              <h1 class="rounded fw-bold rounded-4 text-uppercase py-1 px-3">
+                Entrepôts
+              </h1>
+            </div>
+            <div class="col-lg-2">
+              <div class="">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  class="form-control text-uppercase text-white"
+                >
+                  <i class="fa-solid fa-download mx-2"></i> Export CSV
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="">
+                <button
+                  style="background-color: #3454d1"
+                  type="button"
+                  (click)="create()"
+                  class="form-control text-uppercase text-white"
+                >
+                  <i class="fa-solid mx-2 fa-plus"></i> Ajouter un entrepôt
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-1">
+            <!-- Affichage des entrepôts sous forme de cartes -->
+            <div class="row" *ngIf="!isloadingpage; else loader">
+              <div class="col-lg-6 rounded rounded-2 py-3" *ngFor="let entrepot of TbEntrepot">
+                <div class="bg-white rounded mx-1 rounded-4 px-5 py-5">
+                  <div class="row">
+                    <div class="col-lg-10">
+                      <p class="fw-bold text-uppercase pt-1 fs-5">
+                        <span class="text-dark"> {{ entrepot.nom }} </span>
+                      </p>
+                    </div>
+                    <div class="col-lg-2">
+                      <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <p style="margin-top: -30px;" class="fw-bold text-dark fs-1">...</p>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <!-- <button (click)="(entrepot.entrepot_id)" mat-menu-item>
+                          Historique sessions
+                        </button> -->
+                        <button (click)="actions(entrepot)" mat-menu-item>
+                          Edit
+                        </button>
+                      </mat-menu>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-lg-8">
+                      <div class="col-lg-5">
+                        <button
+                          (click)="(entrepot)"
+                          class="form-control rounded rounded-2 btn text-white bg-primary"
+                        >
+                          Ouvrir l'entrepôt
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="col-lg-6 mt-2">
+                        <button
+                          class="form-control rounded rounded-2 btn text-white bg-primary"
+                        >
+                          Historique
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

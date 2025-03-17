@@ -1,5 +1,5 @@
 import { ProduitService } from 'src/app/Services/produit.service';
-import {Produit } from 'src/app/Models/produit.model';
+import {GetProduit, Produit } from 'src/app/Models/produit.model';
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
@@ -22,6 +22,8 @@ import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/s
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { SelectVariationsComponent } from 'src/app/session-vente/select-variations/select-variations.component';
 import { SelectVariationsCommandeComponent } from './select-variations-commande/select-variations-commande.component';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
+import { Entrepot, GetEntrepot } from 'src/app/Models/entrepot.model';
 
 @Component({
   selector: 'app-session-commande',
@@ -35,9 +37,8 @@ export class SessionCommandeComponent {
   displayedColumns = [
     'nom',
     'description',
+    'type_produit',
     'categorie',
-    'prix',
-    'quantite_en_stock',
     'Actions',
   ];
   sessionStartTime!: Date;
@@ -61,9 +62,15 @@ export class SessionCommandeComponent {
   modepaiement: number = 1;
   currentSessionId: number | undefined;
 
+  tbEntrepot: Entrepot[] = []
+
+  entrepotName!: string
+  entrepot_id!: number
+  
   constructor(
     private produitService: ProduitService,
     private router: Router,
+    private entrepotService: EntrepotService,
     public globlService: GlobalService,
     private articleDeVenteService: ArticlesDeVenteService,
     private globalService: GlobalService,
@@ -80,11 +87,41 @@ export class SessionCommandeComponent {
     if (user) {
       this.user = JSON.parse(user);
       console.log(this.user);
+      this.EntrepotSelected(this.user.point_de_vente_id)
     }
     this.calculateTotalVente();
     this.getListProduit();
     this.loadPointDeVente()
+    this.loadEntrepot()
+
   }
+
+    loadEntrepot(){
+      const entrepot : GetEntrepot = {entrepot_id: 0}
+      this.entrepotService.getListEntrepot(entrepot).subscribe(data => {
+        console.log(data.message);
+        this.tbEntrepot = data.message
+      })
+    }
+
+    EntrepotSelected(point_de_vente_id?: number){
+      const point: GetPointsDeVentes = {point_de_vente_id: point_de_vente_id}
+      this.pointService.getOne(point).subscribe(res  =>{
+        console.log(res.message);
+        this.entrepot_id = Number(res.message.entrepot_id)
+        console.log(this.entrepot_id);
+        this.GetEntrepotName()
+      })
+      
+    }
+
+    GetEntrepotName(){
+      const entrepot: GetEntrepot = {entrepot_id: this.entrepot_id}
+      this.entrepotService.getOneEntrepot(entrepot).subscribe(res =>{
+        console.log(res.message);
+        this.entrepotName = res.message.nom
+      })
+    }
 
   loadPointDeVente() {
     const point: GetPointsDeVentes = { point_de_vente_id: 0 };
@@ -94,27 +131,20 @@ export class SessionCommandeComponent {
     });
   }
 
+
   getPointName(point_de_vente_id?: number): string {
     const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);
     return point ? point.nom : 'Unknown Point';
   }
 
-  // openPointsDeVentesCommande(){
-  //   const dialog = this.dialog.open(SelectPointDeVenteComponent);
-  //   dialog.afterClosed().subscribe((result) => {
-  //     this.pointSelected = dialog.componentInstance.pointSelected;
-  //     console.log(this.pointSelected);
-  //     this.calculateTotalVente();
-  //     this.getListProduit();
-  //   }); 
-  // }
+ 
   
   getListProduit() {
-    const point: GetPointsDeVentes = {
-      point_de_vente_id: this.user.point_de_vente_id,
+    const point: GetProduit = {
+      produit_id: 0,
     };
     this.isloadingpage = true;
-    this.produitService.getListProduityByPointVente(point).subscribe((data) => {
+    this.produitService.getList(point).subscribe((data) => {
       console.log(data.message);
       if (typeof data.message === 'string') {
         this.dataSource = new MatTableDataSource([]);
@@ -171,15 +201,9 @@ export class SessionCommandeComponent {
           console.log(this.tbselectionsProduitsVariables);
           
           this.tbselectionsProduitsVariables.forEach(variation => {
-        
-            // Conversion des prix en entiers
             const prixUnitaire = Number(variation.prix_unitaire);  // Conversion en entier
             const prixTotalCommande = Number(variation.prix_total_commande);  // Conversion en entier
-        
-            // Ajoutez les valeurs mises à jour dans la commande
-            variation.prix_unitaire = prixUnitaire;
             variation.prix_total_commande = prixTotalCommande;
-        
             console.log(variation);
             this.addProductToArticleCommandeVariables(variation);
           });
@@ -191,16 +215,17 @@ export class SessionCommandeComponent {
   }
 
   addProductToArticleCommandeVariables(variation: any) {
-    const prixTotalCommande = variation.prix_unitaire * variation.quantite;
+    const prixTotalCommande = Number(variation.prix_achat) * variation.quantite;
     const articleCommande: ArticlesDeCommandeDAchat = {
       id: variation.id,
-      article_commande_achat_id: 0,  // Si vous avez un ID, vous pouvez le générer ici
-      point_de_vente_id: this.user.point_de_vente_id,
-      commande_achat_id: 0,  // Idem, si nécessaire vous pouvez le générer
+      article_commande_achat_id: 0, // Si vous avez un ID, vous pouvez le générer ici
+      entrepot_id: this.entrepot_id,
+      commande_achat_id: 0, // Idem, si nécessaire vous pouvez le générer
       produit_id: variation.produit_id,
-      quantite: variation.quantite,  // Utilisation de la quantité dans la variation
-      prix_unitaire: variation.prix_unitaire,  // Utilisation du prix unitaire converti
-      prix_total_commande: prixTotalCommande,  // Calcul du prix total
+      quantite: variation.quantite, // Utilisation de la quantité dans la variation
+      prix_achat: Number(variation.prix_achat), // Utilisation du prix unitaire converti
+      prix_total_commande: prixTotalCommande,
+      prix_unitaire: Number(variation.prix)
     };
     console.log(articleCommande);
     this.dataSourceArticleCommandesAchats.data = [
@@ -216,19 +241,21 @@ export class SessionCommandeComponent {
   addProductToArticleVente(produit: Produit) {
     const articleCommande: ArticlesDeCommandeDAchat = {
       article_commande_achat_id: 0,
-      point_de_vente_id: this.user.point_de_vente_id,
+      entrepot_id: this.entrepot_id,
       commande_achat_id: 0,
       produit_id: produit.produit_id,
       quantite: 1,
-      prix_unitaire: produit.prix,
+      prix_achat: Number(produit.prix_achat),
       prix_total_commande: this.calculateTotalApayerByProduit({
         article_commande_achat_id: 0,
         commande_achat_id: 0,
         produit_id: produit.produit_id,
         quantite: 1,
-        prix_unitaire: produit.prix,
+        prix_achat: Number(produit.prix_achat),
         prix_total_commande: 0,
+        prix_unitaire: Number(produit.prix)
       }),
+      prix_unitaire: Number(produit.prix)
     };
     console.log(articleCommande);
 
@@ -241,7 +268,7 @@ export class SessionCommandeComponent {
   }
 
   calculateTotalApayerByProduit(element: ArticlesDeCommandeDAchat): number {
-    return element.quantite * element.prix_unitaire;
+    return element.quantite * element.prix_achat;
   }
 
   updatePrixTotalVente() {
@@ -284,27 +311,25 @@ export class SessionCommandeComponent {
           this.isloadingpaiement = true;
           const modelCommande: CommandeAchat = {
             commande_achat_id: 0,
-            point_de_vente_id: this.user.point_de_vente_id,
+            entrepot_id: this.entrepot_id,
             montant_total: this.montantTotalDeLaVente,
             fournisseur_id: this.founisseurSelected.fournisseur_id,
             utilisateur_id: this.user.utilisateur_id,
             articles: this.dataSourceArticleCommandesAchats.data,
           };
           console.log(modelCommande);
-           this.commandeService.create(modelCommande).subscribe((data) => {
-            
-             console.log(data.message);
-             console.log(data.commande_achat_id);
-             this.impressionEtatCommandeAchatPdf(data.commande_achat_id)
-
-             this.dataSourceArticleCommandesAchats.data = [];
-             this.montantTotalDeLaVente = 0;
-             this.founisseurSelected = {} as Fournisseur;
-             this.message = data.message;
-             this.globlService.toastShow(this.message, 'Succès');
-             this.isloadingpaiement = false;
-             this.globalService.reloadComponent('commande/achat/list')
-           });
+             this.commandeService.create(modelCommande).subscribe((data) => {
+               console.log(data.message);
+               console.log(data.commande_achat_id);
+               this.impressionEtatCommandeAchatPdf(data.commande_achat_id)
+               this.dataSourceArticleCommandesAchats.data = [];
+               this.montantTotalDeLaVente = 0;
+               this.founisseurSelected = {} as Fournisseur;
+               this.message = data.message;
+               this.globlService.toastShow(this.message, 'Succès');
+               this.isloadingpaiement = false;
+               this.globalService.reloadComponent('fournisseur/list')
+             });
         }
       });
     } else {

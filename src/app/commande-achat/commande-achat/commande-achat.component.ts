@@ -14,6 +14,8 @@ import { UsersService } from 'src/app/Services/users.service';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { SelectPointDeVenteComponent } from 'src/app/settings/points-de-ventes/select-point-de-vente/select-point-de-vente.component';
+import { Entrepot, GetEntrepot } from 'src/app/Models/entrepot.model';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
 
 @Component({
   selector: 'app-commande-achat',
@@ -27,7 +29,7 @@ export class CommandeAChatComponent {
     'fournisseur_id',
     'montant_total',
     'utilisateur_id',
-    'point_de_vente_id',
+    'entrepot_id',
     'statut',
     'Actions'
   ];
@@ -39,6 +41,7 @@ export class CommandeAChatComponent {
   TotalMontant!: number
   tbPointdeVente: PointsDeVentes[] = []
   commandesachats: CommandeAchat[] = []
+  tbEntrepot: Entrepot[] = []
 
   IDfournisseur!: number
   IDuser!: number
@@ -51,6 +54,7 @@ export class CommandeAChatComponent {
   constructor(
     private commandeService: CommandeService,
     private router: Router,
+    private entrepotService: EntrepotService,
     private pointService: PointsDeVentesService,
     private fournisseurService: FournisseurService,
     public globalService: GlobalService,
@@ -64,6 +68,7 @@ export class CommandeAChatComponent {
     this.getListCommandes()
     this.loadFournisseur()
     this.loadUsers()
+    this.loadEntrepot()
     this.loadPointDeVente()
   }
 
@@ -75,6 +80,19 @@ export class CommandeAChatComponent {
     })
   }
 
+  loadEntrepot(){
+    const entrepot : GetEntrepot = {entrepot_id: 0}
+    this.entrepotService.getListEntrepot(entrepot).subscribe(data => {
+      console.log(data.message);
+      this.tbEntrepot = data.message
+    })
+  }
+
+  getEntrepotName(entrepot_id: number): string {
+    const entrepot = this.tbEntrepot.find(e => e.entrepot_id === entrepot_id);
+    return entrepot ? (entrepot.nom ): '';
+  }
+
 
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}
@@ -84,6 +102,7 @@ export class CommandeAChatComponent {
       
     } )
   }
+
 
   getPointName(point_de_vente_id: any): string {
     const point = this.tbPointdeVente.find(p => p.point_de_vente_id === point_de_vente_id);

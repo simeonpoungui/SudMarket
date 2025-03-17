@@ -25,7 +25,7 @@
                         <input type="checkbox" (change)="toggleAll($event)" /> <!-- Checkbox pour tout sélectionner -->
                     </th>
                     <th>Variation</th>
-                    <th>Prix unitaire</th>
+                    <th>Prix achat</th>
                     <th>Quantité</th>
                     <th>Prix total commande</th> <!-- Nouveau champ pour le prix total de la commande -->
                 </tr>
@@ -36,7 +36,7 @@
                         <input type="checkbox" [(ngModel)]="combinaison.checked" class="p-3" />
                     </td>
                     <td>{{ combinaison.combination_hash }}</td>
-                    <td>{{ combinaison.prix | number: '1.2-2' }}</td> <!-- Formatage du prix -->
+                    <td>{{ combinaison.prix_achat | number: '1.2-2' }}</td> <!-- Formatage du prix -->
                     <td>
                         <input
                             type="number"
@@ -46,7 +46,7 @@
                             class="form-control"
                         />
                     </td>
-                    <td>{{ (combinaison.prix * combinaison.quantite) | number: '1.2-2' }}</td> <!-- Calcul du prix total -->
+                    <td>{{ (combinaison.prix_achat * combinaison.quantite) | number: '1.2-2' }}</td> <!-- Calcul du prix total -->
                 </tr>
             </tbody>
         </table>

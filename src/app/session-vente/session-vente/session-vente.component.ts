@@ -25,6 +25,7 @@ import { CaissesService } from 'src/app/Services/caisses.service';
 import { Facture } from 'src/app/Models/Facture.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { SelectVariationsComponent } from '../select-variations/select-variations.component';
+import { EntrepotService } from 'src/app/Services/entrepot.service';
 
 @Component({
   selector: 'app-session-vente',
@@ -80,9 +81,12 @@ export class SessionVenteComponent {
   selectedCategory: any;
 
   tbselectionsProduitsVariables : any[] = []
+  produitIdsInStock: number[] = []; // Variable pour stocker les produit_id
+
 
   constructor(
     private produitService: ProduitService,
+    private entrepotService: EntrepotService,
     private router: Router,
     private route: ActivatedRoute,
     public globlService: GlobalService,
@@ -109,12 +113,32 @@ export class SessionVenteComponent {
     this.getCaisseUser();
     this.startSession();
     this.getlisCategorieProduits();
+    this.getListProductSotckBypoint()
+
   }
+
+
+  getListProductSotckBypoint() {
+    console.log(this.user.point_de_vente_id);
+    this.entrepotService.getListStockPointDeVente(this.user.point_de_vente_id).subscribe(res => {
+      console.log(res.message);
+      if (res && res.message) {
+        // Supposons que res.message contient une liste de produits, on extrait les produit_id
+        this.produitIdsInStock = res.message.map((stock) => stock.produit_id);
+        console.log(this.produitIdsInStock);  // Affiche les produit_ids disponibles dans le stock
+  
+        // Après avoir récupéré les produit_ids du stock, on récupère les produits
+        this.getListProduit();
+      }
+    });
+  }
+  
 
   getListProduit() {
     const point_de_vente_id: GetProduit = {
       produit_id: 0,
     };
+    
     this.produitService.getList(point_de_vente_id).subscribe((data) => {
       console.log(data.message);
       if (typeof data.message === 'string') {
@@ -130,13 +154,23 @@ export class SessionVenteComponent {
         this.dataSource = new MatTableDataSource([]);
       } else {
         this.tbProduit = data.message;
-        this.categorizeProductsByCategory(this.tbProduit);
-        this.tbProduit.forEach((produit) => {
+  
+        // Filtrer les produits disponibles en stock
+        const filteredProducts = this.tbProduit.filter((produit) =>
+          this.produitIdsInStock.includes(produit.produit_id)
+        );
+  
+        // Organiser les produits par catégorie
+        this.categorizeProductsByCategory(filteredProducts);
+  
+        // Récupérer les images pour chaque produit filtré
+        filteredProducts.forEach((produit) => {
           this.getImageByproduiID(produit.produit_id);
         });
       }
     });
   }
+  
 
   getlisCategorieProduits() {
     this.produitService.getListCategorieProduit().subscribe((res) => {
@@ -150,7 +184,7 @@ export class SessionVenteComponent {
   }
 
   categorizeProductsByCategory(products: any[]) {
-    this.categorizedProducts = {};
+    this.categorizedProducts = {};  // Réinitialiser les produits catégorisés
     products.forEach((product) => {
       const categoryId = product.categorie_id;
       if (!this.categorizedProducts[categoryId]) {
@@ -159,6 +193,7 @@ export class SessionVenteComponent {
       this.categorizedProducts[categoryId].push(product);
     });
   }
+  
 
   getImageByproduiID(IDproduit: number) {
     const produit: GetProduit = { produit_id: IDproduit };
@@ -416,7 +451,7 @@ export class SessionVenteComponent {
      const venteString = JSON.stringify(vente);
      localStorage.setItem('vente', venteString);
      if (venteString) {
-       this.router.navigateByUrl('/payement');
+      this.router.navigateByUrl('/payement');
      }
   }
 

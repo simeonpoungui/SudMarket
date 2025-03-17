@@ -52,6 +52,7 @@ export class ProduitFormComponent {
   cree_le!: Date;
   mis_a_jour_le!: Date;
   sku!: string | undefined;
+  prix_achat!: number
 
   message!: any;
   produit!: Produit;
@@ -95,7 +96,6 @@ export class ProduitFormComponent {
       this.nom &&
       this.type_produit &&
       this.etat_du_stock &&
-      this.point_de_vente_id &&
       this.unite_mesure &&
       this.categorie_id
     );
@@ -184,9 +184,9 @@ export class ProduitFormComponent {
     this.prix_reduit = this.produit.prix_reduit; // Prix réduit si nécessaire
     this.unite_mesure = this.produit.unite_mesure;
     this.code_barres = this.produit.code_barres;
-    this.quantite_en_stock = this.produit.quantite_en_stock;
+    // this.quantite_en_stock = this.produit.quantite_en_stock;
     this.niveau_de_reapprovisionnement =
-      this.produit.niveau_de_reapprovisionnement;
+    this.produit.niveau_de_reapprovisionnement;
     this.etat_du_stock = this.produit.etat_du_stock; // "En stock", "Rupture de stock", etc.
     this.poids = this.produit.poids; // Poids en kg
     this.longueur = this.produit.longueur; // Longueur en cm
@@ -288,9 +288,10 @@ export class ProduitFormComponent {
     const objetSend: any = {
       nom: produit.nom,
       type_produit: produit.type_produit,
-      point_de_vente_id: produit.point_de_vente_id,
+      // point_de_vente_id: produit.point_de_vente_id,
       categorie_id: produit.categorie_id,
       prix: produit.prix,
+      prix_achat: produit.prix_achat,
       prix_de_revient: produit.prix_de_revient,
       prix_reduit: produit.prix_reduit,
       quantite_en_stock: produit.quantite_en_stock,
@@ -299,7 +300,7 @@ export class ProduitFormComponent {
       poids: produit.poids,
       etat_du_stock: produit.etat_du_stock,
       description_courte: produit.description_courte,
-      description_longue: this.description_longue,
+      description_longue: produit.description_longue,
       niveau_de_reapprovisionnement: produit.niveau_de_reapprovisionnement,
       sku: produit.sku,
       longueur: produit.longueur,
@@ -310,48 +311,48 @@ export class ProduitFormComponent {
     };
 
     console.log(objetSend);
-    if (this.action === 'edit') {
-      objetSend.produit_id = this.produit.produit_id;
-      this.produitService.update(objetSend).subscribe((data) => {
-        console.log(data);
-        this.message = data.message;
-        this.router.navigateByUrl('produit/list');
-        this.isloadingsubmitForm = false;
-        this.globaService.toastShow(this.message, 'Succès', 'success');
-        this.sendImageByProduit();
-      });
-    } else {
-      this.produitService.create(objetSend).subscribe(
-        (data) => {
-          console.log(data);
-          if (data.code === 'succes') {
-            this.router.navigateByUrl('produit/list');
-            this.globaService.toastShow(
-              'Le produit a été ajouté avec succès',
-              'Succès',
-              'success'
-            );
-            this.isloadingsubmitForm = false;
-          } else {
-            this.isloadingsubmitForm = false;
-            this.globaService.toastShow(
-              'Erreur: ' + data.message,
-              'Erreur',
-              'error'
-            );
-          }
-        },
-        (error) => {
-          console.error('Erreur lors de la requête API:', error); // En cas d'erreur HTTP
-          this.isloadingsubmitForm = false;
-          this.globaService.toastShow(
-            'Une erreur est survenue',
-            'Erreur',
-            'error'
-          );
-        }
-      );
-    }
+     if (this.action === 'edit') {
+       objetSend.produit_id = this.produit.produit_id;
+       this.produitService.update(objetSend).subscribe((data) => {
+         console.log(data);
+         this.message = data.message;
+         this.router.navigateByUrl('produit/list');
+         this.isloadingsubmitForm = false;
+         this.globaService.toastShow(this.message, 'Succès', 'success');
+         this.sendImageByProduit();
+       });
+     } else {
+       this.produitService.create(objetSend).subscribe(
+         (data) => {
+           console.log(data);
+           if (data.code === 'succes') {
+             this.router.navigateByUrl('produit/list');
+             this.globaService.toastShow(
+               'Le produit a été ajouté avec succès',
+               'Succès',
+               'success'
+             );
+             this.isloadingsubmitForm = false;
+           } else {
+             this.isloadingsubmitForm = false;
+             this.globaService.toastShow(
+               'Erreur: ' + data.message,
+               'Erreur',
+               'error'
+             );
+           }
+         },
+         (error) => {
+           console.error('Erreur lors de la requête API:', error);  
+           this.isloadingsubmitForm = false;
+           this.globaService.toastShow(
+             'Une erreur est survenue',
+             'Erreur',
+             'error'
+           );
+         }
+       );
+     }
   }
 
   triggerFileInput(): void {
@@ -503,8 +504,8 @@ export class ProduitFormComponent {
     // Initialise les combinaisons avec les propriétés par défaut
     this.productCombinations = combinations.map((comb) => ({
       combination_hash: comb.map((c: { valeur: any }) => c.valeur).join('-'), // Génère le hash de la combinaison
-      quantite_en_stock: 0, // Quantité par défaut
       prix: 0, // Prix par défaut
+      prix_achat: 0, // Prix par défaut
       prix_reduit: 0, // Prix réduit par défaut
       prix_de_revient: 0, // Prix de revient par défaut
       code_barres: '', // Code-barres par défaut (vide)

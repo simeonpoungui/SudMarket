@@ -1,0 +1,192 @@
+<main class="nxl-container">
+    <div class="nxl-content">
+    <div class="pt-4">
+      <div class="col-lg-11 bg-white p-2 rounded rounded-4  m-lg-auto">
+        <div class="p-3">
+          <div class="row">
+            <div class="col-lg-8">
+              <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
+                Depenses
+              </h1>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="">
+                          <button
+                            style="background-color: #3454d1"
+                            type="button"
+                            class="btn text-uppercase text-white"
+                          >
+                          <i class="fa-solid fa-download mx-2"></i>  Export csv
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-lg-7 ">
+                          <button
+                            style="background-color: #3454d1"
+                            type="button"
+                            routerLink="/depense/create/0"
+                            class=" text-uppercase btn text-white"
+                          >
+                          <i class="fa-solid mx-2 fa-plus"></i>  Ajouter une depense
+                          </button>
+                      </div>
+                </div>
+            </div>
+          </div>
+          <div>
+            <div class="row mb-3">
+              <div class="col-lg-3">
+                <div class="d-flex align-items-center mt-4">
+                  <i
+                    style="position: absolute"
+                    class="fa-solid p-3 fa-magnifying-glass"
+                  ></i>
+  
+                  <input
+                    type="text"
+                    (keyup)="applyFilter($event)"
+                    placeholder="Recherchez un client ici..."
+                    class="form-control text-start px-5 text-uppercase"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="mat-elevation-z8 mt-3">
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  style="max-height: 400px; overflow-y: auto"
+                  *ngIf="!isloadingpage; else loader"
+                >
+                  <!-- Colonne ID Dépense -->
+                  <ng-container matColumnDef="id_depense">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      ID Dépense
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.id_depense }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Date et Heure -->
+                  <ng-container matColumnDef="date_heure">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Date et Heure
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ globalService.formatDate(element.date_heure) }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Catégorie de Dépense -->
+                  <ng-container matColumnDef="categorie_depense">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Catégorie
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.categorie_depense }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Montant -->
+                  <ng-container matColumnDef="montant">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Montant
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ globalService.formatPrix(element.montant )}}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Employé Responsable -->
+                  <ng-container matColumnDef="employe_responsable">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Responsable
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.employe_responsable }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Note Additionnelle -->
+                  <ng-container matColumnDef="note_additionnelle">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Note
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.note_additionnelle }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Fournisseur -->
+                  <ng-container matColumnDef="fournisseur">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Fournisseur
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.fournisseur }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Point de Vente -->
+                  <ng-container matColumnDef="point_de_vente_id">
+                    <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                      Point de Vente
+                    </th>
+                    <td class="pointer" mat-cell *matCellDef="let element">
+                      {{ element.point_de_vente_id }}
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Colonne Actions -->
+                  <ng-container matColumnDef="Actions">
+                    <th class="text-center" mat-header-cell *matHeaderCellDef>
+                      Actions
+                    </th>
+                    <td class="text-center" mat-cell *matCellDef="let element">
+                      <button
+                        (click)="actions(element)"
+                        style="cursor: pointer"
+                        class="border border-0 rounded rounded-2 actions"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </td>
+                    <td mat-footer-cell class="bg-table-color text-light" *matFooterCellDef></td>
+                  </ng-container>
+              
+                  <!-- Header & Row definitions -->
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+              
+                <mat-paginator
+                  [pageSizeOptions]="[10, 20, 30]"
+                  showFirstLastButtons
+                  aria-label="Sélectionner la page des éléments"
+                ></mat-paginator>
+              </div>
+              
+
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </main>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  
