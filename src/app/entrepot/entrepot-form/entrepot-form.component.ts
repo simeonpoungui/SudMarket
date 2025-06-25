@@ -6,7 +6,7 @@ import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { EntrepotService } from 'src/app/Services/entrepot.service';
 import { GlobalService } from 'src/app/Services/global.service';
 import { UsersService } from 'src/app/Services/users.service';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-entrepot-form',
@@ -31,6 +31,7 @@ export class EntrepotFormComponent {
 constructor(
   private route: ActivatedRoute,
   private router: Router,
+  private location: Location,
   private userService: UsersService,
   private entrepotService: EntrepotService,
   private globaService: GlobalService,
@@ -51,6 +52,10 @@ ngOnInit(): void {
 
   this.loadUsers()
 
+}
+
+goBack(){
+  this.location.back()
 }
 
 loadUsers(){

@@ -1,0 +1,208 @@
+<div class="row">
+  <!-- Produits les plus vendus -->
+  <div class="col-lg-6">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">produits les plus vendus</h5>
+      </div>
+      <div class="card-body custom-card-action">
+        <div class="table-responsive" style="max-height: 600px; overflow-y: auto">
+          <table class="table-striped table-bordered table">
+            <thead>
+              <tr>
+                <th>Produits</th>
+                <th>
+                  Quantité
+                  <i
+                    class="mx-1 fs-12 fa-solid fa-arrow-up"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticles', 'quantite')"
+                    [style.color]="sortState.topArticles.column === 'quantite' && sortState.topArticles.direction === 'asc' ? 'blue' : 'gray'"
+                  ></i>
+                  <i
+                    class="fs-12 fa-solid fa-arrow-down"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticles', 'quantite')"
+                    [style.color]="sortState.topArticles.column === 'quantite' && sortState.topArticles.direction === 'desc' ? 'blue' : 'gray'"
+                  ></i>
+                </th>
+                <th>
+                  Chiffre d'af
+                  <i
+                    class="mx-1 fs-12 fa-solid fa-arrow-up"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticles', 'chiffreAffaire')"
+                    [style.color]="sortState.topArticles.column === 'chiffreAffaire' && sortState.topArticles.direction === 'asc' ? 'blue' : 'gray'"
+                  ></i>
+                  <i
+                    class="fs-12 fa-solid fa-arrow-down"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticles', 'chiffreAffaire')"
+                    [style.color]="sortState.topArticles.column === 'chiffreAffaire' && sortState.topArticles.direction === 'desc' ? 'blue' : 'gray'"
+                  ></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article of topArticles">
+                <td>
+                  <div class="hstack gap-3">
+                    <div class="avatar-image avatar-lg rounded">
+                      <img class="img-fluid" [src]="imageproduitArticle[article.produit_id]" alt="" />
+                    </div>
+                    <div>
+                      <a href="javascript:void(0);" class="d-block">
+                        {{ getProduitName(article.produit_id) }}
+                      </a>
+                      <span class="fs-12 text-muted">Electronics</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ article.quantite }}</td>
+                <td>{{ article.chiffreAffaire.toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produits les plus rentables -->
+  <div class="col-lg-6">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">Produits les plus rentables</h5>
+      </div>
+      <div class="card-body custom-card-action">
+        <div class="table-responsive" style="max-height: 600px; overflow-y: auto">
+          <table class="table-striped table-bordered table">
+            <thead>
+              <tr>
+                <th>Produits</th>
+                <th>
+                  Marge unit
+                  <i
+                    class="mx-1 fs-12 fa-solid fa-arrow-up"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesMarge', 'margeUnitaire')"
+                    [style.color]="sortState.topArticlesMarge.column === 'margeUnitaire' && sortState.topArticlesMarge.direction === 'asc' ? 'blue' : 'gray'"
+                  ></i>
+                  <i
+                    class="fs-12 fa-solid fa-arrow-down"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesMarge', 'margeUnitaire')"
+                    [style.color]="sortState.topArticlesMarge.column === 'margeUnitaire' && sortState.topArticlesMarge.direction === 'desc' ? 'blue' : 'gray'"
+                  ></i>
+                </th>
+                <th>
+                  Marge tot
+                  <i
+                    class="mx-1 fs-12 fa-solid fa-arrow-up"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesMarge', 'margeTotale')"
+                    [style.color]="sortState.topArticlesMarge.column === 'margeTotale' && sortState.topArticlesMarge.direction === 'asc' ? 'blue' : 'gray'"
+                  ></i>
+                  <i
+                    class="fs-12 fa-solid fa-arrow-down"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesMarge', 'margeTotale')"
+                    [style.color]="sortState.topArticlesMarge.column === 'margeTotale' && sortState.topArticlesMarge.direction === 'desc' ? 'blue' : 'gray'"
+                  ></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article of topArticlesMarge">
+                <td>
+                  <div class="hstack gap-3">
+                    <div class="avatar-image avatar-lg rounded">
+                      <img class="img-fluid" [src]="imageproduitArticle[article.produit_id]" alt="Image produit" />
+                    </div>
+                    <div>
+                      <a href="javascript:void(0);" class="d-block">
+                        {{ getProduitName(article.produit_id) }}
+                      </a>
+                      <span class="fs-12 text-muted">Electronics</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ article.margeUnitaire }}</td>
+                <td>{{ article.margeTotale }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produits à écoulement rapide -->
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">Produits à écoulement rapide</h5>
+      </div>
+      <div class="card-body custom-card-action">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Produits</th>
+                <th>
+                  Quantité vendue
+                  <i
+                    class="mx-1 fs-12 fa-solid fa-arrow-up"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesEcoulement', 'quantite')"
+                    [style.color]="sortState.topArticlesEcoulement.column === 'quantite' && sortState.topArticlesEcoulement.direction === 'asc' ? 'blue' : 'gray'"
+                  ></i>
+                  <i
+                    class="fs-12 fa-solid fa-arrow-down"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesEcoulement', 'quantite')"
+                    [style.color]="sortState.topArticlesEcoulement.column === 'quantite' && sortState.topArticlesEcoulement.direction === 'desc' ? 'blue' : 'gray'"
+                  ></i>
+                </th>
+                <th>
+                  Taux d'écoulement (%)
+                  <i
+                    class="mx-1 fs-12 fa-solid fa-arrow-up"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesEcoulement', 'tauxEcoulement')"
+                    [style.color]="sortState.topArticlesEcoulement.column === 'tauxEcoulement' && sortState.topArticlesEcoulement.direction === 'asc' ? 'blue' : 'gray'"
+                  ></i>
+                  <i
+                    class="fs-12 fa-solid fa-arrow-down"
+                    style="cursor: pointer"
+                    (click)="sortTable('topArticlesEcoulement', 'tauxEcoulement')"
+                    [style.color]="sortState.topArticlesEcoulement.column === 'tauxEcoulement' && sortState.topArticlesEcoulement.direction === 'desc' ? 'blue' : 'gray'"
+                  ></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article of topArticlesEcoulement">
+                <td>
+                  <div class="hstack gap-3">
+                    <div class="avatar-image avatar-lg rounded">
+                      <img class="img-fluid" [src]="imageproduitArticle[article.produit_id]" alt="Image produit" />
+                    </div>
+                    <div>
+                      <a href="javascript:void(0);" class="d-block">
+                        {{ getProduitName(article.produit_id) }}
+                      </a>
+                      <span class="fs-12 text-muted">Electronics</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ article.quantite }}</td>
+                <td>{{ article.tauxEcoulement }}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,11 +6,13 @@ export class Produit {
     categorie_id!: number;
     prix!: number;
     prix_de_revient!: number;
+    cout_d_achat!: number;
     quantite_en_stock!: number;
     niveau_de_reapprovisionnement!: number;
     description_courte?: string = '';
     description_longue?: string = '';
     type_produit?: string;
+    cout_de_revient!: number
     prix_achat!: number
     prix_reduit?: number;
     unite_mesure?: string;

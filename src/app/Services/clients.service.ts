@@ -17,6 +17,7 @@ export class ClientsService {
   produitsachatsbyclients = "/v1/sudmarket/get/produits-achetes-by-client"
   uriimpressionetatclient = "/v1/sudmarket/impression/clients"
   uriimprimearticleachetesbyclient = "/v1/sudmarket/impression/historique/articles/achats/client"
+  urifiltreclientbypointdevente = "/v1/sudmarket/filtre/clients/ByPointDeVente"
 
   constructor(private httpclient: HttpClient) { }
 
@@ -38,6 +39,11 @@ export class ClientsService {
 
   getListProduitAchetesByClient(client: GetClient){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.produitsachatsbyclients, client)
+  }
+
+  getFiltreClientByPointDeVente(point_de_vente_id: number){
+    const data = {point_de_vente_id: point_de_vente_id}
+    return this.httpclient.post<any>(environment.apiUrl + this.urifiltreclientbypointdevente, data)
   }
 
 

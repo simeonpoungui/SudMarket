@@ -1,0 +1,88 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="col-lg-6 m-lg-auto py-3 px-lg-5">
+      <div class="row">
+        <div class="col-12">
+          <form
+            #userform="ngForm"
+            (ngSubmit)="onSubmitForm(userform)"
+            class="px-5 mt-3 rounded rounded-4 bg-white p-3 needs-validation"
+          >
+            <div>
+              <span>
+                <i
+                  style="cursor: pointer"
+                  class="fa-solid fs-4 fa-arrow-left"
+                  onclick="window.history.back()"
+                ></i>
+              </span>
+            </div>
+            <!-- Champ pour Nom Catégorie -->
+            <div class="mt-3">
+              <label for="validationCustom01" class="form-label label">
+                Nom Catégorie <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <select
+                class="form-control form-select"
+                name="id_categorie"
+                [(ngModel)]="id_categorie"
+                required
+              >
+                <option value="" disabled selected>
+                  Selectionner une categorie
+                </option>
+                <option
+                  *ngFor="let categorie of Tbcategorie"
+                  [value]="categorie.id_categorie"
+                >
+                  {{ categorie.nom_categorie }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Champ pour Nom Catégorie -->
+            <div class="mt-3">
+              <label for="validationCustom01" class="form-label label">
+                Nom sous Catégorie
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                name="nom_sous_categorie"
+                [(ngModel)]="nom_sous_categorie"
+                required
+              />
+            </div>
+
+            <!-- Champ pour Description -->
+            <div class="mt-3">
+              <label for="validationCustom02" class="form-label label">
+                Description
+              </label>
+              <textarea
+                class="form-control"
+                name="description"
+                [(ngModel)]="description"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <div class="col-lg-6">
+              <div class="col-lg-4 mt-3">
+                <button
+                  type="submit"
+                  class="btn btn-primary bg-global-primary text-white"
+                >
+                  {{ action == "edit" ? "Modifier" : "Valider" }}
+                  <i class="fa-solid text-white mx-1 fa-pen"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

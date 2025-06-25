@@ -133,6 +133,8 @@
                     />
                   </div>
 
+
+
                   <div class="col-lg-6 mt-3">
                     <label for="prix_reduit" class="form-label label"
                       >Prix réduit</label
@@ -143,6 +145,34 @@
                       class="form-control"
                       name="prix_reduit"
                       [(ngModel)]="prix_reduit"
+                    />
+                  </div>
+
+                  <div class="col-lg-6 mt-3">
+                    <label for="prix_de_revient" class="form-label label"
+                      >Coût d'achat</label
+                    >
+                    <input
+                      [disabled]="type_produit == 'variable'"
+                      type="number"
+                      class="form-control"
+                      name="cout_d_achat"
+                      [(ngModel)]="cout_d_achat"
+                      required
+                    />
+                  </div>
+
+                                    <div class="col-lg-6 mt-3">
+                    <label for="prix_de_revient" class="form-label label"
+                      >Coût de revient</label
+                    >
+                    <input
+                      [disabled]="type_produit == 'variable'"
+                      type="number"
+                      class="form-control"
+                      name="cout_de_revient"
+                      [(ngModel)]="cout_de_revient"
+                      required
                     />
                   </div>
 
@@ -234,7 +264,7 @@
                 />
               </div> -->
 
-              <div class="col-lg-4 mt-3">
+              <!-- <div class="col-lg-4 mt-3">
                 <label for="poids" class="form-label label"
                   >Niveau de reapprovisionnement
                 </label>
@@ -245,7 +275,7 @@
                   name="niveau_de_reapprovisionnement"
                   [(ngModel)]="niveau_de_reapprovisionnement"
                 />
-              </div>
+              </div> -->
 
               <div class="col-lg-6 mt-3">
                 <label for="poids" class="form-label label"
@@ -715,6 +745,7 @@
                   <th>Prix de vente</th>
                   <th>Prix reduit</th>
                   <th>Prix de revient</th>
+                  <th>Coût d'achat</th>
                   <th>Code à barre</th>
                   <th>Niveau finis</th>
                 </tr>
@@ -766,18 +797,25 @@
                   </td>
                   <td>
                     <input
-                      type="text"
-                      [(ngModel)]="combination.code_barres"
+                      type="number"
+                      [(ngModel)]="combination.cout_d_achat"
                       class="form-control"
                     />
                   </td>
                   <td>
                     <input
+                      type="text"
+                      [(ngModel)]="combination.code_barres"
+                      class="form-control"
+                    />
+                  </td>
+                  <!-- <td>
+                    <input
                       type="number"
                       [(ngModel)]="combination.niveau_de_reapprovisionnement"
                       class="form-control"
                     />
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>

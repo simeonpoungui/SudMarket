@@ -74,6 +74,35 @@
                   <option value="Espèces">Espèces</option>
                 </select>
               </div>
+
+              <div class="col-lg-6 mt-3">
+                <label for="montant" class="form-label label"
+                  >Statut de validation</label
+                >
+                <input
+                readonly
+                  type="text"
+                  class="form-control"
+                  name="statut_validation"
+                  [(ngModel)]="statut_validation"
+                  required
+                />
+              </div>
+              
+              <div class="col-lg-6 mt-3">
+                <label for="montant" class="form-label label"
+                  >Statut de livraison</label
+                >
+                <input
+                readonly
+                  type="text"
+                  class="form-control"
+                  name="statut"
+                  [(ngModel)]="statut"
+                  required
+                />
+              </div>
+
   
               <div class="row mt-4">
                 <div class="col-lg-6">

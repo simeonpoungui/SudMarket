@@ -4,6 +4,8 @@ export class NotificationSotckproduit {
     message!: string;
     date_notification!: string;
     est_lu!: boolean;
+    statut!: string
+    point_de_vente_id!: number;
 }
 
 export class GetNotification {

@@ -25,13 +25,13 @@ export class HistoriqueSessionByPointDeVenteComponent {
   tbPointdeVente!: PointsDeVentes[]
 
   displayedColumns = [
-    'user_id',
+    'session_id',
     'point_de_vente_id',
-    'solde_ouverture',
-    'solde_fermeture',
-    'montant_total_vendu',
+    'user_id',
     'start_time',
     'end_time',
+    'solde_ouverture',
+    'solde_fermeture',
     'statut'
   ];
 

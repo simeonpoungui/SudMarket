@@ -26,6 +26,7 @@ export class CommandeService {
 
   uripaiementcommande = "/v1/sudmarket/add/paiement-commande"
   urigetpaiement = "/v1/sudmarket/get/paiement-commande"
+  uricommandebyentrepot = "/v1/sudmarket/get-commande-by-entrepot"
 
   uricreatefacturecommande = "/v1/sudmarket/create/facture-commande"
   uricreatebondelivraison = "/v1/sudmarket/create/bon_de_livraison-commande"
@@ -159,6 +160,19 @@ IDfournisseur: number, IDuser: number, IDpointVente: number, DateDebut: string, 
       }
       return this.httpclient.post<any>(
         environment.apiUrl + this.urigetfacturecommande,
+        data
+      );
+    }
+  
+
+     getCommandeByEnrtrepotID(entrepot_id: number): Observable<any> {
+      const data = {
+        entrepot_id: entrepot_id
+      }
+      console.log(data);
+      
+      return this.httpclient.post<any>(
+        environment.apiUrl + this.uricommandebyentrepot,
         data
       );
     }

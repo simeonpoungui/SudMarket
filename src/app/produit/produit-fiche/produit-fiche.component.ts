@@ -11,11 +11,9 @@ import {
   PointsDeVentes,
 } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
-import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertInfoComponent } from 'src/app/core/alert-info/alert-info.component';
-import { LOG } from '@zxing/library/esm/core/datamatrix/encoder/constants';
 import { CategorieFormComponent } from 'src/app/settings/categorie/categorie-form/categorie-form.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-produit-fiche',
@@ -72,6 +70,7 @@ export class ProduitFicheComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private dialog: MatDialog,
     private pointService: PointsDeVentesService,
     private produitService: ProduitService,
@@ -104,6 +103,10 @@ export class ProduitFicheComponent {
       this.getImageByproduiID()
       this.loadPointDeVente();
       this.getCategorieProduit()
+  }
+
+  goBack(){
+    this.location.back()
   }
 
   getCategorieProduit(){

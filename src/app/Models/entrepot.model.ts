@@ -31,7 +31,8 @@ export class StocksEntrepots {
     sku?: string
     produit_id!: number;                 
     quantite!: number;    
-    type_produit?: string                         
+    type_produit?: string
+    niveau_de_reapprovisionnement!: number;                     
 }
 
 export class ModelSendAddProductEntrepot{

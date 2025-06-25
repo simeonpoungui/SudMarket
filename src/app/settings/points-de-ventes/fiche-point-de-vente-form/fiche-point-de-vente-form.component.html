@@ -1,147 +1,195 @@
 <main class="nxl-container">
-    <div class="nxl-content">
-      <div class="col-lg-8 m-lg-auto py-lg-3 px-lg-5">
-        <div class="row">
-          <div class="col-12 mt-lg-2">
-            <form
-            #pointform="ngForm"
-            (ngSubmit)="onSubmitForm(pointform)"
-              class="row px-5 py-5 rounded rounded-4 bg-white  p-3 needs-validation"
-            >
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >Nom <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="nom"
-                  [(ngModel)]="nom"
-                />
-              </div>
-  
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >ville</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="ville"
-                  [(ngModel)]="ville"
-                />
-              </div>
-  
-              <div class="col-lg-4">
-                <label for="validationCustom01" class="form-label label"
-                  >Code Postal</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="codePostal"
-                  [(ngModel)]="code_postal"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Adresse <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="adresse"
-                  [(ngModel)]="adresse"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Pays</label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="pays"
-                  [(ngModel)]="pays"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Email <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="email"
-                  [(ngModel)]="email"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Télephone <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="telephone"
-                  [(ngModel)]="telephone"
-                />
-              </div>
-  
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Responsable <span class="title-bg-global-secondary"> * </span></label
-                >
-                <input
-                  [readonly]="action == 'view'"
-                  type="text"
-                  class="form-control"
-                  name="responsable"
-                  [(ngModel)]="responsable"
-                />
-              </div>
+  <div class="nxl-content">
+    <div class="col-lg-8 mx-auto py-4 px-lg-5">
+      <!-- Form Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-outline-secondary me-3" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <h2 class="m-0 text-primary">
+            {{ action === 'edit' ? 'Modifier le point de vente' : 'Nouveau point de vente' }}
+          </h2>
+        </div>
+        
+        <button
+          [disabled]="!isFormValid()"
+          type="submit"
+          form="pointForm"
+          class="btn btn-uniform-height btn-primary"
+                    (click)="pointform.ngSubmit.emit()"
 
+        >
+          <i class="fas fa-check me-2"></i>
+          {{ action === 'edit' ? 'Modifier' : 'Valider' }}
+        </button>
+      </div>
 
-              <div class="col-lg-4 mt-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Boutique associé <span class="title-bg-global-secondary"> * </span></label
-                >
-                <select class="form-control form-select" name="boutique_id" [(ngModel)]="boutique_id"  >
-                  <option selected>Selectionner une boutique</option>
-                  <option *ngFor="let boutique of tbBoutique" [value]="boutique.boutique_id">
-                    {{boutique.nom}}
-                  </option>
-                </select>
+      <!-- Main Form -->
+      <form #pointform="ngForm" (ngSubmit)="onSubmitForm(pointform)" class="p-4 rounded-4 bg-white shadow-sm needs-validation">
+        <!-- First Row -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">
+              Nom <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-store"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="nom"
+                [(ngModel)]="nom"
+                required
+              />
+            </div>
+          </div>
 
-              </div>
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">Ville</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-city"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="ville"
+                [(ngModel)]="ville"
+              />
+            </div>
+          </div>
 
-              <div class="row">
-                <div class="col-lg-6">
-                 <div class="col-lg-4 mt-3">
-                   <button [disabled]="!isFormValid()"  type="submit" class="form-control bg-global-primary text-white">
-                     Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
-                   </button>
-                 </div>
-                </div>
-                 <div class="col-lg-6 mt-3 text-end pt-3">
-                  <p>NB : Les champs en <span class="title-bg-global-secondary"> (*) </span> sont obligatoire</p>
-                 </div>
-               </div>
-            </form>
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">Code Postal</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-mail-bulk"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="codePostal"
+                [(ngModel)]="code_postal"
+              />
+            </div>
           </div>
         </div>
-      </div>
+
+        <!-- Second Row -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">
+              Adresse <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="adresse"
+                [(ngModel)]="adresse"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">Pays</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-globe"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="pays"
+                [(ngModel)]="pays"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">
+              Email <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="email"
+                class="form-control input-pro"
+                name="email"
+                [(ngModel)]="email"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Third Row -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">
+              Téléphone <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="telephone"
+                [(ngModel)]="telephone"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">
+              Responsable <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+              <input
+                [readonly]="action == 'view'"
+                type="text"
+                class="form-control input-pro"
+                name="responsable"
+                [(ngModel)]="responsable"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">
+              Boutique associée <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-link"></i></span>
+              <select 
+                class="form-control form-select input-pro" 
+                name="boutique_id" 
+                [(ngModel)]="boutique_id"
+                required
+              >
+                <option value="" disabled selected>Sélectionner une boutique</option>
+                <option *ngFor="let boutique of tbBoutique" [value]="boutique.boutique_id">
+                  {{boutique.nom}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Footer -->
+        <div class="d-flex justify-content-between align-items-center mt-5">
+          <div class="text-secondary">
+            <span class="text-danger">*</span> Champs obligatoires
+          </div>
+        </div>
+      </form>
     </div>
-  </main>
-  
+  </div>
+</main>

@@ -14,6 +14,8 @@ export class RapportService {
   uridelete = "/v1/sudmarket/delete/rapports"
   uriupdate = "/v1/sudmarket/update/rapports"
 
+  urigeneraterapport = "/v1/sudmarket/rapport/autmatise"
+
   constructor(private httpclient: HttpClient) { }
 
   getList(rapport: GetRapport): Observable<CodeResponse>{
@@ -30,5 +32,10 @@ export class RapportService {
   }
   create(rapport: Rapport){
     return this.httpclient.post<CodeResponse>(environment.apiUrl + this.uricreate, rapport)
+  }
+
+  generateReport(reportData: any): Observable<any> {
+    console.log(reportData);
+    return this.httpclient.post<CodeResponse>(environment.apiUrl + this.urigeneraterapport, reportData)
   }
 }

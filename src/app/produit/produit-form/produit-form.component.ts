@@ -36,12 +36,14 @@ export class ProduitFormComponent {
   categorie_id!: number;
   prix!: number;
   prix_de_revient!: number;
+  cout_d_achat?: number;
   quantite_en_stock!: number;
-  niveau_de_reapprovisionnement!: number;
+  // niveau_de_reapprovisionnement!: number;
   description_courte?: string;
   description_longue?: string;
   type_produit?: string;
   prix_reduit?: number;
+  cout_de_revient!: number
   unite_mesure?: string;
   code_barres?: string;
   hauteur?: number;
@@ -57,7 +59,7 @@ export class ProduitFormComponent {
   message!: any;
   produit!: Produit;
   TbCategorie: any;
-  tbPointdeVente!: PointsDeVentes[];
+  tbPointdeVente: PointsDeVentes[]=[];
   point_de_vente_id!: number | undefined;
   isloadingsubmitForm!: boolean;
 
@@ -185,8 +187,7 @@ export class ProduitFormComponent {
     this.unite_mesure = this.produit.unite_mesure;
     this.code_barres = this.produit.code_barres;
     // this.quantite_en_stock = this.produit.quantite_en_stock;
-    this.niveau_de_reapprovisionnement =
-    this.produit.niveau_de_reapprovisionnement;
+    // this.niveau_de_reapprovisionnement =this.produit.niveau_de_reapprovisionnement;
     this.etat_du_stock = this.produit.etat_du_stock; // "En stock", "Rupture de stock", etc.
     this.poids = this.produit.poids; // Poids en kg
     this.longueur = this.produit.longueur; // Longueur en cm
@@ -301,7 +302,7 @@ export class ProduitFormComponent {
       etat_du_stock: produit.etat_du_stock,
       description_courte: produit.description_courte,
       description_longue: produit.description_longue,
-      niveau_de_reapprovisionnement: produit.niveau_de_reapprovisionnement,
+      // niveau_de_reapprovisionnement: produit.niveau_de_reapprovisionnement,
       sku: produit.sku,
       longueur: produit.longueur,
       largeur: produit.largeur,
@@ -508,8 +509,9 @@ export class ProduitFormComponent {
       prix_achat: 0, // Prix par défaut
       prix_reduit: 0, // Prix réduit par défaut
       prix_de_revient: 0, // Prix de revient par défaut
+      cout_d_achat: 0,
       code_barres: '', // Code-barres par défaut (vide)
-      niveau_de_reapprovisionnement: 0, // Niveau de réapprovisionnement par défaut
+      // niveau_de_reapprovisionnement: 0, // Niveau de réapprovisionnement par défaut
       selected: false, // État sélectionné par défaut
     }));
 

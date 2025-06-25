@@ -1,128 +1,181 @@
 <main class="nxl-container">
-    <div class="nxl-content">
-      <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
-        <div class="row">
-          <div class="col-12 mt-1">
-            <form
-              #depenseForm="ngForm"
-              (ngSubmit)="onSubmitForm(depenseForm)"
-              class="row px-5 py-5 rounded rounded-4 bg-white  p-3 needs-validation"
-            >
+  <div class="nxl-content">
+    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+      <div class="row">
+        <div class="col-12 mt-1">
+          <form
+            #depenseForm="ngForm"
+            (ngSubmit)="onSubmitForm(depenseForm)"
+            class="row px-5 py-5 rounded rounded-4 bg-white p-3 needs-validation"
+          >
+            <!-- Date et Heure -->
             <div class="col-lg-6">
-                <label for="validationCustom01" class="form-label label">
-                  Date et Heure <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <input
-                  [disabled]="true"
-                  type="datetime-local"
-                  class="form-control"
-                  [value]="date_heure"
-                />
-              </div>
-              
-  
-              <div class="col-lg-6">
-                <label for="validationCustom02" class="form-label label">
-                  Catégorie de dépense <span class="title-bg-global-secondary"> * </span>
-                </label>
+              <label for="validationCustom01" class="form-label label">
+                Date et Heure <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                [disabled]="true"
+                type="datetime-local"
+                class="form-control"
+                [value]="date_heure"
+              />
+            </div>
+
+            <!-- Employé Responsable -->
+            <div class="col-lg-6">
+              <label for="validationCustom04" class="form-label label">
+                Employé Responsable
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                type="text"
+                [disabled]="true"
+                class="form-control"
+                name="employe_responsable"
+                [value]="getUserName(employe_responsable)"
+                required
+              />
+            </div>
+
+            <!-- Catégorie de dépense -->
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom03" class="form-label label">
+                Catégorie de dépense
+                <span class="title-bg-global-secondary"> * </span></label
+              >
+
+              <div class="input-group">
                 <select
-                  class="form-control"
-                  name="categorie_depense"
-                  [(ngModel)]="categorie_depense"
+                  class="form-select"
+                  id="inputGroupSelect02"
+                  name="id_categorie"
+                  [(ngModel)]="id_categorie"
                   required
+                  (change)="selectCategorie($event)"
                 >
-                  <option value="" disabled selected>Choisir une catégorie</option>
-                  <option value="charges_fixes">Charges fixes</option>
-                  <option value="charges_variables">Charges variables</option>
-                  <option value="investissements">Investissements</option>
-                  <!-- Ajoutez d'autres catégories selon vos besoins -->
-                </select>
-              </div>              
-  
-              <div class="col-lg-6 mt-3">
-                <label for="validationCustom03" class="form-label label">
-                  Montant <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="montant"
-                  [(ngModel)]="montant"
-                  required
-                />
-              </div>
-  
-              <div class="col-lg-6 mt-3">
-                <label for="validationCustom04" class="form-label label">
-                  Employé Responsable <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="employe_responsable"
-                  [value]="getUserName(employe_responsable)"
-                  required
-                />
-              </div>
-  
-              <div class="col-lg-6 mt-3">
-                <label for="validationCustom05" class="form-label label">
-                  Fournisseur <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="fournisseur"
-                  [(ngModel)]="fournisseur"
-                  required
-                />
-              </div>
-  
-              <div class="col-lg-6 mt-3">
-                <label for="validationCustom06" class="form-label label">
-                  Point de vente <span class="title-bg-global-secondary"> * </span>
-                </label>
-                <select
-                  class="form-control form-select"
-                  name="point_de_vente_id"
-                  [(ngModel)]="point_de_vente_id"
-                  required
-                >
-                  <option *ngFor="let point of tbPointdeVente" [value]="point.point_de_vente_id">
-                    {{ point.nom }}
+                  <option disabled selected>
+                    Choisir une catégorie
+                  </option>
+                  <option
+                    *ngFor="let c of TbcategorieDepense"
+                    [value]="c.id_categorie"
+                  >
+                    {{ c.nom_categorie }}
                   </option>
                 </select>
-              </div>
-  
-              <div class="col-lg-12 mt-3">
-                <label for="validationCustom07" class="form-label label">
-                  Note additionnelle
+                <label
+                  class="input-group-text bg-primary"
+                  for="inputGroupSelect02"
+                  style="cursor: pointer;" routerLink="/categorie/create/0"
+                >
+                  <i  class="fa-solid text-white fa-plus"></i>
                 </label>
-                <textarea
-                  class="form-control"
-                  name="note_additionnelle"
-                  [(ngModel)]="note_additionnelle"
-                ></textarea>
               </div>
-  
-              <div class="row">
-                <div class="col-lg-6">
-                  <button
-                    [disabled]="!depenseForm.valid"
-                    type="submit"
-                    class="btn btn-primary text-white mt-3"
+            </div>
+
+            <!-- Sous catégorie -->
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom03" class="form-label label"
+                >Sous Catégorie
+                <span class="title-bg-global-secondary"> * </span></label
+              >
+              <div class="input-group">
+                <select
+                *ngIf="!isloadingsouscategorie; else loader"
+                  class="form-select"
+                  id="inputGroupSelect03"
+                  name="id_sous_categorie"
+                  [(ngModel)]="id_sous_categorie"
+                  required
+                >
+                  <option disabled selected>
+                    Choisir une sous catégorie
+                  </option>
+                  <option
+                    *ngFor="let s of TbSouscategorieDepense"
+                    [value]="s.id_sous_categorie"
                   >
-                    Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
-                  </button>
-                </div>
-                <div class="col-lg-6 mt-3 text-end pt-3">
-                  <p>NB : Les champs en <span class="title-bg-global-secondary"> (*) </span> sont obligatoires</p>
-                </div>
+                    {{ s.nom_sous_categorie }}
+                  </option>
+                </select>
+                <label
+                style="cursor: pointer;"
+                routerLink="/sous_categorie/create/0"
+                  class="input-group-text bg-primary"
+                  for="inputGroupSelect03"
+                >
+                  <i class="fa-solid text-white fa-plus"></i>
+                </label>
               </div>
-            </form>
-          </div>
+            </div>
+
+            <!-- Montant -->
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom03" class="form-label label">
+                Montant <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+                type="number"
+                class="form-control"
+                name="montant"
+                [(ngModel)]="montant"
+                required
+              />
+            </div>
+            <!-- Point de vente -->
+            <div class="col-lg-6 mt-3">
+              <label for="validationCustom06" class="form-label label">
+                Point de vente
+                <span class="title-bg-global-secondary"> * </span>
+              </label>
+              <input
+              type="text"
+              class="form-control"
+              [value]="getPointName(point_de_vente_id)"
+              required
+            />
+            </div>
+
+            <!-- Note additionnelle -->
+            <div class="col-lg-12 mt-3">
+              <label for="validationCustom07" class="form-label label">
+                Note additionnelle
+              </label>
+              <textarea
+                class="form-control"
+                name="note_additionnelle"
+                [rows]="5"
+                [(ngModel)]="note_additionnelle"
+              ></textarea>
+            </div>
+
+            <!-- Boutons -->
+            <div class="row">
+              <div class="col-lg-6">
+                <button
+                  [disabled]="!depenseForm.valid"
+                  type="submit"
+                  class="btn btn-primary text-white mt-3"
+                >
+                  Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+                </button>
+              </div>
+              <div class="col-lg-6 mt-3 text-end pt-3">
+                <p>
+                  NB : Les champs en
+                  <span class="title-bg-global-secondary"> (*) </span> sont
+                  obligatoires
+                </p>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </main>
-  
+  </div>
+</main>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

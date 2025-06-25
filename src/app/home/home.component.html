@@ -3,16 +3,10 @@
     <!-- [ page-header ] start -->
     <div class="page-header">
       <div class="page-header-left d-flex align-items-center">
-        <div class="page-header-title">
-          <!-- <h5 class="m-b-10">Dashboard</h5> -->
-        </div>
-        <!-- <ul class="breadcrumb">
-          <li class="breadcrumb-item fw-bold"><i class="fa-solid mx-2 fa-arrow-left"></i> Retour</li>
-        </ul> -->
+        <div class="page-header-title"></div>
         <ul class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
           <li class="breadcrumb-item">Tableau de bord</li>
-
         </ul>
       </div>
       <div class="page-header-right ms-auto">
@@ -133,1157 +127,973 @@
     <!-- [ page-header ] end -->
     <!-- [ Main Content ] start -->
     <div class="main-content">
-      <div class="row">
-        <div class="col-xxl-3 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body">
-              <div class="hstack justify-content-between">
-                <div>
-                  <div class="hstack gap-2 mb-4">
-                    <i class="feather-dollar-sign"></i>
-                    <span>Vente du jour</span>
-                  </div>
-                  <h3 class="fw-bolder mb-3">
-                    <span class="counter">{{
-                      globalService.formatPrixString(
-                        totalVentesJourActuel.toFixed(2)
-                      )
-                    }}</span>
-                  </h3>
-                  <p class="fs-12 text-muted mb-0">
-                    Jour précedent:
-                    <span class="fw-bold text-dark">{{
-                      globalService.formatPrixString(
-                        totalVentesJourPrecedent.toFixed(2)
-                      )
-                    }}</span>
-                  </p>
-                </div>
-                <a
-                  href="javascript:void(0);"
-                  class="badge bg-soft-success text-success"
-                  >+
-                  {{
-                    (
-                      ((totalVentesJourActuel - totalVentesJourPrecedent) /
-                        totalVentesJourPrecedent) *
-                      100
-                    ).toFixed(2)
-                  }}%</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xxl-3 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body">
-              <div class="hstack justify-content-between">
-                <div>
-                  <div class="hstack gap-2 mb-4">
-                    <i class="feather-pie-chart"></i>
-                    <span>Vente du mois</span>
-                  </div>
-                  <h3 class="fw-bolder mb-3">
-                    <span class="counter">{{
-                      globalService.formatPrixString(
-                        totalVentesMoisActuel.toFixed(2)
-                      )
-                    }}</span>
-                  </h3>
-                  <p class="fs-12 text-muted mb-0">
-                    Mois précedent:
-                    <span class="fw-bold text-dark">{{
-                      globalService.formatPrixString(
-                        totalVentesMoisPrecedent.toFixed(2)
-                      )
-                    }}</span>
-                  </p>
-                </div>
-                <a
-                  href="javascript:void(0);"
-                  class="badge bg-soft-danger text-danger"
-                  >{{
-                    totalVentesMoisPrecedent > 0
-                      ? (
-                          ((totalVentesMoisActuel - totalVentesMoisPrecedent) /
-                            totalVentesMoisPrecedent) *
-                          100
-                        ).toFixed(2)
-                      : "N/A"
-                  }}%</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xxl-3 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body">
-              <div class="hstack justify-content-between">
-                <div>
-                  <div class="hstack gap-2 mb-4">
-                    <i class="feather-pie-chart"></i>
-                    <span>Total vente mois en cours</span>
-                  </div>
-                  <h3 class="fw-bolder mb-3">
-                    <span class="counter">{{ nombreVentesMoisEnCours }}</span>
-                  </h3>
-                  <p class="fs-12 text-muted mb-0">
-                    Total vente mois précédent:
-                    <span class="fw-bold text-dark">{{
-                      nombreVentesMoisPrecedent
-                    }}</span>
-                  </p>
-                </div>
-                <a
-                  href="javascript:void(0);"
-                  class="badge bg-soft-danger text-danger"
-                >
-                  {{
-                    nombreVentesMoisPrecedent > 0
-                      ? (
-                          ((nombreVentesMoisEnCours -
-                            nombreVentesMoisPrecedent) /
-                            nombreVentesMoisPrecedent) *
-                          100
-                        ).toFixed(2)
-                      : "N/A"
-                  }}%
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xxl-3 col-md-6">
-          <div class="card stretch stretch-full">
-            <div class="card-body p-0">
-              <div class="p-4 d-flex align-items-start justify-content-between">
-                <div>
-                  <div class="fs-12 fw-semibold mb-2">Vente annuelle</div>
-                  <h4 class="text-dark fw-bold mb-2">
-                    {{ globalService.formatPrixString(totalVentesAnneeActuelle.toFixed(2)) }}
-                  </h4>
-                  <div class="fs-12 text-muted">
-                    Les revenus sont  % supérieurs à ceux de l'année dernière.
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="btn btn-sm btn-light-brand dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    >2024</a
-                  >
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item active">2024</a>
-                    <a href="javascript:void(0);" class="dropdown-item">2023</a>
-                    <a href="javascript:void(0);" class="dropdown-item">2022</a>
-                    <a href="javascript:void(0);" class="dropdown-item">2021</a>
-                    <a href="javascript:void(0);" class="dropdown-item">2020</a>
-                    <a href="javascript:void(0);" class="dropdown-item">2019</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item">All Times</a>
-                  </div>
-                </div>
-              </div>
-              <div id="earnings-card-area-chart"></div>
-            </div>
-          </div>
-        </div>
-        
-    
-        <div class="col-xxl-8">
-          <div class="card stretch stretch-full">
-            <div class="card-header bg-primary">
-              <h5 class="card-title text-white ">
-                Evolution du chiffre d'affaire par mois
-              </h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    >
-                    </a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
-                  >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body custom-card-action p-0">
-              <div id="payment-records-chart2"></div>
-            </div>
-          </div>
-        </div>
-        <!-- [Payment Records] end -->
-        <!-- [Total Sales] start -->
-  
-        <div class="col-xxl-4">
-          <div class="card stretch stretch-full">
-            <div class="card-header bg-primary ">
-              <h5 class="card-title text-white ">États stock produits</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"></a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"></a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"></a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>
-                    <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <div class="table-responsive" style="max-height: 350px; overflow-y: auto"
+      <div class="mt-5">
+        <h1 class="fw-bold fs-3 px-1 py-1">
+          Bonjour {{ user.prenom_utilisateur }}
+        </h1>
+      </div>
+      <div class="col-lg-12">
+        <div class="card stretch stretch-full">
+          <div class="card-header">
+            <h6 style="color: #47d385" class="card-title text-uppercase">
+              <span *ngIf="point_de_vente_id">
+                {{ getPointName(point_de_vente_id) }}</span
               >
-                <table class="table" *ngIf="!isloadingproduit; else loader">
-                  <thead>
-                    <tr>
-                      <th class="">Produit</th>
-                      <th class="">QTÉ en stock</th>
-                      <th>Niveau finis</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let produit of produits">
-                      <td>
-                        <div class="hstack gap-3">
-                          <div class="avatar-image avatar-lg rounded">
-                            <img class="img-fluid" 
-                            [src]="imageproduit[produit.produit_id]" 
-                            alt="" />
-                          </div>
-                          <div>
-                            <a href="javascript:void(0);" class="d-block">{{ produit.nom }}</a>
-                            <span class="fs-12 text-muted">{{ produit.sku }}</span>
-                          </div>
+            </h6>
+            <span
+              id="periode-affichage1"
+              class="text-muted text-end small fw-bold"
+            ></span>
+            <div class="card-header-action">
+              <select
+                class="form-select"
+                [(ngModel)]="comparateur"
+                (change)="onFilterChange()"
+              >
+                <option value="Mois" [selected]="comparateur === 'Mois'">
+                  Mois
+                </option>
+                <option value="Semaine" [selected]="comparateur === 'Semaine'">
+                  Semaine
+                </option>
+                <option value="Jour" [selected]="comparateur === 'Jour'">
+                  Jour
+                </option>
+                <option value="Annee" [selected]="comparateur === 'Annee'">
+                  Année
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body custom-card-action">
+            <div class="row">
+              <div class="col-xxl-3 col-md-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-body">
+                    <div class="hstack justify-content-between">
+                      <div>
+                        <div class="hstack gap-2 mb-4">
+                          <i class="feather-pie-chart"></i>
+                          <span>Total ventes</span>
                         </div>
-                      </td>
-                      <td class="text-center">{{ produit.quantite_en_stock }}</td>
-                      <td class="text-center">{{ produit.niveau_de_reapprovisionnement }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                        <h3 class="fw-bolder mb-3">
+                          <span class="counter">{{ totalNombreVente }}</span>
+                        </h3>
+                      </div>
+                      <a
+                        href="javascript:void(0);"
+                        class="badge bg-soft-danger text-danger"
+                      >
+                        {{ precedentNombreVente }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-md-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-body">
+                    <div class="hstack justify-content-between">
+                      <div>
+                        <div class="hstack gap-2 mb-4">
+                          <i class="feather-pie-chart"></i>
+                          <span>Total clients</span>
+                        </div>
+                        <h3 class="fw-bolder mb-3">
+                          <span class="counter">{{ totalNombreClient }}</span>
+                        </h3>
+                      </div>
+                      <a
+                        href="javascript:void(0);"
+                        class="badge bg-soft-danger text-danger"
+                      >
+                        <a
+                          href="javascript:void(0);"
+                          class="badge bg-soft-danger text-danger"
+                        >
+                          {{ precedentNombreClient }}
+                        </a>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-md-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-body">
+                    <div class="hstack justify-content-between">
+                      <div>
+                        <div class="hstack gap-2 mb-4">
+                          <i class="feather-dollar-sign"></i>
+                          <span>Chiffre d'affaire</span>
+                        </div>
+                        <h3 class="fw-bolder mb-3">
+                          <span class="counter">{{
+                            globalService.formatPrixString(
+                              chiffreAffaire.toFixed(2)
+                            )
+                          }}</span>
+                        </h3>
+                      </div>
+                      <a
+                        href="javascript:void(0);"
+                        class="badge bg-soft-danger text-danger"
+                      >
+                        {{
+                          globalService.formatPrixString(
+                            precedentChiffreAffaire.toFixed(2)
+                          )
+                        }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-3 col-md-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-body">
+                    <div class="hstack justify-content-between">
+                      <div>
+                        <div class="hstack gap-2 mb-4">
+                          <i class="feather-dollar-sign"></i>
+                          <span>Bénéfices net</span>
+                        </div>
+                        <h3 class="fw-bolder mb-3">
+                          <span class="counter">{{
+                            beneficeNet
+                              ? globalService.formatPrixString(
+                                  beneficeNet.toFixed(2)
+                                )
+                              : globalService.formatPrix(0)
+                          }}</span>
+                        </h3>
+                      </div>
+                      <a
+                        href="javascript:void(0);"
+                        class="badge bg-soft-danger text-danger"
+                      >
+                        {{
+                          globalService.formatPrixString(
+                            precedentBeneficeNet.toFixed(2)
+                          )
+                        }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <a routerLink="/produit/list" class="card-footer fs-11 fw-bold text-uppercase text-center">Voir plus</a>
+            <hr>
+            <div class="row">
+                            <div class="col-xxl-12">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">
+                      Evolution du chiffre d'affaire
+                    </h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          >
+                          </a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>2024</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>2025</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body custom-card-action p-0">
+                    <div id="payment-records-chart2"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-12">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">Benefices</h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          >
+                          </a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>2024</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>2025</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body custom-card-action p-0">
+                    <div id="benefices-par-jour-chart"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
-        
+        <div class="card stretch stretch-full">
+          <div class="card-body custom-card-action">
+            <div class="row">
 
-        <!-- [Total Sales] end !-->
-        <!-- [Mini] start -->
-        <!-- <div class="col-lg-4">
-                    <div class="card mb-4 stretch stretch-full">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div class="d-flex gap-3 align-items-center">
-                                <div class="avatar-text">
-                                    <i class="feather feather-star"></i>
+
+              <div class="col-xxl-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">États stock produits</h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          ></a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          ></a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          ></a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-at-sign"></i>New</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>Event</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-bell"></i>Snoozed</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-trash-2"></i>Deleted</a
+                          >
+                          <div class="dropdown-divider"></div>
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-settings"></i>Settings</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div
+                      class="table-responsive"
+                      style="max-height: 350px; overflow-y: auto"
+                    >
+                      <table
+                        class="table"
+                        *ngIf="!isloadingproduit; else loader"
+                      >
+                        <thead>
+                          <tr>
+                            <th class="">Produit</th>
+                            <th class="">Stock</th>
+                            <th>Point de vente</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let q of TbStockproduits">
+                            <td>
+                              <div class="hstack gap-3">
+                                <div class="avatar-image avatar-lg rounded">
+                                  <img
+                                    class="img-fluid"
+                                    [src]="imageproduit[q.produit_id]"
+                                    alt=""
+                                  />
                                 </div>
                                 <div>
-                                    <div class="fw-semibold text-dark">Tasks Completed</div>
-                                    <div class="fs-12 text-muted">22/35 completed</div>
+                                  <a
+                                    href="javascript:void(0);"
+                                    class="d-block"
+                                    >{{ q.nom }}</a
+                                  >
                                 </div>
-                            </div>
-                            <div class="fs-4 fw-bold text-dark">22/35</div>
-                        </div>
-                        <div class="card-body d-flex align-items-center justify-content-between gap-4">
-                            <div id="task-completed-area-chart"></div>
-                            <div class="fs-12 text-muted text-nowrap">
-                                <span class="fw-semibold text-primary">28% more</span><br />
-                                <span>from last week</span>
-                            </div>
-                        </div>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              {{ q.quantite }}
+                            </td>
+                            <td class="text-center">
+                              {{ getPointName(q.point_de_vente_id) }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
+                  <a
+                    routerLink="/produit/list"
+                    class="card-footer fs-11 fw-bold text-uppercase text-center"
+                    >Voir plus</a
+                  >
                 </div>
-                <div class="col-lg-4">
-                    <div class="card mb-4 stretch stretch-full">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div class="d-flex gap-3 align-items-center">
-                                <div class="avatar-text">
-                                    <i class="feather feather-file-text"></i>
+              </div>
+
+              <div class="col-xxl-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary text-white">
+                    <h5 class="card-title text-white">Ventes récentes</h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          ></a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          ></a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          ></a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-at-sign"></i>New</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>Event</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-bell"></i>Snoozed</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-trash-2"></i>Deleted</a
+                          >
+                          <div class="dropdown-divider"></div>
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-settings"></i>Settings</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body custom-card-action p-0">
+                    <div
+                      class="table-responsive"
+                      style="max-height: 400px; overflow-y: auto"
+                    >
+                      <table class="table table-hover mb-0">
+                        <thead>
+                          <tr class="border-b">
+                            <th scope="row">Vente ID</th>
+                            <th>Point de Vente</th>
+                            <th>Date Vente</th>
+                            <th>Montant Total</th>
+                            <!-- <th>Client</th> -->
+                            <!-- <th>Utilisateur</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let vente of dernieresVentes">
+                            <td>{{ vente.vente_id }}</td>
+                            <td>{{ getPointName(vente.point_de_vente_id) }}</td>
+                            <td>
+                              {{ globalService.formatDate(vente.date_vente) }}
+                            </td>
+                            <td>
+                              {{
+                                globalService.formatPrix(vente.montant_total)
+                              }}
+                            </td>
+                            <!-- <td>{{ getClientsName(vente.client_id) }}</td> -->
+                            <!-- <td>{{ getUserName(vente.utilisateur_id )}}</td> -->
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <a
+                    routerLink="/vente/list"
+                    class="card-footer fs-11 fw-bold text-uppercase text-center"
+                    >Voir plus</a
+                  >
+                </div>
+              </div>
+
+              <div class="col-xxl-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">Clients récents</h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          ></a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          ></a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          ></a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-at-sign"></i>New</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>Event</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-bell"></i>Snoozed</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-trash-2"></i>Deleted</a
+                          >
+                          <div class="dropdown-divider"></div>
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-settings"></i>Settings</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body custom-card-action p-0">
+                    <div
+                      class="table-responsive"
+                      style="max-height: 400px; overflow-y: auto"
+                    >
+                      <table class="table table-hover mb-0">
+                        <thead>
+                          <tr class="border-b">
+                            <th scope="row">Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <!-- <th>Sexe</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let client of tbClients">
+                            <td>{{ client.nom }}</td>
+                            <td>{{ client.prenom }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.telephone }}</td>
+                            <!-- <td>{{ client.sexe }}</td> -->
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <a
+                    routerLink="/client/list"
+                    class="card-footer fs-11 fw-bold text-uppercase text-center"
+                    >Voir plus</a
+                  >
+                </div>
+              </div>
+
+              <div class="col-xxl-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">
+                      Produits les plus vendus
+                    </h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          >
+                          </a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-at-sign"></i>New</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>Event</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-bell"></i>Snoozed</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-trash-2"></i>Deleted</a
+                          >
+                          <div class="dropdown-divider"></div>
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-settings"></i>Settings</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div
+                      class="table-responsive"
+                      style="max-height: 500px; overflow-y: auto"
+                    >
+                      <table
+                        class="table"
+                        *ngIf="!isloadingproduit; else loader"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Produit</th>
+                            <th class="text-center">Prix total vendu</th>
+                            <th class="text-center">Quantité</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let article of articles">
+                            <td>
+                              <div class="hstack gap-3">
+                                <div class="avatar-image avatar-lg rounded">
+                                  <img
+                                    class="img-fluid"
+                                    [src]="
+                                      imageproduitArticle[article.produit_id]
+                                    "
+                                    alt=""
+                                  />
                                 </div>
                                 <div>
-                                    <div class="fw-semibold text-dark">New Tasks</div>
-                                    <div class="fs-12 text-muted">0/20 tasks</div>
+                                  <a
+                                    href="javascript:void(0);"
+                                    class="d-block"
+                                    >{{ getProduitName(article.produit_id) }}</a
+                                  >
                                 </div>
-                            </div>
-                            <div class="fs-4 fw-bold text-dark">5/20</div>
-                        </div>
-                        <div class="card-body d-flex align-items-center justify-content-between gap-4">
-                            <div id="new-tasks-area-chart"></div>
-                            <div class="fs-12 text-muted text-nowrap">
-                                <span class="fw-semibold text-success">34% more</span><br />
-                                <span>from last week</span>
-                            </div>
-                        </div>
+                              </div>
+                            </td>
+                            <td class="text-center">
+                              {{
+                                globalService.formatPrix(
+                                  article.prix_total_vente
+                                )
+                              }}
+                            </td>
+                            <td class="text-center">{{ article.quantite }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
+                  <a
+                    href="javascript:void(0);"
+                    class="card-footer fs-11 fw-bold text-uppercase text-center"
+                    >Voir plus</a
+                  >
                 </div>
-                <div class="col-lg-4">
-                    <div class="card mb-4 stretch stretch-full">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <div class="d-flex gap-3 align-items-center">
-                                <div class="avatar-text">
-                                    <i class="feather feather-airplay"></i>
+              </div>
+
+              <div class="col-xxl-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">
+                      Benefices par produit vendu
+                    </h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          >
+                          </a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
+                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-at-sign"></i>New</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>Event</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-bell"></i>Snoozed</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-trash-2"></i>Deleted</a
+                          >
+                          <div class="dropdown-divider"></div>
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-settings"></i>Settings</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div
+                      class="table-responsive"
+                      style="max-height: 500px; overflow-y: auto"
+                    >
+                      <table
+                        class="table"
+                        *ngIf="!isloadingproduit; else loader"
+                      >
+                        <thead>
+                          <tr>
+                            <th>Produit</th>
+                            <th class="text-center">Quantité</th>
+                            <th class="text-center">Benefice</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let article of tbBenefices">
+                            <td>
+                              <div class="hstack gap-3">
+                                <div class="avatar-image avatar-lg rounded">
+                                  <img
+                                    class="img-fluid"
+                                    [src]="
+                                      imageproduitArticle[article.produit_id]
+                                    "
+                                    alt=""
+                                  />
                                 </div>
                                 <div>
-                                    <div class="fw-semibold text-dark">Project Done</div>
-                                    <div class="fs-12 text-muted">20/30 project</div>
+                                  <a
+                                    href="javascript:void(0);"
+                                    class="d-block"
+                                    >{{ getProduitName(article.produit_id) }}</a
+                                  >
                                 </div>
-                            </div>
-                            <div class="fs-4 fw-bold text-dark">20/30</div>
-                        </div>
-                        <div class="card-body d-flex align-items-center justify-content-between gap-4">
-                            <div id="project-done-area-chart"></div>
-                            <div class="fs-12 text-muted text-nowrap">
-                                <span class="fw-semibold text-danger">42% more</span><br />
-                                <span>from last week</span>
-                            </div>
-                        </div>
+                              </div>
+                            </td>
+                            <td class="text-center">{{ article.quantite }}</td>
+                            <td class="text-center">
+                              {{ article.benefice }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
-                </div> -->
-        <!-- [Mini] end !-->
-        <!-- [Leads Overview] start -->
-        <!-- <div class="col-xxl-4">
-                    <div class="card stretch stretch-full">
-                        <div class="card-header">
-                            <h5 class="card-title">Leads Overview</h5>
-                            <div class="card-header-action">
-                                <div class="card-header-btn">
-                                    <div data-bs-toggle="tooltip" title="Delete">
-                                        <a href="javascript:void(0);" class="avatar-text avatar-xs bg-danger" data-bs-toggle="remove"> </a>
-                                    </div>
-                                    <div data-bs-toggle="tooltip" title="Refresh">
-                                        <a href="javascript:void(0);" class="avatar-text avatar-xs bg-warning" data-bs-toggle="refresh"> </a>
-                                    </div>
-                                    <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                                        <a href="javascript:void(0);" class="avatar-text avatar-xs bg-success" data-bs-toggle="expand"> </a>
-                                    </div>
-                                </div>
-                                <div class="dropdown">
-                                    <a href="javascript:void(0);" class="avatar-text avatar-sm" data-bs-toggle="dropdown" data-bs-offset="25, 25">
-                                        <div data-bs-toggle="tooltip" title="Options">
-                                            <i class="feather-more-vertical"></i>
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="feather-at-sign"></i>New</a>
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="feather-calendar"></i>Event</a>
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="feather-bell"></i>Snoozed</a>
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="feather-trash-2"></i>Deleted</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="feather-settings"></i>Settings</a>
-                                        <a href="javascript:void(0);" class="dropdown-item"><i class="feather-life-buoy"></i>Tips & Tricks</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body custom-card-action">
-                            <div id="leads-overview-donut"></div>
-                            <div class="row g-2">
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #3454d1"></span>
-                                        <span>New<span class="fs-10 text-muted ms-1">(20K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #0d519e"></span>
-                                        <span>Contacted<span class="fs-10 text-muted ms-1">(15K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #1976d2"></span>
-                                        <span>Qualified<span class="fs-10 text-muted ms-1">(10K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #1e88e5"></span>
-                                        <span>Working<span class="fs-10 text-muted ms-1">(18K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #2196f3"></span>
-                                        <span>Customer<span class="fs-10 text-muted ms-1">(10K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #42a5f5"></span>
-                                        <span>Proposal<span class="fs-10 text-muted ms-1">(15K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #64b5f6"></span>
-                                        <span>Leads<span class="fs-10 text-muted ms-1">(16K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #90caf9"></span>
-                                        <span>Progress<span class="fs-10 text-muted ms-1">(14K)</span></span>
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a href="javascript:void(0);" class="p-2 hstack gap-2 rounded border border-dashed border-gray-5">
-                                        <span class="wd-7 ht-7 rounded-circle d-inline-block" style="background-color: #aad6fa"></span>
-                                        <span>Others<span class="fs-10 text-muted ms-1">(10K)</span></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-        <!-- [Leads Overview] end -->
-        <!-- [Latest Leads] start -->
-        <div class="col-xxl-6">
-          <div
-            class="card stretch stretch-full"
-          >
-            <div class="card-header bg-primary text-white">
-              <h5 class="card-title text-white">Ventes récentes</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    ></a>
                   </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    ></a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    ></a>
-                  </div>
-                </div>
-                <div class="dropdown">
                   <a
                     href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
+                    class="card-footer fs-11 fw-bold text-uppercase text-center"
+                    >Voir plus</a
                   >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
                 </div>
               </div>
-            </div>
-            <div class="card-body custom-card-action p-0">
-              <div class="table-responsive" style="max-height: 400px; overflow-y: auto"              >
-                <table class="table table-hover mb-0">
-                  <thead>
-                    <tr class="border-b">
-                      <th scope="row">Vente ID</th>
-                      <th>Point de Vente</th>
-                      <th>Date Vente</th>
-                      <th>Montant Total</th>
-                      <!-- <th>Client</th> -->
-                      <!-- <th>Utilisateur</th> -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let vente of dernieresVentes">
-                      <td>{{ vente.vente_id }}</td>
-                      <td>{{ getPointName(vente.point_de_vente_id) }}</td>
-                      <td>{{ globalService.formatDate(vente.date_vente) }}</td>
-                      <td>{{ globalService.formatPrix(vente.montant_total) }}</td>
-                      <!-- <td>{{ getClientsName(vente.client_id) }}</td> -->
-                      <!-- <td>{{ getUserName(vente.utilisateur_id )}}</td> -->
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <a routerLink="/vente/list" class="card-footer fs-11 fw-bold text-uppercase text-center">Voir plus</a>
-          </div>
-        </div>
 
-        <div class="col-xxl-6">
-          <div
-            class="card stretch stretch-full"
-          >
-            <div class="card-header bg-primary">
-              <h5 class="card-title text-white">Clients récents</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    ></a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    ></a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    ></a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
-                  >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body custom-card-action p-0">
-              <div class="table-responsive" style="max-height: 400px; overflow-y: auto"
-              >
-                <table class="table table-hover mb-0">
-                  <thead>
-                    <tr class="border-b">
-                      <th scope="row">Nom</th>
-                      <th>Prénom</th>
-                      <th>Email</th>
-                      <th>Téléphone</th>
-                      <!-- <th>Sexe</th> -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let client of tbClients">
-                      <td>{{ client.nom }}</td>
-                      <td>{{ client.prenom }}</td>
-                      <td>{{ client.email }}</td>
-                      <td>{{ client.telephone }}</td>
-                      <!-- <td>{{ client.sexe }}</td> -->
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <a routerLink="/client/list" class="card-footer fs-11 fw-bold text-uppercase text-center">Voir plus</a>
-          </div>
-        </div>
-
-        <div class="col-xxl-4">
-          <div class="card stretch stretch-full">
-            <div class="card-header bg-primary">
-              <h5 class="card-title text-white">Produits les plus vendus</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    >
-                    </a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
-                  >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <div
-                class="table-responsive"
-                style="max-height: 500px; overflow-y: auto"
-                
-              >
-                <table class="table" *ngIf="!isloadingproduit; else loader">
-                  <thead>
-                    <tr>
-                      <th>Produit</th>
-                      <th class="text-center">Prix total vendu</th>
-                      <th class="text-center">Quantité</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let article of articles">
-                      <td>
-                        <div class="hstack gap-3">
-                          <div class="avatar-image avatar-lg rounded">
-                            <img
-                              class="img-fluid"
-                              [src]="imageproduitArticle[article.produit_id]" 
-                              alt=""
-                            />
+              <div class="col-xxl-6">
+                <div class="card stretch stretch-full">
+                  <div class="card-header bg-primary">
+                    <h5 class="card-title text-white">
+                      Top des meilleurs vendeurs
+                    </h5>
+                    <div class="card-header-action">
+                      <div class="card-header-btn">
+                        <div data-bs-toggle="tooltip" title="Delete">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-danger"
+                            data-bs-toggle="remove"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Refresh">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-warning"
+                            data-bs-toggle="refresh"
+                          >
+                          </a>
+                        </div>
+                        <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                          <a
+                            href="javascript:void(0);"
+                            class="avatar-text avatar-xs bg-success"
+                            data-bs-toggle="expand"
+                          >
+                          </a>
+                        </div>
+                      </div>
+                      <div class="dropdown">
+                        <a
+                          href="javascript:void(0);"
+                          class="avatar-text avatar-sm"
+                          data-bs-toggle="dropdown"
+                          data-bs-offset="25, 25"
+                        >
+                          <div data-bs-toggle="tooltip" title="Options">
+                            <i class="feather-more-vertical"></i>
                           </div>
-                          <div>
-                            <a href="javascript:void(0);" class="d-block">{{
-                              getProduitName(article.produit_id)
-                            }}</a>
-                          </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-at-sign"></i>New</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-calendar"></i>Event</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-bell"></i>Snoozed</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-trash-2"></i>Deleted</a
+                          >
+                          <div class="dropdown-divider"></div>
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-settings"></i>Settings</a
+                          >
+                          <a href="javascript:void(0);" class="dropdown-item"
+                            ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                          >
                         </div>
-                      </td>
-                      <td class="text-center">
-                        {{ globalService.formatPrix(article.prix_total_vente) }}
-                      </td>
-                      <td class="text-center">{{ article.quantite }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <a
-              href="javascript:void(0);"
-              class="card-footer fs-11 fw-bold text-uppercase text-center"
-              >Voir plus</a
-            >
-          </div>
-        </div>
-
-        <div class="col-xxl-4">
-          <div class="card stretch stretch-full">
-            <div class="card-header bg-primary">
-              <h5 class="card-title text-white">Benefices par produit vendu</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    >
-                    </a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
-                  >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
+                      </div>
                     </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <div
-                class="table-responsive"
-                style="max-height: 500px; overflow-y: auto"
-              >
-                <table class="table" *ngIf="!isloadingproduit; else loader">
-                  <thead>
-                    <tr>
-                      <th>Produit</th>
-                      <th class="text-center">Quantité</th>
-                      <th class="text-center">Benefice</th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let article of tbBenefices">
-                      <td>
-                        <div class="hstack gap-3">
-                          <div class="avatar-image avatar-lg rounded">
-                            <img
-                              class="img-fluid"
-                              [src]="imageproduitArticle[article.produit_id]" 
-                              alt=""
-                            />
-                          </div>
-                          <div>
-                            <a href="javascript:void(0);" class="d-block">{{
-                              getProduitName(article.produit_id)
-                            }}</a>
-                          </div>
+                  <div
+                    class="card-body custom-card-action"
+                    style="max-height: 600px; overflow-y: auto"
+                  >
+                    <div
+                      *ngFor="let user of topUsers"
+                      class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3"
+                    >
+                      <div class="hstack gap-3">
+                        <div class="avatar-image">
+                          <img
+                            [src]="imageUsers[user.utilisateur_id]"
+                            alt=""
+                            class="img-fluid"
+                          />
                         </div>
-                      </td>
-                      <td class="text-center">{{ article.quantite }}</td>
-                      <td class="text-center">
-                        {{(article.benefice) }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        <div>
+                          <a href="javascript:void(0);"
+                            >{{ user.prenom_utilisateur }}
+                            {{ user.nom_utilisateur }}</a
+                          >
+                          <div class="fs-11 text-muted">{{ user.email }}</div>
+                        </div>
+                      </div>
+                      <div>{{ user.ventesCount }} ventes</div>
+                    </div>
+                  </div>
+                  <a
+                    routerLink="/user/list"
+                    class="card-footer fs-11 fw-bold text-uppercase text-center"
+                  >
+                    Voir plus
+                  </a>
+                </div>
               </div>
             </div>
-            <a
-              href="javascript:void(0);"
-              class="card-footer fs-11 fw-bold text-uppercase text-center"
-              >Voir plus</a
-            >
           </div>
         </div>
-        <!--! END: [Project Status] !-->
-        <!--! BEGIN: [Team Progress] !-->
-        <div class="col-xxl-4">
-          <div class="card stretch stretch-full">
-            <div class="card-header bg-primary">
-              <h5 class="card-title text-white ">Top des meilleurs vendeurs</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    >
-                    </a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
-                  >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="card-body custom-card-action"
-              style="max-height: 600px; overflow-y: auto"
-            >
-              <div
-                *ngFor="let user of topUsers"
-                class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3"
-              >
-                <div class="hstack gap-3">
-                  <div class="avatar-image">
-                    <img
-                    [src]="imageUsers[user.utilisateur_id ]" 
-                      alt=""
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div>
-                    <a href="javascript:void(0);"
-                      >{{ user.prenom_utilisateur }}
-                      {{ user.nom_utilisateur }}</a
-                    >
-                    <div class="fs-11 text-muted">{{ user.email }}</div>
-                  </div>
-                </div>
-                <div>{{ user.ventesCount }} ventes</div>
-              </div>
-            </div>
-            <a
-              routerLink="/user/list"
-              class="card-footer fs-11 fw-bold text-uppercase text-center"
-            >
-              Voir plus
-            </a>
-          </div>
-        </div>
-
-        <!-- <div class="col-xxl-4">
-          <div class="card stretch stretch-full">
-            <div class="card-header">
-              <h5 class="card-title">Nbre vente par vendeur</h5>
-              <div class="card-header-action">
-                <div class="card-header-btn">
-                  <div data-bs-toggle="tooltip" title="Delete">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-danger"
-                      data-bs-toggle="remove"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Refresh">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-warning"
-                      data-bs-toggle="refresh"
-                    >
-                    </a>
-                  </div>
-                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-xs bg-success"
-                      data-bs-toggle="expand"
-                    >
-                    </a>
-                  </div>
-                </div>
-                <div class="dropdown">
-                  <a
-                    href="javascript:void(0);"
-                    class="avatar-text avatar-sm"
-                    data-bs-toggle="dropdown"
-                    data-bs-offset="25, 25"
-                  >
-                    <div data-bs-toggle="tooltip" title="Options">
-                      <i class="feather-more-vertical"></i>
-                    </div>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-at-sign"></i>New</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-calendar"></i>Event</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-bell"></i>Snoozed</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-trash-2"></i>Deleted</a
-                    >
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-settings"></i>Settings</a
-                    >
-                    <a href="javascript:void(0);" class="dropdown-item"
-                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body custom-card-action">
-              <div
-                class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3"
-              >
-                <div class="hstack gap-3">
-                  <div class="avatar-image">
-                    <img
-                      src="assets/images/avatar/1.png"
-                      alt=""
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div>
-                    <a href="javascript:void(0);">Alexandra Della</a>
-                    <div class="fs-11 text-muted">Frontend Developer</div>
-                  </div>
-                </div>
-                <div class="team-progress-1"></div>
-              </div>
-              <div
-                class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3"
-              >
-                <div class="hstack gap-3">
-                  <div class="avatar-image">
-                    <img
-                      src="assets/images/avatar/2.png"
-                      alt=""
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div>
-                    <a href="javascript:void(0);">Archie Cantones</a>
-                    <div class="fs-11 text-muted">UI/UX Designer</div>
-                  </div>
-                </div>
-                <div class="team-progress-2"></div>
-              </div>
-              <div
-                class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-3"
-              >
-                <div class="hstack gap-3">
-                  <div class="avatar-image">
-                    <img
-                      src="assets/images/avatar/3.png"
-                      alt=""
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div>
-                    <a href="javascript:void(0);">Malanie Hanvey</a>
-                    <div class="fs-11 text-muted">Backend Developer</div>
-                  </div>
-                </div>
-                <div class="team-progress-3"></div>
-              </div>
-              <div
-                class="hstack justify-content-between border border-dashed rounded-3 p-3 mb-2"
-              >
-                <div class="hstack gap-3">
-                  <div class="avatar-image">
-                    <img
-                      src="assets/images/avatar/4.png"
-                      alt=""
-                      class="img-fluid"
-                    />
-                  </div>
-                  <div>
-                    <a href="javascript:void(0);">Kenneth Hune</a>
-                    <div class="fs-11 text-muted">Digital Marketer</div>
-                  </div>
-                </div>
-                <div class="team-progress-4"></div>
-              </div>
-            </div>
-            <a
-              href="javascript:void(0);"
-              class="card-footer fs-11 fw-bold text-uppercase text-center"
-              >Update 30 Min Ago</a
-            >
-          </div>
-        </div> -->
-        <!--! END: [Team Progress] !-->
       </div>
     </div>
     <!-- [ Main Content ] end -->

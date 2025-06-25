@@ -5,6 +5,8 @@ export class Rapport {
     modifie_le!: Date
     donnees!: string;
     nom_generateur!: string
+    nom_destinataire!: string
+    email_destinataire!: string
 }
 
 export class GetRapport {

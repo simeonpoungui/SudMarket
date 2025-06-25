@@ -1,114 +1,186 @@
 <main class="nxl-container">
   <div class="nxl-content">
-    <div class="col-lg-8 m-lg-auto py-3 px-lg-5">
+    <div class="col-lg-8 mx-auto py-5 px-lg-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+          <button class="btn btn-outline-secondary me-3" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <h2 class="m-0 text-primary">
+            {{ action == "edit" ? "Modifier l'employé" : "Nouvel employé" }}
+          </h2>
+        </div>
+
+        <button
+          [disabled]="!isFormValid()"
+          type="button"
+          class="btn btn-uniform-height btn-primary"
+          (click)="userform.ngSubmit.emit()"
+        >
+          <i class="fas fa-check me-2"></i>
+          {{ action == "edit" ? "Modifier" : "Valider" }}
+        </button>
+      </div>
+
       <div class="row">
-        <div class="col-12 mt-2">
+        <div class="col-12">
           <form
             #userform="ngForm"
             (ngSubmit)="onSubmitForm(userform)"
-            class="px-5 py-5 rounded rounded-4 bg-white needs-validation"
+            class="p-5 mt-3 rounded-4 bg-white shadow-sm needs-validation"
           >
-            <div class="rounded rounded-4 row">
-              <div class="col-lg-4 bg-light border rounded rounded-4 border-5">
-                <div class="w-75 py-3 m-auto" style="height: 270px;max-height: 270px;">
-                  <img
-                    class="w-100 "
-                    [src]="image"
+            <!-- Section Photo + Infos de base -->
+            <div class="row align-items-start">
+              <!-- Photo de profil -->
+              <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                <div class="position-relative d-inline-block">
+                  <div class="mb-3">
+                    <img
+                      class="rounded-circle object-fit-cover shadow"
+                      [src]="image"
+                      alt="Photo profil"
+                      style="
+                        width: 200px;
+                        height: 200px;
+                        border: 3px solid #f8f9fa;
+                      "
+                    />
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    class="form-control"
+                    (change)="onFileSelected($event)"
+                    #fileInput
+                    style="display: none"
                   />
-                </div>
-                <input
-                  type="file"
-                  accept="image/*"
-                  class="form-control"
-                  (change)="onFileSelected($event)"
-                  #fileInput
-                  style="display: none"
-                />
-                <div class="w-25 m-auto p-3 rounded rounded-5 bg-dark border">
-                  <img
-                  style="cursor: pointer;"
+                  <div
+                    class="position-absolute bottom-0 end-0 translate-middle bg-primary rounded-circle p-2 shadow-sm"
+                    style="cursor: pointer; width: 40px; height: 40px"
                     (click)="triggerFileInput()"
-                    class="w-100"
-                    src="assets/images/signal-2024-12-09-060204_003.png"
-                  />
+                  >
+                    <img
+                      class="w-100 h-100 object-fit-contain"
+                      src="assets/images/signal-2024-12-09-060204_003.png"
+                      alt="Ajouter photo"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="col-lg-8 p-0">
-                <div class="row ps-lg-4">
-                  <div class="col-lg-6">
-                    <label for="validationCustom01" class="form-label label"
-                      >Nom
-                      <span class="title-bg-global-secondary"> * </span></label
+
+              <!-- Infos utilisateur -->
+              <div class="col-lg-8">
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary"
+                      >Nom <span class="text-danger">*</span></label
                     >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="nom_utilisateur"
-                      [(ngModel)]="nom_utilisateur"
-                    />
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-user"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control input-pro"
+                        name="nom_utilisateur"
+                        [(ngModel)]="nom_utilisateur"
+                        required
+                      />
+                    </div>
                   </div>
 
-                  <div class="col-lg-6">
-                    <label for="validationCustom01" class="form-label label"
-                      >Prénom
-                      <span class="title-bg-global-secondary"> * </span></label
+                  <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary"
+                      >Prénom <span class="text-danger">*</span></label
                     >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="prenom_utilisateur"
-                      [(ngModel)]="prenom_utilisateur"
-                    />
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-user"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control input-pro"
+                        name="prenom_utilisateur"
+                        [(ngModel)]="prenom_utilisateur"
+                        required
+                      />
+                    </div>
                   </div>
 
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label">
-                      Sexe <span class="title-bg-global-secondary"> * </span>
-                    </label>
-                    <select
-                      class="form-control form-select"
-                      name="sexe"
-                      [(ngModel)]="sexe"
+                  <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary"
+                      >Sexe <span class="text-danger">*</span></label
                     >
-                      <option disabled>Sélectionner le sexe</option>
-                      <option value="Homme">Homme</option>
-                      <option value="Femme">Femme</option>
-                    </select>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-venus-mars"></i
+                      ></span>
+                      <select
+                        class="form-control form-select input-pro"
+                        name="sexe"
+                        [(ngModel)]="sexe"
+                        required
+                      >
+                        <option disabled value="">Sélectionner le sexe</option>
+                        <option value="Homme">Homme</option>
+                        <option value="Femme">Femme</option>
+                      </select>
+                    </div>
                   </div>
 
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
+                  <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary"
                       >Adresse</label
                     >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="adresse"
-                      [(ngModel)]="adresse"
-                    />
-                  </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
-                      >Nationalité</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="nationalite"
-                      [(ngModel)]="nationalite"
-                    />
-                  </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label">
-                      Role <span class="title-bg-global-secondary"> * </span>
-                    </label>
                     <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-map-marker-alt"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control input-pro"
+                        name="adresse"
+                        [(ngModel)]="adresse"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary"
+                      >Point de vente <span class="text-danger">*</span></label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-store"></i
+                      ></span>
                       <select
-                        class="form-control form-select"
+                        class="form-control form-select input-pro"
+                        name="point_de_vente_id"
+                        [(ngModel)]="point_de_vente_id"
+                        required
+                      >
+                        <option
+                          *ngFor="let point of tbPointdeVente"
+                          [value]="point.point_de_vente_id"
+                        >
+                          {{ point.nom }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-medium text-secondary"
+                      >Rôle <span class="text-danger">*</span></label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-briefcase"></i
+                      ></span>
+                      <select
+                        class="form-control form-select input-pro"
                         name="role"
                         [(ngModel)]="role"
+                        required
                       >
                         <option
                           *ngFor="let roleOption of TabRole"
@@ -117,105 +189,118 @@
                           {{ roleOption.nom_role }}
                         </option>
                       </select>
-                      <label
-                      (click)="addRole()"
-                        class="input-group-text bg-primary text-white"
-                        for="inputGroupSelect02"
-                        ><i class="fa-solid fa-plus"></i
-                      ></label>
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        (click)="addRole()"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
                     </div>
                   </div>
-
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
-                      >Email <span class="title-bg-global-secondary"> * </span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="email"
-                      [(ngModel)]="email"
-                    />
-                  </div>
-      
-                  <div class="col-lg-6 mt-3">
-                    <label for="validationCustom01" class="form-label label"
-                      >Télephone
-                      <span class="title-bg-global-secondary"> * </span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="telephone"
-                      [(ngModel)]="telephone"
-                    />
-                  </div>
-
                 </div>
               </div>
             </div>
-     
-          <div class="row mt-3">
-            <div class="col-lg-4">
-              <label for="validationCustom01" class="form-label label">
-                Point de vente
-                <span class="title-bg-global-secondary"> * </span>
-              </label>
-              <select
-                class="form-control form-select"
-                name="point_de_vente_id"
-                [(ngModel)]="point_de_vente_id"
-              >
-                <option
-                  *ngFor="let point of tbPointdeVente"
-                  [value]="point.point_de_vente_id"
+
+            <!-- Section Coordonnées -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-medium text-secondary"
+                  >Email <span class="text-danger">*</span></label
                 >
-                  {{ point.nom }}
-                </option>
-              </select>
-            </div>
-          </div>
-
-          <div class="content mx-2 mt-3">
-            <span class="text-on-border fw-bold fs-5">Permissions</span>
-            <div class="row mt-3">
-              <div class="col-lg-3">
-                <mat-checkbox [(ngModel)]="user.ventes" name="ventes">Ventes</mat-checkbox>
-              </div>
-              <div class="col-lg-3">
-                <mat-checkbox [(ngModel)]="user.produits" name="produits">Produits</mat-checkbox>
-              </div>
-              <div class="col-lg-3">
-                <mat-checkbox [(ngModel)]="user.stock" name="stock">Stock</mat-checkbox>
-              </div>
-              <div class="col-lg-3">
-                <mat-checkbox [(ngModel)]="user.analytics" name="analytics">Analytics</mat-checkbox>
-              </div>
-              <div class="col-lg-3">
-                <mat-checkbox [(ngModel)]="user.commandes" name="commandes">Commandes</mat-checkbox>
-              </div>
-            </div>
-          </div>
-          
-          
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="col-lg-4 mt-3">
-                  <button
-                    [disabled]="!isFormValid()"
-                    type="submit"
-                    class="form-control bg-global-primary text-white"
-                  >
-                    Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
-                  </button>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-envelope"></i
+                  ></span>
+                  <input
+                    type="email"
+                    class="form-control input-pro"
+                    name="email"
+                    [(ngModel)]="email"
+                    required
+                  />
                 </div>
               </div>
-              <div class="col-lg-6 mt-3 text-end pt-3">
-                <p>
-                  NB : Les champs en
-                  <span class="title-bg-global-secondary"> (*) </span> sont
-                  obligatoire
-                </p>
+
+              <div class="col-md-6">
+                <label class="form-label fw-medium text-secondary"
+                  >Téléphone <span class="text-danger">*</span></label
+                >
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-phone"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-control input-pro"
+                    name="telephone"
+                    [(ngModel)]="telephone"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section Permissions -->
+            <div class="mt-5">
+              <div class="content">
+                <span class="text-on-border fw-bold fs-5"
+                  ><i class="fas fa-user-shield me-2"></i>Permissions</span
+                >
+                <div class="row mt-3">
+                  <div class="col-lg-3">
+                    <mat-checkbox
+                      [(ngModel)]="ventes"
+                      name="ventes"
+                      class="checkbox-pro"
+                    >
+                      <i class="fas fa-shopping-cart me-2"></i>Ventes
+                    </mat-checkbox>
+                  </div>
+                  <div class="col-lg-3">
+                    <mat-checkbox
+                      [(ngModel)]="produits"
+                      name="produits"
+                      class="checkbox-pro"
+                    >
+                      <i class="fas fa-box-open me-2"></i>Produits
+                    </mat-checkbox>
+                  </div>
+                  <div class="col-lg-3">
+                    <mat-checkbox
+                      [(ngModel)]="stock"
+                      name="stock"
+                      class="checkbox-pro"
+                    >
+                      <i class="fas fa-warehouse me-2"></i>Stock
+                    </mat-checkbox>
+                  </div>
+                  <div class="col-lg-3">
+                    <mat-checkbox
+                      [(ngModel)]="analytics"
+                      name="analytics"
+                      class="checkbox-pro"
+                    >
+                      <i class="fas fa-chart-line me-2"></i>Analytics
+                    </mat-checkbox>
+                  </div>
+                  <div class="col-lg-3">
+                    <mat-checkbox
+                      [(ngModel)]="commandes"
+                      name="commandes"
+                      class="checkbox-pro"
+                    >
+                      <i class="fas fa-clipboard-list me-2"></i>Commandes
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="d-flex justify-content-between align-items-center mt-5">
+              <div class="text-secondary">
+                <span class="text-danger">*</span> Champs obligatoires
               </div>
             </div>
           </form>

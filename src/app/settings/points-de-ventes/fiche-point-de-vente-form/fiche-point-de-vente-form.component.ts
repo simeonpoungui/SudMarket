@@ -8,6 +8,8 @@ import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service
 import { NgForm } from '@angular/forms';
 import { Boutique, GetBoutique } from 'src/app/Models/boutique.model';
 import { BoutiqueService } from 'src/app/Services/boutique.service';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-fiche-point-de-vente-form',
@@ -35,6 +37,7 @@ export class FichePointDeVenteFormComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private location: Location,
     private router: Router,
     public globalService: GlobalService,
     private dialog: MatDialog,
@@ -70,6 +73,10 @@ export class FichePointDeVenteFormComponent {
     } 
   )
   }
+
+      goBack() {
+  this.location.back();
+}
 
   initFomForPoint(){
     this.point_de_vente_id = this.point.point_de_vente_id

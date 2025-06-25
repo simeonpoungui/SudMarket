@@ -50,7 +50,7 @@ export class GlobalService {
     return formated + decimal;
   }
 
-  formatPrixString(prix: any, separateur: string = ' ', device: string = 'FCFA') {
+  formatPrixString(prix: any, separateur: string = ' ', device: string = 'XAF') {
     let reverse: string[] = prix.toString().split('').reverse();
     let prixFormated: string = '';
 

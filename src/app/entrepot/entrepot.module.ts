@@ -23,6 +23,7 @@ import { TransfertStockEntrepotPointDeVenteComponent } from './transfert-stock-e
 import { VariationByIdComponent } from './variation-by-id/variation-by-id.component';
 import { MouvementStockComponent } from './mouvement-stock/mouvement-stock.component';
 import { ListStockPointDeVenteComponent } from './list-stock-point-de-vente/list-stock-point-de-vente.component';
+import { EntrepotSettingsComponent } from './entrepot-settings/entrepot-settings.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ListStockPointDeVenteComponent } from './list-stock-point-de-vente/list
     VariationByIdComponent,
     MouvementStockComponent,
     ListStockPointDeVenteComponent,
+    EntrepotSettingsComponent,
   ],
   imports: [
     CommonModule,

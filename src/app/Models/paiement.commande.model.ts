@@ -4,6 +4,8 @@ export class Paiement {
     montant!: number;
     date_paiement!: Date;
     mode_paiement!: string;
+    utilisateur_id?: number
+    point_de_vente_id?: number
 }
 
 export class GetPaiement {

@@ -25,9 +25,7 @@ export class ProduitComponent {
     'description',
     'categorie',
     'prix',
-    'quantite_en_stock',
-    'niveau_de_reapprovisionnement',
-    'Actions',
+    'niveau_de_reapprovisionnement'
   ];
 
   isloadingpage!: boolean;

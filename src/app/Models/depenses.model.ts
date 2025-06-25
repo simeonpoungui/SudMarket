@@ -1,12 +1,12 @@
 export class Depense {
     id_depense!: number;
     date_heure!: string;
-    categorie_depense!: string;
+    id_categorie!: number;
     montant!: number;
     employe_responsable!: number;
     note_additionnelle?: string;
-    fournisseur!: string;
-    point_de_vente_id!: number;
+    id_sous_categorie?: number;
+    point_de_vente_id?: number;
 }
 
 export class GetDepense {

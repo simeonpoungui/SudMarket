@@ -17,3 +17,40 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .title-bg-global-secondary{
     color: #ea4d4d
 }
+
+/* Style global pour les boutons */
+.btn-uniform-height {
+  height: 45px; /* Hauteur uniforme pour tous les boutons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px; /* Ajuster le padding si nécessaire */
+  line-height: 1.5;
+}
+
+/* Pour les boutons sans fond (outline) */
+.btn-outline-primary {
+  border-color: #3454d1; /* Ajuster la couleur de la bordure */
+  color: #3454d1; /* Couleur du texte pour le bouton outline */
+}
+
+.btn-outline-primary:hover {
+  background-color: #3454d1; /* Couleur de fond au survol */
+  color: white; /* Couleur du texte au survol */
+}
+
+.btn-primary {
+  background-color: #3454d1;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2c44b1;
+}
+
+/* Si vous souhaitez des tailles spécifiques pour les petits boutons */
+.btn-sm-uniform {
+  height: 35px;
+  padding: 5px 12px;
+  font-size: 14px;
+}

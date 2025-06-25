@@ -25,8 +25,7 @@ export class UsersComponent {
     'sexe',
     // 'adresse',
     'nationalite',
-    'role',
-    'Actions'
+    'role'
   ];
 
   isloadingpage!: boolean
@@ -36,6 +35,8 @@ export class UsersComponent {
   user!: Utilisateur
 
   nbreusers: number = 0
+  nbHommes: number = 0;
+  nbFemmes: number = 0;
 
   constructor(
     private userService: UsersService,
@@ -81,6 +82,20 @@ getListUsers() {
     this.users = data.message;
     this.nbreusers = data.message.length;
 
+    // Compter le nombre d'hommes et de femmes
+    const countByGender = data.message.reduce((acc, user) => {
+      if (user.sexe === 'Homme' || user.sexe === 'M' || user.sexe === 'Masculin') {
+        acc.hommes++;
+      } else if (user.sexe === 'Femme' || user.sexe === 'F' || user.sexe === 'Féminin') {
+        acc.femmes++;
+      }
+      return acc;
+    }, { hommes: 0, femmes: 0 });
+
+    // Stocker les résultats
+    this.nbHommes = countByGender.hommes;
+    this.nbFemmes = countByGender.femmes;
+
     // Assigner les données au dataSource
     this.dataSource = new MatTableDataSource(data.message);
 
@@ -123,25 +138,45 @@ getListUsers() {
 
   }
 
-  SelectPointDeVente(event: any){
-    console.log(event.target.value);
-    const point : GetPointsDeVentes = {
-      point_de_vente_id: Number(event.target.value)
-    }
-    this.userService.getUserByPointVente(point).subscribe(data => {
-      this.users = data.message
-      if (typeof data.message === 'string') {
-        this.dataSource = new MatTableDataSource([])
-        this.nbreusers = 0
-        this.globalService.toastShow('Aucun utilisateur trouvé','Information','info')
-      }else {
-        this.dataSource = new MatTableDataSource(data.message);
-        this.nbreusers = this.dataSource.data.length
-      }
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    })
+SelectPointDeVente(event: any) {
+  console.log(event.target.value);
+  const point: GetPointsDeVentes = {
+    point_de_vente_id: Number(event.target.value)
   }
+  
+  this.userService.getUserByPointVente(point).subscribe(data => {
+    this.users = data.message;
+    console.log(data.message);
+    
+    if (typeof data.message === 'string') {
+      this.dataSource = new MatTableDataSource([]);
+      this.nbreusers = 0;
+      this.nbHommes = 0;
+      this.nbFemmes = 0;
+      this.globalService.toastShow('Aucun utilisateur trouvé', 'Information', 'info');
+    } else {
+      this.dataSource = new MatTableDataSource(data.message);
+      this.nbreusers = this.dataSource.data.length;
+      
+     // Compter le nombre d'hommes et de femmes
+    const countByGender = data.message.reduce((acc, user) => {
+      if (user.sexe === 'Homme' || user.sexe === 'M' || user.sexe === 'Masculin') {
+        acc.hommes++;
+      } else if (user.sexe === 'Femme' || user.sexe === 'F' || user.sexe === 'Féminin') {
+        acc.femmes++;
+      }
+      return acc;
+    }, { hommes: 0, femmes: 0 });
+
+    // Stocker les résultats
+    this.nbHommes = countByGender.hommes;
+    this.nbFemmes = countByGender.femmes;
+    }
+    
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  });
+}
 
   imprimer() {
     this.userService.getListUsersPDF(this.users).subscribe((data) => {

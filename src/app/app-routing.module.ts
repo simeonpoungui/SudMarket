@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+
 //User Entities
 import { UsersComponent } from './users/users/users.component';
 import { UsersFormComponent } from './users/users/users-form/users-form.component';
 import { FicheUserComponent } from './users/users/fiche-user/fiche-user.component';
 import { FicheUserConnectedComponent } from './users/users/fiche-user-connected/fiche-user-connected.component';
+
 //Settings
 import { SettingsComponent } from './settings/settings/settings.component';
 import { PointsDeVentesComponent } from './settings/points-de-ventes/points-de-ventes.component';
@@ -15,18 +17,22 @@ import { RoleFormComponent } from './settings/role/role-form/role-form.component
 import { NotificationsStockProduitsComponent } from './settings/notifications-stock-produits/notifications-stock-produits.component';
 import { FichePointDeVenteFormComponent } from './settings/points-de-ventes/fiche-point-de-vente-form/fiche-point-de-vente-form.component';
 import { FichePointDeVenteComponent } from './settings/points-de-ventes/fiche-point-de-vente/fiche-point-de-vente.component';
+
 //Clients Entities
 import { ClientComponent } from './client/client/client.component';
 import { ClientFormComponent } from './client/client/client-form/client-form.component';
 import { FicheClientComponent } from './client/client/fiche-client/fiche-client.component';
+
 //Fournisseur Entities
 import { FournisseurComponent } from './fournisseur/fournisseur/fournisseur.component';
 import { FournisseurFicheComponent } from './fournisseur/fournisseur-fiche/fournisseur-fiche.component';
 import { FournisseurFormComponent } from './fournisseur/fournisseur-form/fournisseur-form.component';
+
 //Produit Entities
 import { ProduitComponent } from './produit/produit/produit.component';
 import { ProduitFicheComponent } from './produit/produit-fiche/produit-fiche.component';
 import { ProduitFormComponent } from './produit/produit-form/produit-form.component';
+
 //Commandes Achat Entities
 import { CommandeAChatComponent } from './commande-achat/commande-achat/commande-achat.component';
 import { CommandeAChatFicheComponent } from './commande-achat/commande-achat-fiche/commande-achat-fiche.component';
@@ -45,13 +51,16 @@ import { FicheArticleDeVenteComponent } from './vente/fiche-article-de-vente/fic
 import { VenteJournaliereByUserComponent } from './vente/vente-journaliere-by-user/vente-journaliere-by-user.component';
 import { RapportDeVenteVendeursComponent } from './vente/rapport-de-vente-vendeurs/rapport-de-vente-vendeurs.component';
 import { HistoriqueDeVenteByPointDeVenteComponent } from './vente/historique-de-vente-by-point-de-vente/historique-de-vente-by-point-de-vente.component';
+
 //Rapport Entities
 import { RapportComponent } from './rapport/rapport/rapport.component';
 import { RapportFicheComponent } from './rapport/rapport-fiche/rapport-fiche.component';
 import { RapportFormComponent } from './rapport/rapport-form/rapport-form.component';
+
 //Scanner
 import { ScannerComponent } from './scanner-qrcode/scanner/scanner.component';
 import { SessionGuardService } from './Services/session-guard.service';
+
 //Session vente
 import { SessionVenteComponent } from './session-vente/session-vente/session-vente.component';
 import { ListSessionVenteComponent } from './session-vente/list-session-vente/list-session-vente.component';
@@ -91,14 +100,24 @@ import { EntrepotFormComponent } from './entrepot/entrepot-form/entrepot-form.co
 import { EntrepotFicheComponent } from './entrepot/entrepot-fiche/entrepot-fiche.component';
 import { StockEntrepotsComponent } from './entrepot/stock-entrepots/stock-entrepots.component';
 import { ListProductEntrepotsComponent } from './entrepot/list-product-entrepots/list-product-entrepots.component';
-import { InventairesFormComponent } from './entrepot/inventaires-form/inventaires-form.component';
 import { TransfertStockEntrepotPointDeVenteComponent } from './entrepot/transfert-stock-entrepot-point-de-vente/transfert-stock-entrepot-point-de-vente.component';
 import { MouvementStockComponent } from './entrepot/mouvement-stock/mouvement-stock.component';
 import { PaiementCommandeListComponent } from './commande-achat/paiement-commande-list/paiement-commande-list.component';
 import { ListStockPointDeVenteComponent } from './entrepot/list-stock-point-de-vente/list-stock-point-de-vente.component';
 import { DepenseComponent } from './depenses/depense/depense.component';
 import { DepenseFormComponent } from './depenses/depense-form/depense-form.component';
+import { CategorieDepensesComponent } from './depenses/categorie-depenses/categorie-depenses.component';
+import { CategorieDepensesFormComponent } from './depenses/categorie-depenses-form/categorie-depenses-form.component';
+import { SousCategorieDepensesComponent } from './depenses/sous-categorie-depenses/sous-categorie-depenses.component';
+import { SousCategorieDepensesFormComponent } from './depenses/sous-categorie-depenses-form/sous-categorie-depenses-form.component';
+
 // Inventaires
+import { InventairesFormComponent } from './entrepot/inventaires-form/inventaires-form.component';
+
+// Analytics
+import { AnalyticsComponent } from './analytics/analytics/analytics.component';
+import { EntrepotSettingsComponent } from './entrepot/entrepot-settings/entrepot-settings.component';
+
 
 const routes: Routes = [
   // home page
@@ -107,9 +126,16 @@ const routes: Routes = [
   // login form
   { path: 'login', component: LoginComponent },
 
+  //Analytics
+  {path:'analytic', loadChildren: () => import('./analytics/analytics.module').then(m => m.AnalyticsModule)},
+  { path: 'analytics', component: AnalyticsComponent, },
+
+
+
   // Module Entrepot
   {path:'entrepots', loadChildren: () => import('./entrepot/entrepot.module').then(m => m.EntrepotModule)},
   {path: 'entrepot-list', component: EntrepotComponent},
+  {path: 'parametres-entrepot/:id', component: EntrepotSettingsComponent},
   {path: 'entrepot-stock', component: StockEntrepotsComponent},
 
   {path: 'entrepot/:action/:id', component: EntrepotFormComponent},
@@ -134,6 +160,14 @@ const routes: Routes = [
   {path:'depenses', loadChildren: () => import('./depenses/depenses.module').then(m => m.DepensesModule)},
   { path: 'depense/list', component: DepenseComponent },
   { path: 'depense/:action/:id', component: DepenseFormComponent},
+
+  // Categories depense
+  { path: 'categorie/list', component: CategorieDepensesComponent },
+  { path: 'categorie/:action/:id', component: CategorieDepensesFormComponent},
+
+  // Sous Categories depense
+  { path: 'sous_categorie/list', component: SousCategorieDepensesComponent },
+  { path: 'sous_categorie/:action/:id', component: SousCategorieDepensesFormComponent},
 
   // Module Settings
   {path:'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)},
@@ -245,4 +279,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

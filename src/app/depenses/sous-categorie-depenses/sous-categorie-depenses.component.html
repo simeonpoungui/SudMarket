@@ -1,0 +1,131 @@
+<div class="row pt-5 px-3">
+    <div class="col-lg-10 p-0">
+      <h1 class="rounded rounded-4 text-uppercase py-1">
+       Sous Categories des dépenses
+      </h1>
+    </div>
+    <div class="col-lg-2">
+      <div class="row">
+        <div class="col-lg-12 p-0 d-lg-flex justify-content-end align-items-end">
+          <button
+            style="background-color: #3454d1"
+            type="button"
+            routerLink="/sous_categorie/create/0"
+            class="text-uppercase btn text-white"
+          >
+            <i class="fa-solid mx-2 fa-plus"></i> Ajouter une sous categorie
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mat-elevation-z8 mt-3">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      style="max-height: 400px; overflow-y: auto"
+      *ngIf="!isloadingpage; else loader"
+    >
+      <!-- Colonne Nom Catégorie -->
+      <ng-container matColumnDef="nom_sous_categorie">
+        <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+         Sous Catégorie
+        </th>
+        <td class="pointer" mat-cell *matCellDef="let element">
+          {{ element.nom_sous_categorie }}
+        </td>
+        <td
+          mat-footer-cell
+          class="bg-table-color text-light"
+          *matFooterCellDef
+        ></td>
+      </ng-container>
+
+      <ng-container matColumnDef="id_categorie">
+        <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+          Catégorie
+        </th>
+        <td class="pointer" mat-cell *matCellDef="let element">
+          {{getCatgorieName(element.id_categorie) }}
+        </td>
+        <td
+          mat-footer-cell
+          class="bg-table-color text-light"
+          *matFooterCellDef
+        ></td>
+      </ng-container>
+  
+      <!-- Colonne Description -->
+      <ng-container matColumnDef="description">
+        <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+          Description
+        </th>
+        <td class="pointer" mat-cell *matCellDef="let element">
+          {{ element.description }}
+        </td>
+        <td
+          mat-footer-cell
+          class="bg-table-color text-light"
+          *matFooterCellDef
+        ></td>
+      </ng-container>
+  
+      <!-- Colonne Date de Création -->
+      <ng-container matColumnDef="date_creation">
+        <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+          Date de Création
+        </th>
+        <td class="pointer" mat-cell *matCellDef="let element">
+          {{ globalService.formatDate(element.date_creation) }}
+        </td>
+        <td
+          mat-footer-cell
+          class="bg-table-color text-light"
+          *matFooterCellDef
+        ></td>
+      </ng-container>
+      <ng-container matColumnDef="Actions">
+          <th
+            class="text-center"
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Actions
+          </th>
+          <td
+            class="text-center"
+            mat-cell
+            *matCellDef="let element"
+          >
+            <button
+              (click)="updateCategorie(element)"
+              style="cursor: pointer"
+              class="border border-0 rounded rounded-2 actions"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </td>
+          <td
+            mat-footer-cell
+            class="bg-table-color text-light"
+            *matFooterCellDef
+          ></td>
+        </ng-container>
+  
+      <!-- Header & Row definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  
+    <mat-paginator
+      [pageSizeOptions]="[10, 20, 30]"
+      showFirstLastButtons
+      aria-label="Sélectionner la page des éléments"
+    ></mat-paginator>
+  </div>
+  <ng-template #loader>
+    <div class="text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  

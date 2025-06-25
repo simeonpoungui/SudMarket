@@ -8,6 +8,7 @@ import { GetUser, Utilisateur } from 'src/app/Models/users.model';
 import { EntrepotService } from 'src/app/Services/entrepot.service';
 import { GlobalService } from 'src/app/Services/global.service';
 import { UsersService } from 'src/app/Services/users.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-entrepot-fiche',
@@ -31,6 +32,7 @@ export class EntrepotFicheComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private dialog: MatDialog,
     private userService: UsersService,
     private entrepotService: EntrepotService,
@@ -39,6 +41,10 @@ export class EntrepotFicheComponent {
 
   isFormValid(): any {
     return this.nom && this.adresse && this.responsable;
+  }
+
+  goBack(){
+    this.location.back()
   }
 
   ngOnInit(): void {

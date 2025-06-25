@@ -1,0 +1,438 @@
+<div class="row mt-3 justify-content-end">
+  <div class="col-lg-3 d-flex justify-content-end">
+    <button class="border-0 fs-6 bg-white">Filtrer par dates :</button>
+  </div>
+
+  <div class="col-lg-2 mx-2 d-flex justify-content-end">
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="dateDebut"
+      (change)="onFilterChange()"
+    />
+  </div>
+
+  <div class="col-lg-2 d-flex justify-content-end">
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="dateFin"
+      (change)="onFilterChange()"
+    />
+  </div>
+
+  <div class="col-lg-2 d-flex justify-content-end">
+    <select
+      class="form-select form-control"
+      [(ngModel)]="comparateur"
+      (change)="onFilterChange()"
+    >
+      <option disabled selected>Comparer</option>
+      <option value="aujourdhui">Aujourd'hui</option>
+      <option value="semaine_derniere">Semaine dernière</option>
+      <option value="cette_semaine">Cette semaine</option>
+      <option value="mois">Ce mois</option>
+    </select>
+  </div>
+</div>
+<hr />
+<div class="row mt-5">
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">
+            {{ globalService.formatPrixString(TotalMontant.toFixed(2)) }}
+          </h5>
+          <span class="text-muted"> Chiffres d’affaires</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-teal text-white rounded">
+          <i class="feather-dollar-sign"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">{{ globalService.formatPrixString(joursPerformants.toFixed(2)) }}</h5>
+          <span class="text-muted">Ventes nettes</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-success text-white rounded">
+          <i class="feather-bar-chart-2"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">{{ TotalVentes }}</h5>
+          <span class="text-muted">Total ventes</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-warning text-white rounded">
+          <i class="feather-tag"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="fs-5">
+            {{ globalService.formatPrixString(PanierMoyen.toFixed(2)) }}
+          </h5>
+          <span class="text-muted">Panier moyen</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-primary text-white rounded">
+          <i class="feather-shopping-cart"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title">Chiffres d’affaires</h5>
+        <span
+          id="periode-affichage"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn">
+            <div data-bs-toggle="tooltip" title="Delete">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-danger"
+                data-bs-toggle="remove"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Refresh">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-warning"
+                data-bs-toggle="refresh"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-success"
+                data-bs-toggle="expand"
+              >
+              </a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-sm"
+              data-bs-toggle="dropdown"
+              data-bs-offset="25, 25"
+            >
+              <div data-bs-toggle="tooltip" title="Options">
+                <i class="feather-more-vertical"></i>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-at-sign"></i>New</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-calendar"></i>Event</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-bell"></i>Snoozed</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-trash-2"></i>Deleted</a
+              >
+              <div class="dropdown-divider"></div>
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-settings"></i>Settings</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-life-buoy"></i>Tips & Tricks</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="chiffres-affaires"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title">Vente nettes</h5>
+        <span
+          id="periode-affichage2"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn">
+            <div data-bs-toggle="tooltip" title="Delete">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-danger"
+                data-bs-toggle="remove"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Refresh">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-warning"
+                data-bs-toggle="refresh"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-success"
+                data-bs-toggle="expand"
+              >
+              </a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-sm"
+              data-bs-toggle="dropdown"
+              data-bs-offset="25, 25"
+            >
+              <div data-bs-toggle="tooltip" title="Options">
+                <i class="feather-more-vertical"></i>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-at-sign"></i>New</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-calendar"></i>Event</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-bell"></i>Snoozed</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-trash-2"></i>Deleted</a
+              >
+              <div class="dropdown-divider"></div>
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-settings"></i>Settings</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-life-buoy"></i>Tips & Tricks</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="VentesNettes"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title">Total des Vente</h5>
+        <span
+          id="periode-affichage3"
+          class="text-muted text-end small fw-bold"
+        ></span>
+        <div class="card-header-action">
+          <div class="card-header-btn">
+            <div data-bs-toggle="tooltip" title="Delete">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-danger"
+                data-bs-toggle="remove"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Refresh">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-warning"
+                data-bs-toggle="refresh"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-success"
+                data-bs-toggle="expand"
+              >
+              </a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-sm"
+              data-bs-toggle="dropdown"
+              data-bs-offset="25, 25"
+            >
+              <div data-bs-toggle="tooltip" title="Options">
+                <i class="feather-more-vertical"></i>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-at-sign"></i>New</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-calendar"></i>Event</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-bell"></i>Snoozed</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-trash-2"></i>Deleted</a
+              >
+              <div class="dropdown-divider"></div>
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-settings"></i>Settings</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-life-buoy"></i>Tips & Tricks</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="TotalVentes"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">
+          Top 10 produits les plus vendus
+        </h5>
+        <div class="card-header-action">
+          <div class="card-header-btn">
+            <div data-bs-toggle="tooltip" title="Delete">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-danger"
+                data-bs-toggle="remove"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Refresh">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-warning"
+                data-bs-toggle="refresh"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-success"
+                data-bs-toggle="expand"
+              >
+              </a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-sm"
+              data-bs-toggle="dropdown"
+              data-bs-offset="25, 25"
+            >
+              <div data-bs-toggle="tooltip" title="Options">
+                <i class="feather-more-vertical"></i>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-at-sign"></i>New</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-calendar"></i>Event</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-bell"></i>Snoozed</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-trash-2"></i>Deleted</a
+              >
+              <div class="dropdown-divider"></div>
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-settings"></i>Settings</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-life-buoy"></i>Tips & Tricks</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Produits</th>
+                <th>Quantité vendue</th>
+                <th>Prix total vente</th>
+                <th>Bénéfice</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let article of topArticles">
+                <td>
+                  <div class="hstack gap-3">
+                    <div class="avatar-image avatar-lg rounded">
+                      <img
+                        class="img-fluid"
+                        [src]="imageproduitArticle[article.produit_id]"
+                        alt=""
+                      />
+                    </div>
+                    <div>
+                      <a href="javascript:void(0);" class="d-block">
+                        {{ getProduitName(article.produit_id) }}
+                      </a>
+                      <span class="fs-12 text-muted">Electronics</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ article.quantite }}</td>
+                <td>{{ article.prix_total_vente.toFixed(2) }}</td>
+                <td>{{ article.benefice.toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

@@ -5,6 +5,7 @@ export class StockPointVente {
     variation_id?: number
     combination_hash?: string
     type_produit?: string
+    niveau_de_reaprovisionnement!: number
 }
 
 export class modelSendStockPointVente  {

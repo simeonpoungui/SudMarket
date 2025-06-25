@@ -23,10 +23,14 @@ export class RapportComponent {
   displayedColumns = [
     'type_rapport',
     'donnees',
-    'genere_le',
     'nom_generateur',
+    'nom_destinataire',
+    'email_destinataire',
     'Actions'
   ];
+
+  nbreRapport!: number
+
   constructor(
     private rapportService: RapportService,
     private dialog: MatDialog,
@@ -46,6 +50,7 @@ export class RapportComponent {
     }
     this.rapportService.getList(rapport).subscribe(data => {
       console.log(data);
+      this.nbreRapport = data.message.length
       this.isloadingpage = false
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
@@ -58,23 +63,39 @@ export class RapportComponent {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-  createteRole(){
-    const dialog = this.dialog.open(RapportFormComponent)
-    dialog.componentInstance.action = 'create'
+  createteRole() {
+    const dialog = this.dialog.open(RapportFormComponent, {
+      width: '500px', 
+      data: { action: 'create' } 
+    });
     dialog.id = 'RapportFormComponent'
-    dialog.afterClosed().subscribe(result =>{
+    dialog.afterClosed().subscribe(result => {
       if (result) {
-        this.getListRapports()
+        this.getListRapports();
       }
-    })
+    });
+  }
+  
+  editRole(element: Rapport) {
+    const dialog = this.dialog.open(RapportFormComponent, {
+      width: '500px', 
+      data: { action: 'create' } 
+    });
+    dialog.componentInstance.rapport = element
+    dialog.componentInstance.action = 'edit'
+    dialog.id = 'RapportFormComponent'
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.getListRapports();
+      }
+    });
   }
 
-
-  actions(element: Rapport){
-    this.selectedRapportString = JSON.stringify(element); 
-    localStorage.setItem('selectedRapport', this.selectedRapportString);
-    if (this.selectedRapportString) {
-      this.router.navigateByUrl('rapport/view')
-    }
-  }
+  // actions(element: Rapport){
+  //   this.selectedRapportString = JSON.stringify(element); 
+  //   localStorage.setItem('selectedRapport', this.selectedRapportString);
+  //   if (this.selectedRapportString) {
+  //     this.router.navigateByUrl('rapport/view')
+  //   }
+  // }
 }

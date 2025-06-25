@@ -5,6 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/Services/global.service';
 import { RapportService } from 'src/app/Services/rapport.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Utilisateur } from 'src/app/Models/users.model';
+import { GetVente } from 'src/app/Models/vente.model';
+import { VenteService } from 'src/app/Services/vente.service';
+import { GetDepense } from 'src/app/Models/depenses.model';
+import { DepensesService } from 'src/app/Services/depenses.service';
+import { GetCommandeAchat } from 'src/app/Models/commande.model';
+import { CommandeService } from 'src/app/Services/commande.service';
 @Component({
   selector: 'app-rapport-form',
   templateUrl: './rapport-form.component.html',
@@ -20,54 +27,77 @@ export class RapportFormComponent {
   message!: any;
   modifie_le: any;
   genere_le: any;
+  nom_destinataire!: string
+  email_destinataire!: string
+  user!: Utilisateur;
 
   constructor(
     private rapportService: RapportService,
     private router: Router,
+    private dialog: MatDialog,
     private route: ActivatedRoute,
     private globalService: GlobalService
   ) {}
 
   ngOnInit(): void {
-    this.action = this.route.snapshot.params['action'];
-    console.log(this.action);
-    const rapportJson = localStorage.getItem('selectedRapport');
-    if (rapportJson) {
-      this.rapport = JSON.parse(rapportJson);
+    const utilisateurJson = localStorage.getItem('user');
+    if (utilisateurJson) {
+      this.user = JSON.parse(utilisateurJson);
+      console.log(this.user);
+      this.nom_generateur = this.user.nom_utilisateur + ' ' + this.user.prenom_utilisateur
     }
+
+    console.log(this.rapport);
+    console.log(this.action);
+
     if (this.action === 'edit') {
       this.initFormRapportUpdate();
     }
   }
 
   initFormRapportUpdate() {
-    this.donnees = this.rapport.donnees;
     this.type_rapport = this.rapport.type_rapport;
     this.nom_generateur = this.rapport.nom_generateur;
-    this.genere_le = this.rapport.genere_le;
-    this.modifie_le = this.rapport.modifie_le;
+    this.nom_destinataire = this.rapport.nom_destinataire
+    this.email_destinataire = this.rapport.email_destinataire
   }
 
   onSubmitForm(form: NgForm) {
     const rapport: Rapport = form.value;
+    rapport.donnees = "Automatisées"
     console.log(rapport);
-    
     if (this.action === 'edit') {
       rapport.rapport_id = this.rapport.rapport_id;
       this.rapportService.update(rapport).subscribe((data) => {
         console.log(data);
+        if (data.code == "succes") {
+          this.generateReport(rapport.type_rapport)
+        }
         this.message = data.message;
-        this.router.navigateByUrl('rapport/list');
+        this.dialog.closeAll()
         this.globalService.toastShow(this.message, 'Succès', 'success');
       });
     } else {
       console.log(rapport);
       this.rapportService.create(rapport).subscribe((data) => {
         console.log(data);
+        if (data.code == "succes") {
+          this.generateReport(rapport.type_rapport)
+        }
+        this.dialog.closeAll()
         this.message = data.message;
-        this.router.navigateByUrl('rapport/list');
         this.globalService.toastShow(this.message, 'Succès', 'success');
       });
     }
   }
+
+  generateReport(type_rapport: string) {
+    const reportData = {
+      type_rapport:type_rapport
+    };
+    this.rapportService.generateReport(reportData).subscribe(response => {
+      console.log(response);
+    });
+  }
+  
 }

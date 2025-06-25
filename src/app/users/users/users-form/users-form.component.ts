@@ -9,8 +9,8 @@ import { RoleService } from 'src/app/Services/role.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
 import { MatDialog } from '@angular/material/dialog';
-import { RoleComponent } from 'src/app/settings/role/role.component';
 import { RoleFormComponent } from 'src/app/settings/role/role-form/role-form.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-users-form',
@@ -47,6 +47,7 @@ export class UsersFormComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private dialog: MatDialog,
     private pointService: PointsDeVentesService,
     private roleService: RoleService,
@@ -89,6 +90,10 @@ export class UsersFormComponent {
       this.image = data.message
     })
   }
+
+    goBack() {
+  this.location.back();
+}
 
   sendImageByUser(){
     const model: ImageUser = {

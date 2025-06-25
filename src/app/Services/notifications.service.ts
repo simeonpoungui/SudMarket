@@ -15,6 +15,7 @@ export class NotificationsService {
   uriupdatenotificationStockProduit = "/v1/sudmarket/update/notificationsStockProduits"
   urireadallnotificationStockProduit = "/v1/sudmarket/readall/notificationsStockProduits"
   urigetnoticationscommandes = "/v1/sudmarket/get/notifications_commandes"
+  urinotificationbyentrepot = "/v1/sudmarket/readll/notificationsStockProduitsByEntrepot"
 
   constructor(private http: HttpClient) { }
 
@@ -36,5 +37,10 @@ export class NotificationsService {
 
   getListNotificationsCommandes(notification: GetNotificationCommande): Observable<CodeResponseNotificationCommande>{
     return this.http.post<CodeResponseNotificationCommande>(environment.apiUrl + this.urigetnoticationscommandes, notification)
+  }
+
+    getListNotificationsProduistEntrepot(entrepot_id: number): Observable<any>{
+      const data = {entrepot_id:entrepot_id}
+    return this.http.post<CodeResponseNotification>(environment.apiUrl + this.urinotificationbyentrepot, data)
   }
 }

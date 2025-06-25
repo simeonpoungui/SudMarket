@@ -1,336 +1,619 @@
-<main class="nxl-container">
-  <div class="nxl-content">
-    <div class="col-lg-10 p-lg-5 m-lg-auto">
-      <div>
-        <h1 class="text-uppercase">rentabilités</h1>
+<div class="row mt-3 justify-content-end">
+  <div class="col-lg-3 d-flex justify-content-end">
+    <button class="border-0 fs-6 bg-white">Filtrer par dates :</button>
+  </div>
+
+  <div class="col-lg-2 mx-2 d-flex justify-content-end">
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="dateDebut"
+      (change)="onFilterChange()"
+    />
+  </div>
+
+  <div class="col-lg-2 d-flex justify-content-end">
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="dateFin"
+      (change)="onFilterChange()"
+    />
+  </div>
+
+  <div class="col-lg-2 d-flex justify-content-end">
+    <select
+      class="form-select form-control"
+      [(ngModel)]="comparateur"
+      (change)="onFilterChange()"
+    >
+      <option disabled selected>Comparer</option>
+      <option value="aujourdhui">Aujourd'hui</option>
+      <option value="semaine_derniere">Semaine dernière</option>
+      <option value="cette_semaine">Cette semaine</option>
+      <option value="mois">Ce mois</option>
+    </select>
+  </div>
+</div>
+<hr />
+
+<div class="row mt-5">
+  <div class="col-xxl-4 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">
+            {{ globalService.formatPrixString(chiffreAffaires.toFixed(2)) }}
+          </h5>
+          <span class="text-muted">Chiffre D’affaire</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-teal text-white rounded">
+          <i class="feather-dollar-sign"></i>
+        </div>
       </div>
-      <div class="bg-white px-3 p-lg-4 rounded rounded-4" >
-        <div class="row">
-          <div class="col-xxl-4 col-md-6">
-            <div class="card stretch stretch-full">
-              <div class="card-body">
-                <div class="hstack justify-content-between">
-                  <div>
-                    <div class="hstack gap-2 mb-4">
-                      <i class="feather-dollar-sign"></i>
-                      <span>Benefice du jour</span>
-                    </div>
-                    <h3 class="fw-bolder mb-3">
-                      <span class="counter">{{
-                        globalService.formatPrixString(
-                          totalBeneficesJourActuel.toFixed(2)
-                        )
-                      }}</span>
-                    </h3>
-                    <p class="fs-12 text-muted mb-0">
-                      Jour précedent:
-                      <span class="fw-bold text-dark">{{
-                        globalService.formatPrixString(
-                          totalBeneficesJourPrecedent.toFixed(2)
-                        )
-                      }}</span>
-                    </p>
-                  </div>
-                  <a
-                    href="javascript:void(0);"
-                    class="badge bg-soft-success text-success"
-                    >+ %</a
-                  >
-                </div>
-              </div>
+    </div>
+  </div>
+  <div class="col-xxl-4 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">
+            {{ globalService.formatPrixString(margeBrute.toFixed(2)) }}
+            <!-- ({{ pourcentageMargeBrute }} %) -->
+          </h5>
+          <span class="text-muted">Marge Brute</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-success text-white rounded">
+          <i class="feather-bar-chart-2"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Marge Nette (%) -->
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">{{ margeNette.toFixed(2) }} %</h5>
+          <span class="text-muted">Marge nette</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-warning text-white rounded">
+          <i class="feather-tag"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bénéfice Net -->
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h5 *ngIf="beneficeNet" class="fs-5">
+            {{ globalService.formatPrixString(beneficeNet.toFixed(2)) }}
+          </h5>
+          <span class="text-muted">Bénéfice net</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-primary text-white rounded">
+          <i class="feather-dollar-sign"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ratio Ventes / Dépenses -->
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="fs-5">
+            {{ ratioVentesDepenses.toFixed(2) }}
+          </h5>
+          <span class="text-muted">Ratio Ventes / Dépenses</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-info text-white rounded">
+          <i class="feather-pie-chart"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title">Comparatif Chiffre d’affaire ou Bénéfice Net</h5>
+        <span
+          id="periode-affichage"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn">
+            <div data-bs-toggle="tooltip" title="Delete">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-danger"
+                data-bs-toggle="remove"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Refresh">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-warning"
+                data-bs-toggle="refresh"
+              >
+              </a>
+            </div>
+            <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-success"
+                data-bs-toggle="expand"
+              >
+              </a>
             </div>
           </div>
-          <div class="col-xxl-4 col-md-6">
-            <div class="card stretch stretch-full">
-              <div class="card-body">
-                <div class="hstack justify-content-between">
-                  <div>
-                    <div class="hstack gap-2 mb-4">
-                      <i class="feather-dollar-sign"></i>
-                      <span>Benefice du mois</span>
-                    </div>
-                    <h3 class="fw-bolder mb-3">
-                      <span class="counter">{{
-                        globalService.formatPrixString(
-                          totalBeneficesMoisActuel.toFixed(2)
-                        )
-                      }}</span>
-                    </h3>
-                    <p class="fs-12 text-muted mb-0">
-                      Mois précedent:
-                      <span class="fw-bold text-dark">{{
-                        globalService.formatPrixString(
-                          totalBeneficesMoisPrecedent.toFixed(2)
-                        )
-                      }}</span>
-                    </p>
-                  </div>
-                  <a
-                    href="javascript:void(0);"
-                    class="badge bg-soft-success text-success"
-                    >+ %</a
-                  >
-                </div>
+          <div class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-sm"
+              data-bs-toggle="dropdown"
+              data-bs-offset="25, 25"
+            >
+              <div data-bs-toggle="tooltip" title="Options">
+                <i class="feather-more-vertical"></i>
               </div>
-            </div>
-          </div>
-          <div class="col-xxl-4 col-md-6">
-            <div class="card stretch stretch-full">
-              <div class="card-body">
-                <div class="hstack justify-content-between">
-                  <div>
-                    <div class="hstack gap-2 mb-4">
-                      <i class="feather-dollar-sign"></i>
-                      <span>Benefice annuelle</span>
-                    </div>
-                    <h3 class="fw-bolder mb-3">
-                      <span class="counter">{{
-                        globalService.formatPrixString(
-                          totalBeneficesAnneeActuelle.toFixed(2)
-                        )
-                      }}</span>
-                    </h3>
-                    <p class="fs-12 text-muted mb-0">
-                      Année précedente:
-                      <span class="fw-bold text-dark">{{
-                        globalService.formatPrixString(
-                          totalBeneficesAnneePrecedent.toFixed(2)
-                        )
-                      }}</span>
-                    </p>
-                  </div>
-                  <a
-                    href="javascript:void(0);"
-                    class="badge bg-soft-success text-success"
-                    >+ %</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xxl-12">
-            <div class="card stretch stretch-full">
-              <div class="card-header">
-                <h5 class="card-title">
-                  Evolution du chiffre d'affaire benefice global par mois
-                </h5>
-                <div class="card-header-action">
-                  <div class="card-header-btn">
-                    <div data-bs-toggle="tooltip" title="Delete">
-                      <a
-                        href="javascript:void(0);"
-                        class="avatar-text avatar-xs bg-danger"
-                        data-bs-toggle="remove"
-                      >
-                      </a>
-                    </div>
-                    <div data-bs-toggle="tooltip" title="Refresh">
-                      <a
-                        href="javascript:void(0);"
-                        class="avatar-text avatar-xs bg-warning"
-                        data-bs-toggle="refresh"
-                      >
-                      </a>
-                    </div>
-                    <div data-bs-toggle="tooltip" title="Maximize/Minimize">
-                      <a
-                        href="javascript:void(0);"
-                        class="avatar-text avatar-xs bg-success"
-                        data-bs-toggle="expand"
-                      >
-                      </a>
-                    </div>
-                  </div>
-                  <div class="dropdown">
-                    <a
-                      href="javascript:void(0);"
-                      class="avatar-text avatar-sm"
-                      data-bs-toggle="dropdown"
-                      data-bs-offset="25, 25"
-                    >
-                      <div data-bs-toggle="tooltip" title="Options">
-                        <i class="feather-more-vertical"></i>
-                      </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a href="javascript:void(0);" class="dropdown-item"
-                        ><i class="feather-at-sign"></i>New</a
-                      >
-                      <a href="javascript:void(0);" class="dropdown-item"
-                        ><i class="feather-calendar"></i>Event</a
-                      >
-                      <a href="javascript:void(0);" class="dropdown-item"
-                        ><i class="feather-bell"></i>Snoozed</a
-                      >
-                      <a href="javascript:void(0);" class="dropdown-item"
-                        ><i class="feather-trash-2"></i>Deleted</a
-                      >
-                      <div class="dropdown-divider"></div>
-                      <a href="javascript:void(0);" class="dropdown-item"
-                        ><i class="feather-settings"></i>Settings</a
-                      >
-                      <a href="javascript:void(0);" class="dropdown-item"
-                        ><i class="feather-life-buoy"></i>Tips & Tricks</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body custom-card-action p-0">
-                <div id="payment-records-chart2"></div>
-              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-at-sign"></i>New</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-calendar"></i>Event</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-bell"></i>Snoozed</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-trash-2"></i>Deleted</a
+              >
+              <div class="dropdown-divider"></div>
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-settings"></i>Settings</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-life-buoy"></i>Tips & Tricks</a
+              >
             </div>
           </div>
         </div>
-  
-        <div class="bg-white p-3  rounded rounded-4">
-          <div class="row">
-            <div class="col-lg-3">
-              <select
-                (change)="SelectPointDeVente($event)"
-                class="form-control form-select"
-                name=""
-                id=""
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="beneffice-net-chiffre"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title">
+          Comparatif Total dépenses vs Chiffre d’affaire
+        </h5>
+        <span
+          id="periode-affichage"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn">
+            <div data-bs-toggle="tooltip" title="Delete">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-danger"
+                data-bs-toggle="remove"
               >
-                <option value="">Filtrer par point de vente</option>
-                <option
-                  *ngFor="let point of tbPointdeVente"
-                  [value]="point.point_de_vente_id"
-                >
-                  {{ point.nom }}
-                </option>
-              </select>
+              </a>
             </div>
-            <div class="col-lg-5">
-              <button class="form-control bg-light btn fw-bold fs-6">
-                <span class="">total des ventes :</span>
-                <span class="mx-3 text-danger">{{
-                  globalService.formatPrixString(TotalMontant.toFixed(2))
-                }}</span>
-              </button>
+            <div data-bs-toggle="tooltip" title="Refresh">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-warning"
+                data-bs-toggle="refresh"
+              >
+              </a>
             </div>
-            <div class="col-lg-4">
-              <button class="form-control bg-light btn fw-bold fs-6">
-                <span class="">Benefices Totaux :</span>
-                <span class="mx-3 text-danger">{{
-                  globalService.formatPrix(TotalMontantBenefice)
-                }}</span>
-              </button>
+            <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-xs bg-success"
+                data-bs-toggle="expand"
+              >
+              </a>
             </div>
           </div>
-          <div
-            class="mat-elevation-z8  mt-2"
-            style="max-height: 200px; overflow-y: auto"
+          <div class="dropdown">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-sm"
+              data-bs-toggle="dropdown"
+              data-bs-offset="25, 25"
+            >
+              <div data-bs-toggle="tooltip" title="Options">
+                <i class="feather-more-vertical"></i>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-at-sign"></i>New</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-calendar"></i>Event</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-bell"></i>Snoozed</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-trash-2"></i>Deleted</a
+              >
+              <div class="dropdown-divider"></div>
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-settings"></i>Settings</a
+              >
+              <a href="javascript:void(0);" class="dropdown-item"
+                ><i class="feather-life-buoy"></i>Tips & Tricks</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="total-depense-chiffres-affaire"></div> 
+          <div id="total-depense-chiffres-affaire"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <div class="card stretch stretch-full">
+    <div class="card-header">
+      <h5 class="card-title">Benefice Net</h5>
+      <span
+        id="periode-affichage1"
+        class="text-muted text-end small fw-bold"
+      ></span>
+
+      <div class="card-header-action">
+        <div class="card-header-btn">
+          <div data-bs-toggle="tooltip" title="Delete">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-danger"
+              data-bs-toggle="remove"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Refresh">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-warning"
+              data-bs-toggle="refresh"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-success"
+              data-bs-toggle="expand"
+            >
+            </a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a
+            href="javascript:void(0);"
+            class="avatar-text avatar-sm"
+            data-bs-toggle="dropdown"
+            data-bs-offset="25, 25"
           >
-            <table mat-table [dataSource]="dataSource">
-              <ng-container matColumnDef="date_vente">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Date vente
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ globalService.formatDate(element.date_vente) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  Total
-                </td>
-              </ng-container>
-  
-              <ng-container matColumnDef="montant_total">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Montant total vendu
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ globalService.formatPrix(element.montant_total) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  {{ globalService.formatPrixString(TotalMontant.toFixed(2)) }}
-                </td>
-              </ng-container>
-  
-              <ng-container matColumnDef="client_id">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Client
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ getClientName(element.client_id) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                ></td>
-              </ng-container>
-  
-              <ng-container matColumnDef="utilisateur_id">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Utilisateur
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ getUserName(element.utilisateur_id) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                ></td>
-              </ng-container>
-  
-              <ng-container matColumnDef="point_de_vente_id">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Point de Vente
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ getPointName(element.point_de_vente_id) }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                ></td>
-              </ng-container>
-  
-              <ng-container matColumnDef="total_benefice_vente">
-                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Benefice
-                </th>
-                <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.total_benefice_vente }}
-                </td>
-                <td
-                  mat-footer-cell
-                  class="bg-table-color text-light"
-                  *matFooterCellDef
-                >
-                  {{ globalService.formatPrix(TotalMontantBenefice) }}
-                </td>
-              </ng-container>
-  
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
-              ></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              <tr
-                class="bg-sticky-footer"
-                mat-footer-row
-                *matFooterRowDef="displayedColumns; sticky: true"
-              ></tr>
-            </table>
+            <div data-bs-toggle="tooltip" title="Options">
+              <i class="feather-more-vertical"></i>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-at-sign"></i>New</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-calendar"></i>Event</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-bell"></i>Snoozed</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-trash-2"></i>Deleted</a
+            >
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-settings"></i>Settings</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-life-buoy"></i>Tips & Tricks</a
+            >
           </div>
         </div>
       </div>
     </div>
-
+    <div class="card-body custom-card-action">
+      <div id="beneffice-net"></div>
+    </div>
   </div>
-</main>
+</div>
+<div class="col-lg-12">
+  <div class="card stretch stretch-full">
+    <div class="card-header">
+      <h5 class="card-title">Taux de rentabilité</h5>
+      <span
+        id="periode-affichage1"
+        class="text-muted text-end small fw-bold"
+      ></span>
+
+      <div class="card-header-action">
+        <div class="card-header-btn">
+          <div data-bs-toggle="tooltip" title="Delete">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-danger"
+              data-bs-toggle="remove"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Refresh">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-warning"
+              data-bs-toggle="refresh"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-success"
+              data-bs-toggle="expand"
+            >
+            </a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a
+            href="javascript:void(0);"
+            class="avatar-text avatar-sm"
+            data-bs-toggle="dropdown"
+            data-bs-offset="25, 25"
+          >
+            <div data-bs-toggle="tooltip" title="Options">
+              <i class="feather-more-vertical"></i>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-at-sign"></i>New</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-calendar"></i>Event</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-bell"></i>Snoozed</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-trash-2"></i>Deleted</a
+            >
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-settings"></i>Settings</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-life-buoy"></i>Tips & Tricks</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body custom-card-action">
+      <div id="graph-taux-rentabilite"></div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <div class="card stretch stretch-full">
+    <div class="card-header">
+      <h5 class="card-title text-uppercase">
+        Top 5 Produits les plus rentables
+      </h5>
+      <div class="card-header-action">
+        <div class="card-header-btn">
+          <div data-bs-toggle="tooltip" title="Delete">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-danger"
+              data-bs-toggle="remove"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Refresh">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-warning"
+              data-bs-toggle="refresh"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-success"
+              data-bs-toggle="expand"
+            >
+            </a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a
+            href="javascript:void(0);"
+            class="avatar-text avatar-sm"
+            data-bs-toggle="dropdown"
+            data-bs-offset="25, 25"
+          >
+            <div data-bs-toggle="tooltip" title="Options">
+              <i class="feather-more-vertical"></i>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-at-sign"></i>New</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-calendar"></i>Event</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-bell"></i>Snoozed</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-trash-2"></i>Deleted</a
+            >
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-settings"></i>Settings</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-life-buoy"></i>Tips & Tricks</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body custom-card-action">
+      <div class="table-responsive">
+   <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Produit</th>
+        <th scope="col">Chiffre d'affaires (FCFA)</th>
+        <th scope="col">Bénéfice net (FCFA)</th>
+        <th scope="col">Taux de rentabilité (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Lister les produits les plus rentables -->
+      <tr *ngFor="let produit of topProduits">
+        <td>{{ produit.produit }}</td>
+        <td>{{ globalService.formatPrixString(produit.chiffreAffaires.toFixed(2)) }}</td>
+        <td>{{ globalService.formatPrixString(produit.beneficeNet.toFixed(2)) }}</td>
+        <td>{{ produit.tauxRentabilite }}%</td>
+      </tr>
+    </tbody>
+  </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-12">
+  <div class="card stretch stretch-full">
+    <div class="card-header">
+      <h5 class="card-title text-uppercase">
+        Top 5 Catégories les plus rentables
+      </h5>
+      <div class="card-header-action">
+        <div class="card-header-btn">
+          <div data-bs-toggle="tooltip" title="Delete">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-danger"
+              data-bs-toggle="remove"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Refresh">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-warning"
+              data-bs-toggle="refresh"
+            >
+            </a>
+          </div>
+          <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+            <a
+              href="javascript:void(0);"
+              class="avatar-text avatar-xs bg-success"
+              data-bs-toggle="expand"
+            >
+            </a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a
+            href="javascript:void(0);"
+            class="avatar-text avatar-sm"
+            data-bs-toggle="dropdown"
+            data-bs-offset="25, 25"
+          >
+            <div data-bs-toggle="tooltip" title="Options">
+              <i class="feather-more-vertical"></i>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-at-sign"></i>New</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-calendar"></i>Event</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-bell"></i>Snoozed</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-trash-2"></i>Deleted</a
+            >
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-settings"></i>Settings</a
+            >
+            <a href="javascript:void(0);" class="dropdown-item"
+              ><i class="feather-life-buoy"></i>Tips & Tricks</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body custom-card-action">
+      <div class="table-responsive">
+   <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Catégorie</th>
+        <th scope="col">Chiffre d'affaires (FCFA)</th>
+        <th scope="col">Bénéfice net (FCFA)</th>
+        <th scope="col">Taux de rentabilité (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Lister les catégories les plus rentables -->
+      <tr *ngFor="let categorie of topCategories">
+        <td>{{ getCategorieName(categorie.categorieId) }}</td>
+        <td>{{ globalService.formatPrixString(categorie.chiffreAffaires.toFixed(2)) }}</td>
+        <td>{{ globalService.formatPrixString(categorie.beneficeNet.toFixed(2)) }}</td>
+        <td>{{ categorie.tauxRentabilite }}%</td>
+      </tr>
+    </tbody>
+  </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <ng-template #loader>
   <div class="text-center">

@@ -17,6 +17,7 @@ export class ArticlesDeVenteService {
   uriupdatearticlesVentes = "/v1/sudmarket/update/articlesVentes"
   urigetfiltresbydatearticlesdeventes = "/v1/sudmarket/get/filtres/by-dates/articlesVentes"
   uriimpressionarticleventes ="/v1/sudmarket/impression/articles/ventes"
+  urigetarticlebypointdevente = "/v1/sudmarket/filtre/articlesVentes/point_de_vente"
   produit_id: any;
 
   constructor(private httpclient: HttpClient) { }
@@ -44,6 +45,14 @@ export class ArticlesDeVenteService {
       point_de_vente_id: IDpoint,
       dateDebutVente: dateDebutVente,
       dateFinVente: dateFinVente
+    }
+    console.log(data);
+    return this.httpclient.post<CodeResponseOneArticle>(environment.apiUrl + this.urigetfiltresbydatearticlesdeventes, data)
+  }
+
+    getArticlesDeVentesByPointDeVente(point_de_vente_id: number): Observable<any>{
+    const data = {
+      point_de_vente_id: point_de_vente_id,
     }
     console.log(data);
     return this.httpclient.post<CodeResponseOneArticle>(environment.apiUrl + this.urigetfiltresbydatearticlesdeventes, data)

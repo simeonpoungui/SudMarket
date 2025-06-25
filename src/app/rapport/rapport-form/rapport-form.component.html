@@ -1,50 +1,62 @@
+<form
+  #roleForm="ngForm"
+  (ngSubmit)="onSubmitForm(roleForm)"
+  class="row rounded rounded-4 p-3 bg-white needs-validation"
+>
+  <div class="mb-3">
+    <label for="typeRapport" class="form-label label">Frequence</label>
+    <select
+      class="form-control form-select"
+      name="type_rapport"
+      [(ngModel)]="type_rapport"
+      id="typeRapport"
+    >
+      <option value="rapport_mensuel">Rapport Mensuel</option>
+      <option value="rapport_hebdomadaire">Rapport Hebdomadaire</option>
+      <option value="rapport_annuel">Rapport Annuel</option>
+    </select>
+  </div>
 
-          <form
-            #roleForm="ngForm"
-            (ngSubmit)="onSubmitForm(roleForm)"
-            class="row rounded rounded-4 p-3 bg-white needs-validation"
-          >
-              <div class="mb-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Type du rapport</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="type_rapport"
-                  [(ngModel)]="type_rapport"
-                />
-              </div>
+  <div class="mb-3">
+    <label for="validationCustom01" class="form-label label"
+      >Nom du générateur</label
+    >
+    <input
+    readonly
+      type="text"
+      class="form-control"
+      name="nom_generateur"
+      [(ngModel)]="nom_generateur "
+    />
+  </div>
 
-              <div class="mb-3">
-                <label for="validationCustom01" class="form-label label"
-                  >Nom du générateur</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  name="nom_generateur"
-                  [(ngModel)]="nom_generateur"
-                />
-              </div>
-              <div class="">
-                <label for="validationCustom01" class="form-label label"
-                  >Rapport</label
-                >
-                <textarea
-                  class="form-control"
-                  name="donnees"
-                  [(ngModel)]="donnees"
-                  rows="4"
-                ></textarea>
-              </div>
-            <div class="col-lg-2 mt-3">
-              <button type="submit" class="form-control bg-update text-white">
-                Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
-              </button>
-            </div>
-          </form>
-   
+  <div class="mb-3">
+    <label for="validationCustom01" class="form-label label"
+      >Nom destinataire</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      name="nom_destinataire"
+      [(ngModel)]="nom_destinataire"
+    />
+  </div>
 
-    
+  <div class="mb-3">
+    <label for="validationCustom01" class="form-label label"
+      >Email destinataire</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      name="email_destinataire"
+      [(ngModel)]="email_destinataire"
+    />
+  </div>
 
+  <div class="col-lg-3 mt-3">
+    <button type="submit" class="btn bg-update text-white">
+      Valider <i class="fa-solid text-white mx-1 fa-pen"></i>
+    </button>
+  </div>
+</form>

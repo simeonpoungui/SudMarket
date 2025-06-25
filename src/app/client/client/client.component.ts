@@ -25,13 +25,15 @@ export class ClientComponent {
     'telephone',
     'sexe',
     'adresse',
-    'nationalite',
-    'Actions'
-  ];
+    'nationalite'
+    ];
 
   isloadingpage!: boolean
   selectedClientstring: string = ''
   tbPointdeVente!: PointsDeVentes[]
+
+  nbHommes: number = 0;
+  nbFemmes: number = 0;
   nbclients: number = 0
 
   constructor(
@@ -63,18 +65,33 @@ export class ClientComponent {
     return point ? point.nom : 'Unknown Point';
   }
   
-  getListClient(){
-    const client : GetClient = {client_id: 0}
-    this.isloadingpage = true
-    this.clientService.getListClient(client).subscribe(data => {
-      console.log(data.message);
-      this.nbclients = data.message.length
-      this.isloadingpage = false
-      this.dataSource = new MatTableDataSource(data.message);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-     });
-  }
+getListClient() {
+  const client: GetClient = { client_id: 0 };
+  this.isloadingpage = true;
+  this.clientService.getListClient(client).subscribe(data => {
+    console.log(data.message);
+    this.nbclients = data.message.length;
+    
+    // Compter le nombre d'hommes et de femmes
+    const countByGender = data.message.reduce((acc, client) => {
+      if (client.sexe === 'Homme') {
+        acc.hommes++;
+      } else if (client.sexe === 'Femme') {
+        acc.femmes++;
+      }
+      return acc;
+    }, { hommes: 0, femmes: 0 });
+
+    // Stocker les résultats dans des variables de classe
+    this.nbHommes = countByGender.hommes;
+    this.nbFemmes = countByGender.femmes;
+
+    this.isloadingpage = false;
+    this.dataSource = new MatTableDataSource(data.message);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  });
+}
 
   applyFilter(filterValue: any) {
     const value = filterValue.target.value;
@@ -93,6 +110,41 @@ export class ClientComponent {
       this.router.navigateByUrl('fiche/client/view')
     }
   }
+
+SelectPointDeVente(event: any) {
+  console.log(event.target.value);
+  this.clientService.getFiltreClientByPointDeVente(Number(event.target.value)).subscribe(data => {
+    console.log(data.message);
+    
+    if (typeof data.message === 'string') {
+      this.dataSource = new MatTableDataSource([]);
+      this.nbclients = 0;
+      this.nbHommes = 0;
+      this.nbFemmes = 0;
+      this.globalService.toastShow('Aucun client trouvé', 'Information', 'info');
+    } else {
+      this.dataSource = new MatTableDataSource(data.message);
+      this.nbclients = data.message.length;
+      
+      // Compter le nombre d'hommes et de femmes
+      const countByGender = data.message.reduce((acc: { hommes: number; femmes: number; }, client: { sexe: string; }) => {
+        if (client.sexe === 'Homme') {
+          acc.hommes++;
+        } else if (client.sexe === 'Femme') {
+          acc.femmes++;
+        }
+        return acc;
+      }, { hommes: 0, femmes: 0 });
+
+      // Mettre à jour les variables
+      this.nbHommes = countByGender.hommes;
+      this.nbFemmes = countByGender.femmes;
+    }
+    
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  });
+}
 
   imprimer() {
     this.clientService.getListClientPDF().subscribe((data) => {

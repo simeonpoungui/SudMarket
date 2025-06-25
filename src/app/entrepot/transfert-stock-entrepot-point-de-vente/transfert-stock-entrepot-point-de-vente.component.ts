@@ -1,7 +1,7 @@
 import { ProduitService } from 'src/app/Services/produit.service';
 import { GetProduit, Produit } from 'src/app/Models/produit.model';
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,7 +27,7 @@ import { VariationByIdComponent } from '../variation-by-id/variation-by-id.compo
 export class TransfertStockEntrepotPointDeVenteComponent {
   dataSource!: any;
   dataSourceStocksPointVente = new MatTableDataSource<StockPointVente>([]);
-  displayedColumnsArticleVente = ['produit_id', 'quantite'];
+  displayedColumnsArticleVente = ['produit_id', 'quantite', 'niveau_de_reaprovisionnement'];
   displayedColumns = ['produit_id', 'quantite', 'type_produit', 'combination_hash', 'Actions'];
   sessionStartTime!: Date;
   sessionEndTime!: Date;
@@ -60,6 +60,7 @@ export class TransfertStockEntrepotPointDeVenteComponent {
     public globlService: GlobalService,
     private entrepotService: EntrepotService,
     private globalService: GlobalService,
+    private route: ActivatedRoute,
     private commandeService: CommandeService,
     private pointService: PointsDeVentesService,
     private dialog: MatDialog
@@ -69,6 +70,10 @@ export class TransfertStockEntrepotPointDeVenteComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
+    const entrepot_id = +this.route.snapshot.params['id']
+    this.entrepot_id = entrepot_id
+    console.log(this.entrepot_id);
+    
     const user = localStorage.getItem('user');
     if (user) {
       this.user = JSON.parse(user);
@@ -200,7 +205,8 @@ export class TransfertStockEntrepotPointDeVenteComponent {
       combination_hash: variation.combinaison,
       quantite: variation.quantite,
       type_produit: 'variable',
-      point_de_vente_id: this.point_de_vente_id
+      point_de_vente_id: this.point_de_vente_id,
+      niveau_de_reaprovisionnement: variation.niveau_de_reapprovisionnement
     };
     console.log(stockpointvente);
     this.dataSourceStocksPointVente.data = [
@@ -216,7 +222,8 @@ export class TransfertStockEntrepotPointDeVenteComponent {
       quantite: 1,
       combination_hash: '######',
       type_produit: 'simple',
-      point_de_vente_id: this.point_de_vente_id
+      point_de_vente_id: this.point_de_vente_id,
+      niveau_de_reaprovisionnement: 0
     };
     console.log(stockpointvente);
     this.dataSourceStocksPointVente.data = [
@@ -236,20 +243,20 @@ export class TransfertStockEntrepotPointDeVenteComponent {
       TbStockProduit: this.dataSourceStocksPointVente.data
     }
     console.log(model);
-     if (model) {
-       this.entrepotService.AddStockPointDeVente(model).subscribe((res) => {
-         console.log(res);
-         this.message = res.message;
-         this.isloadingpaiement = false
-         this.globalService.toastShow(this.message, 'Succès');
-        //  this.router.navigateByUrl('/entrepot-stock-list')
-       });
-     } else {
-       this.globalService.toastShow(
-         "Veuillez sélectionner un ou plusieurs produits ainsi qu'un entrepôt.",
-         'Information',
-         'info'
-       );
-     }
+      if (model) {
+        this.entrepotService.AddStockPointDeVente(model).subscribe((res) => {
+          console.log(res);
+          this.message = res.message;
+          this.isloadingpaiement = false
+          this.globalService.toastShow(this.message, 'Succès');
+         //  this.router.navigateByUrl('/entrepot-stock-list')
+        });
+      } else {
+        this.globalService.toastShow(
+          "Veuillez sélectionner un ou plusieurs produits ainsi qu'un entrepôt.",
+          'Information',
+          'info'
+        );
+      }
   }
 }

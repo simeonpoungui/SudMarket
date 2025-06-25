@@ -1,0 +1,64 @@
+<div class="row pt-5 px-3">
+  <div class="col-lg-8 p-0">
+    <h1 class="rounded rounded-4 text-uppercase py-1">
+      Categories des dépenses
+    </h1>
+  </div>
+  <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-12 p-0 d-lg-flex justify-content-end align-items-end">
+        <button
+          style="background-color: #3454d1"
+          type="button"
+          routerLink="/categorie/create/0"
+          class="text-uppercase mx-2 btn text-white"
+        >
+          <i class="fa-solid mx-2 fa-plus"></i> Ajouter une categorie
+        </button>
+        <button
+        style="background-color: #3454d1"
+        type="button"
+        routerLink="/sous_categorie/create/0"
+        class="text-uppercase btn text-white"
+      >
+        <i class="fa-solid mx-2 fa-plus"></i> Ajouter une sous categorie
+      </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mat-elevation-z8 mt-3">
+  <mat-accordion>
+    <!-- Afficher chaque catégorie -->
+    <mat-expansion-panel *ngFor="let categorie of categoriesAvecSousCategories">
+      <mat-expansion-panel-header>
+        <!-- Icône à côté du titre de la catégorie -->
+        <i (click)="onCategoryClick(categorie)" class="fa-solid mx-3 pt-2 fa-eye"></i>
+        <mat-panel-title>
+          {{ categorie.nom_categorie }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <!-- Affichage des sous-catégories associées à chaque catégorie -->
+      <div *ngFor="let sousCategorie of categorie.sousCategories">
+        <mat-expansion-panel class="mt-2">
+          <mat-expansion-panel-header >
+            <i (click)="onSubCategoryClick(sousCategorie)" class="fa-solid mx-3 pt-2 fa-eye"></i>
+            <mat-panel-title>
+              {{ sousCategorie.nom_sous_categorie }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ sousCategorie.description }}</p>
+        </mat-expansion-panel>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+  
+</div>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>

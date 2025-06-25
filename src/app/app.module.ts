@@ -21,6 +21,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { QuillModule } from 'ngx-quill';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { QuillModule } from 'ngx-quill';
     FormsModule,
     MatSortModule,
     MatDialogModule,
+    MatTreeModule,
     AppRoutingModule,
     HttpClientModule,
     QuillModule.forRoot(),

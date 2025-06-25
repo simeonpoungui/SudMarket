@@ -27,7 +27,7 @@ export class StockEntrepotsComponent {
 
   dataSource!: any;
   dataSourceStocksEntrepots = new MatTableDataSource<StocksEntrepots>([]);
-  displayedColumnsArticleVente = ['produit_id', 'quantite'];
+  displayedColumnsArticleVente = ['produit_id', 'quantite','niveau_de_reapprovisionnement'];
   displayedColumns = ['nom', 'description', 'categorie', 'prix', 'Actions'];
   sessionStartTime!: Date;
   sessionEndTime!: Date;
@@ -173,6 +173,7 @@ export class StockEntrepotsComponent {
       combination_hash: variation.combinaison,
       quantite: variation.quantite,
       type_produit: 'variable',
+      niveau_de_reapprovisionnement: 0
     };
     console.log(entrepots);
     this.dataSourceStocksEntrepots.data = [
@@ -188,6 +189,7 @@ export class StockEntrepotsComponent {
       quantite: 1,
       combination_hash: '######',
       type_produit: 'simple',
+      niveau_de_reapprovisionnement: 0
     };
     console.log(entrepot);
     this.dataSourceStocksEntrepots.data = [

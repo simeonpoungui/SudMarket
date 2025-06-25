@@ -58,6 +58,21 @@
                         />
                       </td>
                     </ng-container>
+
+   <ng-container matColumnDef="niveau_de_reapprovisionnement">
+  <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+    Niveau de réapprovisionnement
+  </th>
+  <td class="pointer" mat-cell *matCellDef="let element">
+    <input
+      style="width: 80px"
+      class="form-control"
+      type="number"
+      [(ngModel)]="element.niveau_de_reapprovisionnement"
+    />
+  </td>
+</ng-container>
+
   
                     <tr
                       mat-header-row

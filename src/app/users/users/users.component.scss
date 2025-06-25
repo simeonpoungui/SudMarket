@@ -38,3 +38,8 @@ tr{
     .bg-sticky-footer{
       background-color: $primary-color;
     }
+
+    .disabled-row {
+  pointer-events: none;
+  opacity: 0.6;
+}

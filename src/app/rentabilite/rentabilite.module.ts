@@ -24,6 +24,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatTableModule,
     MatAutocompleteModule,
     CoreModule
+],
+exports: [
+  RentabiliteComponent
 ]
 })
 export class RentabiliteModule { }

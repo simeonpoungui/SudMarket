@@ -62,6 +62,10 @@ export class EntrepotComponent {
      });
   }
 
+  openEntrepot(element: any){
+    this.router.navigateByUrl('/parametres-entrepot/' + element.entrepot_id)
+  }
+
   applyFilter(filterValue: any) {
     const value = filterValue.target.value;
     this.dataSource.filter = value.trim().toLowerCase();

@@ -62,6 +62,9 @@ export class VenteComponent {
   IDpoint!: number 
   DateDebut!: string 
   DateFin!: string
+  TotalVentesMois!: number;
+  PanierMoyen!: number;
+  joursPerformants!: number
 
   constructor(
     private venteService: VenteService,
@@ -128,22 +131,121 @@ export class VenteComponent {
     return user ? user.nom_utilisateur + ' ' + user.prenom_utilisateur : 'Unknown User';
   }
   
-  getListVente(){
-    const vente : GetVente = {vente_id: 0}
-    this.isloadingpage = true
+  // getListVente(){
+  //   const vente : GetVente = {vente_id: 0}
+  //   this.isloadingpage = true
+  //   this.venteService.getList(vente).subscribe(data => {
+  //     console.log(data.message);
+  //     this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
+  //     this.TotalMontantBenefice = this.globalService.calculTotal('total_benefice_vente', data.message);
+  //     console.log(this.TotalMontant);
+  //     this.isloadingpage = false
+  //     this.ventes = data.message
+  //     // this.afficherGraphique()
+  //     this.dataSource = new MatTableDataSource(data.message);
+  //     this.dataSource.sort = this.sort;
+  //     this.dataSource.paginator = this.paginator;
+  //    });
+  // }
+  getListVente() {
+    const vente: GetVente = { vente_id: 0 };
+    this.isloadingpage = true;
+  
     this.venteService.getList(vente).subscribe(data => {
+      // Log pour afficher les données reçues
       console.log(data.message);
-      this.TotalMontant = this.globalService.calculTotal('montant_total', data.message);
-      this.TotalMontantBenefice = this.globalService.calculTotal('total_benefice_vente', data.message);
+  
+      // Vérifier si des données sont présentes
+      if (!data.message || data.message.length === 0) {
+        console.log('Aucune vente disponible pour le mois en cours.');
+        this.isloadingpage = false;
+        return;
+      }
+  
+      // Filtrer les ventes pour le mois en cours
+      const currentMonth = new Date().getMonth(); // Mois actuel
+      const currentYear = new Date().getFullYear(); // Année actuelle
+  
+      const ventesDuMois = data.message.filter(vente => {
+        const venteDate = new Date(vente.date_vente);
+        return venteDate.getMonth() === currentMonth && venteDate.getFullYear() === currentYear;
+      });
+  
+      // Log pour vérifier les ventes filtrées
+      console.log(ventesDuMois);
+  
+      // Calculer la somme des montants
+      this.TotalMontant = ventesDuMois.reduce((acc, vente) => acc + Number(vente.montant_total), 0);
+  
+      // Log pour vérifier le TotalMontant
       console.log(this.TotalMontant);
-      this.isloadingpage = false
-      this.ventes = data.message
-      // this.afficherGraphique()
+  
+      // Calculer le nombre total des ventes
+      this.TotalVentesMois = ventesDuMois.length;
+  
+      // Log pour vérifier le nombre total des ventes
+      console.log(this.TotalVentesMois);
+  
+      // Calculer le panier moyen
+      // On calcule le panier moyen uniquement si on a des transactions
+      this.PanierMoyen = this.TotalVentesMois > 0 ? (this.TotalMontant / this.TotalVentesMois) : 0;
+  
+      // Log pour vérifier le PanierMoyen
+      console.log(this.PanierMoyen);
+  
+      // Calculer les ventes par jour
+      const ventesParJour: { [key: string]: number } = ventesDuMois.reduce((acc, vente) => {
+        const date = new Date(vente.date_vente).toLocaleDateString(); // Utilise la date sous forme de chaîne
+        if (!acc[date]) {
+          acc[date] = 0;
+        }
+        acc[date] += Number(vente.montant_total); // Ajoute le montant de la vente pour cette date
+        return acc;
+      }, {} as { [key: string]: number });
+  
+      // Log pour vérifier les ventes par jour
+      console.log(ventesParJour);
+  
+      // Calculer la somme des ventes pour obtenir la moyenne
+      const totalVentesParJour = Object.values(ventesParJour).reduce((acc, vente) => acc + vente, 0);
+      const nombreDeJours = Object.keys(ventesParJour).length;
+      const moyenneVentesParJour = totalVentesParJour / nombreDeJours;
+  
+      // Log pour vérifier la moyenne des ventes par jour
+      console.log(moyenneVentesParJour);
+  
+      // Identifier les jours performants : les jours où les ventes dépassent la moyenne
+      const joursPerformants = Object.keys(ventesParJour).filter(date => ventesParJour[date] > moyenneVentesParJour);
+  
+      // Log pour afficher les jours performants
+      console.log(joursPerformants);
+  
+      // Calculer le total des ventes des jours performants
+      const totalVentesJoursPerformants = joursPerformants.reduce((acc, date) => acc + ventesParJour[date], 0);
+  
+      // Log pour afficher le total des ventes des jours performants
+      console.log(totalVentesJoursPerformants);
+  
+      // Affecter les données à la table
+      this.isloadingpage = false;
+      this.ventes = ventesDuMois;
+  
+      // Log pour vérifier que les données sont affectées à la table
+      console.log(this.ventes);
+  
       this.dataSource = new MatTableDataSource(data.message);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-     });
+
+    }, (error) => {
+      // En cas d'erreur, log pour le débogage
+      console.error('Erreur dans la récupération des données:', error);
+      this.isloadingpage = false;
+    });
   }
+  
+  
+  
 
   imprimer() {
     console.log('gggg');

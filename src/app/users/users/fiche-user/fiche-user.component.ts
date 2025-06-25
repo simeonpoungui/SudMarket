@@ -7,6 +7,7 @@ import { UsersService } from 'src/app/Services/users.service';
 import { GlobalService } from 'src/app/Services/global.service';
 import { GetPointsDeVentes, PointsDeVentes } from 'src/app/Models/pointsDeVentes.model';
 import { PointsDeVentesService } from 'src/app/Services/points-de-ventes.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-fiche-user',
@@ -23,6 +24,7 @@ export class FicheUserComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private pointService: PointsDeVentesService,
     public globalService: GlobalService,
     private dialog: MatDialog,
@@ -52,6 +54,10 @@ export class FicheUserComponent {
       this.image = data.message
     })
   }
+
+  goBack() {
+  this.location.back();
+}
   
   loadPointDeVente(){
     const point: GetPointsDeVentes = {point_de_vente_id:0}

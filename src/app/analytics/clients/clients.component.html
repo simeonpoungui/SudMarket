@@ -1,0 +1,343 @@
+<div class="row mt-3 justify-content-end">
+  <div class="col-lg-3 d-flex justify-content-end">
+    <button class="border-0 fs-6 bg-white">Filtrer par dates :</button>
+  </div>
+
+  <div class="col-lg-2 mx-2 d-flex justify-content-end">
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="dateDebut"
+      (change)="onFilterChange()"
+    />
+  </div>
+
+  <div class="col-lg-2 d-flex justify-content-end">
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="dateFin"
+      (change)="onFilterChange()"
+    />
+  </div>
+
+  <div class="col-lg-2 d-flex justify-content-end">
+    <select
+      class="form-select form-control"
+      [(ngModel)]="comparateur"
+      (change)="onFilterChange()"
+    >
+      <option disabled selected>Comparer</option>
+      <option value="aujourdhui">Aujourd'hui</option>
+      <option value="semaine_derniere">Semaine dernière</option>
+      <option value="cette_semaine">Cette semaine</option>
+      <option value="mois">Ce mois</option>
+    </select>
+  </div>
+</div>
+<hr />
+<div class="row mt-5">
+    <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">
+            {{ totalClients }}
+          </h5>
+          <span class="text-muted">Total clients</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-teal text-white rounded">
+          <i class="feather-user-plus"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">
+            {{ totalNewClients }}
+          </h5>
+          <span class="text-muted">Nouveaux clients</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-teal text-white rounded">
+          <i class="feather-user-plus"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">{{ totalClientsRecurrents }}</h5>
+          <span class="text-muted">Clients récurrents</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-success text-white rounded">
+          <i class="feather-bar-chart-2"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="me-3">
+          <h5 class="fs-5">{{ totalClientsFideles }}</h5>
+          <span class="text-muted">Clients fidèles</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-warning text-white rounded">
+          <i class="feather-tag"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xxl-3 col-md-3">
+    <div class="card card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="fs-5">{{ globalService.formatPrix(panierMoyen) }}</h5>
+          <span class="text-muted">Panier moyen</span>
+        </div>
+        <div class="avatar-text avatar-lg bg-primary text-white rounded">
+          <i class="feather-shopping-cart"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">Nouveaux clients</h5>
+        <span
+          id="periode-affichage1"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn"></div>
+          <!-- <div class="dropdown">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-sm"
+                data-bs-toggle="dropdown"
+                data-bs-offset="25, 25"
+              >
+                <div data-bs-toggle="tooltip" title="Trier par">
+                  <i class="feather-more-vertical"></i>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Cette semaine</a
+                >
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Semaine dernière</a
+                >
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Ce mois</a
+                >
+              </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="new-clients-chart"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">Clients récurrents</h5>
+        <span
+          id="periode-affichage1"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn"></div>
+          <!-- <div class="dropdown">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-sm"
+                data-bs-toggle="dropdown"
+                data-bs-offset="25, 25"
+              >
+                <div data-bs-toggle="tooltip" title="Trier par">
+                  <i class="feather-more-vertical"></i>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Cette semaine</a
+                >
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Semaine dernière</a
+                >
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Ce mois</a
+                >
+              </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="clients-recurrent"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <div class="card stretch stretch-full">
+      <div class="card-header">
+        <h5 class="card-title text-uppercase">Clients fidèles</h5>
+        <span
+          id="periode-affichage1"
+          class="text-muted text-end small fw-bold"
+        ></span>
+
+        <div class="card-header-action">
+          <div class="card-header-btn"></div>
+          <!-- <div class="dropdown">
+              <a
+                href="javascript:void(0);"
+                class="avatar-text avatar-sm"
+                data-bs-toggle="dropdown"
+                data-bs-offset="25, 25"
+              >
+                <div data-bs-toggle="tooltip" title="Trier par">
+                  <i class="feather-more-vertical"></i>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Cette semaine</a
+                >
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Semaine dernière</a
+                >
+                <a href="javascript:void(0);" class="dropdown-item"
+                  ><i class="feather-calendar"></i>Ce mois</a
+                >
+              </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="card-body custom-card-action">
+        <div id="clients-fideles-chart"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card stretch stretch-full">
+        <div class="card-header">
+          <h5 class="card-title text-uppercase">VALEUR à vie CLIENT (CLV)</h5>
+          <span
+            id="periode-affichage1"
+            class="text-muted text-end small fw-bold"
+          ></span>
+
+          <div class="card-header-action">
+            <div class="card-header-btn"></div>
+          </div>
+        </div>
+        <div class="card-body custom-card-action">
+          <div
+            class="table-responsive"
+            style="max-height: 400px; overflow-y: auto"
+          >
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>
+                    Valeur Client (CLV)
+                    <span style="cursor: pointer;" data-bs-toggle="tooltip" title="filtrer par odre descendant">
+                      <i class="mx-2 fs-12 fa-solid fa-arrow-up"></i>
+                    </span>
+                    <span style="cursor: pointer;" data-bs-toggle="tooltip" title="filtrer par odre ascendant">
+                       <i class="fa-solid fs-12 fa-arrow-down"></i>
+                    </span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let client of clvData">
+                  <td>{{ getClientName(client.client_id) }}</td>
+                  <td>{{ globalService.formatPrix(client.clv) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card stretch stretch-full">
+        <div class="card-header">
+          <h5 class="card-title text-uppercase">
+            Répartition en pourcentage typologie de clients
+          </h5>
+          <span
+            id="periode-affichage1"
+            class="text-muted text-end small fw-bold"
+          ></span>
+
+          <div class="card-header-action">
+            <div class="card-header-btn"></div>
+          </div>
+        </div>
+        <div class="card-body custom-card-action">
+          <div
+            id="donut-repartition"
+            class="d-flex align-items-center justify-content-center"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-lg-12">
+      <div class="card stretch stretch-full">
+        <div class="card-header">
+          <h5 class="card-title text-uppercase">Top 5 meilleurs clients</h5>
+          <span
+            id="periode-affichage1"
+            class="text-muted text-end small fw-bold"
+          ></span>
+
+          <div class="card-header-action">
+            <div class="card-header-btn"></div>
+          </div>
+        </div>
+        <div class="card-body custom-card-action">
+          <div
+            class="table-responsive"
+            style="max-height: 400px; overflow-y: auto"
+          >
+     <table class="table table-bordered table-striped table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Client</th>
+            <th>Total Achats</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of topClients">
+            <td>{{ getClientName(client.client_id) }}</td>
+            <td>{{ globalService.formatPrixString(client.montant.toFixed(2))}}</td>
+          </tr>
+        </tbody>
+      </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

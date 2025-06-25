@@ -11,6 +11,7 @@ export class ArticlesDeVentes {
   prix_de_revient!: number
   id?: number
   combination_hash?: any
+  date_article_vendu?: any
 }
 
 export class GetArticleDeVente {

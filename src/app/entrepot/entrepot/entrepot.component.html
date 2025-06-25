@@ -1,87 +1,125 @@
 <main class="nxl-container">
   <div class="nxl-content">
-    <div class="pt-4">
-      <div class="col-lg-10  p-2 rounded rounded-4 m-lg-auto">
-        <div class="p-3">
-          <div class="row">
-            <div class="col-lg-7">
-              <h1 class="rounded fw-bold rounded-4 text-uppercase py-1 px-3">
-                Entrepôts
-              </h1>
-            </div>
-            <div class="col-lg-2">
-              <div class="">
-                <button
-                  style="background-color: #3454d1"
-                  type="button"
-                  class="form-control text-uppercase text-white"
-                >
-                  <i class="fa-solid fa-download mx-2"></i> Export CSV
-                </button>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="">
-                <button
-                  style="background-color: #3454d1"
-                  type="button"
-                  (click)="create()"
-                  class="form-control text-uppercase text-white"
-                >
-                  <i class="fa-solid mx-2 fa-plus"></i> Ajouter un entrepôt
-                </button>
-              </div>
-            </div>
-          </div>
+    <div class="container-fluid px-3 py-4">
+      <!-- En-tête avec boutons alignés -->
+      <div class="d-flex justify-content-between align-items-center mb-4 px-3">
+        <div>
+          <h1 class="text-primary fw-bold m-0">
+            <i class="fas fa-warehouse me-2"></i>ENTREPÔTS
+          </h1>
+          <p class="text-muted mb-0">Gestion de vos espaces de stockage</p>
+        </div>
 
-          <div class="mt-1">
-            <!-- Affichage des entrepôts sous forme de cartes -->
-            <div class="row" *ngIf="!isloadingpage; else loader">
-              <div class="col-lg-6 rounded rounded-2 py-3" *ngFor="let entrepot of TbEntrepot">
-                <div class="bg-white rounded mx-1 rounded-4 px-5 py-5">
-                  <div class="row">
-                    <div class="col-lg-10">
-                      <p class="fw-bold text-uppercase pt-1 fs-5">
-                        <span class="text-dark"> {{ entrepot.nom }} </span>
+        <div class="d-flex gap-3">
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-uniform-height rounded rounded-3 mx-2"
+          >
+            <i class="fa-solid fa-download mx-2"></i> Export csv
+          </button>
+          <button
+            (click)="create()"
+            class="btn btn-uniform-height btn-primary text-uppercase"
+          >
+            <i class="fas fa-plus me-2"></i>Ajouter un entrepôt
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!isloadingpage; else loader" class="row g-4 px-3">
+        <!-- Carte Entrepôt -->
+        <div class="col-lg-4" *ngFor="let entrepot of TbEntrepot">
+          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+            <div class="card-body p-4">
+              <!-- En-tête carte -->
+              <div
+                class="d-flex justify-content-between align-items-start mb-3"
+              >
+                <div>
+                  <h3 class="card-title text-dark mb-1 text-uppercase">
+                    {{ entrepot.nom }}
+                    <span class="badge bg-light text-dark ms-2">
+                      <i class="fas fa-id-card me-1"></i
+                      >{{ entrepot.entrepot_id }}
+                    </span>
+                  </h3>
+                  <p class="text-muted small mb-0">
+                    <i class="fas fa-map-marker-alt me-1"></i
+                    >{{ entrepot.adresse }}
+                  </p>
+                </div>
+
+                <!-- Menu actions -->
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  aria-label="Menu actions"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="actions(entrepot)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Modifier</span>
+                  </button>
+                  <!-- <button mat-menu-item (click)="actions(entrepot)">
+                    <mat-icon>history</mat-icon>
+                    <span>Historique des actions</span>
+                  </button> -->
+                </mat-menu>
+              </div>
+
+              <!-- Contenu carte -->
+              <div class="row g-3 mt-2">
+                <!-- Capacité -->
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center">
+                    <div class="me-3">
+                      <div class="bg-light rounded-circle p-2">
+                        <i class="fas fa-boxes text-primary"></i>
+                      </div>
+                    </div>
+                    <div>
+                      <p class="mb-0 text-muted small">Capacité</p>
+                      <p class="mb-0 fw-bold">
+                        {{ entrepot.capacite_stockage || "Non spécifiée" }}
                       </p>
                     </div>
-                    <div class="col-lg-2">
-                      <button mat-icon-button [matMenuTriggerFor]="menu">
-                        <p style="margin-top: -30px;" class="fw-bold text-dark fs-1">...</p>
-                      </button>
-                      <mat-menu #menu="matMenu">
-                        <!-- <button (click)="(entrepot.entrepot_id)" mat-menu-item>
-                          Historique sessions
-                        </button> -->
-                        <button (click)="actions(entrepot)" mat-menu-item>
-                          Edit
-                        </button>
-                      </mat-menu>
+                  </div>
+                </div>
+
+                <!-- Statut -->
+                <div class="col-md-6">
+                  <div class="d-flex align-items-center">
+                    <div>
+                      <p class="mb-0 text-muted small">Responsable</p>
+                      <span class="badge bg-info text-dark">
+                        <!-- Vous pouvez changer la couleur -->
+                        <i class="fas fa-user-tie me-1"></i>
+                        {{ entrepot.responsable || "Non assigné" }}
+                      </span>
                     </div>
                   </div>
-                  <div class="row mt-3">
-                    <div class="col-lg-8">
-                      <div class="col-lg-5">
-                        <button
-                          (click)="(entrepot)"
-                          class="form-control rounded rounded-2 btn text-white bg-primary"
-                        >
-                          Ouvrir l'entrepôt
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-8">
-                      <div class="col-lg-6 mt-2">
-                        <button
-                          class="form-control rounded rounded-2 btn text-white bg-primary"
-                        >
-                          Historique
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                </div>
+              </div>
+
+              <!-- Boutons d'action -->
+              <div class="row mt-4">
+                <div class="col-6">
+                  <button
+                    (click)="openEntrepot(entrepot)"
+                    class="btn btn-primary w-100"
+                  >
+                    <i class="fas fa-door-open me-2"></i>Ouvrir
+                  </button>
+                </div>
+                <div class="col-6">
+                  <button
+                    (click)="(entrepot.entrepot_id)"
+                    class="btn btn-outline-primary w-100"
+                  >
+                    <i class="fas fa-history me-2"></i>Historique
+                  </button>
                 </div>
               </div>
             </div>
@@ -93,7 +131,12 @@
 </main>
 
 <ng-template #loader>
-  <div class="text-center">
-    <app-loader></app-loader>
+  <div class="d-flex justify-content-center align-items-center py-5">
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+      <p class="mt-3 text-muted">Chargement des entrepôts...</p>
+    </div>
   </div>
 </ng-template>

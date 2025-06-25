@@ -1,52 +1,55 @@
-<div class="container-fluid" style="width: 45em;">
-    <h1 class="mt-2 mb-2 fw-bold bg-light border p-2">Etat actuel de la caisse de l'utilisateur : <span class="mx-2 text-danger">{{user.nom_utilisateur}}</span></h1>
-    <div class="row p-3">
-        <div class="col-lg-6 bg-light border rounded rounded-4">
-            <div class="mt-2">
-                <span class="fw-bold">Date comptable : </span>
-                <span class="fw-bold mx-2">{{(currentDate)}}</span>
-            </div>
-            <div class="mt-2">
-                <span class="fw-bold">Caisse vendeur: </span>
-                <span class="fw-bold mx-2">{{caisse ? caisse : "Aucune caisse trouvée."}}</span>
-            </div>
-        </div>
-        <div class="col-lg-6 bg-light border rounded rounded-4">
-            <div class="mt-2">
-                <span class="fw-bold">Solde Ouverture : </span>
-                <span class="fw-bold text-danger mx-2">{{globalService.formatPrixString(this.solde_ouverture)}}</span>
-            </div>
-            <div class="mt-2">
-                <span class="fw-bold">Solde Fermeture : </span>
-                <span class="fw-bold text-danger mx-2">{{globalService.formatPrixString(this.solde_fermeture)}}</span>
-            </div>
-            <div class="mt-2">
-                <span class="fw-bold">Total versement : </span>
-                <span class="fw-bold text-danger mx-2">{{globalService.formatPrixString(this.TotalVersements)}}</span>
-            </div>
-            <!-- <div class="mt-2">
-                <span class="fw-bold">Total Retraits : </span>
-                <span class="fw-bold text-danger mx-2">{{globalService.formatPrixString(this.TotalRetraits)}}</span>
-            </div> -->
-        </div>
-    </div>
-    <!-- <div class="mt-2 mb-3">
-        <label class="fw-bold">Commentaire : </label>
-      <div>
-        <div class="form-floating">
-            <textarea [disabled]="true" class="form-control" id="floatingTextarea2" style="height: 100px"></textarea>
-            <label for="floatingTextarea2"></label>
-          </div>
+<div class="container-fluid" style="width: 45em">
+  <h1 class="mt-2 mb-2 fw-bold bg-light border p-2">Etat de la caisse</h1>
+  <div class="row p-3">
+    <div class="col-lg-6 ">
+     <div class="bg-light px-2 border rounded rounded-2">
+             <div class="mt-2">
+        <span class="fw-bold">Date comptable : </span>
+        <span class="fw-bold mx-2">{{ currentDate }}</span>
       </div>
-    </div> -->
-    <div class="row mb-3">
-        <div class="col-lg-12">
-            <button 
-              class="form-control text-white" 
-              [ngClass]="{ 'bg-delete': solde_confirme == 0, 'bg-update': solde_confirme == 1 }">
-              {{ solde_confirme == 0 ? 'Solde non confirmé' : 'Solde confirmé' }}
-            </button>
-          </div>
-          
+      <div class="mt-2">
+        <span class="fw-bold">Caisse vendeur: </span>
+        <span class="fw-bold mx-2">{{
+          caisse ? caisse : "Aucune caisse trouvée."
+        }}</span>
+      </div>
+     </div>
     </div>
+    <div class="col-lg-6 ">
+    <div class="bg-light px-2 rounded rounded-2 border ">
+            <div class="mt-2">
+        <span class="fw-bold">Solde Ouverture : </span>
+        <span class="fw-bold text-danger mx-2">{{
+          globalService.formatPrixString(this.solde_ouverture)
+        }}</span>
+      </div>
+      <!-- <div class="mt-2">
+        <span class="fw-bold">Solde Fermeture : </span>
+        <span class="fw-bold text-danger mx-2">{{
+          globalService.formatPrixString(this.solde_fermeture)
+        }}</span>
+      </div> -->
+      <div class="mt-2">
+        <span class="fw-bold">Total vendu : </span>
+        <span class="fw-bold text-danger mx-2">{{
+          globalService.formatPrixString(this.TotalVersements)
+        }}</span>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-lg-12">
+      <button
+        class="form-control text-white"
+        [ngClass]="{
+          'bg-delete': solde_confirme == 0,
+          'bg-update': solde_confirme == 1
+        }"
+      >
+        {{ solde_confirme == 0 ? "Solde non confirmé" : "Solde confirmé" }}
+      </button>
+    </div>
+  </div>
 </div>

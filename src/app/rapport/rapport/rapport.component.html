@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-lg-8">
             <h1 class="rounded rounded-4 text-uppercase py-1 px-3">
-              rapports
+              rapports automatisées
             </h1>
           </div>
           <div class="col-lg-2">
@@ -14,19 +14,20 @@
               <button
                 style="background-color: #3454d1"
                 type="button"
-                class="form-control text-uppercase text-white"
+                class="text-uppercase btn text-white"
               >
               <i class="fa-solid fa-download mx-2"></i>  Export csv
               </button>
             </div>
           </div>
           <div class="col-lg-2">
-            <div class="">
+            <div>
               <button
+              [disabled]="nbreRapport"
                 style="background-color: #3454d1"
                 type="button"
                 (click)="createteRole()"
-                class="form-control text-uppercase text-white"
+                class="btn text-uppercase text-white"
               >
               <i class="fa-solid mx-2 fa-plus"></i>  Ajouter un rapport 
               </button>
@@ -34,7 +35,7 @@
           </div>
         </div>
         <div class="mt-1">
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-lg-3">
               <div class="d-flex align-items-center mt-4">
                 <i
@@ -50,28 +51,9 @@
                 />
               </div>
             </div>
-            <!-- <div class="col-lg-4 pt-4">
-              <button
-                style="background-color: #3454d1"
-                type="button"
-                class="form-control text-white"
-              >
-                Imprimer la liste <i class="fa-solid fa-print"></i>
-              </button>
-            </div>
-            <div class="col-lg-4 pt-4">
-              <button
-                style="background-color: #3454d1"
-                type="button"
-                class="form-control text-white"
-                routerLink="/rapport/create"
-              >
-                Ajouter un rapport <i class="mx-1 fa-solid fa-user"></i>
-              </button>
-            </div> -->
-          </div>
+          </div> -->
           <div
-            class="mat-elevation-z8">
+            class="mat-elevation-z8 mt-4">
             <table mat-table [dataSource]="dataSource" style="max-height: 400px; overflow-y: auto"
             *ngIf="!isloadingpage; else loader">
               <ng-container matColumnDef="type_rapport">
@@ -92,18 +74,28 @@
                 </td>
               </ng-container>
 
-              <ng-container matColumnDef="genere_le">
+              <ng-container matColumnDef="nom_destinataire">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Date de génération
+                  Nom destinataire
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
-                  {{ element.genere_le }}
+                  {{ element.nom_destinataire }}
+                </td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="email_destinataire">
+                <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
+                  Email destinataire
+                </th>
+                <td class="pointer" mat-cell *matCellDef="let element">
+                  {{ element.email_destinataire }}
                 </td>
               </ng-container>
 
               <ng-container matColumnDef="nom_generateur">
                 <th class="bg-color-primary" mat-header-cell *matHeaderCellDef>
-                  Généré par
+                 Nom émetteur
                 </th>
                 <td class="pointer" mat-cell *matCellDef="let element">
                   {{ element.nom_generateur }}
@@ -116,7 +108,7 @@
                 </th>
                 <td class="text-center" mat-cell *matCellDef="let element">
                   <button
-                  (click)="actions(element)"
+                  (click)="editRole(element)"
                   style="cursor: pointer"
                   class=" border border-0 rounded rounded-2 actions"
                 >

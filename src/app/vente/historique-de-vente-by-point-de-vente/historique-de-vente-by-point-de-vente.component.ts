@@ -24,12 +24,12 @@ import ApexCharts from 'apexcharts'
 export class HistoriqueDeVenteByPointDeVenteComponent {
   dataSource!: any;
   displayedColumns = [
-    'date_vente',
-    'montant_total',
+    'session_id',
     'client_id',
-    'utilisateur_id',
+    'date_vente',
     'point_de_vente_id',
-    'total_benefice_vente',
+    'utilisateur_id',
+    'montant_total',
     'Actions'
   ];
   moisNoms = [

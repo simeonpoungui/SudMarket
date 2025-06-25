@@ -1,0 +1,625 @@
+<main class="nxl-container">
+  <div class="nxl-content">
+    <div class="p-4">
+      <div class="row align-items-center mb-4">
+        <div class="col-lg-6">
+          <h1
+            class="rounded-3 py-2 px-3 d-inline-block fs-4 fw-bold text-uppercase"
+          >
+            <!-- <i class="fas fa-cog me-2"></i> -->
+            <span *ngIf="entrepot">{{ entrepot.nom }}</span>
+          </h1>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="d-flex justify-content-end gap-2">
+            <button
+              type="button"
+              class="btn btn-primary text-white fw-medium px-3 rounded-3"
+            >
+              <i class="fas fa-boxes me-2"></i>Gestion Stock
+            </button>
+
+            <span class="border-start my-2"></span>
+
+            <button
+              type="button"
+              class="btn btn-primary text-white fw-medium px-3 rounded-3"
+            >
+              <i class="fas fa-clipboard-list me-2"></i>Commandes & fournisseurs
+            </button>
+
+            <span class="border-start my-2"></span>
+
+            <button
+              type="button"
+              class="btn btn-primary text-white fw-medium px-3 rounded-3"
+            >
+              <i class="fas fa-exchange-alt me-2"></i>Initié un Transfert
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-xxl-3 col-md-3">
+          <div class="card card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="me-3">
+                <h5 class="fs-4">{{ totalEnStock }}</h5>
+                <span class="text-muted">En stock</span>
+              </div>
+              <div class="avatar-text avatar-lg bg-teal text-white rounded">
+                <i class="feather-dollar-sign"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-3">
+          <div class="card card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="me-3">
+                <h5 class="fs-4">{{ totalRupture }}</h5>
+                <span class="text-muted">En rupture</span>
+              </div>
+              <div class="avatar-text avatar-lg bg-warning text-white rounded">
+                <i class="feather-tag"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-3">
+          <div class="card card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="fs-4">{{ demandeEnCoursCountReappro }}</h5>
+                <span class="text-muted">Réapprovisionnement</span>
+              </div>
+              <div class="avatar-text avatar-lg bg-primary text-white rounded">
+                <i class="feather-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-3">
+          <div class="card card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="me-3">
+                <h5 class="fs-4">{{ commandesEnCoursCount }}</h5>
+                <span class="text-muted">Commandes en cours</span>
+              </div>
+              <div class="avatar-text avatar-lg bg-success text-white rounded">
+                <i class="feather-bar-chart-2"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-xxl-12 p-0">
+          <div class="card stretch stretch-full">
+            <div class="card-header px-2 py-3">
+              <h5 class="card-title p-0 text-uppercase">
+                Mouvements de stocks
+              </h5>
+              <div class="card-header-action">
+                <div class="card-header-btn">
+                  <div data-bs-toggle="tooltip" title="Delete">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-danger"
+                      data-bs-toggle="remove"
+                    >
+                    </a>
+                  </div>
+                  <div data-bs-toggle="tooltip" title="Refresh">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-warning"
+                      data-bs-toggle="refresh"
+                    >
+                    </a>
+                  </div>
+                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-success"
+                      data-bs-toggle="expand"
+                    >
+                    </a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <a
+                    href="javascript:void(0);"
+                    class="avatar-text avatar-sm"
+                    data-bs-toggle="dropdown"
+                    data-bs-offset="25, 25"
+                  >
+                    <div data-bs-toggle="tooltip" title="Options">
+                      <i class="feather-more-vertical"></i>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-at-sign"></i>New</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-calendar"></i>Event</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-bell"></i>Snoozed</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-trash-2"></i>Deleted</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-settings"></i>Settings</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <div class="mat-elevation-z8">
+                  <!-- Affichage du tableau si la page n'est pas en cours de chargement -->
+                  <table
+                    *ngIf="!isloadingpage; else loader"
+                    mat-table
+                    [dataSource]="dataSource"
+                    style="max-height: 400px; overflow-y: auto"
+                  >
+                    <!-- Colonne 'Produit' -->
+                    <ng-container matColumnDef="produit">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Produit
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ getProduitName(element.produit) }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Libellé' -->
+                    <ng-container matColumnDef="libelle">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Libellé
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.libelle }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Origine' (Entrepôt d'origine) -->
+                    <ng-container matColumnDef="origine">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Origine
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ getEntrepotName(entrepot_id) }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Destination' (Point de vente) -->
+                    <ng-container matColumnDef="destination">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Destination
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.destination }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Stock Initial' -->
+                    <ng-container matColumnDef="stock_initial">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Stock Initial
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.stock_initial }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Entrée' (Quantité entrée) -->
+                    <ng-container matColumnDef="entree">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Entrée
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.entree }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Sortie' (Quantité sortie) -->
+                    <ng-container matColumnDef="sortie">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Sortie
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.sortie }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Stock Final' -->
+                    <ng-container matColumnDef="stock_final">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Stock Final
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.stock_final }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Date Mouvement' -->
+                    <ng-container matColumnDef="date_mouvement">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Date Mouvement
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.date_mouvement | date : "dd/MM/yyyy" }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Observations' -->
+                    <ng-container matColumnDef="observations">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Observations
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.observations }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Combination Hash' -->
+                    <ng-container matColumnDef="combination_hash">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Combination
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.combination_hash }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Colonne 'Type Produit' -->
+                    <ng-container matColumnDef="type_produit">
+                      <th
+                        class="bg-color-primary"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Type Produit
+                      </th>
+                      <td class="pointer" mat-cell *matCellDef="let element">
+                        {{ element.type_produit }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Lignes du tableau -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                  </table>
+
+                  <!-- Pagination -->
+                  <mat-paginator
+                    [pageSizeOptions]="[10, 20, 30]"
+                    showFirstLastButtons
+                    aria-label="Sélectionner une page des éléments"
+                  >
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-6">
+          <div class="card stretch stretch-full">
+            <div class="card-header">
+              <h5 class="card-title text-uppercase">
+                Produit en rupture de stocks
+              </h5>
+              <div class="card-header-action">
+                <div class="card-header-btn">
+                  <div data-bs-toggle="tooltip" title="Delete">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-danger"
+                      data-bs-toggle="remove"
+                    >
+                    </a>
+                  </div>
+                  <div data-bs-toggle="tooltip" title="Refresh">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-warning"
+                      data-bs-toggle="refresh"
+                    >
+                    </a>
+                  </div>
+                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-success"
+                      data-bs-toggle="expand"
+                    >
+                    </a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <a
+                    href="javascript:void(0);"
+                    class="avatar-text avatar-sm"
+                    data-bs-toggle="dropdown"
+                    data-bs-offset="25, 25"
+                  >
+                    <div data-bs-toggle="tooltip" title="Options">
+                      <i class="feather-more-vertical"></i>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-at-sign"></i>New</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-calendar"></i>Event</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-bell"></i>Snoozed</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-trash-2"></i>Deleted</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-settings"></i>Settings</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div
+                class="table-responsive"
+                style="max-height: 500px; overflow-y: auto"
+              >
+<table class="table">
+  <thead>
+    <tr>
+      <th>Produit</th>
+      <th>Type</th>
+      <th>Quantité</th>
+      <th>Niveau Réappro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let produit of produitsRuptureStock">
+      <td>
+        <div class="hstack gap-3">
+          <div class="avatar-image avatar-lg rounded">
+            <img
+              class="img-fluid"
+              src="assets/images/brand/paypal.png"
+              alt="Produit"
+            />
+          </div>
+          <div>
+            <a href="javascript:void(0);" class="d-block">
+             {{ getProduitName(produit.produit_id )}}
+            </a>
+                         <span>{{produit.combination_hash}}</span>
+
+          </div>
+        </div>
+      </td>
+      <td>{{produit.type_produit}}</td>
+      <td>
+        <strong>{{ produit.quantite }}</strong>
+      </td>
+      <td>
+       {{produit.niveau_de_reapprovisionnement}}
+      </td>
+    </tr>
+
+    <!-- Aucune rupture -->
+    <tr *ngIf="produitsRuptureStock.length === 0">
+      <td colspan="3" class="text-center text-success">
+        Aucun produit en rupture de stock.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+              </div>
+            </div>
+            <a
+              href="javascript:void(0);"
+              class="card-footer fs-11 fw-bold text-uppercase text-center"
+              >More Products</a
+            >
+          </div>
+        </div>
+        <div class="col-xxl-6">
+          <div class="card stretch stretch-full">
+            <div class="card-header">
+              <h5 class="card-title text-uppercase">
+                Demande de réapprovisionnement
+              </h5>
+              <div class="card-header-action">
+                <div class="card-header-btn">
+                  <div data-bs-toggle="tooltip" title="Delete">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-danger"
+                      data-bs-toggle="remove"
+                    >
+                    </a>
+                  </div>
+                  <div data-bs-toggle="tooltip" title="Refresh">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-warning"
+                      data-bs-toggle="refresh"
+                    >
+                    </a>
+                  </div>
+                  <div data-bs-toggle="tooltip" title="Maximize/Minimize">
+                    <a
+                      href="javascript:void(0);"
+                      class="avatar-text avatar-xs bg-success"
+                      data-bs-toggle="expand"
+                    >
+                    </a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <a
+                    href="javascript:void(0);"
+                    class="avatar-text avatar-sm"
+                    data-bs-toggle="dropdown"
+                    data-bs-offset="25, 25"
+                  >
+                    <div data-bs-toggle="tooltip" title="Options">
+                      <i class="feather-more-vertical"></i>
+                    </div>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-at-sign"></i>New</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-calendar"></i>Event</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-bell"></i>Snoozed</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-trash-2"></i>Deleted</a
+                    >
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-settings"></i>Settings</a
+                    >
+                    <a href="javascript:void(0);" class="dropdown-item"
+                      ><i class="feather-life-buoy"></i>Tips & Tricks</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div
+                class="table-responsive"
+                style="max-height: 500px; overflow-y: auto"
+              >
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Produit</th>
+                      <th>Date</th>
+                      <th>Point de vente</th>
+                      <th>Statut</th>
+                      <th>Lu</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let notif of notifications">
+                      <td>
+                        <div class="hstack gap-3">
+                          <div class="avatar-image avatar-lg rounded">
+                            <img
+                              class="img-fluid"
+                              src="assets/images/brand/paypal.png"
+                              alt="Notification"
+                            />
+                          </div>
+                          <div>
+                            <a href="javascript:void(0);">
+                              {{ getProduitName(notif.produit_id) }}
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {{ globalService.formatDate(notif.date_notification) }}
+                      </td>
+                      <td>{{ getPointName(notif.point_de_vente_id) }}</td>
+                      <td>{{ notif.statut }}</td>
+                      <td>{{ notif.est_lu == false ? "Non lu" : "Lu" }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <a
+              href="javascript:void(0);"
+              class="card-footer fs-11 fw-bold text-uppercase text-center"
+              >More Products</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<ng-template #loader>
+  <div class="text-center">
+    <app-loader></app-loader>
+  </div>
+</ng-template>
